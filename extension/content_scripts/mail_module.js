@@ -133,23 +133,36 @@ Content-Disposition: attachment; filename={{FILENAME}}\n\
 
 		};
 		
-		function authorize ( callback ) {
-			
-			gapi.auth.authorize(
-				{
-					client_id: CLIENT_ID,
-					scope: SCOPE,
-					immediate: false
-				},
-				function ( token_obj ) {
-					console.log( token_obj );
-					if ( typeof callback === 'function' ) callback();
-				}
-			);		
-			
-		};
-
 		v.add({
+			
+			'check_auth': function ( data ) {
+				gapi.auth.authorize(
+					{
+						client_id: CLIENT_ID,
+						scope: SCOPE,
+						immediate: true
+					},
+					data.callback
+				);
+			},
+			'popup_auth': function ( data ) {
+				gapi.auth.authorize(
+					{
+						client_id: CLIENT_ID,
+						scope: SCOPE,
+						immediate: false
+					},
+					data.callback
+				);
+			},
+			'check_auth_result': function ( data ) {
+				if ( data.result && !data.result.error ) {
+					data.callback( true );
+				} else {
+					data.callback( false);
+				}
+			},
+			
 			
 			'send_data_request': function ( data ) {
 				console.log( data );
@@ -157,7 +170,23 @@ Content-Disposition: attachment; filename={{FILENAME}}\n\
 			},
 			
 			'authorize_request': function ( data ) {
-				authorize( data.callback );
+				v.fire({ name: 'check_auth', callback: function ( result ) {
+					v.fire({ name: 'check_auth_result', result: result, callback: function ( valid ) {
+						if ( valid ) {
+							data.callback(true);
+						} else {
+							v.fire({ name: 'popup_auth', callback: function ( result ) {
+								v.fire({ name: 'check_auth_result', result: result, callback: function ( valid ) {
+									if ( valid ) {
+										data.callback(true);
+									} else {
+										data.callback(false);
+									}
+								} });
+							} });
+						}
+					} });
+				} });
 			}
 			
 		});

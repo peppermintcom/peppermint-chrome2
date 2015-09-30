@@ -38,14 +38,18 @@
 				add_hover_efect( button, 'btn_02.png', 'btn_02_hover.png' );
 			
 				button.addEventListener( 'click', function () {
-					v.fire({ name: 'authorize_request', callback: function () {
-						v.fire({ name: 'start_recording_request', callback: function ( response ) {
-							if ( response ) {
-								v.fire({ name: 'recording_started' });
-							} else {
-								v.fire({ name: 'recording_failed' });
-							}
-						} });
+					v.fire({ name: 'authorize_request', callback: function ( authorized ) {
+						if ( authorized ) {
+							v.fire({ name: 'start_recording_request', callback: function ( response ) {
+								if ( response ) {
+									v.fire({ name: 'recording_started' });
+								} else {
+									v.fire({ name: 'recording_failed' });
+								}
+							} });
+						} else {
+							v.fire({ name: 'authorize_request_failed' });
+						}
 					} });
 				});
 				
@@ -229,6 +233,9 @@
 					},
 					"recording_failed": function () {
 						v.fire({ name: 'show_panel', status: 'error' });
+					},
+					"authorize_request_failed": function () {
+						v.fire({ name: 'hide_panel' });
 					}
 					
 				});
