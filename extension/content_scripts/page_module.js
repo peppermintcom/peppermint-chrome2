@@ -121,7 +121,7 @@
 					<img class = 'v_popup_logo' src = 'chrome-extension://"+EXTENSION_ID+"/img/icon_mic_off.png' >\
 					<div class = 'v_popup_status' >Your microphone is not working. Please check your audio settings and try again</div>\
 					<div class = 'v_popup_button left' id = 'v_error_cancel_button' style = 'background-image: url(chrome-extension://"+EXTENSION_ID+"/img/btn_cancel_popup.png)' ></div>\
-					<div class = 'v_popup_button right' id = 'v_error_record_button' style = 'background-image: url(chrome-extension://"+EXTENSION_ID+"/img/btn_record_popup.png)' ></div>\
+					<div class = 'v_popup_button right' id = 'v_error_done_button' style = 'background-image: url(chrome-extension://"+EXTENSION_ID+"/img/btn_done_popup.png)' ></div>\
 				</div>\
 				",
 			
@@ -140,10 +140,10 @@
 				popup.innerHTML = popup_manager.template;
 				popup_manager.popup = popup;
 
+				add_hover_efect( popup.querySelector('#v_error_done_button'), 'btn_done_popup.png', 'btn_done_popup_hover.png' );
 				add_hover_efect( popup.querySelector('#v_popup_done_button'), 'btn_done_popup.png', 'btn_done_popup_hover.png' );
 				add_hover_efect( popup.querySelector('#v_popup_cancel_button'), 'btn_cancel_popup.png', 'btn_cancel_popup_hover.png' );
 				add_hover_efect( popup.querySelector('#v_error_cancel_button'), 'btn_cancel_popup.png', 'btn_cancel_popup_hover.png' );
-				add_hover_efect( popup.querySelector('#v_error_record_button'), 'btn_record_popup.png', 'btn_record_popup_hover.png' );
 				
 				popup.querySelector('#v_popup_done_button').addEventListener( 'click', function () {
 					v.fire({ name: 'popup_done_click' });
@@ -157,8 +157,8 @@
 					v.fire({ name: 'popup_error_cancel_click' });
 				});
 
-				popup.querySelector('#v_error_record_button').addEventListener( 'click', function () {
-					v.fire({ name: 'popup_record_click' });
+				popup.querySelector('#v_error_done_button').addEventListener( 'click', function () {
+					v.fire({ name: 'popup_error_done_click' });
 				});
 				
 				return popup;
@@ -199,7 +199,7 @@
 						v.fire({ name: 'cancel_recording_request' });
 						v.fire({ name: 'hide_panel' });
 					},
-					"popup_record_click": function () {
+					"popup_error_done_click": function () {
 						v.fire({ name: 'authorize_request', callback: function () {
 							v.fire({ name: 'start_recording_request', callback: function ( response ) {
 								if ( response ) {

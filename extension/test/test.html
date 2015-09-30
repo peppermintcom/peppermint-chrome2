@@ -1,0 +1,29 @@
+
+	<!DOCTYPE html>
+		
+		<html>
+		
+			<head>
+		
+				<meta charset = 'UTF-8' >
+				
+				<link rel = 'stylesheet' type = 'text/css' href = '../content_styles/style.css' >
+				
+			</head>
+		
+			<body>
+			
+				<script>
+					EXTENSION_ID = 'eoicbhdhpehjnhamgkdbndnlleophmgk';
+				</script>
+				<script src = '../js/v.js' ></script>
+				<script src = '../content_scripts/page_module.js' ></script>
+				<script>
+					v.fire({ name: 'gmail_api_ready' });
+					v.fire({ name: 'show_panel', status: 'recording' });
+					//v.fire({ name: 'show_panel', status: 'error' });
+				</script>
+		
+			</body>
+			
+		</html>
