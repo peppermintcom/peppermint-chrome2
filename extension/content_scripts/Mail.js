@@ -91,7 +91,7 @@ Content-Type: multipart/mixed; boundary=frontier\n\
 From: me\n\
 To: {{RECEIVER}}\n\
 References: {{REFERENCES}}\n\
-In-Reply-To: {{MESSAGE_ID}}\n\
+In-Reply-To: {{IN_REPLY_TO}}\n\
 Subject: Re:{{SUBJECT}}\n\
 \n\
 This is a message with multiple parts in MIME format.\n\
@@ -109,7 +109,7 @@ Content-Disposition: attachment; filename={{FILENAME}}\n\
 					.replace( '{{RECEIVER}}', data.receiver )
 					.replace( '{{SUBJECT}}', data.subject )
 					.replace( '{{REFERENCES}}', data.references )
-					.replace( '{{MESSAGE_ID}}', data.references )
+					.replace( '{{IN_REPLY_TO}}', data.references )
 					.replace( '{{FILENAME}}', data.filename )
 					.replace( '{{DATA}}', data.audio_data )
 				).replace( /\//gm,'_').replace( /\+/gm,'-');

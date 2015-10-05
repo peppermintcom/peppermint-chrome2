@@ -18,6 +18,9 @@
 		
 			var button_manager = {
 				
+				reply_disabled: false,
+				compose_disabled: false,
+				
 				can_add_reply_button: function () {
 					if ( window.document.querySelector('.cf.ix') && !window.document.getElementById( 'v_reply_button' ) ) {
 						button_manager.add_reply_button();
@@ -39,7 +42,7 @@
 					add_hover_efect( button, 'btn_02.png', 'btn_02_hover.png' );
 				
 					button.addEventListener( 'click', function () {
-						hub.fire({ name: 'reply_button_click' });
+						if ( !button_manager.reply_disabled ) hub.fire({ name: 'reply_button_click' });
 					});
 					
 					return button;
@@ -56,7 +59,7 @@
 					add_hover_efect( button, 'btn_03.png', 'btn_03_hover.png' );
 					
 					button.addEventListener( 'click', function () {
-						hub.fire({ name: 'compose_button_click' });
+						if ( !button_manager.compose_disabled ) hub.fire({ name: 'compose_button_click' });
 					});
 					
 					return button;
@@ -98,6 +101,37 @@
 						}
 					}, 3000 );
 
+				},
+				
+				'compose_button_click': function () {
+					button_manager.reply_disabled = true;
+					button_manager.compose_disabled = true;
+				},
+				'reply_button_click': function () {
+					button_manager.reply_disabled = true;
+					button_manager.compose_disabled = true;
+				},
+				
+				"authorize_request_failed": function () {
+					button_manager.reply_disabled = false;
+					button_manager.compose_disabled = false;
+				},
+				"popup_cancel_click": function () {
+					button_manager.reply_disabled = false;
+					button_manager.compose_disabled = false;
+				},
+				"popup_receiver_done_click": function () {
+					button_manager.reply_disabled = false;
+					button_manager.compose_disabled = false;
+				},
+				"popup_error_cancel_click": function () {
+					button_manager.reply_disabled = false;
+					button_manager.compose_disabled = false;
+				},
+				
+				"data_sent": function () {
+					button_manager.reply_disabled = false;
+					button_manager.compose_disabled = false;
 				}
 				
 			});
@@ -223,7 +257,6 @@
 				"recording_started": function () {
 					popup_manager.show( 'recording' );
 				},
-				
 				"recording_failed": function () {
 					popup_manager.show( 'error' );
 				},
@@ -239,15 +272,12 @@
 				"popup_cancel_click": function () {
 					popup_manager.hide();
 				},
-				
 				"popup_done_click": function () {
 					popup_manager.hide();
 				},
-				
 				"popup_receiver_done_click": function () {
 					popup_manager.hide();
 				},
-				
 				"popup_error_cancel_click": function () {
 					popup_manager.hide();
 				}
@@ -309,6 +339,51 @@
 					}, 3000);
 				},
 				
+			});
+			
+		} () );
+		
+		// WELCOME SCREEN
+		( function () {
+		
+			var obj = {
+				
+				template: "\
+					<img src = 'chrome-extension://"+EXTENSION_ID+"/img/logo_popup.png'>\
+					<p>Get ready to send your first voice message with Peppermint! This app makes it super-easy to send voice messages instead of spending foreeeevvver typing emails. <br><br> You should see a popup where Chrome is asking you to allow Peppermint to use your mic. Please allow and then go to your gmail and re-load your gmail account and send your first message!</p>\
+				",
+				
+				notifier: null,
+			
+				add: function () {
+					obj.screen = obj.create();
+					window.document.body.appendChild( obj.screen );
+				},
+
+				create: function () {
+				
+					var screen = window.document.createElement( 'div' );
+					screen.id = 'v_welcome_screen';
+					screen.innerHTML = obj.template;
+				
+					screen.addEventListener( 'click', function () {
+						obj.screen.style.display = 'none';
+					});
+				
+					return screen;
+				
+				}
+				
+			};
+			
+			hub.add({
+				
+				'ready': function ( data ) {
+					if ( data[ 'first_time_launch' ] ) {
+						obj.add();
+					}
+				}
+			
 			});
 			
 		} () );

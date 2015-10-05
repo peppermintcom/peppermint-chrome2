@@ -52,8 +52,8 @@
 						immediate: false
 					},
 					function ( result ) {
-						callback( 
-							obj.check_auth_result( result )
+						callback(
+							obj.authorized = obj.check_auth_result( result )
 						);
 					}
 				);

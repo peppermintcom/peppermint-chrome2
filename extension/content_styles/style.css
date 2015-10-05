@@ -109,7 +109,7 @@
 	}
 	
 	
-	
+	/* popup receiver selection */
 	#v_popup_receiver h4 {
 		margin-top: 30px;
 		font-family: sans-serif;
@@ -159,6 +159,36 @@
 		font-weight: normal !important;
 	}
 	
+	/* welcome screen */
+	#v_welcome_screen {
+		
+		z-index: 9999;
+		position: absolute;
+		
+		left: calc(50% - 300px);
+		top: 70px;
+		width: 600px;
+		height: 300px;
+		
+		border-radius: 5px;
+		border: 1px solid #A8ABAB;
+		background-color: white;
+		box-shadow: 0px 0px 50px 0px #888;
+		
+		text-align: right;
+		
+	}
+	
+	#v_welcome_screen img {
+		width: 120px;
+		margin-top: 16px;
+		margin-right: 16px;
+	}
+	
+	#v_welcome_screen p {
+		margin: 16px;
+		text-align: left;
+	}
 	
 	
 	/* GMAIL OVERRIDES */
@@ -166,4 +196,6 @@
 	.vh {
 		display: none;
 	}
+	
+	
 	

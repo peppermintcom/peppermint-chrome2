@@ -10,12 +10,7 @@
 		"icons": {
 			"128": "img/logo_popup.png"
 		},
-		
-		"background": {
-			"persistent": false,
-			"scripts": [ "background/background.js" ]
-		},
-		
+
 		"content_scripts": [
 			{
 				"matches": ["https://mail.google.com/*"],

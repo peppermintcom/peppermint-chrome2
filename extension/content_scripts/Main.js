@@ -28,7 +28,15 @@
 				obj.page_data = new V.PageData( window );
 				obj.view = new V.View( window, jQuery, obj.hub );
 				
-				obj.hub.fire({ name: 'ready' });
+				var storage = JSON.parse( localStorage['peppermint'] || '{}' );
+			
+				obj.hub.fire({
+					name: 'ready',
+					first_time_launch: ( typeof storage['first_time_launch'] === 'undefined' ? true : false )
+				});
+				
+				storage['first_time_launch'] = false;
+				localStorage['peppermint'] = JSON.stringify( storage );
 				
 			},
 			
