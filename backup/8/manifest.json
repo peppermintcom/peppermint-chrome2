@@ -20,7 +20,7 @@
 			{
 				"matches": ["https://mail.google.com/*"],
 				"js": [
-					"/content_scripts/Inceptor.js"
+					"/content_scripts/inception_module.js"
 				],
 				"css": [
 					"/js/jquery-ui-1.11.4/jquery-ui.css",
