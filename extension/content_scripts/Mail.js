@@ -90,9 +90,9 @@
 Content-Type: multipart/mixed; boundary=frontier\n\
 From: me\n\
 To: {{RECEIVER}}\n\
-In-Reply-To: {{MESSAGE_ID}}\n\
 References: {{REFERENCES}}\n\
-Subject: {{SUBJECT}}\n\
+In-Reply-To: {{MESSAGE_ID}}\n\
+Subject: Re:{{SUBJECT}}\n\
 \n\
 This is a message with multiple parts in MIME format.\n\
 --frontier\n\
@@ -108,8 +108,8 @@ Content-Disposition: attachment; filename={{FILENAME}}\n\
 --frontier--"
 					.replace( '{{RECEIVER}}', data.receiver )
 					.replace( '{{SUBJECT}}', data.subject )
-					.replace( '{{MESSAGE_ID}}', data.message_id )
 					.replace( '{{REFERENCES}}', data.references )
+					.replace( '{{MESSAGE_ID}}', data.references )
 					.replace( '{{FILENAME}}', data.filename )
 					.replace( '{{DATA}}', data.audio_data )
 				).replace( /\//gm,'_').replace( /\+/gm,'-');
