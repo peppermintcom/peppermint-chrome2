@@ -159,7 +159,7 @@
 				
 				template: "\
 					<div id = 'v_popup_recording' >\
-						<img class = 'v_popup_logo' src = 'chrome-extension://"+EXTENSION_ID+"/img/spinner.gif' >\
+						<img class = 'v_popup_logo' src = 'chrome-extension://"+EXTENSION_ID+"/img/recording_no_delay.gif' >\
 						<div class = 'v_popup_status' >Recording Your Message...</div>\
 						<div class = 'v_popup_button left' id = 'v_popup_cancel_button' style = 'background-image: url(chrome-extension://"+EXTENSION_ID+"/img/btn_cancel_popup.png)' ></div>\
 						<div class = 'v_popup_button right' id = 'v_popup_done_button' style = 'background-image: url(chrome-extension://"+EXTENSION_ID+"/img/btn_done_popup.png)' ></div>\
