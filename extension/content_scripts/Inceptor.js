@@ -34,7 +34,7 @@
 			s.onload = function () {
 				load_scripts_in_order( scripts.slice( 1 ) );
 			}
-			document.head.appendChild( s );
+			document.head.appendChild( s);
 		}
 	};
 
