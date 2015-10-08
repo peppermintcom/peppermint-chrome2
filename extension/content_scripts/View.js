@@ -6,12 +6,12 @@
 			
 			function add_hover_efect ( element, idle_url, hover_url ) {
 				
-				element.addEventListener( 'mouseenter', function () {
-					element.style.backgroundImage = 'url(chrome-extension://' + EXTENSION_ID + '/img/' + hover_url + ')'
+				element.on( 'mouseenter', function () {
+					element.css({ backgroundImage: 'url(chrome-extension://' + EXTENSION_ID + '/img/' + hover_url + ')' });
 				});
 				
-				element.addEventListener( 'mouseleave', function () {
-					element.style.backgroundImage = 'url(chrome-extension://' + EXTENSION_ID + '/img/' + idle_url + ')'
+				element.on( 'mouseleave', function () {
+					element.css({ backgroundImage: 'url(chrome-extension://' + EXTENSION_ID + '/img/' + idle_url + ')' });
 				});
 				
 			};
@@ -37,11 +37,11 @@
 					
 					var button = window.document.createElement('div');
 					button.id = 'v_reply_button';
-					button.style.backgroundImage = 'url(chrome-extension://' + EXTENSION_ID + '/img/btn_02.png)';
+					button.style.backgroundImage = 'url(chrome-extension://' + EXTENSION_ID + '/img/btn_reply.png)';
 				
-					add_hover_efect( button, 'btn_02.png', 'btn_02_hover.png' );
+					add_hover_efect( $( button ), 'btn_reply.png', 'btn_reply_hover.png' );
 				
-					button.addEventListener( 'click', function () {
+					$( button ).add( 'click', function () {
 						if ( !button_manager.reply_disabled ) hub.fire({ name: 'reply_button_click' });
 					});
 					
@@ -56,9 +56,9 @@
 					button.className = "G-Ni J-J5-Ji";
 					button.style.backgroundImage = 'url(chrome-extension://' + EXTENSION_ID + '/img/btn_03.png)';
 					
-					add_hover_efect( button, 'btn_03.png', 'btn_03_hover.png' );
+					add_hover_efect( $( button ), 'btn_03.png', 'btn_03_hover.png' );
 					
-					button.addEventListener( 'click', function () {
+					$( button ).on( 'click', function () {
 						if ( !button_manager.compose_disabled ) hub.fire({ name: 'compose_button_click' });
 					});
 					
@@ -111,7 +111,6 @@
 					button_manager.reply_disabled = true;
 					button_manager.compose_disabled = true;
 				},
-				
 				"authorize_request_failed": function () {
 					button_manager.reply_disabled = false;
 					button_manager.compose_disabled = false;
@@ -128,7 +127,10 @@
 					button_manager.reply_disabled = false;
 					button_manager.compose_disabled = false;
 				},
-				
+				'popup_receiver_close_click': function () {
+					button_manager.reply_disabled = false;
+					button_manager.compose_disabled = false;
+				},
 				"data_sent": function () {
 					button_manager.reply_disabled = false;
 					button_manager.compose_disabled = false;
@@ -138,17 +140,81 @@
 	
 		} () );
 		
+		// dropdown button
+		( function () {
+			
+			var obj = {
+		
+				template:'<div class="J-N" role="menuitem" id="v_dropdown_button" style="-webkit-user-select: none;">\
+							<div class="J-N-Jz"><div><div id=":17d" class="cj">\
+								<img class="mI f4 J-N-JX" src="chrome-extension://'+EXTENSION_ID+'/img/icon_replyviapep.png" alt="">\
+								Reply via Peppermint\
+							</div>\
+						</div>',
+				
+				create: function () {
+					
+					var element = $( obj.template );
+					
+					element.click( function () {
+						hub.fire({ name: 'dropdown_button_click' });
+					});
+					
+					return element;
+					
+				},
+				
+				can_add: function () {
+					
+					if ( $('.b7.J-M>div:first-child').length > 0 ) {
+						if ( $('#v_dropdown_button').length === 0 ) {
+							return true;
+						} else {
+							return false;
+						};
+					} else {
+						return false;
+					};
+					
+				},
+				
+				add: function ( element ) {
+					
+					$('.b7.J-M>div:first-child').after( element );
+					
+				}
+			
+			};
+			
+			hub.add({
+				
+				'ready': function () {
+					
+					setInterval( function ping () {
+						if ( obj.can_add() ) {
+							obj.add(
+								obj.create()
+							);
+						}
+					}, 3000 );
+
+				}
+				
+			});
+			
+		} () );
+		
 		// POPUP
 		( function () {
 			
 			function add_hover_efect ( element, idle_url, hover_url ) {
 				
-				element.addEventListener( 'mouseenter', function () {
-					element.style.backgroundImage = 'url(chrome-extension://' + EXTENSION_ID + '/img/' + hover_url + ')'
+				element.on( 'mouseenter', function () {
+					element.css({ backgroundImage: 'url(chrome-extension://' + EXTENSION_ID + '/img/' + hover_url + ')' });
 				});
 				
-				element.addEventListener( 'mouseleave', function () {
-					element.style.backgroundImage = 'url(chrome-extension://' + EXTENSION_ID + '/img/' + idle_url + ')'
+				element.on( 'mouseleave', function () {
+					element.css({ backgroundImage: 'url(chrome-extension://' + EXTENSION_ID + '/img/' + idle_url + ')' });
 				});
 				
 			};
@@ -175,6 +241,7 @@
 						<div class = 'ui-widget' id = 'v_popup_search' >\
 							<input id = 'v_popup_receiver_input' >\
 							<div id = 'v_popup_receiver_search_icon' ></div>\
+							<div id = 'v_popup_receiver_close' >x</div>\
 						</div>\
 					</div>\
 					",
@@ -213,25 +280,33 @@
 					popup.innerHTML = popup_manager.template;
 					popup_manager.popup = popup;
 
-					add_hover_efect( popup.querySelector('#v_error_done_button'), 'btn_done_popup.png', 'btn_done_popup_hover.png' );
-					add_hover_efect( popup.querySelector('#v_popup_done_button'), 'btn_done_popup.png', 'btn_done_popup_hover.png' );
-					add_hover_efect( popup.querySelector('#v_popup_cancel_button'), 'btn_cancel_popup.png', 'btn_cancel_popup_hover.png' );
-					add_hover_efect( popup.querySelector('#v_error_cancel_button'), 'btn_cancel_popup.png', 'btn_cancel_popup_hover.png' );
+					add_hover_efect( $('#v_error_done_button', popup ), 'btn_done_popup.png', 'btn_done_popup_hover.png' );
+					add_hover_efect( $('#v_popup_done_button', popup ), 'btn_done_popup.png', 'btn_done_popup_hover.png' );
+					add_hover_efect( $('#v_popup_cancel_button', popup ), 'btn_cancel_popup.png', 'btn_cancel_popup_hover.png' );
+					add_hover_efect( $('#v_error_cancel_button', popup ), 'btn_cancel_popup.png', 'btn_cancel_popup_hover.png' );
 					
-					popup.querySelector('#v_popup_done_button').addEventListener( 'click', function () {
+					$('#v_popup_done_button', popup ).on( 'click', function () {
 						hub.fire({ name: 'popup_done_click' });
 					});
-					popup.querySelector('#v_popup_cancel_button').addEventListener( 'click', function () {
+					$('#v_popup_cancel_button', popup ).on( 'click', function () {
 						hub.fire({ name: 'popup_cancel_click' });
 					});
-					popup.querySelector('#v_error_cancel_button').addEventListener( 'click', function () {
+					$('#v_error_cancel_button', popup ).on( 'click', function () {
 						hub.fire({ name: 'popup_error_cancel_click' });
 					});
-					popup.querySelector('#v_error_done_button').addEventListener( 'click', function () {
+					$('#v_error_done_button', popup ).on( 'click', function () {
 						hub.fire({ name: 'popup_error_done_click' });
-					});
+					});					
 					$( window.document ).on( 'click', '.ui-menu-item', function ( event ) {
 						hub.fire({ name: 'receiver_selected', receiver: event.target.innerHTML });
+					});
+					$('#v_popup_receiver_input', popup ).on( 'keypress', function ( event ) {
+						if ( event.keyCode === 13 ) {
+							hub.fire({ name: 'receiver_selected', receiver: $('#v_popup_receiver_input').val() });
+						}
+					});
+					$('#v_popup_receiver_close', popup ).on( 'click', function () {
+						hub.fire({ name: 'popup_receiver_close_click' });
 					});
 					
 					return popup;
@@ -263,6 +338,9 @@
 				
 				"receiver_selected": function () {
 					popup_manager.show( 'recording' );
+				},
+				"popup_receiver_close_click": function () {
+					popup_manager.hide();
 				},
 				
 				"authorize_request_failed": function () {
@@ -339,51 +417,6 @@
 					}, 3000);
 				},
 				
-			});
-			
-		} () );
-		
-		// WELCOME SCREEN
-		( function () {
-		
-			var obj = {
-				
-				template: "\
-					<img src = 'chrome-extension://"+EXTENSION_ID+"/img/logo_popup.png'>\
-					<p>Get ready to send your first voice message with Peppermint! This app makes it super-easy to send voice messages instead of spending foreeeevvver typing emails. <br><br> You should see a popup where Chrome is asking you to allow Peppermint to use your mic. Please allow and then go to your gmail and re-load your gmail account and send your first message!</p>\
-				",
-				
-				notifier: null,
-			
-				add: function () {
-					obj.screen = obj.create();
-					window.document.body.appendChild( obj.screen );
-				},
-
-				create: function () {
-				
-					var screen = window.document.createElement( 'div' );
-					screen.id = 'v_welcome_screen';
-					screen.innerHTML = obj.template;
-				
-					screen.addEventListener( 'click', function () {
-						obj.screen.style.display = 'none';
-					});
-				
-					return screen;
-				
-				}
-				
-			};
-			
-			hub.add({
-				
-				'ready': function ( data ) {
-					if ( data[ 'first_time_launch' ] ) {
-						obj.add();
-					}
-				}
-			
 			});
 			
 		} () );

@@ -19,6 +19,8 @@
 	
 		return {
 			
+			_events_: events,
+			
 			add: function ( observers ) {
 		
 				Object.keys( observers ).forEach( function ( name ) {

@@ -14,7 +14,32 @@
 			recording_a_reply: false,
 			recording_a_new_mail: false,
 			
-			receiver: null
+			receiver: null,
+			
+			try_recording: function ( callback ) {
+				obj.audio_recorder.start( function ( started ) {
+					if ( started ) {
+						obj.hub.fire({ name: 'recording_started' });
+						callback( true );
+					} else {
+						obj.hub.fire({ name: 'recording_failed' });
+						callback( false );
+					}
+				});
+			},
+			try_authorizing: function ( callback ) {
+				if ( obj.google_auth_wrapper.is_authorized() ) {
+					callback( true );
+				} else {
+					obj.google_auth_wrapper.auth( function ( authorized ) {
+						if ( authorized ) {
+							callback( true );
+						} else {
+							callback( false );
+						}
+					});
+				}
+			}
 			
 		};
 		
@@ -28,15 +53,7 @@
 				obj.page_data = new V.PageData( window );
 				obj.view = new V.View( window, jQuery, obj.hub );
 				
-				var storage = JSON.parse( localStorage['peppermint'] || '{}' );
-			
-				obj.hub.fire({
-					name: 'ready',
-					first_time_launch: ( typeof storage['first_time_launch'] === 'undefined' ? true : false )
-				});
-				
-				storage['first_time_launch'] = false;
-				localStorage['peppermint'] = JSON.stringify( storage );
+				obj.hub.fire({ name: 'ready' });
 				
 			},
 			
@@ -49,57 +66,49 @@
 			"receiver_selected": function ( data ) {
 				obj.receiver = data.receiver;
 				if ( !obj.mail.is_sending() ) {
-					if ( obj.google_auth_wrapper.is_authorized() ) {
-						obj.audio_recorder.start( function ( started ) {
-							if ( started ) {
-								obj.hub.fire({ name: 'recording_started' });	
-								obj.recording_a_new_mail = true;
-							} else {
-								obj.hub.fire({ name: 'recording_failed' });	
-							}
-						});
-					} else {
-						obj.google_auth_wrapper.auth( function ( authorized ) {
-							if ( authorized ) {
-								obj.audio_recorder.start( function ( started ) {
-									if ( started ) {
-										obj.hub.fire({ name: 'recording_started' });
-										obj.recording_a_new_mail = true;
-									} else {
-										obj.hub.fire({ name: 'recording_failed' });	
-									}
-								});
-							}
-						});
-					}
+					obj.try_authorizing( function ( success ) {
+						if ( success ) {
+							obj.try_recording( function ( success ) {
+								if ( success ) {
+									obj.recording_a_new_mail = true;
+								};
+							});
+						} else {
+							
+						}
+					});
 				}
 			},
 			
 			"reply_button_click": function () {
 				if ( !obj.mail.is_sending() ) {
-					if ( obj.google_auth_wrapper.is_authorized() ) {
-						obj.audio_recorder.start( function ( started ) {
-							if ( started ) {
-								obj.hub.fire({ name: 'recording_started' });	
-								obj.recording_a_reply = true;
-							} else {
-								obj.hub.fire({ name: 'recording_failed' });	
-							}
-						});
-					} else {
-						obj.google_auth_wrapper.auth( function ( authorized ) {
-							if ( authorized ) {
-								obj.audio_recorder.start( function ( started ) {
-									if ( started ) {
-										obj.hub.fire({ name: 'recording_started' });
-										obj.recording_a_reply = true;
-									} else {
-										obj.hub.fire({ name: 'recording_failed' });	
-									}
-								});
-							}
-						});
-					}
+					obj.try_authorizing( function ( success ) {
+						if ( success ) {
+							obj.try_recording( function ( success ) {
+								if ( success ) {
+									obj.recording_a_reply = true;
+								};
+							});
+						} else {
+							
+						}
+					});
+				}
+			},
+			
+			"dropdown_button_click": function () {
+				if ( !obj.mail.is_sending() ) {
+					obj.try_authorizing( function ( success ) {
+						if ( success ) {
+							obj.try_recording( function ( success ) {
+								if ( success ) {
+									obj.recording_a_reply = true;
+								};
+							});
+						} else {
+							
+						}
+					});
 				}
 			},
 			

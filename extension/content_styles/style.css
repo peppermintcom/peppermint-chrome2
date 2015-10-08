@@ -1,7 +1,7 @@
 
 	#v_reply_button {
 		
-		width: 86px;
+		width: 66px;
 		height: 29px;
 		
 		cursor: pointer;
@@ -108,8 +108,14 @@
 	
 	}
 	
-	
+
 	/* popup receiver selection */
+	#v_popup_receiver_close {
+		position: absolute;
+		top: 2px;
+		right: 6px;
+		cursor: pointer;
+	}
 	#v_popup_receiver h4 {
 		margin-top: 30px;
 		font-family: sans-serif;
@@ -190,9 +196,25 @@
 		text-align: left;
 	}
 	
+	/*dropdown button*/
+	#v_dropdown_button {
+		
+	}
+	#v_dropdown_button:hover {
+		background-color: #EEEEEE;
+	}
+	#v_dropdown_button img {
+		
+		box-sizing: border-box;
+		
+		padding: 2px 4px 5px 4px;
+		
+		opacity: 1;
+		background: none;
+		
+	}
 	
 	/* GMAIL OVERRIDES */
-	
 	.vh {
 		display: none;
 	}

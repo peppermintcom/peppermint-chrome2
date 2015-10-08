@@ -1,0 +1,201 @@
+
+	#v_reply_button {
+		
+		width: 86px;
+		height: 29px;
+		
+		cursor: pointer;
+		
+	}
+	
+	#v_compose_button {
+		
+		width: 29px;
+		height: 29px;
+		
+		vertical-align: top;
+		
+		cursor: pointer;
+		
+	}
+	
+	#v_notifier {
+		
+		display: none;
+		
+		z-index: 9999999999999999;
+		position: absolute;
+		
+		top: 0px;
+		left: calc(50% - 100px);
+		width: 200px;
+		padding: 0 10px;
+		
+		border: 1px solid #f0c36d;
+		border-radius: 2px;
+		background-color: #f9edbe;
+		box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+
+		text-align: center;
+		font-family: arial, sans-serif;
+		font-size: 12.8px;
+		font-weight: bold;
+		height: 16px;
+		line-height: 16px;
+		
+	}
+	
+	#v_popup {
+		
+		display: none;
+		
+		z-index: 9999;
+		position: absolute;
+		
+		left: calc(50% - 190px);
+		top: 70px;
+		width: 380px;
+		height: 300px;
+		
+		border-radius: 5px;
+		border: 1px solid #A8ABAB;
+		background-color: white;
+		box-shadow: 0px 0px 50px 0px #888;
+		
+		text-align: center;
+	
+	}
+	
+	.v_popup_logo {
+		
+		width: 86px;
+		height: 86px;
+		margin-top: 50px;
+
+	}	
+	.v_popup_status {
+		
+		margin: 20px 0px;
+		padding: 0px 12px;
+		
+		font-family: sans-serif;
+		font-size: 16px;
+		color: rgba(0,0,0,0.75);
+	
+	}
+	.v_popup_button.left {
+		
+		position: absolute;
+		
+		bottom: 12px;
+		left: 12px;
+		width: 172px;
+		height: 44px;
+		
+		cursor: pointer;
+	
+	}	
+	.v_popup_button.right {
+		
+		position: absolute;
+		
+		bottom: 12px;
+		right: 12px;
+		width: 172px;
+		height: 44px;
+		
+		cursor: pointer;
+	
+	}
+	
+	
+	/* popup receiver selection */
+	#v_popup_receiver h4 {
+		margin-top: 30px;
+		font-family: sans-serif;
+	}
+	#v_popup_search {
+		margin-top: 10px;
+	}
+	#v_popup_receiver_input {
+		
+		display: inline-block;
+		
+		width: 240px;
+		
+		outline: none;
+		
+		font-size: 16px;
+		
+	}
+	#v_popup_receiver_search_icon {
+		
+		position: relative;
+		display: inline-block;
+		
+		top: 2px;
+		width: 16px;
+		height: 16px;
+		margin-left: -28px;
+		
+		background: url(../img/search.svg) no-repeat;
+		background-size: 16px;
+		
+	}
+	.ui-autocomplete {
+		z-index: 99999 !important;
+	}
+	.ui-helper-hidden-accessible {
+		display: none;
+	}
+	.ui-menu-item {
+		background-color: white;
+	}
+	.ui-state-focus {
+		background: #EEEEEE !important;
+		border-color: inherit !important;
+		border-top: none !important;
+		color: inherit !important;
+		font-weight: normal !important;
+	}
+	
+	/* welcome screen */
+	#v_welcome_screen {
+		
+		z-index: 9999;
+		position: absolute;
+		
+		left: calc(50% - 300px);
+		top: 70px;
+		width: 600px;
+		height: 300px;
+		
+		border-radius: 5px;
+		border: 1px solid #A8ABAB;
+		background-color: white;
+		box-shadow: 0px 0px 50px 0px #888;
+		
+		text-align: right;
+		
+	}
+	
+	#v_welcome_screen img {
+		width: 120px;
+		margin-top: 16px;
+		margin-right: 16px;
+	}
+	
+	#v_welcome_screen p {
+		margin: 16px;
+		text-align: left;
+	}
+	
+	
+	/* GMAIL OVERRIDES */
+	
+	.vh {
+		display: none;
+	}
+	
+	
+	
