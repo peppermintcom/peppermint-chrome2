@@ -41,7 +41,7 @@
 				
 					add_hover_efect( $( button ), 'btn_reply.png', 'btn_reply_hover.png' );
 				
-					$( button ).add( 'click', function () {
+					$( button ).on( 'click', function () {
 						if ( !button_manager.reply_disabled ) hub.fire({ name: 'reply_button_click' });
 					});
 					
