@@ -8,7 +8,7 @@
 		"version": "1.1",
 
 		"icons": {
-			"128": "img/logo_popup.png"
+			"128": "img/logo_60x60@2x.png"
 		},
 
 		"content_scripts": [
@@ -40,6 +40,8 @@
 			"scripts": ["background/background.js"]
 		},
 
-		"content_security_policy": "script-src 'self' https://*.google.com; object-src 'self'"
+		"content_security_policy": "script-src 'self' https://*.google.com; object-src 'self'",
+		
+		"homepage_url": "http://peppermint.com"
 
 	}
