@@ -1,35 +1,33 @@
 	
 	V.View = function ( window, $, hub ) {
 		
-		// BUTTONS
-		( function () {
+		function add_hover_efect ( element, idle_url, hover_url ) {
 			
-			function add_hover_efect ( element, idle_url, hover_url ) {
-				
-				element.on( 'mouseenter', function () {
-					element.css({ backgroundImage: 'url(chrome-extension://' + EXTENSION_ID + '/img/' + hover_url + ')' });
-				});
-				
-				element.on( 'mouseleave', function () {
-					element.css({ backgroundImage: 'url(chrome-extension://' + EXTENSION_ID + '/img/' + idle_url + ')' });
-				});
-				
-			};
+			element.on( 'mouseenter', function () {
+				element.css({ backgroundImage: 'url(chrome-extension://' + EXTENSION_ID + '/img/' + hover_url + ')' });
+			});
+			
+			element.on( 'mouseleave', function () {
+				element.css({ backgroundImage: 'url(chrome-extension://' + EXTENSION_ID + '/img/' + idle_url + ')' });
+			});
+			
+		};
 		
-			var button_manager = {
+		var Buttons = function ( hub ) {
+			
+			var obj = {
 				
-				reply_disabled: false,
-				compose_disabled: false,
+				enabled: true,
 				
 				can_add_reply_button: function () {
 					if ( window.document.querySelector('.cf.ix') && !window.document.getElementById( 'v_reply_button' ) ) {
-						button_manager.add_reply_button();
+						obj.add_reply_button();
 					}
 				},
 				
 				can_add_compose_button: function () {
 					if ( window.document.querySelector('.Cq.aqL') && !window.document.getElementById( 'v_compose_button' ) ) {
-						button_manager.add_compose_button();
+						obj.add_compose_button();
 					}
 				},
 				
@@ -42,7 +40,7 @@
 					add_hover_efect( $( button ), 'btn_reply.png', 'btn_reply_hover.png' );
 				
 					$( button ).on( 'click', function () {
-						if ( !button_manager.reply_disabled ) hub.fire({ name: 'reply_button_click' });
+						if ( obj.enabled ) hub.fire({ name: 'reply_button_click' });
 					});
 					
 					return button;
@@ -59,7 +57,7 @@
 					add_hover_efect( $( button ), 'btn_03.png', 'btn_03_hover.png' );
 					
 					$( button ).on( 'click', function () {
-						if ( !button_manager.compose_disabled ) hub.fire({ name: 'compose_button_click' });
+						if ( obj.enabled ) hub.fire({ name: 'compose_button_click' });
 					});
 					
 					return button;
@@ -74,7 +72,7 @@
 					cell = window.document.createElement('td');
 					
 					row.appendChild( cell );
-					cell.appendChild( button_manager.create_reply_button() );
+					cell.appendChild( obj.create_reply_button() );
 					table.style.tableLayout = 'auto';
 					
 				},
@@ -82,68 +80,42 @@
 				add_compose_button: function () {
 					
 					var container = window.document.querySelector('.Cq.aqL').firstElementChild.firstElementChild;
-					container.appendChild( button_manager.create_compose_button() );
+					container.appendChild( obj.create_compose_button() );
 			
 				},
 			
 			};
-	
-			hub.add({
+			
+			return {
 				
-				'ready': function () {
-					
+				add: function () {
 					setInterval( function ping () {
-						if ( button_manager.can_add_reply_button() ) {
-							button_manager.add_reply_button();
+						if ( obj.can_add_reply_button() ) {
+							obj.add_reply_button();
 						}
-						if ( button_manager.can_add_compose_button() ) {
-							button_manager.add_compose_button();
+						if ( obj.can_add_compose_button() ) {
+							obj.add_compose_button();
 						}
 					}, 3000 );
-
 				},
 				
-				'compose_button_click': function () {
-					button_manager.reply_disabled = true;
-					button_manager.compose_disabled = true;
+				disable: function () {
+					obj.enabled = false;
 				},
-				'reply_button_click': function () {
-					button_manager.reply_disabled = true;
-					button_manager.compose_disabled = true;
-				},
-				"authorize_request_failed": function () {
-					button_manager.reply_disabled = false;
-					button_manager.compose_disabled = false;
-				},
-				"popup_cancel_click": function () {
-					button_manager.reply_disabled = false;
-					button_manager.compose_disabled = false;
-				},
-				"popup_receiver_done_click": function () {
-					button_manager.reply_disabled = false;
-					button_manager.compose_disabled = false;
-				},
-				"popup_error_cancel_click": function () {
-					button_manager.reply_disabled = false;
-					button_manager.compose_disabled = false;
-				},
-				'popup_receiver_close_click': function () {
-					button_manager.reply_disabled = false;
-					button_manager.compose_disabled = false;
-				},
-				"data_sent": function () {
-					button_manager.reply_disabled = false;
-					button_manager.compose_disabled = false;
+				
+				enable: function () {
+					obj.enabled = true;
 				}
 				
-			});
-	
-		} () );
+			};
+			
+		};
 		
-		// dropdown button
-		( function () {
+		var Dropdown = function ( hub ) {
 			
 			var obj = {
+		
+				enabled: true,
 		
 				template:'<div class="J-N" role="menuitem" id="v_dropdown_button" style="-webkit-user-select: none;">\
 							<div class="J-N-Jz"><div><div id=":17d" class="cj">\
@@ -157,7 +129,7 @@
 					var element = $( obj.template );
 					
 					element.click( function () {
-						hub.fire({ name: 'dropdown_button_click' });
+						if ( obj.enabled ) hub.fire({ name: 'dropdown_button_click' });
 					});
 					
 					return element;
@@ -186,10 +158,9 @@
 			
 			};
 			
-			hub.add({
+			return {
 				
-				'ready': function () {
-					
+				add: function () {
 					setInterval( function ping () {
 						if ( obj.can_add() ) {
 							obj.add(
@@ -197,29 +168,23 @@
 							);
 						}
 					}, 3000 );
-
+				},
+				
+				disable: function () {
+					obj.enabled = false;
+				},
+				
+				enable: function () {
+					obj.enabled = true;
 				}
 				
-			});
-			
-		} () );
-		
-		// POPUP
-		( function () {
-			
-			function add_hover_efect ( element, idle_url, hover_url ) {
-				
-				element.on( 'mouseenter', function () {
-					element.css({ backgroundImage: 'url(chrome-extension://' + EXTENSION_ID + '/img/' + hover_url + ')' });
-				});
-				
-				element.on( 'mouseleave', function () {
-					element.css({ backgroundImage: 'url(chrome-extension://' + EXTENSION_ID + '/img/' + idle_url + ')' });
-				});
-				
 			};
+			
+		};
 		
-			var popup_manager = {
+		var Popup = function ( hub ) {
+
+			var obj = {
 				
 				popup: null,
 				
@@ -236,49 +201,34 @@
 						<div class = 'v_popup_button left' id = 'v_error_cancel_button' style = 'background-image: url(chrome-extension://"+EXTENSION_ID+"/img/btn_cancel_popup.png)' ></div>\
 						<div class = 'v_popup_button right' id = 'v_error_done_button' style = 'background-image: url(chrome-extension://"+EXTENSION_ID+"/img/btn_done_popup.png)' ></div>\
 					</div>\
-					<div id = 'v_popup_receiver' >\
-						<h4>Send an audio to...</h4>\
-						<div class = 'ui-widget' id = 'v_popup_search' >\
-							<input id = 'v_popup_receiver_input' >\
-							<div id = 'v_popup_receiver_search_icon' ></div>\
-							<div id = 'v_popup_receiver_close' >x</div>\
-						</div>\
-					</div>\
 					",
 				
 				show: function ( status ) {
 					if ( status === 'recording' ) {
-						popup_manager.popup.style.display = 'block';
-						popup_manager.popup.querySelector('#v_popup_recording').style.display = 'block';
-						popup_manager.popup.querySelector('#v_popup_receiver').style.display = 'none';
-						popup_manager.popup.querySelector('#v_popup_error').style.display = 'none';
-					} else if ( status === 'receiver' ) {
-						popup_manager.popup.style.display = 'block';
-						popup_manager.popup.querySelector('#v_popup_recording').style.display = 'none';
-						popup_manager.popup.querySelector('#v_popup_receiver').style.display = 'block';
-						popup_manager.popup.querySelector('#v_popup_error').style.display = 'none';
+						$( obj.popup ).show();
+						$( '#v_popup_recording', obj.popup ).show();
+						$( '#v_popup_error' ).hide();
 					} else if ( status === 'error' ) {
-						popup_manager.popup.style.display = 'block';
-						popup_manager.popup.querySelector('#v_popup_recording').style.display = 'none';
-						popup_manager.popup.querySelector('#v_popup_receiver').style.display = 'none';
-						popup_manager.popup.querySelector('#v_popup_error').style.display = 'block';
+						$( obj.popup ).show();
+						$( '#v_popup_recording', obj.popup ).hide();
+						$( '#v_popup_error' ).show();
 					}
 				},
 				
 				add: function () {
-					window.document.body.appendChild( popup_manager.create() );
+					window.document.body.appendChild( obj.create() );
 				},
 			
 				hide: function () {
-					popup_manager.popup.style.display = 'none';
+					$( obj.popup ).hide();
 				},
 				
 				create: function () {
 				
 					var popup = window.document.createElement( 'div' );
 					popup.id = 'v_popup';
-					popup.innerHTML = popup_manager.template;
-					popup_manager.popup = popup;
+					popup.innerHTML = obj.template;
+					obj.popup = popup;
 
 					add_hover_efect( $('#v_error_done_button', popup ), 'btn_done_popup.png', 'btn_done_popup_hover.png' );
 					add_hover_efect( $('#v_popup_done_button', popup ), 'btn_done_popup.png', 'btn_done_popup_hover.png' );
@@ -315,77 +265,49 @@
 				
 			};
 			
-			hub.add({
+			return {
 				
-				'ready': function () {
-					popup_manager.add();
-				},
-				
-				"contacts_available": function ( data ) {
-					$( '#v_popup_receiver_input', popup_manager.popup ).autocomplete({ source: data.contacts });
+				add: function () {
+					obj.add();
 				},
 				
-				"compose_button_click": function () {
-					popup_manager.show( 'receiver' );
+				hide: function () {
+					obj.hide();
 				},
 				
-				"recording_started": function () {
-					popup_manager.show( 'recording' );
-				},
-				"recording_failed": function () {
-					popup_manager.show( 'error' );
+				show_recording: function () {
+					obj.show('recording');
 				},
 				
-				"receiver_selected": function () {
-					popup_manager.show( 'recording' );
-				},
-				"popup_receiver_close_click": function () {
-					popup_manager.hide();
-				},
-				
-				"authorize_request_failed": function () {
-					popup_manager.hide();
-				},
-				
-				"popup_cancel_click": function () {
-					popup_manager.hide();
-				},
-				"popup_done_click": function () {
-					popup_manager.hide();
-				},
-				"popup_receiver_done_click": function () {
-					popup_manager.hide();
-				},
-				"popup_error_cancel_click": function () {
-					popup_manager.hide();
+				show_error: function () {
+					obj.show( 'error' );
 				}
 				
-			});
+			};
 		
-		} () );
+		};
 		
-		// NOTIFIER
-		( function () {
+		var Notifier = function ( hub ) {
 		
-			var notify_manager = {
+			var obj = {
 				
 				notifier: null,
 			
 				add: function () {
-					notify_manager.notifier = notify_manager.create();
-					window.document.body.appendChild( notify_manager.notifier );
+					obj.notifier = obj.create();
+					window.document.body.appendChild( obj.notifier );
 				},
 				
 				show: function () {
-					notify_manager.notifier.style.display = 'block';
+					obj.notifier.style.display = 'block';
 				},
 				
 				hide: function () {
-					notify_manager.notifier.style.display = 'none';
+					obj.notifier.style.display = 'none';
 				},
 				
 				write: function ( text ) {
-					notify_manager.notifier.innerHTML = text;
+					obj.notifier.innerHTML = text;
 				},
 				
 				create: function () {
@@ -399,27 +321,92 @@
 				
 			};
 			
-			hub.add({
+			return {
 				
-				'ready': function () {
-					notify_manager.add();
+				add: function () {
+					obj.add();
 				},
 				
-				"sending_data": function () {
-					notify_manager.write( "Sending via Peppermint..." );
-					notify_manager.show();
+				notify_sending: function ( status ) {
+					obj.write( "Sending via Peppermint..." );
+					obj.show();
 				},
 				
-				"data_sent": function () {
-					notify_manager.write( "Sent" );
+				notify_sent: function () {
+					obj.write( "Sent" );
 					setTimeout( function () {
-						notify_manager.hide();
+						obj.hide();
 					}, 3000);
+				}
+				
+			}
+			
+		};
+		
+		var ComposeManager = function ( hub, window ) {
+			
+			var obj = {
+				
+				open: function () {
+					window.location.href += "?compose=new";
 				},
 				
-			});
+				add_record_and_send: function () {
+					
+				}
+				
+			};
 			
-		} () );
+			return {
+				
+				open: obj.open
+				
+			};
+			
+		};
+		
+		var obj = {
+			
+		};
+		
+		obj.components = {};
+		obj.components.buttons =  new Buttons( hub );
+		obj.components.dropdown = new Dropdown( hub );
+		obj.components.popup = new Popup( hub );
+		obj.components.notifier = new Notifier( hub );
+		obj.components.compose_manager = new ComposeManager( hub, window );
+		
+		return {
+			
+			components: obj.components,
+			
+			add_components: function () {
+				obj.components.notifier.add();
+				obj.components.popup.add();
+				obj.components.dropdown.add();
+				obj.components.buttons.add();
+			},
+			
+			disable_buttons: function () {
+				obj.components.buttons.disable();
+				obj.components.dropdown.disable();
+			},
+			
+			enable_buttons: function () {
+				obj.components.buttons.enable();
+				obj.components.dropdown.enable();
+			}
+			
+		};
 		
 	};
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	

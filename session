@@ -120,7 +120,6 @@
                 <Fold line="33" />
             </File>
             <File firstVisibleLine="0" xOffset="0" scrollWidth="658" startPos="165" endPos="165" selMode="0" lang="Javascript" encoding="-1" filename="E:\xampp\htdocs\prj\prj\Chrome Extensions\UPWORK\peppermint.com\extension\manifest.json" backupFilePath="" originalFileLastModifTimestamp="1443961217" />
-            <File firstVisibleLine="0" xOffset="0" scrollWidth="504" startPos="114" endPos="114" selMode="0" lang="Javascript" encoding="-1" filename="E:\xampp\htdocs\prj\prj\Chrome Extensions\UPWORK\peppermint.com\extension\content_scripts\V.js" backupFilePath="" originalFileLastModifTimestamp="1443961591" />
             <File firstVisibleLine="9" xOffset="0" scrollWidth="1099" startPos="2748" endPos="2748" selMode="0" lang="Javascript" encoding="-1" filename="E:\xampp\htdocs\prj\prj\Chrome Extensions\UPWORK\peppermint.com\extension\content_scripts\Main.js" backupFilePath="" originalFileLastModifTimestamp="1443975512">
                 <Fold line="22" />
                 <Fold line="34" />
