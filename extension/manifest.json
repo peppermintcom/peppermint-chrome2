@@ -39,7 +39,8 @@
 		],
 
 		"background": {
-			"scripts": ["js/V.js","background/background.js"]
+			"scripts": ["js/V.js","background/background.js"],
+			"persistent": false
 		},
 		
 		"options_ui": {
@@ -48,7 +49,7 @@
 		},
 		
 		"content_security_policy": "script-src 'self' https://*.google.com; object-src 'self'",
-		
+
 		"homepage_url": "http://peppermint.com"
 
 	}
