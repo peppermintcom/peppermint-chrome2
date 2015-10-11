@@ -39,8 +39,7 @@
 		],
 
 		"background": {
-			"scripts": ["js/V.js","background/background.js"],
-			"persistent": false
+			"scripts": ["js/V.js","background/background.js"]
 		},
 		
 		"options_ui": {

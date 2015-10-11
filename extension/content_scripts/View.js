@@ -88,11 +88,16 @@
 			
 			return {
 				
-				add: function () {
+				add_reply: function () {
 					setInterval( function ping () {
 						if ( obj.can_add_reply_button() ) {
 							obj.add_reply_button();
 						}
+					}, 3000 );
+				},
+				
+				add_compose: function () {
+					setInterval( function ping () {
 						if ( obj.can_add_compose_button() ) {
 							obj.add_compose_button();
 						}
@@ -384,7 +389,10 @@
 				obj.components.notifier.add();
 				obj.components.popup.add();
 				obj.components.dropdown.add();
-				obj.components.buttons.add();
+				obj.components.buttons.add_compose();
+				if ( !PEPPERMINT_STORAGE['options_data']['reply_button_disabled'] ) {
+					obj.components.buttons.add_reply();
+				}
 			},
 			
 			disable_buttons: function () {

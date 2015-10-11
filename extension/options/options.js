@@ -59,7 +59,7 @@
 			
 		};
 		
-		obj.hub = new V.EventHub();
+		obj.hub = new V.EventHub('options_hub',{});
 		obj.page_manager = new V.PageManager( jQuery, obj.hub );
 		obj.storage_manager = new V.StorageManager( chrome );
 		obj.options_data = new V.OptionsData( obj.hub );
