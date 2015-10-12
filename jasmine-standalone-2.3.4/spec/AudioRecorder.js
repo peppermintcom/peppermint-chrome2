@@ -118,7 +118,7 @@
 					
 				});
 				
-				it( 'calls back long base64 data string ', function () {
+				xit( 'calls back long base64 data string ', function () {
 					
 					spyOn( mock.navigator, 'getUserMedia' ).and.callFake( function ( data, success_callback, failure_callback ) {
 						success_callback();
