@@ -1,19 +1,21 @@
 
 	V.AudioRecorder = function ( Recorder, AudioContext, workerPath, navigator, FileReader ) {
-		
+
 		var recorder = null;
 		var stream = null;
-		
+
 		create_recorder_from_stream = function ( stream_arg ) {
 			recorder = new Recorder(
 					( new AudioContext() ).createMediaStreamSource( stream_arg ),
 					{
-						workerPath: workerPath
+						workerPath: workerPath,
+						numChannels: 1
+
 					}
 				),
 			stream = stream_arg;
 		};
-		
+
 		create_recorder = function ( callback ) {
 			if ( recorder === null && stream === null ) {
 				navigator.getUserMedia(
@@ -33,22 +35,22 @@
 				if ( callback ) callback( true );
 			}
 		};
-		
+
 		delete_recorder = function () {
 			if ( recorder !== null && stream !== null ) {
-				
+
 				recorder.stop();
 				recorder.clear();
-				
+
 				recorder.context.close();
 				stream.getAudioTracks()[0].stop();
-				
+
 				recorder = null;
 				stream = null;
-				
+
 			}
 		};
-		
+
 		get_base64_from_blob = function ( blob, callback ) {
 			reader = new FileReader();
 			reader.readAsDataURL( blob );
@@ -56,7 +58,7 @@
 				callback( reader.result.replace( 'data:audio/wav;base64,', '' ) );
 			};
 		};
-		
+
 		get_audio_data = function ( callback ) {
 			if ( recorder ) {
 			recorder.stop();
@@ -67,28 +69,28 @@
 				callback( false );
 			}
 		};
-		
+
 		return {
-			
+
 			start: function ( callback ) {
 				create_recorder( callback );
 			},
-			
+
 			pause: function () {
 				recorder.stop();
 			},
-			
+
 			cancel: function () {
 				delete_recorder();
 			},
-			
+
 			finish: function ( callback ) {
 				get_audio_data( function ( audio_data ) {
 					delete_recorder();
 					callback( audio_data );
 				});
 			}
-			
+
 		};
 
 	};
