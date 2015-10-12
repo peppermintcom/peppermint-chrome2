@@ -1,11 +1,35 @@
-// temporarily disabled for testing
-// chrome.runtime.onInstalled.addListener(function (details) {
-    // chrome.tabs.create({
-        // url: chrome.extension.getURL("welcome_page/welcome.html"),
-        // active: true
-    // });
-// });
+
+	V.SetUpManager = function ( chrome ) {
 		
+		var obj = {
+			
+			set_up_options: function () {
+				chrome.storage.local.set({
+					"options_data": {
+						"reply_button_disabled": false
+					}
+				});
+			}
+			
+		};
+		
+		return {
+			
+			open_welcome_page: function () {
+				chrome.tabs.create({
+					url: chrome.extension.getURL("welcome_page/welcome.html"),
+					active: true
+				});
+			},
+			
+			set_up_options: function () {
+				obj.set_up_options();
+			}
+			
+		};
+		
+	};
+	
 	V.WebRequestManager = function ( chrome, hub ) {
 		
 		var obj = {
@@ -79,6 +103,12 @@
 		
 		obj.hub = new V.EventHub( 'background_hub', { chrome: chrome, window: window });
 		obj.web_request_manager = new V.WebRequestManager( chrome, obj.hub );
+		obj.set_up_manager = new V.SetUpManager( chrome );
+		
+		chrome.runtime.onInstalled.addListener( function () {
+			obj.set_up_manager.open_welcome_page();
+			obj.set_up_manager.set_up_options();
+		});
 		
 		obj.hub.add({
 			
