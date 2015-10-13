@@ -133,63 +133,6 @@
                 <Fold line="156" />
             </File>
         </mainView>
-        <subView activeIndex="0">
-            <File firstVisibleLine="0" xOffset="0" scrollWidth="810" startPos="438" endPos="438" selMode="0" lang="HTML" encoding="-1" filename="E:\xampp\htdocs\prj\prj\Chrome Extensions\UPWORK\peppermint.com\jasmine-standalone-2.3.4\SpecRunner.html" backupFilePath="" originalFileLastModifTimestamp="1443960918" />
-            <File firstVisibleLine="0" xOffset="0" scrollWidth="1251" startPos="137" endPos="137" selMode="0" lang="Javascript" encoding="-1" filename="E:\xampp\htdocs\prj\prj\Chrome Extensions\UPWORK\peppermint.com\jasmine-standalone-2.3.4\spec\AudioRecorder.js" backupFilePath="" originalFileLastModifTimestamp="1443952923">
-                <Fold line="1" />
-                <Fold line="3" />
-                <Fold line="5" />
-                <Fold line="7" />
-                <Fold line="21" />
-                <Fold line="23" />
-                <Fold line="33" />
-                <Fold line="35" />
-                <Fold line="41" />
-                <Fold line="43" />
-                <Fold line="60" />
-                <Fold line="64" />
-                <Fold line="66" />
-                <Fold line="70" />
-                <Fold line="82" />
-                <Fold line="94" />
-                <Fold line="106" />
-                <Fold line="108" />
-                <Fold line="112" />
-                <Fold line="120" />
-            </File>
-            <File firstVisibleLine="0" xOffset="0" scrollWidth="1314" startPos="1436" endPos="1436" selMode="0" lang="Javascript" encoding="-1" filename="E:\xampp\htdocs\prj\prj\Chrome Extensions\UPWORK\peppermint.com\jasmine-standalone-2.3.4\spec\Mail.js" backupFilePath="" originalFileLastModifTimestamp="1443960655">
-                <Fold line="3" />
-                <Fold line="5" />
-                <Fold line="7" />
-                <Fold line="13" />
-                <Fold line="21" />
-                <Fold line="27" />
-                <Fold line="37" />
-                <Fold line="39" />
-                <Fold line="43" />
-                <Fold line="72" />
-                <Fold line="74" />
-                <Fold line="81" />
-                <Fold line="88" />
-                <Fold line="101" />
-                <Fold line="116" />
-                <Fold line="118" />
-                <Fold line="129" />
-                <Fold line="131" />
-            </File>
-            <File firstVisibleLine="0" xOffset="0" scrollWidth="1062" startPos="1329" endPos="1329" selMode="0" lang="Javascript" encoding="-1" filename="E:\xampp\htdocs\prj\prj\Chrome Extensions\UPWORK\peppermint.com\jasmine-standalone-2.3.4\spec\GoogleAuthWrapper.js" backupFilePath="" originalFileLastModifTimestamp="1443952901">
-                <Fold line="1" />
-                <Fold line="3" />
-                <Fold line="5" />
-                <Fold line="7" />
-                <Fold line="21" />
-                <Fold line="25" />
-                <Fold line="31" />
-                <Fold line="33" />
-                <Fold line="43" />
-                <Fold line="45" />
-            </File>
-            <File firstVisibleLine="0" xOffset="0" scrollWidth="981" startPos="0" endPos="0" selMode="0" lang="Javascript" encoding="-1" filename="E:\xampp\htdocs\prj\prj\Chrome Extensions\UPWORK\peppermint.com\jasmine-standalone-2.3.4\spec\PageData.js" backupFilePath="" originalFileLastModifTimestamp="1443959771" />
-        </subView>
+        <subView activeIndex="0" />
     </Session>
 </NotepadPlus>
