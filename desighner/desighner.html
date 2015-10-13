@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+	
+	<html>
+	
+		<head>
+		
+			<meta charset="utf-8">
+			
+			<title>Desighner</title>
+			
+			<link rel = "stylesheet" href = "../extension/content_styles/style.css" >
+			<link rel = "stylesheet" href = "desighner.css" >
+
+		</head>
+
+		<body>
+
+			<div id = 'v_popup' >
+				<div id = 'v_popup_recording' >
+					<img class = 'v_popup_logo' src = '../extension/img/recording_no_delay.gif' >
+					<div class = 'v_popup_status' >Recording Your Message...</div>
+					<div class = 'v_popup_button left' id = 'v_popup_cancel_button' style = 'background-image: url(../extension/img/grey_empty.png)' >
+						Cancel
+					</div>
+					<div class = 'v_popup_button right' id = 'v_popup_done_button' style = 'background-image: url(../extension/img/green_empty.png)' >
+						Done
+					</div>
+				</div>
+				<div id = 'v_popup_error' >
+					<img class = 'v_popup_logo' src = '../extension/img/icon_mic_off.png' >
+					<div class = 'v_popup_status' >Your microphone is not working. Please check your audio settings and try again</div>
+					<div class = 'v_popup_button left' id = 'v_error_cancel_button' style = 'background-image: url(../extension/img/grey_empty.png)' >
+						Cancel
+					</div>
+					<div class = 'v_popup_button right' id = 'v_error_done_button' style = 'background-image: url(../extension/img/green_empty.png)' >
+						<img src = "../extension/img/icon_refresh.png" >
+						Try Again
+					</div>
+				</div>
+			</div>
+		
+		</body>
+		
+	</html>

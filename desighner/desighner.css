@@ -1,0 +1,15 @@
+
+	#v_popup {
+		
+		display: block;
+		
+		top: 0px;
+		left: 0px;
+		
+	}
+	
+	#v_popup_recording {
+		
+		display: none;
+		
+	}

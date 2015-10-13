@@ -34,6 +34,25 @@
 		
 		var obj = {
 			
+			request_is_mail: function ( details ) {
+				if ( details.url.indexOf("autosave=1") === -1 ) {
+					if ( details.url.indexOf("mail.google.com") !== -1 ) {
+						if ( details.requestBody !== undefined ) {
+							if ( details.requestBody.formData !== undefined ) {
+								if (
+									details.requestBody.formData.to !== undefined
+									&& details.requestBody.formData.subject !== undefined
+									&& details.requestBody.formData.body !== undefined
+								) {
+									return true;
+								};
+							};
+						};
+					};
+				};
+				return false;
+			},
+			
 			enabled: false,
 			
 			listener: function ( details ) {
@@ -42,26 +61,16 @@
 				
 				var cancel = false;
 				
-				if ( details.url.indexOf("mail.google.com") !== -1 ) {
-					if ( details.requestBody !== undefined ) {
-						if ( details.requestBody.formData !== undefined ) {
-							if (
-								details.requestBody.formData.to !== undefined
-								&& details.requestBody.formData.subject !== undefined
-								&& details.requestBody.formData.body !== undefined
-							) {
-								cancel = true;
-								hub.fire({
-									name: "mail_intercepted_1",
-									tab_id: details.tabId,
-									to: details.requestBody.formData.to,
-									subject: details.requestBody.formData.subject[0],
-									body: details.requestBody.formData.body[0]
-								});
-							};
-						};
-					};
-				};
+				if ( obj.request_is_mail( details ) ) {
+					cancel = true;
+					hub.fire({
+						name: "mail_intercepted_1",
+						tab_id: details.tabId,
+						to: details.requestBody.formData.to,
+						subject: details.requestBody.formData.subject[0],
+						body: details.requestBody.formData.body[0]
+					});
+				}
 				
 				return {
 					
@@ -106,7 +115,8 @@
 		obj.set_up_manager = new V.SetUpManager( chrome );
 		
 		chrome.runtime.onInstalled.addListener( function () {
-			obj.set_up_manager.open_welcome_page();
+			// disabled for development
+			// obj.set_up_manager.open_welcome_page();
 			obj.set_up_manager.set_up_options();
 		});
 		

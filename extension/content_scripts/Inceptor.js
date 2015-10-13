@@ -115,15 +115,10 @@
 						chrome.extension.getURL('/js/jquery.min.js'),
 						chrome.extension.getURL('/content_scripts/lib/recorder.js'),
 						chrome.extension.getURL('/js/V.js'),
-						chrome.extension.getURL('/content_scripts/GoogleAuthWrapper.js'),
 						chrome.extension.getURL('/content_scripts/AudioRecorder.js'),
-						chrome.extension.getURL('/content_scripts/PageData.js'),
 						chrome.extension.getURL('/content_scripts/View.js'),
 						chrome.extension.getURL('/content_scripts/Controller.js'),
-						chrome.extension.getURL('/content_scripts/Mail.js'),
-						chrome.extension.getURL('/content_scripts/WebRequestManager.js'),
-						chrome.extension.getURL('/content_scripts/Main.js'),
-						'https://apis.google.com/js/client.js?onload=v_client_load'
+						chrome.extension.getURL('/content_scripts/Main.js')
 					]);
 				});
 			});

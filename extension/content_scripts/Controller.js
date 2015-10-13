@@ -1,69 +1,31 @@
 
-	V.Controller = function ( view_hub, main_hub, view, main ) {
+	V.Controller = function ( view_hub, model_hub, view, model ) {
 		
 		view_hub.add({
 		
-			'compose_button_click': function () {
-				// view.disable_buttons();
-				view.components.compose_manager.open();
-				main.disable_mail();
+			'compose_button_start_click': function () {
+				model.start_recording();
 			},
-			"reply_button_click": function () {
-				main.start_reply();
-				view.disable_buttons();	
-			},			
-			"dropdown_button_click": function () {
-				main.start_reply();
-			},
-			
-			"popup_done_click": function () {
-				view.components.notifier.notify_sending();
-				main.finalize_recording();
-				view.components.popup.hide();
-			},		
-			"popup_cancel_click": function () {
-				main.cancel_recording();
-				view.components.popup.hide();
-				view.enable_buttons();
-			},
-			"popup_receiver_done_click": function () {
-				view.components.popup.hide();
-			},
-			"popup_error_cancel_click": function () {
-				view.components.popup.hide();
-				view.enable_buttons();
+		
+			'compose_button_stop_click': function () {
+				model.stop_recording();
 			}
 			
 		});
 		
-		main_hub.add({
+		model_hub.add({
 			
 			"ready": function () {
 				view.add_components();
 			},
 			
 			"recording_started": function () {
-				view.components.popup.show_recording();
+				view.components.compose_button.make_active();
 			},		
 			
-			"recording_failed": function () {
-				view.components.popup.show_error();
-			},
-			
-			"authorize_request_failed": function () {
-				view.components.popup.hide();
-				view.enable_buttons();
-			},
-		
-			"data_sent": function () {
-				view.enable_buttons();
-				view.components.notifier.notify_sent();
-			},
-			
-			"mail_intercepted_2": function ( data ) {
-				main.start_compose( data );
-				main.enable_mail();
-				view.components.popup.show_recording();
+			"recording_finished": function ( data ) {
+				view.components.compose_button.make_idle();
+				view.components.letter.add_audio( data );
 			}
 			
 		});
