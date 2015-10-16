@@ -92,9 +92,9 @@ From: me\n\
 To: {{RECEIVER}}\n\
 References: {{REFERENCES}}\n\
 In-Reply-To: {{IN_REPLY_TO}}\n\
-Subject: Re:{{SUBJECT}}\n\
+Subject: {{SUBJECT}}\n\
 \n\
-This is a message with multiple parts in MIME format.\n\
+Peppermint Voice Mail.\n\
 --frontier\n\
 Content-Type: text/html\n\
 \n\
@@ -121,11 +121,11 @@ From: me\n\
 To: {{RECEIVER}}\n\
 Subject: {{SUBJECT}}\n\
 \n\
-This is a message with multiple parts in MIME format.\n\
+Peppermint Voice Mail.\n\
 --frontier\n\
-Content-Type: text/html\n\
+Content-Type: text/html; charset=UTF-8\n\
 \n\
-I sent you an audio reply with <a href='http://peppermint.com'>Peppermint.com</a>\n\
+{{BODY}}\n\
 --frontier\n\
 Content-Type: audio/wav\n\
 Content-Transfer-Encoding: base64\n\
@@ -135,6 +135,7 @@ Content-Disposition: attachment; filename={{FILENAME}}\n\
 --frontier--"
 					.replace( '{{RECEIVER}}', data.receiver )
 					.replace( '{{SUBJECT}}', data.subject )
+					.replace( '{{BODY}}', data.body )
 					.replace( '{{FILENAME}}', data.filename )
 					.replace( '{{DATA}}', data.audio_data )
 				).replace( /\//gm,'_').replace( /\+/gm,'-');
@@ -176,8 +177,9 @@ Content-Disposition: attachment; filename={{FILENAME}}\n\
 					obj.sending = true;
 					gmail_wrapper.send_new_mail(
 						obj.get_raw_new_mail({
-							receiver: mail_data.receiver,
-							subject: 'Peppermint Voice Mail',
+							receiver: unescape( encodeURIComponent( mail_data.to[0] ) ),
+							subject: mail_data.subject,
+							body: mail_data.body,
 							filename: obj.create_filename,
 							audio_data: audio_data
 						}),

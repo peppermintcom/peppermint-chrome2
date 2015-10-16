@@ -7,6 +7,16 @@
 		"description": "Peppermint",
 		"version": "1.1",
 
+
+        "browser_action": {
+          "default_icon": {
+            "19": "images/icon19.png",
+            "38": "images/icon38.png"
+          },
+          "default_title": "Peppermint",
+          "default_popup": "popup.html"
+        },
+
 		"icons": {
 			"128": "img/logo_60x60@2x.png"
 		},
@@ -15,10 +25,10 @@
 			{
 				"matches": ["https://mail.google.com/*"],
 				"js": [
+					"/js/V.js",
 					"/content_scripts/Inceptor.js"
 				],
 				"css": [
-					"/js/jquery-ui-1.11.4/jquery-ui.css",
 					"/content_styles/style.css"
 				]
 			}
@@ -33,15 +43,22 @@
 		"permissions": [
 			"tabs",
 			"storage",
+			"webRequest",
+			"webRequestBlocking",
 			"https://mail.google.com/*"
 		],
 
 		"background": {
-			"scripts": ["background/background.js"]
+			"scripts": ["js/V.js","background/background.js"]
+		},
+
+		"options_ui": {
+			"page": "options/options.html",
+			"chrome_style": false
 		},
 
 		"content_security_policy": "script-src 'self' https://*.google.com; object-src 'self'",
-		
+
 		"homepage_url": "http://peppermint.com"
 
 	}
