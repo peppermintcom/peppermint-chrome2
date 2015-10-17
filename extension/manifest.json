@@ -10,11 +10,10 @@
 
         "browser_action": {
           "default_icon": {
-            "19": "images/icon19.png",
-            "38": "images/icon38.png"
+            "19": "img/btn_03.png"
           },
           "default_title": "Peppermint",
-          "default_popup": "popup.html"
+          "default_popup": "record_popup/popup.html"
         },
 
 		"icons": {
@@ -57,7 +56,7 @@
 			"chrome_style": false
 		},
 
-		"content_security_policy": "script-src 'self' https://*.google.com; object-src 'self'",
+		"content_security_policy": "script-src 'self' 'unsafe-eval' https://*.google.com; object-src 'self'",
 
 		"homepage_url": "http://peppermint.com"
 
