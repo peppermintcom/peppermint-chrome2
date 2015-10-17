@@ -20,42 +20,6 @@
                 <Fold line="84" />
                 <Fold line="85" />
             </File>
-            <File firstVisibleLine="0" xOffset="0" scrollWidth="1458" startPos="1880" endPos="1880" selMode="0" lang="Javascript" encoding="-1" filename="E:\xampp\htdocs\prj\prj\Chrome Extensions\UPWORK\peppermint.com\extension\content_scripts\Mail.js" backupFilePath="" originalFileLastModifTimestamp="1443972058">
-                <Fold line="1" />
-                <Fold line="5" />
-                <Fold line="7" />
-                <Fold line="19" />
-                <Fold line="21" />
-                <Fold line="32" />
-                <Fold line="34" />
-                <Fold line="50" />
-                <Fold line="52" />
-                <Fold line="64" />
-                <Fold line="66" />
-                <Fold line="81" />
-                <Fold line="87" />
-                <Fold line="116" />
-                <Fold line="141" />
-                <Fold line="147" />
-                <Fold line="148" />
-                <Fold line="173" />
-                <Fold line="174" />
-                <Fold line="199" />
-                <Fold line="203" />
-                <Fold line="207" />
-            </File>
-            <File firstVisibleLine="0" xOffset="0" scrollWidth="1296" startPos="22" endPos="3" selMode="0" lang="Javascript" encoding="-1" filename="E:\xampp\htdocs\prj\prj\Chrome Extensions\UPWORK\peppermint.com\extension\content_scripts\GoogleAuthWrapper.js" backupFilePath="" originalFileLastModifTimestamp="1443951804">
-                <Fold line="3" />
-                <Fold line="10" />
-                <Fold line="18" />
-                <Fold line="35" />
-                <Fold line="43" />
-            </File>
-            <File firstVisibleLine="0" xOffset="0" scrollWidth="791" startPos="2432" endPos="2432" selMode="0" lang="Javascript" encoding="-1" filename="E:\xampp\htdocs\prj\prj\Chrome Extensions\UPWORK\peppermint.com\extension\content_scripts\PageData.js" backupFilePath="" originalFileLastModifTimestamp="1443973033">
-                <Fold line="5" />
-                <Fold line="29" />
-                <Fold line="60" />
-            </File>
             <File firstVisibleLine="0" xOffset="0" scrollWidth="1330" startPos="3492" endPos="3492" selMode="0" lang="Javascript" encoding="-1" filename="E:\xampp\htdocs\prj\prj\Chrome Extensions\UPWORK\peppermint.com\extension\content_scripts\View.js" backupFilePath="" originalFileLastModifTimestamp="1443975954">
                 <Fold line="4" />
                 <Fold line="6" />

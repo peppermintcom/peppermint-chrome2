@@ -6,8 +6,16 @@
 			'compose_button_start_click': function () {
 				model.start_recording();
 			},
-		
 			'compose_button_stop_click': function () {
+				model.stop_recording();
+			},
+			
+			'popup_done_click': function () {
+				view.components.popup.hide();
+				model.stop_recording();
+			},
+			'popup_cancel_click': function () {
+				view.components.popup.hide();
 				model.stop_recording();
 			}
 			
@@ -21,8 +29,8 @@
 			
 			"recording_started": function () {
 				view.components.compose_button.make_active();
+				view.components.popup.show_recording();
 			},		
-			
 			"recording_finished": function ( data ) {
 				view.components.compose_button.make_idle();
 				view.components.letter.add_audio( data );

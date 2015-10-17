@@ -13,88 +13,48 @@
 			
 		};
 		
-		var Buttons = function ( hub ) {
+		var ReplyButton = function ( hub ) {
 			
 			var obj = {
 				
 				enabled: true,
 				
-				get_compose_button_template: function () {
+				get_template: function () {
 					return '\
-						<div id = "v_compose_button" class="wG J-Z-I" data-tooltip="Attach Peppermint Voice Message" aria-label="Attach Peppermint Voice Message" tabindex="1" role="button" aria-pressed="false" aria-haspopup="true" aria-expanded="false" style="-webkit-user-select: none;">\
-							<div class="J-J5-Ji J-Z-I-Kv-H" style="-webkit-user-select: none;">\
-								<div class="J-J5-Ji J-Z-I-J6-H" style="-webkit-user-select: none;">\
-									<div id="v_compose_button_icon" class="QT aaA aMZ" style="background-image: url(chrome-extension://'+EXTENSION_ID+'/img/icon_replyviapep.png);">\
-										<div class="a3I" style="-webkit-user-select: none;">\
-											&nbsp;\
-										</div>\
-									</div>\
-								</div>\
-							</div>\
+						<div id = "v_reply_button" class="T-I J-J5-Ji T-I-Js-IF L3 aaq T-I-ax7" role="button" tabindex="0" data-tooltip="Reply Via Peppermint" aria-label="Reply Via Peppermint" style="-webkit-user-select: none;">\
+							<img id = "v_reply_button_icon" class="T-I-J3" role="button" src="chrome-extension://'+EXTENSION_ID+'/img/icon_mic.png" alt="">\
 						</div>\
 					';
 				},
 				
-				can_add_reply_button: function () {
-					if ( window.document.querySelector('.cf.ix') && !window.document.getElementById( 'v_reply_button' ) ) {
+				can_add: function () {
+					if ( $('.gH.acX').length !== 0 && $('#v_reply_button').length === 0 ) {
 						return true;
 					} else {
 						return false;
 					}
 				},
 				
-				can_add_compose_button: function () {
-					if ( $('.a8X.gU>div').length !== 0 && $('#v_compose_button').length === 0 ) {
-						return true;
-					} else {
-						return false;
-					}
-				},
-				
-				create_reply_button: function () {
+				create: function () {
 					
-					var button = window.document.createElement('div');
-					button.id = 'v_reply_button';
-					button.style.backgroundImage = 'url(chrome-extension://' + EXTENSION_ID + '/img/btn_reply.png)';
+					var button = $( obj.get_template() );
 				
-					add_hover_efect( $( button ), 'btn_reply.png', 'btn_reply_hover.png' );
-				
-					$( button ).on( 'click', function () {
+					button.on( 'click', function () {
 						if ( obj.enabled ) hub.fire({ name: 'reply_button_click' });
 					});
 					
-					return button;
-				
-				},
-				
-				create_compose_button: function () {
-					
-					var button = $( obj.get_compose_button_template() );
-					
-					$( button ).on( 'click', function () {
-						if ( obj.enabled ) hub.fire({ name: 'compose_button_click' });
-					});
+					button.hover(
+						function () { button.addClass('T-I-JW') },
+						function () { button.removeClass('T-I-JW') }
+					);
 					
 					return button;
-					
+				
 				},
 				
-				add_reply_button: function () {
-
-					var table = window.document.querySelector('.cf.ix'),
-					tbody = table.tBodies[0],
-					row = tbody.rows[0],
-					cell = window.document.createElement('td');
+				add: function () {
 					
-					row.appendChild( cell );
-					cell.appendChild( obj.create_reply_button() );
-					table.style.tableLayout = 'auto';
-					
-				},
-				
-				add_compose_button: function () {
-					
-					$('.a8X.gU>div').append( obj.create_compose_button() );
+					$('.gH.acX').prepend( obj.create() );
 			
 				},
 			
@@ -102,19 +62,9 @@
 			
 			return {
 				
-				add_reply: function () {
+				add: function () {
 					setInterval( function ping () {
-						if ( obj.can_add_reply_button() ) {
-							obj.add_reply_button();
-						}
-					}, 200 );
-				},
-				
-				add_compose: function () {
-					setInterval( function ping () {
-						if ( obj.can_add_compose_button() ) {
-							obj.add_compose_button();
-						}
+						if ( obj.can_add() ) obj.add();
 					}, 200 );
 				},
 				
@@ -130,7 +80,7 @@
 			
 		};
 		
-		var Dropdown = function ( hub ) {
+		var DropdownItem = function ( hub ) {
 			
 			var obj = {
 		
@@ -138,7 +88,7 @@
 		
 				template:'<div class="J-N" role="menuitem" id="v_dropdown_button" style="-webkit-user-select: none;">\
 							<div class="J-N-Jz"><div><div id=":17d" class="cj">\
-								<img class="mI f4 J-N-JX" src="chrome-extension://'+EXTENSION_ID+'/img/icon_replyviapep.png" alt="">\
+								<img class="mI f4 J-N-JX" src="chrome-extension://'+EXTENSION_ID+'/img/icon_mic.png" alt="">\
 								Reply via Peppermint\
 							</div>\
 						</div>',
@@ -157,7 +107,7 @@
 				
 				can_add: function () {
 					
-					if ( $('.b7.J-M>div:first-child').length > 0 ) {
+					if ( $('.b7.J-M>div:eq(2)').length > 0 ) {
 						if ( $('#v_dropdown_button').length === 0 ) {
 							return true;
 						} else {
@@ -171,7 +121,7 @@
 				
 				add: function ( element ) {
 					
-					$('.b7.J-M>div:first-child').after( element );
+					$('.b7.J-M>div:eq(2)').after( element );
 					
 				}
 			
@@ -314,63 +264,7 @@
 			};
 		
 		};
-		
-		var Notifier = function ( hub ) {
-		
-			var obj = {
-				
-				notifier: null,
-			
-				add: function () {
-					obj.notifier = obj.create();
-					window.document.body.appendChild( obj.notifier );
-				},
-				
-				show: function () {
-					obj.notifier.style.display = 'block';
-				},
-				
-				hide: function () {
-					obj.notifier.style.display = 'none';
-				},
-				
-				write: function ( text ) {
-					obj.notifier.innerHTML = text;
-				},
-				
-				create: function () {
-				
-					var notifier = window.document.createElement( 'div' );
-					notifier.id = 'v_notifier';
-				
-					return notifier;
-				
-				}
-				
-			};
-			
-			return {
-				
-				add: function () {
-					obj.add();
-				},
-				
-				notify_sending: function ( status ) {
-					obj.write( "Sending via Peppermint..." );
-					obj.show();
-				},
-				
-				notify_sent: function () {
-					obj.write( "Sent" );
-					setTimeout( function () {
-						obj.hide();
-					}, 3000);
-				}
-				
-			}
-			
-		};
-		
+
 		var ComposeButton = function ( hub ) {
 			
 			var obj = {
@@ -383,7 +277,7 @@
 						<div id = "v_compose_button" class="wG J-Z-I" data-tooltip="Attach Peppermint Voice Message" aria-label="Attach Peppermint Voice Message" tabindex="1" role="button" aria-pressed="false" aria-haspopup="true" aria-expanded="false" style="-webkit-user-select: none;">\
 							<div class="J-J5-Ji J-Z-I-Kv-H" style="-webkit-user-select: none;">\
 								<div class="J-J5-Ji J-Z-I-J6-H" style="-webkit-user-select: none;">\
-									<div id="v_compose_button_icon" class="QT aaA aMZ" style="background-image: url(chrome-extension://'+EXTENSION_ID+'/img/icon_replyviapep.png);">\
+									<div id="v_compose_button_icon" class="QT aaA aMZ" style="background-image: url(chrome-extension://'+EXTENSION_ID+'/img/icon_mic.png);">\
 										<div class="a3I" style="-webkit-user-select: none;">\
 											&nbsp;\
 										</div>\
@@ -464,8 +358,8 @@
 				
 				add_audio: function ( data ) {
 					$('.Am.Al.editable.LW-avf').append(
-						"<br><a href='http://englishgame.ho.ua/peppermint_test/test.html#data:audio/wav;base64,{{AUDIO_DATA}}'><font size='4'><b>Peppermint Voice Mail</b></font></a>"
-						.replace( "{{AUDIO_DATA}}", data.audio_data )
+						"<br><a href='******/recordings/recording_{{ID}}.wav'><font size='4'><b>Peppermint Voice Mail</b></font></a>"
+						.replace( "{{ID}}", data.id )
 					)
 				}
 				
@@ -479,10 +373,10 @@
 		
 		obj.components = {};
 		obj.components.compose_button = new ComposeButton( hub );
+		obj.components.reply_button =  new ReplyButton( hub );
+		obj.components.dropdown_item = new DropdownItem( hub );
 		obj.components.letter = new Letter( hub );
-		// obj.components.buttons =  new Buttons( hub );
-		// obj.components.dropdown = new Dropdown( hub );
-		// obj.components.popup = new Popup( hub );
+		obj.components.popup = new Popup( hub );
 		// obj.components.notifier = new Notifier( hub );
 		
 		return {
@@ -491,13 +385,13 @@
 			
 			add_components: function () {
 				obj.components.compose_button.add();
+				obj.components.dropdown_item.add();
+				obj.components.popup.add();
 				// obj.components.notifier.add();
-				// obj.components.popup.add();
-				// obj.components.dropdown.add();
 				// obj.components.buttons.add_compose();
-				// if ( !PEPPERMINT_STORAGE['options_data']['reply_button_disabled'] ) {
-					// obj.components.buttons.add_reply();
-				// }
+				if ( !PEPPERMINT_STORAGE['options_data']['reply_button_disabled'] ) {
+					obj.components.reply_button.add();
+				}
 			},
 			
 			disable_buttons: function () {

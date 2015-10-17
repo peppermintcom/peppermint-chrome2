@@ -1,18 +1,14 @@
 
 	#v_reply_button {
-		
-		width: 66px;
-		height: 29px;
-		
-		background-size: 66px 29px;
-		
-		cursor: pointer;
-		
+		margin-right: 12px;
+	}
+	#v_reply_button_icon {
+		height: 15px;
 	}
 
 	#v_compose_button_icon {
 		background-position: 50% 50%;
-		background-size: 16px;
+		background-size: 16px 16px;
 		background-repeat: no-repeat;
 	}
 	
@@ -219,7 +215,7 @@
 		
 		padding: 2px 4px 5px 4px;
 		
-		opacity: 1;
+		opacity: 0.6;
 		background: none;
 		
 	}

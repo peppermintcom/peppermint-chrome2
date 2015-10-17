@@ -116,6 +116,7 @@
 						chrome.extension.getURL('/content_scripts/lib/recorder.js'),
 						chrome.extension.getURL('/js/V.js'),
 						chrome.extension.getURL('/content_scripts/AudioRecorder.js'),
+						chrome.extension.getURL('/content_scripts/Uploader.js'),
 						chrome.extension.getURL('/content_scripts/View.js'),
 						chrome.extension.getURL('/content_scripts/Controller.js'),
 						chrome.extension.getURL('/content_scripts/Main.js')
