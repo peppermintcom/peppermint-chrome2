@@ -8,7 +8,7 @@ var fileNamer = new FileName();
 var lame = lameworker();
 var recordBtn = document.getElementById('recordBtn');
 var cancelBtn = document.getElementById('cancelBtn');
-var logoImage = document.getElementById('logoImage');
+// var logoImage = document.getElementById('logoImage');
 var recordBtnClasses = recordBtn.classList;
 var recNumber = 1;
 
@@ -20,9 +20,9 @@ recordBtn.onclick = function() {
 	}
 };
 
-cancelBtn.onclick = function() {
-	stopRecord();
-};
+cancelBtn.onclick = stopRecord;
+
+window.onload = startRecord;
 
 function initialize() {
 	lame.init(function (error, handle) {
@@ -114,7 +114,7 @@ function startRecord() {
 	recordBtnClasses.remove("btn-primary");
 	recordBtnClasses.add("btn-warning");
 	recordBtn.textContent = "Stop recording";
-	logoImage.src = chrome.extension.getURL("img/recording_no_delay.gif");
+	// logoImage.src = chrome.extension.getURL("img/recording_no_delay.gif");
 	navigator.getUserMedia({ audio: true }, function (stream) {
 		getBuffers = beginRecording(stream);
 	}, function (error) {
@@ -132,8 +132,8 @@ function stopRecord(save) {
 	recordBtnClasses.remove("btn-warning");
 	recordBtnClasses.add("btn-primary");
 	recordBtn.textContent = "Start recording";
-	logoImage.src = chrome.extension.getURL("img/logo_60x60.png");
-	if ( save ) {
+	// logoImage.src = chrome.extension.getURL("img/logo_60x60.png");
+	if ( save === true ) {
 		getMP3(getBuffers(), displayMP3);
 	}else {
 		getBuffers();
