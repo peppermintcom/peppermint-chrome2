@@ -8,6 +8,8 @@ chrome.runtime.onInstalled.addListener(function (details) {
 	}
 });
 
+// chrome.browserAction.setIcon({ path: "img/icon_mic@2x.png" });
+
 	V.WebRequestManager = function ( chrome, hub ) {
 
 		var obj = {
