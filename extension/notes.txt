@@ -1,0 +1,11 @@
+{
+  "at": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE0NDc5MzQ2MTgsImlhdCI6MTQ0NTM0MjYxOCwiaXNzIjoicGVwcGVybWludC5jb20iLCJzdWIiOiIuMTM1In0.0J1lJtzreMZ9OwPZ3L3gjjiYRxFy1qeP16QQ_iqEV2M",
+  "recorder": {
+    "recorder_id": 135,
+    "recorder_client_id": "abc123",
+    "recorder_key": "O-VER2xLuTLRV6NGoUs2pSDGn72B8kyVWA9NHcO0",
+    "recorder_ts": "2015-10-20 12:03:37",
+    "description": "Chrome Extension"
+  }
+}
+https://peppermint-cdn.s3-us-west-2.amazonaws.com/Oy8/TOY0D-1GqOz8YYDVaVk48T?AWSAccessKeyId=AKIAJ6I3EOBWILEFVMIQ&Content-Type=audio%2Fwav&Expires=1445360731&Signature=HHFPMNSOdYPIURiY%2Bf8S4fn31uQ%3D

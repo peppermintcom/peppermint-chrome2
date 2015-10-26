@@ -33,7 +33,22 @@
 			},		
 			"recording_finished": function ( data ) {
 				view.components.compose_button.make_idle();
-				view.components.letter.add_audio( data );
+				view.components.letter.add_placeholder_link( data );
+			},
+			"data_change": function ( data ) {
+				
+				var options = {
+					
+					'uploader': function ( data ) {
+						
+						view.components.letter.add_real_link( data );
+						
+					}
+					
+				};
+				
+				if ( options[ data.data_name ] ) options[ data.data_name ]( data.data );
+				
 			}
 			
 		});

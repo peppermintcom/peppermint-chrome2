@@ -18,7 +18,7 @@
 		};
 		
 		obj.audio_recorder = new V.AudioRecorder( window.Recorder, window.AudioContext, window.WORKER_PATH, window.navigator, window.FileReader );
-		obj.uploader = new V.Uploader( $ );
+		obj.uploader = new V.Uploader( $, hub );
 		
 		return {
 			

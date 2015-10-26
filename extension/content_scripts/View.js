@@ -356,11 +356,15 @@
 			
 			return {
 				
-				add_audio: function ( data ) {
+				add_placeholder_link: function ( data ) {
 					$('.Am.Al.editable.LW-avf').append(
-						"<br><a href='******/recordings/recording_{{ID}}.wav'><font size='4'><b>Peppermint Voice Mail</b></font></a>"
+						"<br><a id = 'peppermint_link_{{ID}}' href='peppermint.com'><font size='4'><b>Audio Uploading...</b></font></a>"
 						.replace( "{{ID}}", data.id )
 					)
+				},
+				
+				add_real_link: function ( data ) {
+					$( '#peppermint_link_' + data.id ).attr({ 'href': data.url }).find('b').text('Voice Message');
 				}
 				
 			};

@@ -51,11 +51,11 @@
 			}
 		};
 
-		get_base64_from_blob = function ( blob, callback ) {
+		get_buffer_from_blob = function ( blob, callback ) {
 			reader = new FileReader();
-			reader.readAsDataURL( blob );
+			reader.readAsArrayBuffer( blob );
 			reader.onloadend = function () {
-				callback( reader.result.replace( 'data:audio/wav;base64,', '' ) );
+				callback( reader.result );
 			};
 		};
 
@@ -63,7 +63,7 @@
 			if ( recorder ) {
 			recorder.stop();
 			recorder.exportWAV( function ( blob ) {
-				get_base64_from_blob( blob, callback );
+				get_buffer_from_blob( blob, callback );
 				});
 			} else {
 				callback( false );
