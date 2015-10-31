@@ -1,16 +1,27 @@
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
 
-var LAME_HANDLE;
-var getBuffers;
-var context = new AudioContext();
-var fileNamer = new FileName();
-var lame = lameworker();
-var recordBtn = document.getElementById('recordBtn');
-var cancelBtn = document.getElementById('cancelBtn');
-// var logoImage = document.getElementById('logoImage');
-var recordBtnClasses = recordBtn.classList;
-var recNumber = 1;
+var LAME_HANDLE,
+	getBuffers,
+	uploadUrl,
+	apiAuthHeader,
+	context = new AudioContext(),
+	fileNamer = new FileName(),
+	lame = lameworker(),
+	recordBtn = document.getElementById('recordBtn'),
+	cancelBtn = document.getElementById('cancelBtn'),
+	uploadInfo = document.getElementById('uploadInfo'),
+	audioPlayerBox = document.getElementById('audioPlayerBox'),
+	recorderBox = document.getElementById('recorderBox'),
+	audioPlayer = document.getElementById('audioPlayer'),
+	downloadBtn = document.getElementById('downloadBtn'),
+	reRecordBtn = document.getElementById('reRecordBtn'),
+	recordBtnClasses = recordBtn.classList,
+	recNumber = 1;
+
+uploadInfo.style.display = "none";
+audioPlayerBox.style.display = "none";
+audioPlayer.style.width = "270px";
 
 recordBtn.onclick = function() {
 	if ( recordBtn.textContent === "Start recording") {
@@ -20,9 +31,86 @@ recordBtn.onclick = function() {
 	}
 };
 
+reRecordBtn.onclick = function() {
+	audioPlayerBox.style.display = "none";
+	recorderBox.style.display = "block";
+};
+
 cancelBtn.onclick = stopRecord;
 
 window.onload = startRecord;
+
+function displayMP3(blob) {
+	chrome.storage.sync.get(null, function(items) {
+		if ( items.apiData ) {
+			uploadInfo.style.display = "block";
+			apiAuthHeader = "Bearer " + items.apiData.at;
+			makeRequest("POST", "https://qdkkavugcd.execute-api.us-west-2.amazonaws.com/prod/v1/uploads", { content_type: "audio/mpeg3" }, { name: "Authorization", value: apiAuthHeader }, function (res) {
+			    uploadUrl = res.signed_url;
+			    sendMp3(uploadUrl, blob, function () {
+					makeRequest("POST", "https://qdkkavugcd.execute-api.us-west-2.amazonaws.com/prod/v1/record", { signed_url: uploadUrl }, { name: "Authorization", value: apiAuthHeader }, function (res) {
+						uploadInfo.style.display = "none";
+						recorderBox.style.display = "none";
+						downloadBtn.href = res.canonical_url;
+						audioPlayer.src = res.canonical_url;
+						copyToClipboard(res.canonical_url);
+						audioPlayerBox.style.display = "block";
+					});
+			    });
+			});
+		}
+	});
+}
+
+function copyToClipboard(text) {
+    var doc = document,
+        temp = doc.createElement("textarea"),
+        initScrollTop = doc.body.scrollTop;
+    doc.body.insertBefore(temp, doc.body.firstChild);
+    temp.value = text;
+    temp.focus();
+    doc.execCommand("SelectAll");
+    doc.execCommand("Copy", false, null);
+    temp.blur();
+    doc.body.scrollTop = initScrollTop;
+    doc.body.removeChild(temp);
+}
+
+function sendMp3(url, data, callback) {
+	var ajax = new XMLHttpRequest();
+	ajax.onreadystatechange = function() {
+		if ( ajax.readyState === XMLHttpRequest.DONE ) {
+			if ( ajax.status === 200 ) {
+				callback();
+			}else {
+				console.log(ajax.responseText);
+			}
+		}
+	};
+	ajax.open("PUT", url);
+	ajax.setRequestHeader("Content-Type", "audio/mpeg3");
+	ajax.send(data);
+}
+
+function makeRequest(method, url, data, header, callback) {
+	var ajax = new XMLHttpRequest();
+	var json = data ? JSON.stringify(data) : null;
+	ajax.onreadystatechange = function() {
+		if ( ajax.readyState === XMLHttpRequest.DONE ) {
+			if ( ajax.status === 201 ) {
+				callback(JSON.parse(ajax.responseText));
+			}else {
+				console.log(ajax.responseText);
+			}
+		}
+	};
+	ajax.open(method, url);
+	if ( header ) {
+		ajax.setRequestHeader("Content-Type", "application/json");
+		ajax.setRequestHeader("Authorization", header.value);
+	}
+	ajax.send(json);
+}
 
 function initialize() {
 	lame.init(function (error, handle) {
@@ -67,26 +155,12 @@ function FileName() {
 function getMP3(buffers, callback) {
 	lame.encodeFlush(LAME_HANDLE, function (error, buffer) {
 		buffers.push(buffer);
-		var blob = new Blob(buffers, { type: 'audio/mp3' });
+		var blob = new Blob(buffers, { type: 'audio/mpeg3' });
 		callback(blob);
 	});
 	lame.close(LAME_HANDLE);
 	LAME_HANDLE = null;
 }
-
-function displayMP3(blob) {
-	var item = document.createElement('p');
-	// Create an URL for the Blob instance. This can be used for <audio> tags as well.
-	var url = URL.createObjectURL(blob),
-		fileName = fileNamer.get();
-		// '<li class="list-group-item">fileName  - <a download="' + fileName + '" href="' + url + '">Save</a></li>'
-	// item.innerHTML = '<a download="' + fileName + '" href="' + url + '">Save record #' + recNumber + '</a>';
-	item.innerHTML = 'Record #' + recNumber + '. <a download="' + fileName + '" href="' + url + '">Download</a>';
-	document.getElementById('mp3s').appendChild(item);
-	recNumber++;
-}
-
-
 
 function beginRecording(stream) {
 	initialize();

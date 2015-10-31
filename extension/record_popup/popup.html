@@ -15,14 +15,39 @@
 					<img id="logoImage" src="../img/logo_46x46@2x.png" width="86" height="86">
 				</div>
 			</div> -->
-			<div class="row">
+			<div class="row" id="recorderBox">
 				<div class="col-xs-6">
-					<button id="cancelBtn" class="btn btn-default btn-block" type="submit">Cancel</button>
+					<button id="cancelBtn" class="btn btn-default btn-block">Cancel</button>
 				</div>
 				<div class="col-xs-6">
 					<button id="recordBtn" class="btn btn-warning btn-block">Stop recording</button>
 				</div>
 			</div>
+
+			<div class="row text-center" id="uploadInfo">
+					<p>Uploading your record...</p>
+			</div>
+
+			<div class="row text-center" id="audioPlayerBox">
+
+				<div class="col-xs-12 text-left">
+					<p>You have just finished recording and uploading your message. The public link is already copied to your clipboard so you can paste it anywhere you want. Also you can listen or download the record.</p>
+				</div>
+
+				<div class="col-xs-12">
+					<audio id="audioPlayer" src="" controls="controls">
+					  Your browser does not support the <code>audio</code> element.
+					</audio>
+				</div>
+
+				<div class="col-xs-6">
+					<a id="downloadBtn" href="" target="_blank" class="btn btn-primary btn-block">Download</a>
+				</div>
+				<div class="col-xs-6">
+					<button id="reRecordBtn" class="btn btn-primary btn-block">Re-record</button>
+				</div>
+			</div>
+
 			<div class="row">
 				<div id="mp3s" class="col-xs-12">
 				</div>
