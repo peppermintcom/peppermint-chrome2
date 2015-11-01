@@ -29,7 +29,7 @@
 					s.onload = function () {
 						obj.load_scripts_in_order( scripts.slice( 1 ) );
 					}
-					document.head.appendChild( s);
+					document.head.appendChild( s );
 				} else {
 					callback();
 				}

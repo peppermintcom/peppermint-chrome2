@@ -1,18 +1,18 @@
 
-		
-			#reply_button {
-				margin-right: 12px;
-			}
-			#reply_button_icon {
-				height: 15px;
-			}
 
-			#compose_button_icon {
-				background-position: 50% 50%;
-				background-size: 16px 16px;
-				background-repeat: no-repeat;
-			}
-			
+	#v_reply_button {
+		margin-right: 12px;
+	}
+	#v_reply_button_icon {
+		height: 15px;
+	}
+
+	#v_compose_button_icon {
+		background-position: 50% 50%;
+		background-size: 16px 16px;
+		background-repeat: no-repeat;
+	}
+	
 			
 	/*dropdown button*/
 	#v_dropdown_button {

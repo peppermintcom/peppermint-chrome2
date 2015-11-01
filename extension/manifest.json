@@ -15,8 +15,18 @@
 			{
 				"matches": ["https://mail.google.com/*"],
 				"js": [
-					"/gmail_content/js/classes/V.js",
-					"/gmail_content/js/classes/Inceptor.js"
+					"/gmail_content/js/lib/jquery.min.js",
+					"/gmail_content/inceptor/inceptor.js"
+				],
+				"css": [
+					"/gmail_content/css/style.css"
+				]
+			},
+			{
+				"matches": ["http://localhost/prj/chrome_extensions/UPWORK/peppermint.com/desighner/desighner_2.html"],
+				"js": [
+					"/gmail_content/js/lib/jquery.min.js",
+					"/gmail_content/inceptor/inceptor.js"
 				],
 				"css": [
 					"/gmail_content/css/style.css"
@@ -31,13 +41,11 @@
 		"permissions": [
 			"tabs",
 			"storage",
-			"webRequest",
-			"webRequestBlocking",
 			"https://mail.google.com/*"
 		],
 
 		"background": {
-			"scripts": ["/gmail_content/js/classes/V.js","background/background.js"]
+			"scripts": ["background/background.js"]
 		},
 
 		"options_ui": {

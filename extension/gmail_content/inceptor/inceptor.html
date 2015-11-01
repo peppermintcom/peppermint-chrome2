@@ -1,0 +1,19 @@
+
+			<v-button-inserter
+				data-url_prefix = "{{URL_PREFIX}}/v-button-inserter"
+			></v-button-inserter>
+
+			<v-uploader></v-uploader>
+			<v-recorder
+				data-worker_url = '{{WORKER_URL}}'
+			></v-recorder>
+
+			<v-popup
+				data-page = "uploading_page"
+				data-status = "uploading"
+				data-url_prefix = "{{URL_PREFIX}}/v-popup"
+			>
+				<v-player
+					data-url_prefix = "{{URL_PREFIX}}/v-player"
+				></v-player>
+			</v-popup>
