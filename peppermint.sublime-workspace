@@ -1,0 +1,338 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "desighner/desighner.html",
+			"settings":
+			{
+				"buffer_size": 1370,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "extension/gmail_content_new_2/v-elements/v-popup/v-popup.html",
+			"settings":
+			{
+				"buffer_size": 3279,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "extension/gmail_content_new_2/v-elements/v-popup/v-popup.js",
+			"settings":
+			{
+				"buffer_size": 2712,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "extension/gmail_content_new_2/v-elements/v-player/v-player.js",
+			"settings":
+			{
+				"buffer_size": 2786,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "	\n	<template id = 'v-player-template' >\n	\n		<style>\n		\n			:host {\n			\n				display: block;\n				position: relative;\n				\n				width: 250px;\n				height: 20px;\n				\n			}\n			#control {\n				\n				display: block;\n				position: absolute;\n				\n				left: 5px;\n				top: 1.5px;\n				\n				cursor: pointer;\n				\n			}\n			#play {\n				display: block;\n			}\n			#pause {\n				display: none;\n			}\n			.stripe_container {\n				\n				display: block;\n				position: absolute;\n				\n				width: 222px;\n				height: 5px;\n				top: 7.5px;\n				left: 28px;\n				\n				cursor: pointer;\n				\n			}\n			.stripe {\n				\n				position: absolute;\n				\n				width: 100%;\n				height: 100%;\n				\n				border-radius: 5px;\n				\n			}\n			.stripe_grey {\n				background-color: #D6E1DD;\n			}\n			.stripe_green {\n				width: 0%;\n				background-color: #2BB09F;\n			}\n		\n		</style>\n		\n		<div id = 'control' >\n			<img id = 'play' src = '{{URL_PREFIX}}/img/play.png' >\n			<img id = 'pause' src = '{{URL_PREFIX}}/img/pause.png' >\n		</div>\n		<div class = 'stripe_container' >\n			<div class = 'stripe stripe_grey' ></div>\n			<div class = 'stripe stripe_green' ></div>\n		</div>\n		<div id = 'ball' ></div>\n	\n	</template>\n	\n	<script src = 'v-player.js' ></script>\n",
+			"file": "extension/gmail_content_new_2/v-elements/v-player/v-player.html",
+			"file_size": 1264,
+			"file_write_time": 130907848605108443,
+			"settings":
+			{
+				"buffer_size": 1185,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"selected_items":
+		[
+		],
+		"width": 512.0
+	},
+	"console":
+	{
+		"height": 0.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Program Files/ColorMania/readme.txt"
+	],
+	"find":
+	{
+		"height": 0.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "desighner/desighner.html",
+					"settings":
+					{
+						"buffer_size": 1370,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								15,
+								15
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 1,
+					"file": "extension/gmail_content_new_2/v-elements/v-popup/v-popup.html",
+					"settings":
+					{
+						"buffer_size": 3279,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								115,
+								115
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "extension/gmail_content_new_2/v-elements/v-popup/v-popup.js",
+					"settings":
+					{
+						"buffer_size": 2712,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								229,
+								229
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 3,
+					"file": "extension/gmail_content_new_2/v-elements/v-player/v-player.js",
+					"settings":
+					{
+						"buffer_size": 2786,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								62,
+								62
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "extension/gmail_content_new_2/v-elements/v-player/v-player.html",
+					"settings":
+					{
+						"buffer_size": 1185,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								178,
+								178
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			],
+			[
+				2,
+				0,
+				3,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.33,
+			0.618272327965,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": false,
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": false
+}

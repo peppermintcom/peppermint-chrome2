@@ -12,22 +12,23 @@
   <script src="lib/jasmine-2.3.4/boot.js"></script>
 
   <!-- include source files here... -->
-  <script src="../extension/js/V.js"></script>
-  <script src="../extension/js/jquery.min.js"></script>
-  <script src="../extension/content_scripts/AudioRecorder.js"></script>
-  <script src="../extension/content_scripts/Mail.js"></script>
-  <script src="../extension/content_scripts/GoogleAuthWrapper.js"></script>
-  <script src="../extension/content_scripts/PageData.js"></script>
-  <script src="../extension/content_scripts/View.js"></script>
-  <script src="../extension/content_scripts/Controller.js"></script>
-  <script src="../extension/content_scripts/WebRequestManager.js"></script>
-  <script src="../extension/content_scripts/Main.js"></script>
+  <script src="../extension/gmail_content_new/js/V.js"></script>
+  <script src="../extension/gmail_content_new/js/classes/DataManager.js"></script>
+  
+  <script src="../extension/gmail_content_new/js/RecorderComponent/AudioApiWrap.js"></script>
+  <script src="../extension/gmail_content_new/js/RecorderComponent/AudioRecorder.js"></script>
+  <script src="../extension/gmail_content_new/js/RecorderComponent/AudioRecorderModule.js"></script>
+  
+  <script src="../extension/gmail_content_new/js/UploaderComponent/Uploader.js"></script>
+  <script src="../extension/gmail_content_new/js/UploaderComponent/UploaderModule.js"></script>
+
 
 	
   <!-- include spec files here... -->
-  <script src="spec/AudioRecorder.js"></script>
-  <script src="spec/Mail.js"></script>
-  <script src="spec/GoogleAuthWrapper.js"></script>
+  <script src="spec/RecorderComponent/AudioRecorderSpec.js"></script>
+  <script src="spec/RecorderComponent/AudioRecorderModuleSpec.js"></script>
+  <script src="spec/UploaderComponent/UploaderSpec.js"></script>
+  <script src="spec/UploaderComponent/UploaderModuleSpec.js"></script>
   
   
 </head>
@@ -35,3 +36,10 @@
 <body>
 </body>
 </html>
+
+
+
+
+
+
+

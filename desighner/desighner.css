@@ -1,15 +1,7 @@
 
-	#v_popup {
-		
-		display: block;
-		
-		top: 0px;
-		left: 0px;
-		
-	}
-	
-	#v_popup_recording {
-		
-		display: none;
-		
-	}
+/*	v-popup:nth-child(1) { top: calc( 10px + ( 1 - 1 ) * 350px ); }
+	v-popup:nth-child(2) { top: calc( 10px + ( 2 - 1 ) * 350px ); }
+	v-popup:nth-child(3) { top: calc( 10px + ( 3 - 1 ) * 350px ); }
+	v-popup:nth-child(4) { top: calc( 10px + ( 4 - 1 ) * 350px ); }
+	v-popup:nth-child(5) { top: calc( 10px + ( 5 - 1 ) * 350px ); }
+	v-popup:nth-child(6) { top: calc( 10px + ( 6 - 1 ) * 350px ); }*/

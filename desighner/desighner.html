@@ -8,36 +8,99 @@
 			
 			<title>Desighner</title>
 			
-			<link rel = "stylesheet" href = "../extension/content_styles/style.css" >
 			<link rel = "stylesheet" href = "desighner.css" >
+			
+			<script>
+				V = {};
+			</script>
+			<script src = 'jquery.min.js' ></script>
+			
+			<link
+				rel = 'import'
+				id = 'v-player-import' 
+				href = '../extension/gmail_content_new_2/v-elements/v-player/v-player.html'
+			>
+			<link
+				rel = 'import'
+				id = 'v-popup-import' 
+				href = '../extension/gmail_content_new_2/v-elements/v-popup/v-popup.html'
+			>
+			<link
+				rel = 'import'
+				id = 'v-recorder-import'
+				href = '../extension/gmail_content_new_2/v-elements/v-recorder/v-recorder.html'
+			>
+			<link
+				rel = 'import'
+				id = 'v-button-incerter-import'
+				href = '../extension/gmail_content_new_2/v-elements/v-button-incerter/v-button-incerter.html'
+			>
+			<link
+				rel = 'import'
+				id = 'v-uploader-import'
+				href = '../extension/gmail_content_new_2/v-elements/v-uploader/v-uploader.html'
+			>
 
 		</head>
 
 		<body>
-
-			<div id = 'v_popup' >
-				<div id = 'v_popup_recording' >
-					<img class = 'v_popup_logo' src = '../extension/img/recording_no_delay.gif' >
-					<div class = 'v_popup_status' >Recording Your Message...</div>
-					<div class = 'v_popup_button left' id = 'v_popup_cancel_button' style = 'background-image: url(../extension/img/grey_empty.png)' >
-						Cancel
-					</div>
-					<div class = 'v_popup_button right' id = 'v_popup_done_button' style = 'background-image: url(../extension/img/green_empty.png)' >
-						Done
-					</div>
-				</div>
-				<div id = 'v_popup_error' >
-					<img class = 'v_popup_logo' src = '../extension/img/icon_mic_off.png' >
-					<div class = 'v_popup_status' >Your microphone is not working. Please check your audio settings and try again</div>
-					<div class = 'v_popup_button left' id = 'v_error_cancel_button' style = 'background-image: url(../extension/img/grey_empty.png)' >
-						Cancel
-					</div>
-					<div class = 'v_popup_button right' id = 'v_error_done_button' style = 'background-image: url(../extension/img/green_empty.png)' >
-						<img src = "../extension/img/icon_refresh.png" >
-						Try Again
-					</div>
+<!-- 
+			<button id = 'start_recording' >Start Recording</button>
+			<button id = 'cancel_recording' >Cancel Recording</button>
+			<button id = 'pause_recording' >Pause Recording</button>
+			<button id = 'finish_recording' >Finish Recording</button>
+			<br>
+			<input type = "file" id = 'file' >
+ -->
+			<div class = "a8X gU" >
+				<div>
 				</div>
 			</div>
+
+			<div
+				class = 'b7 J-M'
+			>
+				<div>1</div>
+				<div>2</div>
+				<div>3</div>
+				<div>4</div>
+			</div>
+
+			<div
+				class = "gH acX"
+			></div>
+
+			<v-button-incerter
+				data-url_prefix = "http://localhost/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content_new_2/v-elements/v-button-incerter"
+			></v-button-incerter>
+
+<!-- 			<v-uploader
+				id = 'uploader'
+			>
+			</v-uploader>
+			<v-recorder
+				id = 'recorder'
+				data-url_prefix = 'http://localhost/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content_new_2/v-elements/v-recorder'
+			></v-recorder>
+			<v-popup
+				data-page = "uploading_page"
+				data-page_status = "uploading"
+				data-url_prefix = "http://localhost/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content_new_2/v-elements/v-popup"
+			>
+				<v-player
+					id = 'player'
+					data-src = ''
+					data-url_prefix = "http://localhost/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content_new_2/v-elements/v-player"
+				></v-player>
+			</v-popup> -->
+			<!-- <v-popup data-page = "recording_page" data-url_prefix = "http://localhost/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content_new_2/v-elements/v-popup" ></v-popup> -->
+			<!-- <v-popup data-page = "uploading_page" data-page_status = "uploaded" data-url_prefix = "http://localhost/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content_new_2/v-elements/v-popup" ></v-popup> -->
+			<!-- <v-popup
+				data-page = "error_page"
+				data-url_prefix = "http://localhost/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content_new_2/v-elements/v-popup"
+			></v-popup> -->
+
+			<script src = "designer.js" ></script>
 		
 		</body>
 		

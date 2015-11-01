@@ -1,0 +1,141 @@
+	
+	<template id = 'v-popup-template' >
+	
+		<style>
+
+			:host {
+				
+				z-index: 9999;
+				position: absolute;
+				
+				left: calc(50% - 190px);
+				top: 70px;
+				width: 380px;
+				height: 300px;
+				
+				border-radius: 5px;
+				border: 1px solid #A8ABAB;
+				background-color: white;
+				box-shadow: 0px 0px 50px 0px #888;
+				
+				text-align: center;
+			
+			}
+			
+			.popup_logo {
+				
+				width: 86px;
+				height: 86px;
+				margin-top: 50px;
+
+			}
+			.popup_status {
+				
+				margin: 20px 0px 0px 0px;
+				padding: 0px 12px;
+				
+				font-family: sans-serif;
+				font-size: 16px;
+				color: rgba(0,0,0,0.75);
+			
+			}
+			.popup_button {
+				
+				position: absolute;
+				
+				bottom: 12px;
+				width: 172px;
+				height: 44px;
+				
+				background-size: 172px 44px;
+				
+				font-size: 18px;
+				font-family: arial, sans-serif;
+				line-height: 44px;
+				vertical-align: top;
+				color: white;
+				
+				cursor: pointer;
+			
+			}
+			.popup_button.left {
+				
+				left: 12px;
+			
+			}	
+			.popup_button.right {
+				
+				right: 12px;
+
+			}
+			.popup_button img {
+				
+				height: 18px;
+				margin-right: 5px;
+				
+				vertical-align: middle;
+				
+			}
+			
+			#uploading_logo {
+				margin-top: 12px;
+			}
+			#player_container {
+				
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				
+				height: 100px;
+				
+			}
+
+
+		</style>
+
+		<div class = 'page' id = 'recording_page' >
+			<img class = 'popup_logo' src = 'recording.gif' >
+			<div class = 'popup_status' >Recording Your Message...</div>
+			<div class = 'popup_button left' id = 'recording_cancel_button' style = 'background-image: url({{URL_PREFIX}}/img/grey_empty.png)' >
+				Cancel
+			</div>
+			<div class = 'popup_button right' id = 'recording_done_button' style = 'background-image: url({{URL_PREFIX}}/img/green_empty.png)' >
+				Done
+			</div>
+		</div>
+		<div class = 'page' id = 'microphone_error_page' >
+			<img class = 'popup_logo' src = '{{URL_PREFIX}}/img/icon_mic_off.png' >
+			<div class = 'popup_status' >Your microphone is not working. Please check your audio settings and try again</div>
+			<div class = 'popup_button left' id = 'error_cancel_button' style = 'background-image: url({{URL_PREFIX}}/img/grey_empty.png)' >
+				Cancel
+			</div>
+			<div class = 'popup_button right' id = 'error_done_button' style = 'background-image: url({{URL_PREFIX}}/img/green_empty.png)' >
+				<img src = "../extension/img/icon_refresh.png" >
+				Try Again
+			</div>
+		</div>
+		<div class = 'page' id = 'uploading_page' >
+			<div class = 'popup_status' >Uploading...</div>
+			<img class = 'popup_logo' id = 'uploading_logo' src = '{{URL_PREFIX}}/img/sending_popup_assets/uploading@2x.png' >
+			<img class = 'popup_logo' id = 'uploaded_logo' src = '{{URL_PREFIX}}/img/sending_popup_assets/audiomessage@2x.png' >
+			<div id = 'player_container' >
+				<v-player id = 'player' data-url_prefix = "{{URL_PREFIX}}" data-src = '' ></v-player>
+			</div>
+			<div class = 'popup_button left' id = 'uploading_re_record_button' style = 'background-image: url({{URL_PREFIX}}/img/green_empty.png)' >
+				<img src = "../extension/img/icon_refresh.png" >
+				Re-Record
+			</div>
+			<div class = 'popup_button right' id = 'uploading_done_button' style = 'background-image: url({{URL_PREFIX}}/img/green_empty.png)' >
+				Done
+			</div>
+		</div>
+
+	</template>
+	
+	<script src = 'v-popup.js' ></script>
+	
+	
+	
+	
+	
+	

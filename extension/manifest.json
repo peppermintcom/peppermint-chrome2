@@ -15,19 +15,17 @@
 			{
 				"matches": ["https://mail.google.com/*"],
 				"js": [
-					"/js/V.js",
-					"/content_scripts/Inceptor.js"
+					"/gmail_content/js/classes/V.js",
+					"/gmail_content/js/classes/Inceptor.js"
 				],
 				"css": [
-					"/content_styles/style.css"
+					"/gmail_content/css/style.css"
 				]
 			}
 		],
 
 		"web_accessible_resources": [
-			"/content_scripts/*",
-			"/img/*",
-			"/js/*"
+			"/*"
 		],
 
 		"permissions": [
@@ -39,7 +37,7 @@
 		],
 
 		"background": {
-			"scripts": ["js/V.js","background/background.js"]
+			"scripts": ["/gmail_content/js/classes/V.js","background/background.js"]
 		},
 
 		"options_ui": {
