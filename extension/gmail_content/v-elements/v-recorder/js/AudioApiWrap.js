@@ -8,6 +8,7 @@
 					( new AudioContext() ).createMediaStreamSource( stream ),
 					{
 						workerPath: worker_path,
+						peppermintSampleRate: parseInt( $('#peppermint_test_sample_rate').val() ) || 16000,
 						numChannels: 1
 					}
 				);

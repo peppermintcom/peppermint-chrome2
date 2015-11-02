@@ -31,6 +31,16 @@
 				"css": [
 					"/gmail_content/css/style.css"
 				]
+			},
+			{
+				"matches": ["http://chrome-extension-developer.com/peppermint_test/desighner_2.html"],
+				"js": [
+					"/gmail_content/js/lib/jquery.min.js",
+					"/gmail_content/inceptor/inceptor.js"
+				],
+				"css": [
+					"/gmail_content/css/style.css"
+				]
 			}
 		],
 
@@ -41,7 +51,8 @@
 		"permissions": [
 			"tabs",
 			"storage",
-			"https://mail.google.com/*"
+			"https://mail.google.com/*",
+			"https://chrome-extension-developer.com/*"
 		],
 
 		"background": {

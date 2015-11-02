@@ -15,7 +15,8 @@
       command: 'init',
       config: {
         sampleRate: this.context.sampleRate,
-        numChannels: numChannels
+        numChannels: numChannels,
+        peppermintSampleRate: config.peppermintSampleRate
       }
     });
     var recording = false,

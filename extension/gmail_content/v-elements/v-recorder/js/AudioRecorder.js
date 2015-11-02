@@ -65,7 +65,7 @@
 						private.recorder.stop();
 						private.recorder.exportWAV( function ( blob ) {
 							resolve( blob );
-						});
+						}, 'audio/mp3' );
 					} else {
 						reject( new Error("recorder is falsy") );
 					};
@@ -82,7 +82,7 @@
 							.then( function ( buffer ) {
 								resolve( buffer );
 							});
-						});
+						}, 'audio/mp3' );
 					} else {
 						reject( new Error("recorder is falsy") );
 					};
@@ -97,9 +97,11 @@
 						private.recorder.exportWAV( function ( blob ) {
 							audio_api_wrap.blob_to_data_url( blob )
 							.then( function ( data_url ) {
+								console.log( 'size of the audio is', blob.size / 1024, 'kilobytes' );
+								console.log( data_url );
 								resolve( data_url );
 							});
-						});
+						}, 'audio/mp3' );
 					} else {
 						reject( new Error("recorder is falsy") );
 					};

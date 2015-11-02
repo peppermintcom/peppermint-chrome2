@@ -26,6 +26,7 @@ this.onmessage = function(e){
 function init(config){
   sampleRate = config.sampleRate;
   numChannels = config.numChannels;
+  peppermintSampleRate = config.peppermintSampleRate;
   initBuffers();
 }
 
@@ -45,8 +46,9 @@ function exportWAV(type){
       var interleaved = interleave(buffers[0], buffers[1]);
   } else {
       var interleaved = buffers[0];
+      var downsampled = downsampleBuffer(buffers[0], peppermintSampleRate)
   }
-  var dataview = encodeWAV(interleaved);
+  var dataview = encodeWAV(downsampled);
   var audioBlob = new Blob([dataview], { type: type });
 
   this.postMessage(audioBlob);
@@ -113,7 +115,7 @@ function writeString(view, offset, string){
 function encodeWAV(samples){
   var buffer = new ArrayBuffer(44 + samples.length * 2);
   var view = new DataView(buffer);
-
+  var sampleRate = peppermintSampleRate;
   /* RIFF identifier */
   writeString(view, 0, 'RIFF');
   /* RIFF chunk length */
@@ -144,4 +146,30 @@ function encodeWAV(samples){
   floatTo16BitPCM(view, 44, samples);
 
   return view;
+}
+
+function downsampleBuffer(buffer, rate) {
+    if (rate == sampleRate) {
+        return buffer;
+    }
+    if (rate > sampleRate) {
+        throw "downsampling rate show be smaller than original sample rate";
+    }
+    var sampleRateRatio = sampleRate / rate;
+    var newLength = Math.round(buffer.length / sampleRateRatio);
+    var result = new Float32Array(newLength);
+    var offsetResult = 0;
+    var offsetBuffer = 0;
+    while (offsetResult < result.length) {
+        var nextOffsetBuffer = Math.round((offsetResult + 1) * sampleRateRatio);
+        var accum = 0, count = 0;
+        for (var i = offsetBuffer; i < nextOffsetBuffer && i < buffer.length; i++) {
+            accum += buffer[i];
+            count++;
+        }
+        result[offsetResult] = accum / count;
+        offsetResult++;
+        offsetBuffer = nextOffsetBuffer;
+    }
+    return result;
 }
