@@ -47,14 +47,19 @@
 			
 			if ( g_state.get_reply_initiated() ) {
 				$(".I5[data-id='"+id+"']").find('.Am.Al.editable.LW-avf').append(
-					"<br>I'm sending you an audio reply listen here: <a href='{{URL}}' >Voice Message</a>"
+					"<br>I'm sending you an audio reply listen here: <br> <a href='{{URL}}' >{{URL}}</a>"
+					.replace( "{{URL}}", url )
 					.replace( "{{URL}}", url )
 				)
 			} else {
 				$(".I5[data-id='"+id+"']").find('.Am.Al.editable.LW-avf').append(
-					"<br><a href='{{URL}}' >Voice Message</a>"
+					"<br>I've sent you an audio message via Peppermint listen here: <br> <a href='{{URL}}' >{{URL}}</a>"
+					.replace( "{{URL}}", url )
 					.replace( "{{URL}}", url )
 				)
+				if ( $(".I5[data-id='"+id+"'] input[name='subjectbox']").val() === '' ) {
+					$(".I5[data-id='"+id+"'] input[name='subjectbox']").val("I sent you an audio message")
+				}
 			}
 
 			g_state.set_reply_initiated( false );
