@@ -46,14 +46,14 @@
 		function add_link ( url, id ) {
 			
 			if ( g_state.get_reply_initiated() ) {
-				$(".I5[data-id='"+id+"']").find('.Am.Al.editable.LW-avf').append(
-					"<br>I'm sending you an audio reply listen here: <br> <a href='{{URL}}' >{{URL}}</a>"
+				$(".I5[data-id='"+id+"']").find('.Am.Al.editable.LW-avf').prepend(
+					"I'm sending you an audio reply listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>"
 					.replace( "{{URL}}", url )
 					.replace( "{{URL}}", url )
 				)
 			} else {
-				$(".I5[data-id='"+id+"']").find('.Am.Al.editable.LW-avf').append(
-					"<br>I've sent you an audio message via Peppermint listen here: <br> <a href='{{URL}}' >{{URL}}</a>"
+				$(".I5[data-id='"+id+"']").find('.Am.Al.editable.LW-avf').prepend(
+					"I've sent you an audio message via Peppermint listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>"
 					.replace( "{{URL}}", url )
 					.replace( "{{URL}}", url )
 				)
