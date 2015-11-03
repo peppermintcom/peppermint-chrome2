@@ -8,98 +8,10 @@
 	"buffers":
 	[
 		{
-			"file": "desighner/desighner.html",
+			"file": "extension/gmail_content/v-elements/v-caret-helper/js/v-caret-helper.js",
 			"settings":
 			{
-				"buffer_size": 3012,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "desighner/desighner_2.html",
-			"settings":
-			{
-				"buffer_size": 202,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "extension/gmail_content/v-elements/v-button-inserter/js/v-button-inserter.js",
-			"settings":
-			{
-				"buffer_size": 1872,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "extension/gmail_content/v-elements/v-button-inserter/v-button-inserter.html",
-			"settings":
-			{
-				"buffer_size": 1617,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "desighner/desighner.css",
-			"settings":
-			{
-				"buffer_size": 394,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "desighner/designer.js",
-			"settings":
-			{
-				"buffer_size": 909,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "extension/manifest.json",
-			"settings":
-			{
-				"buffer_size": 1100,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "extension/gmail_content/v-elements/v-recorder/v-recorder.html",
-			"settings":
-			{
-				"buffer_size": 226,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "extension/gmail_content/inceptor/inceptor.html",
-			"settings":
-			{
-				"buffer_size": 390,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "extension/gmail_content/inceptor/inceptor.js",
-			"settings":
-			{
-				"buffer_size": 1912,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "extension/gmail_content/js/classes/Inceptor.js",
-			"settings":
-			{
-				"buffer_size": 4043,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "extension/gmail_content/v-elements/v-player/v-player.html",
-			"settings":
-			{
-				"buffer_size": 1227,
+				"buffer_size": 1525,
 				"line_ending": "Windows"
 			}
 		}
@@ -128,18 +40,39 @@
 	},
 	"file_history":
 	[
+		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/authenticator/index.js",
+		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-caret-helper/v-caret-helper.html",
+		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/desighner/desighner_2.html",
+		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/controller/controller.js",
+		"/E/xampp/htdocs/prj/chrome-extension-developer.com/htdocs/auth_test/test.php",
+		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/inceptor/inceptor.html",
+		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/inceptor/inceptor.js",
+		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-recorder/js/lib/recorderWorker.js",
+		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-recorder/js/AudioApiWrap.js",
+		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-recorder/js/AudioRecorder.js",
+		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/manifest.json",
+		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-uploader/js/Uploader.js",
+		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-recorder/js/lib/recorder.js",
+		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com - копия/extension/record_popup/lame.js",
+		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com - копия/extension/record_popup/popup.js",
+		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-recorder/js/lib_2/lame.js",
+		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-recorder/js/lib2/recordmp3.js",
+		"/C/Users/User/Desktop/popup.js",
+		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com - копия/extension/record_popup/popup.html",
+		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/desighner/desighner.html",
+		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-button-inserter/js/v-button-inserter.js",
+		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-button-inserter/v-button-inserter.html",
+		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/desighner/desighner.css",
+		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/desighner/designer.js",
+		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-recorder/v-recorder.html",
+		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-player/v-player.html",
+		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/js/classes/Inceptor.js",
 		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-player/v-player.js",
 		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-popup/v-popup.js",
-		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-uploader/js/Uploader.js",
 		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content_new_2/v-elements/v-popup/v-popup.html",
-		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/manifest.json",
-		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/inceptor/inceptor.js",
 		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-recorder/v-recorder.js",
 		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-uploader/v-uploader.html",
 		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-uploader/js/v-uploader.js",
-		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-recorder/js/AudioRecorder.js",
-		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-recorder/js/AudioApiWrap.js",
-		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-player/v-player.html",
 		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content_new_2/js/classes/View.js",
 		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-button-incerter/v-button-incerter.html",
 		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content_new_2/v-elements/v-button-incerter/js/v-button-incerter.js",
@@ -147,7 +80,6 @@
 		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/background/background.js",
 		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-player/js/Player.js",
 		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/js/V.js",
-		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/inceptor/inceptor.html",
 		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/js/inceptor/inceptor.html",
 		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content_new_2/v-elements/v-popup/v-popup.js",
 		"/E/xampp/htdocs/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/js/inceptor.js",
@@ -172,7 +104,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 90.0,
+		"height": 0.0,
 		"where_history":
 		[
 			""
@@ -183,6 +115,18 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"\n				get_reply_initiated: function () {\n					return private.reply_initiated;\n				},\n				set_reply_initiated: function ( reply_initiated ) {\n					private.reply_initiated = reply_initiated;\n				}",
+			",\n			{\n				\"matches\": [\"http://localhost/prj/chrome_extensions/UPWORK/peppermint.com/desighner/desighner_2.html\"],\n				\"js\": [\n					\"/gmail_content/js/lib/jquery.min.js\",\n					\"/gmail_content/inceptor/inceptor.js\"\n				],\n				\"css\": [\n					\"/gmail_content/css/style.css\"\n				]\n			}",
+			"wav",
+			"sampleRate",
+			"}}\",",
+			"worker.js",
+			"sampleRate",
+			"WORKER_PATH",
+			"encoderWorker",
+			"config",
+			"WORKER_PATH",
+			"merge",
 			"uploader",
 			"import",
 			"uploader",
@@ -229,77 +173,28 @@
 	"groups":
 	[
 		{
+			"sheets":
+			[
+			]
+		},
+		{
 			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "desighner/desighner.html",
+					"file": "extension/gmail_content/v-elements/v-caret-helper/js/v-caret-helper.js",
 					"settings":
 					{
-						"buffer_size": 3012,
+						"buffer_size": 1525,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2944,
-								1275
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 7958.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "desighner/desighner_2.html",
-					"settings":
-					{
-						"buffer_size": 202,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								179,
-								179
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "extension/gmail_content/v-elements/v-button-inserter/js/v-button-inserter.js",
-					"settings":
-					{
-						"buffer_size": 1872,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								139,
-								139
+								847,
+								838
 							]
 						],
 						"settings":
@@ -308,254 +203,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "extension/gmail_content/v-elements/v-button-inserter/v-button-inserter.html",
-					"settings":
-					{
-						"buffer_size": 1617,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1585,
-								1585
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 900.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "desighner/desighner.css",
-					"settings":
-					{
-						"buffer_size": 394,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								394,
-								394
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/CSS/CSS.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "desighner/designer.js",
-					"settings":
-					{
-						"buffer_size": 909,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								833,
-								833
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 96.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "extension/manifest.json",
-					"settings":
-					{
-						"buffer_size": 1100,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								245,
-								245
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JSON.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 2,
-			"sheets":
-			[
-				{
-					"buffer": 7,
-					"file": "extension/gmail_content/v-elements/v-recorder/v-recorder.html",
-					"settings":
-					{
-						"buffer_size": 226,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								108,
-								108
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "extension/gmail_content/inceptor/inceptor.html",
-					"settings":
-					{
-						"buffer_size": 390,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								190,
-								190
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "extension/gmail_content/inceptor/inceptor.js",
-					"settings":
-					{
-						"buffer_size": 1912,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1703,
-								1703
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 206.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "extension/gmail_content/js/classes/Inceptor.js",
-					"settings":
-					{
-						"buffer_size": 4043,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								500,
-								500
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 11,
-					"file": "extension/gmail_content/v-elements/v-player/v-player.html",
-					"settings":
-					{
-						"buffer_size": 1227,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								956,
-								965
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 945.0,
+						"translation.y": 375.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -591,7 +239,7 @@
 		"cols":
 		[
 			0.0,
-			0.0447227191413,
+			0.57777798428,
 			1.0
 		],
 		"rows":

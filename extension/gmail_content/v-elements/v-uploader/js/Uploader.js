@@ -95,8 +95,31 @@
 						}
 					);
 				});
+			},
+
+			get_short_url: function ( token, signed_url ) {
+				return new Promise( function ( resolve, reject ) {
+					$.ajax(
+						"https://qdkkavugcd.execute-api.us-west-2.amazonaws.com/prod/v1/record",
+						{
+							type: 'POST',
+							data: JSON.stringify({
+							  "signed_url": signed_url
+							}),
+							headers: {
+								'Authorization': 'Bearer ' + token,
+								'Content-Type': 'application/json'
+							},
+							success: function ( response ) {
+								resolve( response.short_url );
+							},
+							error: function () {
+								reject();
+							}
+						}
+					);
+				});
 			}
-			
 		};
 		
 		var public = {
@@ -125,7 +148,7 @@
 					})
 					.then( function () {
 
-						return private.get_canonical_url( state.token, state.signed_url );
+						return private.get_short_url( state.token, state.signed_url );
 
 					})
 					.then( resolve )

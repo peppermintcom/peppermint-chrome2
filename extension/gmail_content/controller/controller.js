@@ -33,7 +33,8 @@
 				},
 				set_reply_initiated: function ( reply_initiated ) {
 					private.reply_initiated = reply_initiated;
-				}
+				},
+				last_selections: {}
 
 			};
 
@@ -45,26 +46,84 @@
 
 		function add_link ( url, id ) {
 			
-			if ( g_state.get_reply_initiated() ) {
-				$(".I5[data-id='"+id+"']").find('.Am.Al.editable.LW-avf').prepend(
-					"I'm sending you an audio reply listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>"
-					.replace( "{{URL}}", url )
-					.replace( "{{URL}}", url )
-				)
-			} else {
-				$(".I5[data-id='"+id+"']").find('.Am.Al.editable.LW-avf').prepend(
-					"I've sent you an audio message via Peppermint listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>"
-					.replace( "{{URL}}", url )
-					.replace( "{{URL}}", url )
-				)
-				if ( $(".I5[data-id='"+id+"'] input[name='subjectbox']").val() === '' ) {
-					$(".I5[data-id='"+id+"'] input[name='subjectbox']").val("I sent you an audio message")
+			try {
+
+				if ( g_state.get_reply_initiated() ) {
+
+					var letter = $(".I5[data-id='"+id+"']")[0];
+					var editable = $( letter ).find('.Am.Al.editable.LW-avf')[0];
+					var anchor_node = $("v-caret-helper")[0].get_anchor_node();
+					var selection = g_state.last_selections[ letter.dataset["id"] ];
+
+					if ( selection ) {
+						$("v-caret-helper")[0].html_before_selection( 
+							"I'm sending you an audio reply listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>"
+							.replace( "{{URL}}", url )
+							.replace( "{{URL}}", url ),
+							selection
+						);
+					} else {
+						$( editable ).prepend(
+							"I'm sending you an audio reply listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>"
+							.replace( "{{URL}}", url )
+							.replace( "{{URL}}", url )
+						);
+					}
+
+				} else {
+
+					var letter = $(".I5[data-id='"+id+"']")[0];
+					var editable = $( letter ).find('.Am.Al.editable.LW-avf')[0];
+					var anchor_node = $("v-caret-helper")[0].get_anchor_node();
+					var selection = g_state.last_selections[ letter.dataset["id"] ];
+
+					if ( selection ) {
+						$("v-caret-helper")[0].html_before_selection(
+							"I've sent you an audio message via Peppermint listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>"
+							.replace( "{{URL}}", url )
+							.replace( "{{URL}}", url ),
+							selection
+						);
+					} else {
+						$( editable ).prepend(
+							"I've sent you an audio message via Peppermint listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>"
+							.replace( "{{URL}}", url )
+							.replace( "{{URL}}", url )
+						)
+					};
+
+					if ( $(".I5[data-id='"+id+"'] input[name='subjectbox']").val() === '' ) {
+						$(".I5[data-id='"+id+"'] input[name='subjectbox']").val("I sent you an audio message")
+					}
+
 				}
+
+			} catch ( e ) {
+				console.error( e );
 			}
+
 
 			g_state.set_reply_initiated( false );
 
 		};
+
+		$( document ).on( "selectionchange", function () {
+
+			var selection = window.getSelection();
+			var anchor_node = selection.anchorNode;
+
+			$(".I5").each( function ( index, element ) {
+				var editable = $( element ).find(".Am.Al.editable.LW-avf")[0];
+				if ( editable && editable.contains( anchor_node ) ) {
+					g_state.last_selections[ element.dataset["id"] ] = {
+						anchorNode: selection.anchorNode,
+						anchorOffset: selection.anchorOffset
+					};
+				
+				}
+			});
+
+		});
 
 		$( document ).on( "compose_button_click", function ( event ) {
 
