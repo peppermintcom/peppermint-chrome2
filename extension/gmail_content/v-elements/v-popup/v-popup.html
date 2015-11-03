@@ -35,7 +35,7 @@
 			}
 			.popup_status {
 				
-				margin: 20px 0px 0px 0px;
+				margin: 0px;
 				padding: 0px 12px;
 				
 				font-family: sans-serif;
@@ -93,12 +93,24 @@
 				height: 100px;
 				
 			}
+			#timer_container {
+				
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				
+				height: 40px;
+				
+			}
 
 
 		</style>
 
 		<div class = 'page' id = 'recording_page' >
 			<img class = 'popup_logo' src = '{{URL_PREFIX}}/img/recording.gif' >
+			<div id = 'timer_container' >
+				<content select = "v-timer" ></content>
+			</div>
 			<div class = 'popup_status' >Recording Your Message...</div>
 			<div class = 'popup_button left' id = 'recording_cancel_button' style = 'background-image: url({{URL_PREFIX}}/img/grey_empty.png)' >
 				Cancel
@@ -109,7 +121,9 @@
 		</div>
 		<div class = 'page' id = 'microphone_error_page' >
 			<img class = 'popup_logo' src = '{{URL_PREFIX}}/img/mic_off.png' >
-			<div class = 'popup_status' >Your microphone is not working. Please check your audio settings and try again</div>
+			<div class = 'popup_status' >
+				Your microphone is not working. Please check your audio settings and try again
+			</div>
 			<div class = 'popup_button left' id = 'error_cancel_button' style = 'background-image: url({{URL_PREFIX}}/img/grey_empty.png)' >
 				Cancel
 			</div>

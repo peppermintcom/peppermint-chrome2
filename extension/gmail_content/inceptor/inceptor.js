@@ -56,6 +56,7 @@
 
 				insert_script( chrome.extension.getURL( "/gmail_content/controller/controller.js" ) )
 				get_import_inserter( 'v-player-import', 'gmail_content/v-elements/v-player/v-player.html' )();
+				get_import_inserter( 'v-timer-import', 'gmail_content/v-elements/v-timer/v-timer.html' )();
 				get_import_inserter( 'v-popup-import', 'gmail_content/v-elements/v-popup/v-popup.html' )();
 				get_import_inserter( 'v-recorder-import', 'gmail_content/v-elements/v-recorder/v-recorder.html' )();
 				get_import_inserter( 'v-button-inserter-import', 'gmail_content/v-elements/v-button-inserter/v-button-inserter.html' )();

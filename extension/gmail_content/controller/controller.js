@@ -111,16 +111,21 @@
 
 			var selection = window.getSelection();
 			var anchor_node = selection.anchorNode;
-
 			$(".I5").each( function ( index, element ) {
+
 				var editable = $( element ).find(".Am.Al.editable.LW-avf")[0];
+				var subject = $( element ).find(".aoD.az6")[0];
+				var to_box = $( element ).find(".wO.nr.l1")[0];
+				
 				if ( editable && editable.contains( anchor_node ) ) {
 					g_state.last_selections[ element.dataset["id"] ] = {
 						anchorNode: selection.anchorNode,
 						anchorOffset: selection.anchorOffset
 					};
-				
+				} else if ( ( subject && subject.contains( anchor_node ) ) || ( to_box && to_box.contains( anchor_node ) ) ) {
+					g_state.last_selections[ element.dataset["id"] ] = undefined;
 				}
+
 			});
 
 		});
@@ -137,6 +142,8 @@
 					$( 'v-popup' ).show();
 					$( 'v-popup' )[0].dataset['page'] = 'recording_page';
 					$( 'v-popup' )[0].dataset['status'] = 'recording';
+					$("v-timer")[0].reset();
+					$("v-timer")[0].start();
 				} else {
 					$( 'v-popup' ).show();
 					$( 'v-popup' )[0].dataset['page'] = 'microphone_error_page';
