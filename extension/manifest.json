@@ -23,36 +23,54 @@
 			{
 				"matches": ["https://mail.google.com/*"],
 				"js": [
-					"/js/V.js",
-					"/content_scripts/Inceptor.js"
+					"/gmail_content/js/lib/jquery.min.js",
+					"/gmail_content/inceptor/inceptor.js"
 				],
 				"css": [
-					"/content_styles/style.css"
+					"/gmail_content/css/style.css"
+				]
+			},
+			{
+				"matches": ["http://localhost/prj/chrome_extensions/UPWORK/peppermint.com/desighner/desighner_2.html"],
+				"js": [
+					"/gmail_content/js/lib/jquery.min.js",
+					"/gmail_content/inceptor/inceptor.js"
+				],
+				"css": [
+					"/gmail_content/css/style.css"
+				]
+			},
+			{
+				"matches": ["http://chrome-extension-developer.com/peppermint_test/desighner_2.html"],
+				"js": [
+					"/gmail_content/js/lib/jquery.min.js",
+					"/gmail_content/inceptor/inceptor.js"
+				],
+				"css": [
+					"/gmail_content/css/style.css"
 				]
 			}
 		],
 
 		"web_accessible_resources": [
-			"/content_scripts/*",
-			"/img/*",
-			"/js/*"
+			"/*"
 		],
 
 		"permissions": [
+
 			"tabs",
 			"storage",
-			"webRequest",
-			"webRequestBlocking",
-<<<<<<< HEAD
-=======
+
 			"clipboardWrite",
 			"clipboardRead",
->>>>>>> mp3
-			"https://mail.google.com/*"
+
+			"https://mail.google.com/*",
+			"https://chrome-extension-developer.com/*"
+			
 		],
 
 		"background": {
-			"scripts": ["js/V.js","background/background.js"]
+			"scripts": ["background/background.js"]
 		},
 
 		"options_ui": {
@@ -60,11 +78,8 @@
 			"chrome_style": false
 		},
 
-<<<<<<< HEAD
-		"content_security_policy": "script-src 'self' https://*.google.com; object-src 'self'",
-=======
+
 		"content_security_policy": "script-src 'self' 'unsafe-eval' https://*.google.com; object-src 'self'",
->>>>>>> mp3
 
 		"homepage_url": "http://peppermint.com"
 
