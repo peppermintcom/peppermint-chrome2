@@ -7,6 +7,14 @@
 		"description": "Peppermint",
 		"version": "1.1",
 
+        "browser_action": {
+          "default_icon": {
+            "19": "img/icon_mic@2x.png"
+          },
+          "default_title": "Peppermint",
+          "default_popup": "record_popup/popup.html"
+        },
+
 		"icons": {
 			"128": "img/logo_60x60@2x.png"
 		},
@@ -35,6 +43,11 @@
 			"storage",
 			"webRequest",
 			"webRequestBlocking",
+<<<<<<< HEAD
+=======
+			"clipboardWrite",
+			"clipboardRead",
+>>>>>>> mp3
 			"https://mail.google.com/*"
 		],
 
@@ -47,7 +60,11 @@
 			"chrome_style": false
 		},
 
+<<<<<<< HEAD
 		"content_security_policy": "script-src 'self' https://*.google.com; object-src 'self'",
+=======
+		"content_security_policy": "script-src 'self' 'unsafe-eval' https://*.google.com; object-src 'self'",
+>>>>>>> mp3
 
 		"homepage_url": "http://peppermint.com"
 
