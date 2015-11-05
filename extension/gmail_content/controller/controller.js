@@ -52,7 +52,6 @@
 
 					var letter = $(".I5[data-id='"+id+"']")[0];
 					var editable = $( letter ).find('.Am.Al.editable.LW-avf')[0];
-					var anchor_node = $("v-caret-helper")[0].get_anchor_node();
 					var selection = g_state.last_selections[ letter.dataset["id"] ];
 
 					if ( selection ) {
@@ -74,7 +73,6 @@
 
 					var letter = $(".I5[data-id='"+id+"']")[0];
 					var editable = $( letter ).find('.Am.Al.editable.LW-avf')[0];
-					var anchor_node = $("v-caret-helper")[0].get_anchor_node();
 					var selection = g_state.last_selections[ letter.dataset["id"] ];
 
 					if ( selection ) {
@@ -117,12 +115,15 @@
 				var subject = $( element ).find(".aoD.az6")[0];
 				var to_box = $( element ).find(".wO.nr")[0];
 				
-				if ( editable && editable.contains( anchor_node ) ) {
+				if ( editable && editable.contains( anchor_node ) && anchor_node !== editable ) {
 					g_state.last_selections[ element.dataset["id"] ] = {
 						anchorNode: selection.anchorNode,
 						anchorOffset: selection.anchorOffset
 					};
-				} else if ( ( subject && subject.contains( anchor_node ) ) || ( to_box && to_box.contains( anchor_node ) ) ) {
+				} else if (
+					( subject && subject.contains( anchor_node ) ) ||
+					( to_box && to_box.contains( anchor_node ) ) 
+				) {
 					g_state.last_selections[ element.dataset["id"] ] = undefined;
 				}
 
@@ -139,11 +140,11 @@
 			$( 'v-recorder' )[0].audio_recorder.start()
 			.then( function ( started ) {
 				if ( started ) {
+					$("v-timer")[0].reset();
+					$("v-timer")[0].start();
 					$( 'v-popup' ).show();
 					$( 'v-popup' )[0].dataset['page'] = 'recording_page';
 					$( 'v-popup' )[0].dataset['status'] = 'recording';
-					$("v-timer")[0].reset();
-					$("v-timer")[0].start();
 				} else {
 					$( 'v-popup' ).show();
 					$( 'v-popup' )[0].dataset['page'] = 'microphone_error_page';
@@ -173,11 +174,11 @@
 			$( 'v-recorder' )[0].audio_recorder.start()
 			.then( function ( started ) {
 				if ( started ) {
+					$("v-timer")[0].reset();
+					$("v-timer")[0].start();
 					$( 'v-popup' ).show();
 					$( 'v-popup' )[0].dataset['page'] = 'recording_page';
 					$( 'v-popup' )[0].dataset['status'] = 'recording';
-					$("v-timer")[0].reset();
-					$("v-timer")[0].start();
 				} else {
 					$( 'v-popup' ).show();
 					$( 'v-popup' )[0].dataset['page'] = 'microphone_error_page';
