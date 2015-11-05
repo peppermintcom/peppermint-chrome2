@@ -8,11 +8,6 @@
 			
 			<title>Desighner</title>
 			
-			<link rel = "stylesheet" href = "desighner.css" >
-			
-			<script>
-				V = {};
-			</script>
 			<script src = 'jquery.min.js' ></script>
 			
 			<link
@@ -40,69 +35,23 @@
 				id = 'v-uploader-import'
 				href = '../extension/gmail_content/v-elements/v-uploader/v-uploader.html'
 			>
+			<link
+				rel = 'import'
+				id = 'v-mini-popup-import'
+				href = '../extension/gmail_content/v-elements/v-mini-popup/v-mini-popup.html'
+			>
 
 		</head>
 
 		<body>
-<!-- 
-			<button id = 'start_recording' >Start Recording</button>
-			<button id = 'cancel_recording' >Cancel Recording</button>
-			<button id = 'pause_recording' >Pause Recording</button>
-			<button id = 'finish_recording' >Finish Recording</button>
-			<br>
-			<input type = "file" id = 'file' >
- -->
- 			<div class = 'I5' >
-				<div class = "a8X gU" >
-					<div>
-					</div>
-				</div>
-			</div>
 
-			<div
-				class = 'b7 J-M'
-			>
-				<div>1</div>
-				<div>2</div>
-				<div>3</div>
-				<div>4</div>
-			</div>
-
-			<div
-				class = "gH acX"
-			></div>
-
-			<v-button-inserter
-				data-url_prefix = "http://localhost/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-button-inserter"
-			></v-button-inserter>
-
-<!-- 			<v-uploader
-				id = 'uploader'
-			>
-			</v-uploader>
-			<v-recorder
-				id = 'recorder'
-				data-url_prefix = 'http://localhost/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-recorder'
-			></v-recorder>
-			<v-popup
-				data-page = "uploading_page"
-				data-page_status = "uploading"
-				data-url_prefix = "http://localhost/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-popup"
+			<v-mini-popup
+				data-url_prefix = "http://localhost/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-mini-popup"
 			>
 				<v-player
-					id = 'player'
-					data-src = ''
 					data-url_prefix = "http://localhost/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-player"
 				></v-player>
-			</v-popup> -->
-			<!-- <v-popup data-page = "recording_page" data-url_prefix = "http://localhost/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-popup" ></v-popup> -->
-			<!-- <v-popup data-page = "uploading_page" data-page_status = "uploaded" data-url_prefix = "http://localhost/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-popup" ></v-popup> -->
-			<!-- <v-popup
-				data-page = "error_page"
-				data-url_prefix = "http://localhost/prj/chrome_extensions/UPWORK/peppermint.com/extension/gmail_content/v-elements/v-popup"
-			></v-popup> -->
-
-			<script src = "designer.js" ></script>
+			</v-mini-popup>
 		
 		</body>
 		

@@ -43,6 +43,9 @@
 				color: rgba(0,0,0,0.75);
 			
 			}
+			.popup_status.uploading {
+				margin-top: 20px;
+			}
 			.popup_button {
 				
 				position: absolute;
@@ -139,7 +142,7 @@
 			</div>
 		</div>
 		<div class = 'page' id = 'uploading_page' >
-			<div class = 'popup_status' >Uploading...</div>
+			<div class = 'popup_status uploading' >Uploading...</div>
 			<img class = 'popup_logo' id = 'uploading_logo' src = '{{URL_PREFIX}}/img/uploading.gif' >
 			<img class = 'popup_logo' id = 'uploaded_logo' src = '{{URL_PREFIX}}/img/mic.png' >
 			<div id = 'player_container' >

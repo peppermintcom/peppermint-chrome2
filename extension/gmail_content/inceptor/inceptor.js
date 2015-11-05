@@ -58,6 +58,7 @@
 				get_import_inserter( 'v-player-import', 'gmail_content/v-elements/v-player/v-player.html' )();
 				get_import_inserter( 'v-timer-import', 'gmail_content/v-elements/v-timer/v-timer.html' )();
 				get_import_inserter( 'v-popup-import', 'gmail_content/v-elements/v-popup/v-popup.html' )();
+				get_import_inserter( 'v-mini-popup-import', 'gmail_content/v-elements/v-mini-popup/v-mini-popup.html' )();
 				get_import_inserter( 'v-recorder-import', 'gmail_content/v-elements/v-recorder/v-recorder.html' )();
 				get_import_inserter( 'v-button-inserter-import', 'gmail_content/v-elements/v-button-inserter/v-button-inserter.html' )();
 				get_import_inserter( 'v-uploader-import', 'gmail_content/v-elements/v-uploader/v-uploader.html' )();

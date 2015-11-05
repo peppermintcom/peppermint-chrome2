@@ -49,6 +49,7 @@
 				start: function () {
 
 					private.time = 0;
+					private.display_time( private.time );
 					private.start_timestamp = Date.now();
 					private.interval = setInterval( function () {
 

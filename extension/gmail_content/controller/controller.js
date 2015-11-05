@@ -115,7 +115,7 @@
 
 				var editable = $( element ).find(".Am.Al.editable.LW-avf")[0];
 				var subject = $( element ).find(".aoD.az6")[0];
-				var to_box = $( element ).find(".wO.nr.l1")[0];
+				var to_box = $( element ).find(".wO.nr")[0];
 				
 				if ( editable && editable.contains( anchor_node ) ) {
 					g_state.last_selections[ element.dataset["id"] ] = {
@@ -152,7 +152,23 @@
 
 		});
 
-		$( document ).on( "error_try_again_button_click", function () {
+		$( document ).on( "reply_button_click", function () {
+			g_state.set_reply_initiated( true );
+			$(".ams:contains('Reply')").click();
+			setTimeout( function () {
+				$( '#v_compose_button' ).click()
+			}, 100 );
+	
+		});
+
+		$( document ).on( "error_cancel_button_click", "#popup", function () {
+
+			$("#popup").hide();
+			g_state.set_compose_button_id( undefined );
+
+		});
+
+		$( document ).on( "error_try_again_button_click", "#popup", function () {
 
 			$( 'v-recorder' )[0].audio_recorder.start()
 			.then( function ( started ) {
@@ -160,6 +176,8 @@
 					$( 'v-popup' ).show();
 					$( 'v-popup' )[0].dataset['page'] = 'recording_page';
 					$( 'v-popup' )[0].dataset['status'] = 'recording';
+					$("v-timer")[0].reset();
+					$("v-timer")[0].start();
 				} else {
 					$( 'v-popup' ).show();
 					$( 'v-popup' )[0].dataset['page'] = 'microphone_error_page';
@@ -168,7 +186,7 @@
 
 		});
 
-		$( document ).on( "recording_cancel_button_click", function () {
+		$( document ).on( "recording_cancel_button_click", "#popup", function () {
 
 			$( 'v-recorder' )[0].audio_recorder.cancel();
 			$( 'v-popup' ).hide();
@@ -176,14 +194,7 @@
 
 		});
 
-		$( document ).on( "error_cancel_button_click", function () {
-
-			$( 'v-popup' ).hide();
-			g_state.set_compose_button_id( undefined );
-
-		});
-
-		$( document ).on( "recording_done_button_click", function () {
+		$( document ).on( "recording_done_button_click", "#popup", function () {
 
 			var state = new State();
 			var timestamp = Date.now();
@@ -191,13 +202,13 @@
 			state.set_recording_id( timestamp );
 
 			$( 'v-recorder' )[0].audio_recorder.pause();
-			$( 'v-popup' )[0].dataset['page'] = 'uploading_page';
-			$( 'v-popup' )[0].dataset['status'] = 'uploading';
+			$("#popup").hide();
+			$("#mini_popup").show();
 				
 			$( 'v-recorder' )[0].audio_recorder.get_data_url()
 			.then( function ( data_url ) {
 
-				$("v-player")[0].player.set_url( data_url );
+				$("#mini_popup_player")[0].player.set_url( data_url );
 
 				return new Promise( function ( resolve ) { resolve() });
 
@@ -213,42 +224,35 @@
 			.then( $( 'v-uploader' )[0].uploader.upload_buffer )
 			.then( function ( url ) {
 				if ( g_state.get_recording_id() === state.get_recording_id() ) {
+
 					g_state.set_audio_url( url );
-					$( 'v-popup' )[0].dataset['status'] = 'uploaded';
+					$("#mini_popup").hide();
 					console.log( "uploaded:", url );
+
+					$("#mini_popup_player")[0].player.pause();
+
+					add_link( g_state.get_audio_url(), g_state.get_compose_button_id() );
+
+					g_state.set_compose_button_id( undefined );
+
 				} else {
+
 					console.log( "aborted recording url:", url )
+
 				}
 			})
 			.catch();
 
 		});
 
-		$( document ).on( "uploading_re_record_button_click", function () {
+		$( document ).on( "cancel_click", "#mini_popup", function () {
 
-			$("v-player")[0].player.pause();
-			$( 'v-recorder' )[0].audio_recorder.start();
-			$( 'v-popup' )[0].dataset['page'] = 'recording_page';
-			$( 'v-popup' )[0].dataset['status'] = 'recording';
+			$("#mini_popup").hide();
 
-		});
-
-		$( document ).on( "uploading_done_button_click", function () {
-
-			$("v-player")[0].player.pause();
-			$( 'v-popup' ).hide();
-			add_link( g_state.get_audio_url(), g_state.get_compose_button_id() );
+			$("#mini_popup_player")[0].player.pause();
+			g_state.set_recording_id( undefined );
 			g_state.set_compose_button_id( undefined );
 
-
-		});
-
-		$( document ).on( "reply_button_click", function () {
-			g_state.set_reply_initiated( true );
-			$(".ams:contains('Reply')").click();
-			setTimeout( function () {
-				$( '#v_compose_button' ).click()
-			}, 100 );
 		});
 
 	} () );

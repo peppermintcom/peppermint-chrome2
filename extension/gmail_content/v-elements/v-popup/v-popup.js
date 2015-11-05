@@ -7,7 +7,7 @@
 				
 				get_dispatcher: function ( event_name ) {
 					return function () {
-						document.dispatchEvent( new CustomEvent( event_name ) );
+						element.dispatchEvent( new CustomEvent( event_name, { bubbles: true } ) );
 					}
 				},
 				
