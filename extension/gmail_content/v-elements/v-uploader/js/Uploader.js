@@ -34,7 +34,7 @@
 						{
 							type: 'POST',
 							data: JSON.stringify({
-							  "content_type": "audio/mp3"
+							  "content_type": "audio/ogg"
 							}),
 							headers: {
 								'Authorization': 'Bearer ' + token,
@@ -58,7 +58,7 @@
 							url: signed_url,
 							type: 'PUT',
 							headers: {
-								'Content-Type': 'audio/mp3'
+								'Content-Type': 'audio/ogg'
 							},
 							data: buffer,
 							success: function () {

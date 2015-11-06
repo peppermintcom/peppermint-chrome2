@@ -137,18 +137,17 @@
 
 			g_state.set_compose_button_id( event.target.dataset["id"] );
 
-			$( 'v-recorder' )[0].audio_recorder.start()
-			.then( function ( started ) {
-				if ( started ) {
-					$("v-timer")[0].reset();
-					$("v-timer")[0].start();
-					$( 'v-popup' ).show();
-					$( 'v-popup' )[0].dataset['page'] = 'recording_page';
-					$( 'v-popup' )[0].dataset['status'] = 'recording';
-				} else {
-					$( 'v-popup' ).show();
-					$( 'v-popup' )[0].dataset['page'] = 'microphone_error_page';
-				}
+			$( 'v-recorder' )[0].start()
+			.then( function () {
+				$("v-timer")[0].reset();
+				$("v-timer")[0].start();
+				$( 'v-popup' ).show();
+				$( 'v-popup' )[0].dataset['page'] = 'recording_page';
+				$( 'v-popup' )[0].dataset['status'] = 'recording';
+			})
+			.catch( function () {
+				$( 'v-popup' ).show();
+				$( 'v-popup' )[0].dataset['page'] = 'microphone_error_page';
 			});
 
 		});
@@ -171,25 +170,24 @@
 
 		$( document ).on( "error_try_again_button_click", "#popup", function () {
 
-			$( 'v-recorder' )[0].audio_recorder.start()
-			.then( function ( started ) {
-				if ( started ) {
-					$("v-timer")[0].reset();
-					$("v-timer")[0].start();
-					$( 'v-popup' ).show();
-					$( 'v-popup' )[0].dataset['page'] = 'recording_page';
-					$( 'v-popup' )[0].dataset['status'] = 'recording';
-				} else {
-					$( 'v-popup' ).show();
-					$( 'v-popup' )[0].dataset['page'] = 'microphone_error_page';
-				}
+			$( 'v-recorder' )[0].start()
+			.then( function () {
+				$("v-timer")[0].reset();
+				$("v-timer")[0].start();
+				$( 'v-popup' ).show();
+				$( 'v-popup' )[0].dataset['page'] = 'recording_page';
+				$( 'v-popup' )[0].dataset['status'] = 'recording';
+			})
+			.catch( function () {
+				$( 'v-popup' ).show();
+				$( 'v-popup' )[0].dataset['page'] = 'microphone_error_page';
 			});
 
 		});
 
 		$( document ).on( "recording_cancel_button_click", "#popup", function () {
 
-			$( 'v-recorder' )[0].audio_recorder.cancel();
+			$( 'v-recorder' )[0].cancel();
 			$( 'v-popup' ).hide();
 			g_state.set_compose_button_id( undefined );
 
@@ -202,47 +200,47 @@
 			g_state.set_recording_id(  timestamp );
 			state.set_recording_id( timestamp );
 
-			$( 'v-recorder' )[0].audio_recorder.pause();
 			$("#popup").hide();
 			$("#mini_popup").show();
 				
-			$( 'v-recorder' )[0].audio_recorder.get_data_url()
-			.then( function ( data_url ) {
+			$( 'v-recorder' )[0].finish()
+			.then( function ( blob ) {
 
-				$("#mini_popup_player")[0].player.set_url( data_url );
+				$( 'v-recorder' )[0].blob_to_data_url( blob )
+				.then( function ( data_url ) {
 
-				return new Promise( function ( resolve ) { resolve() });
+					$("#mini_popup_player")[0].player.set_url( data_url );
+
+
+
+				});
+
+				$( 'v-recorder' )[0].blob_to_buffer( blob )
+				.then( function ( buffer ) {
+					$( 'v-uploader' )[0].uploader.upload_buffer( buffer )
+					.then( function ( url ) {
+						if ( g_state.get_recording_id() === state.get_recording_id() ) {
+
+							g_state.set_audio_url( url );
+							$("#mini_popup").hide();
+							console.log( "uploaded:", url );
+
+							$("#mini_popup_player")[0].player.pause();
+
+							add_link( g_state.get_audio_url(), g_state.get_compose_button_id() );
+
+							g_state.set_compose_button_id( undefined );
+
+						} else {
+
+							console.log( "aborted recording url:", url )
+
+						}
+					})
+					.catch();
+				});
 
 			})
-			.then( $( 'v-recorder' )[0].audio_recorder.get_buffer )
-			.then( function ( buffer ) {
-
-				$( 'v-recorder' )[0].audio_recorder.cancel()
-
-				return new Promise( function ( resolve ) { resolve( buffer ) });
-
-			})
-			.then( $( 'v-uploader' )[0].uploader.upload_buffer )
-			.then( function ( url ) {
-				if ( g_state.get_recording_id() === state.get_recording_id() ) {
-
-					g_state.set_audio_url( url );
-					$("#mini_popup").hide();
-					console.log( "uploaded:", url );
-
-					$("#mini_popup_player")[0].player.pause();
-
-					add_link( g_state.get_audio_url(), g_state.get_compose_button_id() );
-
-					g_state.set_compose_button_id( undefined );
-
-				} else {
-
-					console.log( "aborted recording url:", url )
-
-				}
-			})
-			.catch();
 
 		});
 
