@@ -13,7 +13,8 @@
 				constructor: function ( element ) {
 
 					var template = document.getElementById( prefix + '-import' ).import.getElementById( prefix + '-template' );
-					template.innerHTML = template.innerHTML.replace( /{{URL_PREFIX}}/g, element.dataset["url_prefix"] );
+					var url_prefix = document.getElementById( prefix + '-import' ).href.split(/\//g).slice( 0, -1 ).join("/");
+					template.innerHTML = template.innerHTML.replace( /{{URL_PREFIX}}/g, url_prefix );
 
 					element.createShadowRoot().appendChild(
 						document.importNode( template.content, true )

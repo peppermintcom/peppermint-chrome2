@@ -86,10 +86,11 @@
 		var proto = Object.create( HTMLElement.prototype );
 		var prefix = 'v-recorder';
 		var template = document.getElementById( prefix + '-import' ).import.getElementById( 'template' );
-		
+		var url_prefix = document.getElementById( prefix + '-import' ).href.split(/\//g).slice( 0, -1 ).join("/");
+
 		proto.attachedCallback = function () {
 
-			template.innerHTML = template.innerHTML.replace( /{{URL_PREFIX}}/g, this.getAttribute("url-prefix") );
+			template.innerHTML = template.innerHTML.replace( /{{URL_PREFIX}}/g, url_prefix );
 
 			this.createShadowRoot().appendChild(
 				document.importNode( template.content, true )

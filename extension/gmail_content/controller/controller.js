@@ -142,12 +142,12 @@
 				$("v-timer")[0].reset();
 				$("v-timer")[0].start();
 				$( 'v-popup' ).show();
-				$( 'v-popup' )[0].dataset['page'] = 'recording_page';
-				$( 'v-popup' )[0].dataset['status'] = 'recording';
+				$( 'v-popup' )[0].set_page("recording_page");
+				$( 'v-popup' )[0].set_page_status("recording");
 			})
 			.catch( function () {
 				$( 'v-popup' ).show();
-				$( 'v-popup' )[0].dataset['page'] = 'microphone_error_page';
+				$( 'v-popup' )[0].set_page("microphone_error_page");
 			});
 
 		});
@@ -175,12 +175,12 @@
 				$("v-timer")[0].reset();
 				$("v-timer")[0].start();
 				$( 'v-popup' ).show();
-				$( 'v-popup' )[0].dataset['page'] = 'recording_page';
-				$( 'v-popup' )[0].dataset['status'] = 'recording';
+				$( 'v-popup' )[0].set_page("recording_page");
+				$( 'v-popup' )[0].set_page_status("recording");
 			})
 			.catch( function () {
 				$( 'v-popup' ).show();
-				$( 'v-popup' )[0].dataset['page'] = 'microphone_error_page';
+				$( 'v-popup' )[0].set_page("microphone_error_page");
 			});
 
 		});

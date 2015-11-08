@@ -1,5 +1,15 @@
 
 
+	#popup {
+		
+		z-index: 9999;
+		position: absolute;
+		
+		left: calc(50% - 190px);
+		top: 70px;
+
+	}
+
 	#v_reply_button {
 		margin-right: 12px;
 	}

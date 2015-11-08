@@ -1,16 +1,12 @@
 	
-	<template id = 'v-popup-template' >
+	<template id = 'template' >
 	
 		<style>
 
 			:host {
 				
 				display: none;
-				z-index: 9999;
-				position: absolute;
 				
-				left: calc(50% - 190px);
-				top: 70px;
 				width: 380px;
 				height: 300px;
 				
@@ -51,10 +47,6 @@
 				position: absolute;
 				
 				bottom: 12px;
-				width: 172px;
-				height: 44px;
-				
-				background-size: 172px 44px;
 				
 				font-size: 18px;
 				font-family: arial, sans-serif;
@@ -64,6 +56,24 @@
 				
 				cursor: pointer;
 			
+			}
+			.popup_button.medium_green {
+				background-image: url({{URL_PREFIX}}/img/green_empty.png);
+				background-size: 172px 44px;
+				width: 172px;
+				height: 44px;
+			}
+			.popup_button.medium_grey {
+				background-image: url({{URL_PREFIX}}/img/grey_empty.png);
+				background-size: 172px 44px;
+				width: 172px;
+				height: 44px;
+			}
+			.popup_button.wide_green {
+				background-image: url({{URL_PREFIX}}/img/wide_green_empty.png);
+				background-size: 356px 44px;
+				width: 356px;
+				height: 44px;
 			}
 			.popup_button.left {
 				
@@ -83,17 +93,27 @@
 				vertical-align: middle;
 				
 			}
+
 			
 			#uploading_logo {
 				margin-top: 12px;
 			}
-			#player_container {
+			#uploading_player_container {
 				
 				display: flex;
 				justify-content: center;
 				align-items: center;
 				
 				height: 100px;
+				
+			}
+			#finish_player_container {
+				
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				
+				height: 60px;
 				
 			}
 			#timer_container {
@@ -106,8 +126,25 @@
 				
 			}
 
+			a {
+
+				color: #0066FF;
+				text-decoration: none;
+				font-size: 16px;
+
+			}
+
 
 		</style>
+
+		<div class = 'page' id = 'popup_welcome' >
+			<img class = 'popup_logo' src = '{{URL_PREFIX}}/img/logo.png' >
+			<div style = 'height: 20px;' ></div>
+			<div class = 'popup_status' >Record a message and get a link <br> you can share anywhere!</div>
+			<div class = 'popup_button wide_green left' id = 'popup_welcome_start_recording' >
+				Start Recording
+			</div>
+		</div>
 
 		<div class = 'page' id = 'recording_page' >
 			<img class = 'popup_logo' src = '{{URL_PREFIX}}/img/recording.gif' >
@@ -115,44 +152,65 @@
 				<content select = "v-timer" ></content>
 			</div>
 			<div class = 'popup_status' >Recording Your Message...</div>
-			<div class = 'popup_button left' id = 'recording_cancel_button' style = 'background-image: url({{URL_PREFIX}}/img/grey_empty.png)' >
+			<div class = 'popup_button medium_grey left' id = 'recording_cancel_button' >
 				Cancel
 			</div>
-			<div class = 'popup_button right' id = 'recording_done_button' style = 'background-image: url({{URL_PREFIX}}/img/green_empty.png)' >
+			<div class = 'popup_button medium_green right' id = 'recording_done_button' >
 				Upload
 			</div>
 		</div>
+
 		<div class = 'page' id = 'microphone_error_page' >
 			<img class = 'popup_logo' src = '{{URL_PREFIX}}/img/mic_off.png' >
 			<div class = 'popup_status' >
 				Your microphone is not working. Please check your audio settings and try again
 			</div>
-			<div class = 'popup_button left' id = 'error_cancel_button' style = 'background-image: url({{URL_PREFIX}}/img/grey_empty.png)' >
+			<div class = 'popup_button medium_grey left' id = 'error_cancel_button' >
 				Cancel
 			</div>
-			<div
-				class = 'popup_button right'
-				id = 'error_try_again_button'
-				style = 'background-image: url({{URL_PREFIX}}/img/green_empty.png)'
-			>
+			<div class = 'popup_button medium_green right' id = 'error_try_again_button' >
 				<img
 					src = "{{URL_PREFIX}}/img/icon_refresh.png"
 				>
 				Try Again
 			</div>
 		</div>
+
 		<div class = 'page' id = 'uploading_page' >
 			<div class = 'popup_status uploading' >Uploading...</div>
 			<img class = 'popup_logo' id = 'uploading_logo' src = '{{URL_PREFIX}}/img/uploading.gif' >
 			<img class = 'popup_logo' id = 'uploaded_logo' src = '{{URL_PREFIX}}/img/mic.png' >
-			<div id = 'player_container' >
-				<content select = "v-player" ></content>
+			<div id = 'uploading_player_container' >
+				<content select = "v-player" id = "player_content" ></content>
 			</div>
-			<div class = 'popup_button left' id = 'uploading_re_record_button' style = 'background-image: url({{URL_PREFIX}}/img/green_empty.png)' >
+		</div>
+
+		<div class = 'page' id = 'popup_finish' >
+			<div style = 'height: 20px;' ></div>
+			<div class = 'popup_status' >You have finished recording your message</div>
+			<div id = "finish_player_container" >
+			</div>
+			<div class = 'popup_status' >Your message is now available at:</div>
+			<div style = 'height: 20px;' ></div>
+			<a id = "popup_finish_url" ></a>
+			<div style = 'height: 20px;' ></div>
+			<div class = 'popup_status' >This is already copied to your clipboard so you can paste in anywhere you want</div>
+			<div class = 'popup_button wide_green left' id = 'popup_finish_start_new_button' >
+				Start New Recording
+			</div>
+		</div>
+
+		<div class = 'page' id = 'uploading_page_old' >
+			<div class = 'popup_status uploading' >Uploading...</div>
+			<img class = 'popup_logo' id = 'uploading_logo' src = '{{URL_PREFIX}}/img/uploading.gif' >
+			<img class = 'popup_logo' id = 'uploaded_logo' src = '{{URL_PREFIX}}/img/mic.png' >
+			<div id = 'player_container' >
+			</div>
+			<div class = 'popup_button medium_green left' id = 'uploading_re_record_button' >
 				<img src = "{{URL_PREFIX}}/img/icon_refresh.png" >
 				Re-Record
 			</div>
-			<div class = 'popup_button right' id = 'uploading_done_button' style = 'background-image: url({{URL_PREFIX}}/img/green_empty.png)' >
+			<div class = 'popup_button medium_green right' id = 'uploading_done_button' >
 				Done
 			</div>
 		</div>

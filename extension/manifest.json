@@ -8,15 +8,13 @@
 		"version": "1.1",
 
         "browser_action": {
-          "default_icon": {
-            "19": "img/icon_mic@2x.png"
-          },
+          "default_icon": "/img/mic.png",
           "default_title": "Peppermint",
-          "default_popup": "record_popup/popup.html"
+          "default_popup": "popup/popup.html"
         },
 
 		"icons": {
-			"128": "img/logo_60x60@2x.png"
+			"128": "/img/logo.png"
 		},
 
 		"content_scripts": [
@@ -39,16 +37,6 @@
 				"css": [
 					"/gmail_content/css/style.css"
 				]
-			},
-			{
-				"matches": ["http://chrome-extension-developer.com/peppermint_test/desighner_2.html"],
-				"js": [
-					"/gmail_content/js/lib/jquery.min.js",
-					"/gmail_content/inceptor/inceptor.js"
-				],
-				"css": [
-					"/gmail_content/css/style.css"
-				]
 			}
 		],
 
@@ -64,8 +52,7 @@
 			"clipboardWrite",
 			"clipboardRead",
 
-			"https://mail.google.com/*",
-			"https://chrome-extension-developer.com/*"
+			"https://mail.google.com/*"
 			
 		],
 
