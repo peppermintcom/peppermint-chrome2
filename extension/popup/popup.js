@@ -6,6 +6,20 @@
 
 		var state = {};
 
+		function copy_to_clipboard ( text ) {
+		    var doc = document,
+		        temp = doc.createElement("textarea"),
+		        initScrollTop = doc.body.scrollTop;
+		    doc.body.insertBefore(temp, doc.body.firstChild);
+		    temp.value = text;
+		    temp.focus();
+		    doc.execCommand("SelectAll");
+		    doc.execCommand("Copy", false, null);
+		    temp.blur();
+		    doc.body.scrollTop = initScrollTop;
+		    doc.body.removeChild(temp);
+		}
+
 		function begin_recording () {
 
 			state.recording_thread_id = Date.now();
@@ -77,6 +91,7 @@
 						if ( current_recording_thread_id === state.recording_thread_id ) {
 
 							console.log( "uploaded:", url );
+							copy_to_clipboard( url );
 							$("#popup")[0].set_page_status("finished");
 							$("#popup")[0].set_page("popup_finish");
 							$("#popup")[0].set_url( url );
