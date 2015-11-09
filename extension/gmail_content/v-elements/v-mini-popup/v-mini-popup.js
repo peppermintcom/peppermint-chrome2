@@ -17,12 +17,19 @@
 
 			var public = {
 
+				reset: function () {
+					$( "#progress", private.element.shadowRoot ).html("");
+				}
 
 			};
 
 			public.constructor = function ( element ) {
 
 				private.element = element;
+
+				$( document ).on( "upload_progress", function ( event ) {
+					$( "#progress", element.shadowRoot ).html( event.originalEvent.detail.progress + "%" );
+				});
 
 				$( "#cancel", element.shadowRoot ).click( private.get_dispatcher( 'cancel_click' ) );
 			

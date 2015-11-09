@@ -1,6 +1,43 @@
 	
 	VUploader = function ( $ ) {
 		
+		var lib = {
+
+			upload: function ( url, buffer, success_callback, failure_callback ) {
+
+				var xhr = new XMLHttpRequest();
+				xhr.open( 'PUT', url, true );
+
+				xhr.onload = success_callback;
+				xhr.onerror = failure_callback;
+				xhr.setRequestHeader( "Content-Type", "audio/ogg" );
+
+				xhr.upload.onprogress = function( e ) {
+
+					if ( e.lengthComputable ) {
+
+						document.dispatchEvent( new CustomEvent( "upload_progress", {
+							detail: {
+								progress: parseInt( ( e.loaded / e.total ) * 100 )
+							}
+						}));
+
+					}
+
+				};
+
+				xhr.send( buffer );
+
+				document.dispatchEvent( new CustomEvent( "upload_progress", {
+					detail: {
+						progress: 0
+					}
+				}));
+
+			}
+
+		};
+
 		var private = {
 			
 			get_token: function () {
@@ -53,23 +90,7 @@
 			
 			upload: function ( signed_url, buffer ) {
 				return new Promise( function ( resolve, reject ) {
-					$.ajax(
-						{
-							url: signed_url,
-							type: 'PUT',
-							headers: {
-								'Content-Type': 'audio/ogg'
-							},
-							data: buffer,
-							success: function () {
-								resolve();
-							},
-							error: function () {
-								reject();
-							},
-							processData: false
-						}
-					);
+					lib.upload( signed_url, buffer, resolve, reject )
 				});
 			},
 			

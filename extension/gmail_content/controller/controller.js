@@ -110,6 +110,7 @@
 			$("#mini_popup_player")[0].reset();
 			$("#mini_popup_player")[0].disable();
 			$("#popup").hide();
+			$("#mini_popup")[0].reset();
 			$("#mini_popup").show();
 				
 			$( 'v-recorder' )[0].finish()
