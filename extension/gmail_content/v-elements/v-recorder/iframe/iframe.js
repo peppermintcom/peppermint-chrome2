@@ -36,9 +36,10 @@
 						.then( function ( stream ) {
 
 							private.stream = stream;
+							private.context = new AudioContext();
 
 							private.recorder = new WebAudioRecorder(
-								( new AudioContext() ).createMediaStreamSource( stream ),
+								private.context.createMediaStreamSource( stream ),
 								{
 									workerDir: "lib/",
 									numChannels: 1,
@@ -65,7 +66,8 @@
 				},
 
 				cancel: function () {
-
+				
+					private.context.close();
 					private.recorder.cancelRecording();
 					private.stream.getAudioTracks()[0].stop();
 
@@ -118,6 +120,7 @@
 					recorder_wrap.finish()
 					.then( function ( blob ) {
 						console.log( blob );
+						console.log("finished");
 						window.top.postMessage({
 							name: 'finished',
 							blob: blob

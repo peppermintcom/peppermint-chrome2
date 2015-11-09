@@ -69,7 +69,12 @@
 		$( document ).on( "recording_done_button_click", "#popup", function () {
 
 			current_recording_thread_id = state.recording_thread_id;
-				
+
+			$("#player")[0].reset();
+			$("#player")[0].disable();
+			$("#popup")[0].set_page_status("uploading");
+			$("#popup")[0].set_page("uploading_page");
+
 			$("#recorder")[0].finish()
 			.then( function ( blob ) {
 
@@ -77,10 +82,9 @@
 				.then( function ( data_url ) {
 
 					console.log( data_url );
-
-					$("#player")[0].player.set_url( data_url );
-					$("#popup")[0].set_page_status("uploading");
-					$("#popup")[0].set_page("uploading_page");
+					
+					$("#player")[0].enable();
+					$("#player")[0].set_url( data_url );
 
 				});
 
@@ -96,8 +100,6 @@
 							$("#popup")[0].set_page("popup_finish");
 							$("#popup")[0].set_url( url );
 					
-							$("#player")[0].player.pause();
-
 						} else {
 
 							console.log( "aborted recording url:", url )

@@ -16,26 +16,15 @@
 						element.shadowRoot.querySelector("#pause").style.display = 'block';
 					}
 				},
-				
-				reset: function () {
-					private.set_control_icon("play");
-					public.pause();
-					private.audio.currentTime = 0;
-					element.shadowRoot.querySelector(".stripe.stripe_green").style.width = '0%';
-				},
+
 				set_src: function ( src ) {
 					private.audio.src = src;
 				},
 				play: function () {
 					private.audio.play();
 				},
-				handle_attr_changed: function () {
-					private.set_control_icon("play");
-					public.pause();
-					private.set_src( element.dataset["src"] );
-					private.audio.currentTime = 0;
-					element.shadowRoot.querySelector(".stripe.stripe_green").style.width = '0%';
-				},
+
+
 				handle_audio_progress: function () {
 					element.shadowRoot.querySelector(".stripe.stripe_green").style.width = ( 100 * private.audio.currentTime / private.audio.duration ) + '%';
 				},
@@ -62,12 +51,28 @@
 				set_url: function ( url ) {
 
 					private.set_src( url );
-					private.reset();
+					public.reset();
 
+				},
+				
+				reset: function () {
+					private.set_control_icon("play");
+					private.audio.pause();
+					private.audio.currentTime = 0;
+					element.shadowRoot.querySelector(".stripe.stripe_green").style.width = '0%';
 				},
 
 				pause: function () {
 					private.audio.pause();
+					private.set_control_icon("play");
+				},
+
+				enable: function () {
+					element.shadowRoot.querySelector("#control").style.display = '';
+				},
+
+				disable: function () {
+					element.shadowRoot.querySelector("#control").style.display = 'none';
 				}
 
 			};
@@ -77,9 +82,6 @@
 			element.shadowRoot.querySelector("#pause").addEventListener( 'click', private.handle_pause_click );
 			element.shadowRoot.querySelector(".stripe_container").addEventListener( 'click', private.handle_stripe_click );
 			private.audio.addEventListener( "ended", private.handle_audio_end );
-			
-			( new MutationObserver( private.handle_attr_changed ) ).observe( element, { attributes: true });
-			private.handle_attr_changed();
 
 			return public;
 				
@@ -87,7 +89,7 @@
 	
 		var proto = Object.create( HTMLElement.prototype );
 		var prefix = 'v-player';
-		var template = document.getElementById( prefix + '-import' ).import.getElementById( prefix + '-template' );
+		var template = document.getElementById( prefix + '-import' ).import.getElementById( 'template' );
 		var url_prefix = document.getElementById( prefix + '-import' ).href.split(/\//g).slice( 0, -1 ).join("/");
 
 		proto.attachedCallback = function () {
@@ -97,7 +99,14 @@
 			this.createShadowRoot().appendChild(
 				document.importNode( template.content, true )
 			);
-			this.player = new Player( this );
+
+			var player = new Player( this );
+			var element = this;
+
+			Object.keys( player ).forEach( function ( key ) {
+				element[ key ] = player[ key ];
+			});
+
 		}
 
 		document.registerElement( prefix, { prototype: proto } );

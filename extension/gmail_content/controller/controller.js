@@ -56,14 +56,14 @@
 
 					if ( selection ) {
 						$("v-caret-helper")[0].html_before_selection( 
-							"I'm sending you an audio reply listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>"
+							"I sent you an audio reply listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>"
 							.replace( "{{URL}}", url )
 							.replace( "{{URL}}", url ),
 							selection
 						);
 					} else {
 						$( editable ).prepend(
-							"I'm sending you an audio reply listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>"
+							"I sent you an audio reply listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>"
 							.replace( "{{URL}}", url )
 							.replace( "{{URL}}", url )
 						);
@@ -200,6 +200,8 @@
 			g_state.set_recording_id(  timestamp );
 			state.set_recording_id( timestamp );
 
+			$("#mini_popup_player")[0].reset();
+			$("#mini_popup_player")[0].disable();
 			$("#popup").hide();
 			$("#mini_popup").show();
 				
@@ -209,8 +211,8 @@
 				$( 'v-recorder' )[0].blob_to_data_url( blob )
 				.then( function ( data_url ) {
 
-					$("#mini_popup_player")[0].player.set_url( data_url );
-
+					$("#mini_popup_player")[0].enable();
+					$("#mini_popup_player")[0].set_url( data_url );
 
 
 				});
@@ -225,7 +227,7 @@
 							$("#mini_popup").hide();
 							console.log( "uploaded:", url );
 
-							$("#mini_popup_player")[0].player.pause();
+							$("#mini_popup_player")[0].pause();
 
 							add_link( g_state.get_audio_url(), g_state.get_compose_button_id() );
 
@@ -248,7 +250,7 @@
 
 			$("#mini_popup").hide();
 
-			$("#mini_popup_player")[0].player.pause();
+			$("#mini_popup_player")[0].pause();
 			g_state.set_recording_id( undefined );
 			g_state.set_compose_button_id( undefined );
 

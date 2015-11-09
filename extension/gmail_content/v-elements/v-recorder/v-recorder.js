@@ -41,7 +41,10 @@
 
 						window.onmessage = function ( event ) {
 
-							resolve( event.data.blob );
+							if ( event.data.name === "finished" ) {
+								console.log("finished");
+								resolve( event.data.blob );
+							}
 
 						};
 
@@ -52,6 +55,7 @@
 					});
 				},
 				blob_to_buffer: function ( blob ) {
+					console.log( '1', blob );
 					return new Promise( function ( resolve ) {
 						var reader = new FileReader();
 						reader.readAsArrayBuffer( blob );
@@ -61,6 +65,7 @@
 					});
 				},
 				blob_to_data_url: function ( blob ) {
+					console.log( '1', blob );
 					return new Promise ( function ( resolve ) {
 						var reader = new FileReader();
 						reader.onloadend = function () {

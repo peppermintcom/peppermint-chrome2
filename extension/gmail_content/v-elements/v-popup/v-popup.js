@@ -1,7 +1,7 @@
 
 	( function () {
 		
-		var Popup = function ( element ) {
+		var Popup = function () {
 			
 			var private = {
 				
