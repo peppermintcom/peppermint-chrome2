@@ -41,7 +41,7 @@
 			get_import_inserter( 'v-recorder-import', 'gmail_content/v-elements/v-recorder/v-recorder.html' )();
 			get_import_inserter( 'v-button-inserter-import', 'gmail_content/v-elements/v-button-inserter/v-button-inserter.html' )();
 			get_import_inserter( 'v-uploader-import', 'gmail_content/v-elements/v-uploader/v-uploader.html' )();
-			get_import_inserter( 'v-caret-helper-import', 'gmail_content/v-elements/v-caret-helper/v-caret-helper.html' )();
+			get_import_inserter( 'v-letter-manager-import', 'gmail_content/v-elements/v-letter-manager/v-letter-manager.html' )();
 			get_import_inserter( 'v-inceptor', 'gmail_content/inceptor/inceptor.html' )()
 			.then( function () {
 				var inceptor_import = document.querySelector('#v-inceptor').import;
