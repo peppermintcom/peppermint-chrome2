@@ -72,14 +72,14 @@
 
 							if ( selection ) {
 								private.html_before_selection( 
-									"I sent you an audio reply listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>"
+									"I sent you an audio reply. Listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>"
 									.replace( "{{URL}}", url )
 									.replace( "{{URL}}", url ),
 									selection
 								);
 							} else {
 								$( editable ).prepend(
-									"I sent you an audio reply listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>"
+									"I sent you an audio reply. Listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>"
 									.replace( "{{URL}}", url )
 									.replace( "{{URL}}", url )
 								);
@@ -93,14 +93,14 @@
 
 							if ( selection ) {
 								private.html_before_selection(
-									"I've sent you an audio message via Peppermint listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>"
+									"I've sent you an audio message via Peppermint. Listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>"
 									.replace( "{{URL}}", url )
 									.replace( "{{URL}}", url ),
 									selection
 								);
 							} else {
 								$( editable ).prepend(
-									"I've sent you an audio message via Peppermint listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>"
+									"I've sent you an audio message via Peppermint. Listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>"
 									.replace( "{{URL}}", url )
 									.replace( "{{URL}}", url )
 								)

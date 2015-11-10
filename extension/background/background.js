@@ -1,48 +1,150 @@
 
-chrome.runtime.onInstalled.addListener(function (details) {
-	if ( details.reason === "install" ) {
-	    chrome.tabs.create({
-	        url: chrome.extension.getURL("welcome_page/welcome.html"),
-	        active: true
-	    });
-	}
-});
+	// Open new window on install
+	chrome.runtime.onInstalled.addListener(function (details) {
+		if ( details.reason === "install" ) {
+		    chrome.tabs.create({
+		        url: chrome.extension.getURL("welcome_page/welcome.html"),
+		        active: true
+		    });
+		}
+	});
 
-chrome.storage.sync.get(null, function(items) {
-	var dataToGetApiKey, apiKey;
-	if ( !items.apiData ) {
-		dataToGetApiKey = {
-			api_key: "abc123",
-			recorder: {
-				description: "chrome app"
-			}
+	var popup_state = {
+		page: null,
+		page_status: null,
+		recording_thread_id: null
+	};
+
+	window.transferControl = function ( popup_window ) {
+
+		$( "#popup", pop_doc ).css({ display: "block" }).show();
+		$( "#popup", pop_doc )[0].set_page("popup_welcome");
+		var pop_doc = popup_window.document;
+
+		chrome.extension.getBackgroundPage().transferControl( window );
+
+		var state = {};
+
+		function copy_to_clipboard ( text ) {
+		    var doc = document,
+		        temp = doc.createElement("textarea"),
+		        initScrollTop = doc.body.scrollTop;
+		    doc.body.insertBefore(temp, doc.body.firstChild);
+		    temp.value = text;
+		    temp.focus();
+		    doc.execCommand("SelectAll");
+		    doc.execCommand("Copy", false, null);
+		    temp.blur();
+		    doc.body.scrollTop = initScrollTop;
+		    doc.body.removeChild(temp);
+		
+		}
+
+		function begin_recording () {
+
+			popup_state.recording_thread_id = Date.now();
+
+			$("#recorder")[0].start()
+			.then( function () {
+				$( "#timer", pop_doc )[0].reset();
+				$( "#timer", pop_doc )[0].start();
+				$( "#popup", pop_doc ).show();
+				$( "#popup", pop_doc )[0].set_page("recording_page");
+				$( "#popup", pop_doc )[0].set_page_status("recording");
+				popup_state.page = "recording_page";
+				popup_state.page_status = "recording";
+			})
+			.catch( function () {
+				$( "#popup", pop_doc ).show();
+				$( "#popup", pop_doc )[0].set_page("microphone_error_page");
+				popup_state.page = "microphone_error_page";
+			});
+
 		};
 
-		makeRequest("POST", "recorder", dataToGetApiKey, null, function (res) {
-		    chrome.storage.sync.set({"apiData": res}, function() {
-		    	console.log("apiData saved");
-		    });
-		});
-	}
-});
+		$( pop_doc ).on( "popup_welcome_start_recording_click",  "#popup", function () {
 
-function makeRequest(method, url, data, header, callback) {
-	var baseUrl = "https://qdkkavugcd.execute-api.us-west-2.amazonaws.com/prod/v1/";
-	var ajax = new XMLHttpRequest();
-	var json = data ? JSON.stringify(data) : null;
-	ajax.onreadystatechange = function() {
-		if ( ajax.readyState === XMLHttpRequest.DONE ) {
-			if ( ajax.status === 201 ) {
-				callback(JSON.parse(ajax.responseText));
-			}else {
-				console.log(ajax.responseText);
-			}
-		}
+			begin_recording();
+
+		});
+
+		$( pop_doc ).on( "error_cancel_button_click",  "#popup", function () {
+
+			$( "#popup", pop_doc )[0].set_page("popup_welcome");
+			popup_state.page = "popup_welcome";
+			popup_state.recording_thread_id = Date.now();
+
+		});
+
+		$( pop_doc ).on( "error_try_again_button_click",  "#popup", function () {
+
+			begin_recording();
+
+		});
+
+		$( pop_doc ).on( "recording_cancel_button_click",  "#popup", function () {
+
+			$('#recorder')[0].cancel();
+			$( "#popup", pop_doc )[0].set_page("popup_welcome");
+			popup_state.page = "popup_welcome";
+			popup_state.recording_thread_id = Date.now();
+
+		});
+
+		$( pop_doc ).on( "recording_done_button_click",  "#popup", function () {
+
+			current_recording_thread_id = popup_state.recording_thread_id;
+
+			$( "#player", pop_doc )[0].reset();
+			$( "#player", pop_doc )[0].disable();
+			$( "#popup", pop_doc )[0].set_page_status("uploading");
+			$( "#popup", pop_doc )[0].set_page("uploading_page");
+			popup_state.page_status = "uploading";
+			popup_state.page = "uploading_page";
+
+			$("#recorder")[0].finish()
+			.then( function ( blob ) {
+
+				$("#recorder")[0].blob_to_data_url( blob )
+				.then( function ( data_url ) {
+
+					console.log( data_url );
+					popup_state.audio_data_url = data_url;
+					
+					$( "#player", pop_doc )[0].enable();
+					$( "#player", pop_doc )[0].set_url( data_url );
+
+				});
+
+				$("#recorder")[0].blob_to_buffer( blob )
+				.then( function ( buffer ) {
+					$("#uploader")[0].uploader.upload_buffer( buffer )
+					.then( function ( url ) {
+						if ( current_recording_thread_id === popup_state.recording_thread_id ) {
+
+							console.log( "uploaded:", url );
+							copy_to_clipboard( url );
+							$( "#popup", pop_doc )[0].set_page_status("finished");
+							$( "#popup", pop_doc )[0].set_page("popup_finish");
+							$( "#popup", pop_doc )[0].set_url( url );
+					
+						} else {
+
+							console.log( "aborted recording url:", url )
+
+						}
+					})
+					.catch();
+				});
+
+			})
+
+		});
+
+		$( pop_doc ).on( "popup_finish_start_new_button_click",  "#popup", function () {
+
+			begin_recording();
+
+		});
+
 	};
-	ajax.open(method, baseUrl + url);
-	if ( header ) {
-		ajax.setRequestHeader("Content-Type", "application/json");
-		ajax.setRequestHeader("Authorization", header.value);
-	}
-	ajax.send(json);
-}
