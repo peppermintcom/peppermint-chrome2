@@ -17,8 +17,8 @@
 							function ( stream ) {
 								resolve( stream );
 							},
-							function () {
-								reject();
+							function ( error ) {
+								reject( error );
 							}
 						);
 					});
@@ -59,7 +59,10 @@
 							resolve();
 
 						})
-						.catch( reject );
+						.catch( function ( error ) {
+							console.log( error );
+							reject( error );
+						});
 
 					});
 
@@ -105,9 +108,10 @@
 							name: 'started',
 						},"*");
 					})
-					.catch( function () {
+					.catch( function ( error ) {
 						window.top.postMessage({
 							name: 'not_started',
+							error: { name: error.name }
 						},"*");
 					})
 				},

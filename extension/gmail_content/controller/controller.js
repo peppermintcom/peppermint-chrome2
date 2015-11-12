@@ -46,15 +46,27 @@
 
 			$( 'v-recorder' )[0].start()
 			.then( function () {
+
 				$("v-timer")[0].reset();
 				$("v-timer")[0].start();
-				$( 'v-popup' ).show();
-				$( 'v-popup' )[0].set_page("recording_page");
-				$( 'v-popup' )[0].set_page_status("recording");
+				$('#popup').show();
+				$('#popup')[0].set_page("recording_page");
+				$('#popup')[0].set_page_status("recording");
+
 			})
-			.catch( function () {
-				$( 'v-popup' ).show();
-				$( 'v-popup' )[0].set_page("microphone_error_page");
+			.catch( function ( error ) {
+
+				if ( error.name === "PermissionDeniedError" ) {
+
+					console.log("permission denied");
+
+				} else {
+
+					$('#popup').show();
+					$('#popup')[0].set_page("microphone_error_page");
+
+				}
+
 			});
 
 		});
@@ -77,17 +89,30 @@
 
 		$( document ).on( "error_try_again_button_click", "#popup", function () {
 
+
 			$( 'v-recorder' )[0].start()
 			.then( function () {
+
 				$("v-timer")[0].reset();
 				$("v-timer")[0].start();
-				$( 'v-popup' ).show();
-				$( 'v-popup' )[0].set_page("recording_page");
-				$( 'v-popup' )[0].set_page_status("recording");
+				$('#popup').show();
+				$('#popup')[0].set_page("recording_page");
+				$('#popup')[0].set_page_status("recording");
+
 			})
-			.catch( function () {
-				$( 'v-popup' ).show();
-				$( 'v-popup' )[0].set_page("microphone_error_page");
+			.catch( function ( error ) {
+
+				if ( error.name === "PermissionDeniedError" ) {
+
+					console.log("permission denied");
+
+				} else {
+
+					$('#popup').show();
+					$('#popup')[0].set_page("microphone_error_page");
+
+				}
+
 			});
 
 		});
@@ -95,7 +120,7 @@
 		$( document ).on( "recording_cancel_button_click", "#popup", function () {
 
 			$( 'v-recorder' )[0].cancel();
-			$( 'v-popup' ).hide();
+			$('#popup').hide();
 			g_state.set_compose_button_id( undefined );
 
 		});

@@ -19,8 +19,8 @@
 
 							if ( event.data.name === 'started' ) {
 								resolve();
-							} else {
-								reject();
+							} else if ( event.data.name === 'not_started' ) {
+								reject( event.data.error );
 							}
 
 						};
