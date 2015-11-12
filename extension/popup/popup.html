@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+
+		<meta charset="utf-8">
+		<title>Peppermint</title>
+
+		<link href="popup.css" rel="stylesheet" type="text/css">
+		<script src = '../gmail_content/js/lib/jquery.min.js' ></script>
+
+		<link
+			rel = 'import'
+			id = 'v-player-import' 
+			href = '../gmail_content/v-elements/v-player/v-player.html'
+		>
+		<link
+			rel = 'import'
+			id = 'v-popup-import' 
+			href = '../gmail_content/v-elements/v-popup/v-popup.html'
+		>
+		<link
+			rel = 'import'
+			id = 'v-player-import' 
+			href = '../gmail_content/v-elements/v-player/v-player.html'
+		>
+		<link
+			rel = 'import'
+			id = 'v-timer-import' 
+			href = '../gmail_content/v-elements/v-timer/v-timer.html'
+		>
+
+	</head>
+
+	<body>
+	
+		<v-popup id = "popup" >
+			<v-player id = 'player' ></v-player>
+			<v-timer id = 'timer' ></v-timer>
+		</v-popup>
+
+		<script src="popup.js" ></script>
+
+	</body>
+
+</html>
