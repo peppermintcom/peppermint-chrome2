@@ -38,6 +38,14 @@
 					
 				},
 
+				notify_tick: function () {
+
+					private.element.dispatchEvent( new CustomEvent( "tick", {
+						bubbles: true,
+					}));
+
+				},
+
 				start_timestamp: null,
 				time: null,
 				interval: null
@@ -55,6 +63,7 @@
 
 						private.time = Date.now() - private.start_timestamp;
 						private.display_time( private.time );
+						private.notify_tick();
 
 					}, 1000 );
 
@@ -67,13 +76,28 @@
 
 				},
 
+				get_timestamp: function () {
+
+					return private.start_timestamp;
+
+				},
+
+				set_time: function ( time ) {
+
+					private.time = time;
+					private.display_time( private.time );
+
+				},
+
 				continue: function () {
 
 					private.start_timestamp = Date.now() - private.time;
+
 					private.interval = setInterval( function () {
 
 						private.time = Date.now() - private.start_timestamp;
 						private.display_time( private.time );
+						private.notify_tick();
 
 					}, 1000 );
 

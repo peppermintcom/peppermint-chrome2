@@ -1,6 +1,6 @@
 
-	( function ( document, $ ) {
+	( function () {
 
 		chrome.extension.getBackgroundPage().transferControl( window );
 
-	} ( document, jQuery ) )
+	} () )

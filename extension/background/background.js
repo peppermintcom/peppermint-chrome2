@@ -10,20 +10,20 @@
 	});
 
 	var popup_state = {
+
 		page: null,
 		page_status: null,
-		recording_thread_id: null
+		recording_thread_id: null,
+		audio_data_url: null,
+		timestamp: null
+
 	};
 
+	var pop_doc = null;
+
 	window.transferControl = function ( popup_window ) {
-
-		$( "#popup", pop_doc ).css({ display: "block" }).show();
-		$( "#popup", pop_doc )[0].set_page("popup_welcome");
-		var pop_doc = popup_window.document;
-
-		chrome.extension.getBackgroundPage().transferControl( window );
-
-		var state = {};
+		
+		pop_doc = popup_window.document;
 
 		function copy_to_clipboard ( text ) {
 		    var doc = document,
@@ -42,6 +42,7 @@
 
 		function begin_recording () {
 
+			popup_state = {};
 			popup_state.recording_thread_id = Date.now();
 
 			$("#recorder")[0].start()
@@ -61,6 +62,41 @@
 			});
 
 		};
+
+		function init_popup_state ( pop_doc ) {
+
+			$( "#popup", pop_doc ).css({ display: "block" }).show();
+			$( "#popup", pop_doc )[0].set_page( popup_state.page || "popup_welcome" );
+			if ( popup_state.page_status ) $( "#popup", pop_doc )[0].set_page_status( popup_state.page_status );
+
+			if ( popup_state.audio_data_url ) {
+				$( "#player", pop_doc )[0].enable();
+				$( "#player", pop_doc )[0].set_url( popup_state.audio_data_url );
+			} else {
+				$( "#player", pop_doc )[0].disable();
+			};
+
+			if ( popup_state.recording_url ) {
+
+				copy_to_clipboard( popup_state.recording_url );
+				$( "#popup", pop_doc )[0].set_url( popup_state.recording_url );
+
+			};
+
+			if ( popup_state.timestamp ) {
+
+				$( "#timer", pop_doc )[0].set_time( Date.now() - popup_state.timestamp );
+				$( "#timer", pop_doc )[0].continue();
+
+			};
+
+		};
+
+		init_popup_state( pop_doc )
+
+		$( pop_doc ).on( "tick", "#timer", function () {
+			popup_state.timestamp = $( "#timer", pop_doc )[0].get_timestamp();
+		});
 
 		$( pop_doc ).on( "popup_welcome_start_recording_click",  "#popup", function () {
 
@@ -124,6 +160,11 @@
 
 							console.log( "uploaded:", url );
 							copy_to_clipboard( url );
+
+							popup_state.recording_url = url;
+							popup_state.page_status = "finished";
+							popup_state.page = "popup_finish";
+
 							$( "#popup", pop_doc )[0].set_page_status("finished");
 							$( "#popup", pop_doc )[0].set_page("popup_finish");
 							$( "#popup", pop_doc )[0].set_url( url );
