@@ -60,7 +60,7 @@
 			var public = {
 
 				add_link: function ( url, id ) {
-				
+
 					try {
 
 						// if element is a child of a dialog - it is a compose message
@@ -70,7 +70,7 @@
 							var editable = $( letter ).find('.Am.Al.editable.LW-avf')[0];
 							var selection = private.last_selections[ letter.dataset["id"] ];
 
-							if ( selection ) {
+							if ( selection && editable.contains( selection.anchorNode ) ) {
 								private.html_before_selection( 
 									"I sent you an audio reply. Listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>"
 									.replace( "{{URL}}", url )
@@ -91,7 +91,7 @@
 							var editable = $( letter ).find('.Am.Al.editable.LW-avf')[0];
 							var selection = private.last_selections[ letter.dataset["id"] ];
 
-							if ( selection ) {
+							if ( selection && editable.contains( selection.anchorNode ) ) {
 								private.html_before_selection(
 									"I've sent you an audio message via Peppermint. Listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>"
 									.replace( "{{URL}}", url )
