@@ -104,7 +104,7 @@
 				justify-content: center;
 				align-items: center;
 				
-				height: 100px;
+				height: 30px;
 				
 			}
 			#finish_player_container {
@@ -124,6 +124,51 @@
 				
 				height: 40px;
 				
+			}
+
+
+			
+			#phrase_container {
+				
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				height: 80px;
+				
+			}
+			
+			#player_container {
+				
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				height: 10px;
+				
+			}
+
+			#divider {
+
+				width: 15px;
+
+			}
+
+			#uploading {
+				font-family: sans-serif;
+				font-size: 16px;
+				color: rgba(0,0,0,0.75);
+			}
+
+			#cancel {
+
+				font-family: sans-serif;
+				font-size: 16px;
+			    text-decoration: underline;
+			    color: blue;
+
+			    cursor: pointer;
+
 			}
 
 			a {
@@ -177,12 +222,24 @@
 		</div>
 
 		<div class = 'page' id = 'uploading_page' >
-			<div class = 'popup_status uploading' >Uploading...</div>
-			<img class = 'popup_logo' id = 'uploading_logo' src = '{{URL_PREFIX}}/img/uploading.gif' >
+
+			<div id = "phrase_container" >
+				<div id = 'uploading' >
+					Uploading...
+					<span id="progress" ></span>
+				</div>
+				<div id = 'divider' ></div>
+				<div id = 'cancel' >Cancel</div>
+			</div>
+
 			<img class = 'popup_logo' id = 'uploaded_logo' src = '{{URL_PREFIX}}/img/mic.png' >
+
 			<div id = 'uploading_player_container' >
 				<content select = "v-player" id = "player_content" ></content>
 			</div>
+			
+			<img src = '{{URL_PREFIX}}/img/funny.gif' >
+
 		</div>
 
 		<div class = 'page' id = 'popup_finish' >

@@ -188,4 +188,13 @@
 
 		});
 
+		$( pop_doc ).on( "cancel_click", function  () {
+			
+			$( "#player", pop_doc )[0].reset();
+			$( "#popup", pop_doc )[0].set_page("popup_welcome");
+			popup_state.page = "popup_welcome";
+			popup_state.recording_thread_id = Date.now();
+			
+		});
+
 	};

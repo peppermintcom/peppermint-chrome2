@@ -71,7 +71,8 @@
 					"uploading_re_record_button",
 					"popup_finish_start_new_button",
 					"uploading_done_button",
-					"popup_welcome_start_recording"
+					"popup_welcome_start_recording",
+					"cancel"
 				].forEach( private.create_click_dispatcher );
 
 			};
