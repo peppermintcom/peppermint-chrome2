@@ -21,10 +21,6 @@
 
 	var pop_doc = null;
 
-	window.transferControl = function ( popup_window ) {
-		
-		pop_doc = popup_window.document;
-
 		function copy_to_clipboard ( text ) {
 		    var doc = document,
 		        temp = doc.createElement("textarea"),
@@ -70,8 +66,11 @@
 			if ( popup_state.page_status ) $( "#popup", pop_doc )[0].set_page_status( popup_state.page_status );
 
 			if ( popup_state.audio_data_url ) {
-				$( "#player", pop_doc )[0].enable();
-				$( "#player", pop_doc )[0].set_url( popup_state.audio_data_url );
+				$( "#player", pop_doc )[0].disable();
+				setTimeout( function () {
+					$( "#player", pop_doc )[0].set_url( popup_state.audio_data_url );
+					$( "#player", pop_doc )[0].enable();
+				}, 100 );
 			} else {
 				$( "#player", pop_doc )[0].disable();
 			};
@@ -93,12 +92,16 @@
 			if ( popup_state.progress ) {
 				pop_doc.dispatchEvent( new CustomEvent( "upload_progress", {
 					detail: {
-						progress: popp_state.progress
+						progress: popup_state.progress
 					}
 				}))
 			}
 
 		};
+
+	window.transferControl = function ( popup_window ) {
+		
+		pop_doc = popup_window.document;
 
 		init_popup_state( pop_doc )
 
@@ -214,7 +217,7 @@
 				}
 			}))
 		
-			popp_state.progress = event.originalEvent.detail.progress;
+			popup_state.progress = event.originalEvent.detail.progress;
 		
 		});
 
