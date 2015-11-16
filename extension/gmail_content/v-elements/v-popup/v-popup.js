@@ -75,6 +75,10 @@
 					"cancel"
 				].forEach( private.create_click_dispatcher );
 
+				$( document ).on( "upload_progress", function ( event ) {
+					$( "#progress", element.shadowRoot ).html( event.originalEvent.detail.progress + "%" );
+				});
+
 			};
 
 			return public;

@@ -90,6 +90,14 @@
 
 			};
 
+			if ( popup_state.progress ) {
+				pop_doc.dispatchEvent( new CustomEvent( "upload_progress", {
+					detail: {
+						progress: popp_state.progress
+					}
+				}))
+			}
+
 		};
 
 		init_popup_state( pop_doc )
@@ -195,6 +203,19 @@
 			popup_state.page = "popup_welcome";
 			popup_state.recording_thread_id = Date.now();
 			
+		});
+
+
+		$( document ).on( "upload_progress", function ( event ) {
+		
+			pop_doc.dispatchEvent( new CustomEvent( "upload_progress", {
+				detail: {
+					progress: event.originalEvent.detail.progress
+				}
+			}))
+		
+			popp_state.progress = event.originalEvent.detail.progress;
+		
 		});
 
 	};
