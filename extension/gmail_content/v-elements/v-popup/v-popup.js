@@ -22,6 +22,7 @@
 					var options = {
 						
 						"uploading": function () {
+							$( "#progress", private.element.shadowRoot ).html( "0%" );
 							$( '#uploading_logo', private.element.shadowRoot ).show();
 							$( '#uploaded_logo', private.element.shadowRoot ).hide();
 							$( '#uploading_done_button', private.element.shadowRoot ).hide();
