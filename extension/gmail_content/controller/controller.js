@@ -5,7 +5,6 @@
 
 			var private = {
 
-
 			};
 
 			var public = {
@@ -58,6 +57,9 @@
 
 				if ( error.name === "PermissionDeniedError" ) {
 
+					chrome.tabs.create({
+						url: chrome.extension.getURL("/welcome_page/welcome.html")
+					});
 					console.log("permission denied");
 
 				} else {

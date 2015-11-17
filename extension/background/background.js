@@ -21,7 +21,7 @@
 
 	var pop_doc = null;
 
-		function copy_to_clipboard ( text ) {
+	function copy_to_clipboard ( text ) {
 		    var doc = document,
 		        temp = doc.createElement("textarea"),
 		        initScrollTop = doc.body.scrollTop;
@@ -33,10 +33,10 @@
 		    temp.blur();
 		    doc.body.scrollTop = initScrollTop;
 		    doc.body.removeChild(temp);
-		
-		}
+	
+	}
 
-		function begin_recording () {
+	function begin_recording () {
 
 			popup_state = {};
 			popup_state.recording_thread_id = Date.now();
@@ -51,15 +51,28 @@
 				popup_state.page = "recording_page";
 				popup_state.page_status = "recording";
 			})
-			.catch( function () {
-				$( "#popup", pop_doc ).show();
-				$( "#popup", pop_doc )[0].set_page("microphone_error_page");
-				popup_state.page = "microphone_error_page";
+			.catch( function ( error ) {
+
+				if ( error.name === "PermissionDeniedError" ) {
+
+					chrome.tabs.create({
+						url: chrome.extension.getURL("/welcome_page/welcome.html")
+					});
+					console.log("permission denied");
+
+				} else {
+
+					$( "#popup", pop_doc ).show();
+					$( "#popup", pop_doc )[0].set_page("microphone_error_page");
+					popup_state.page = "microphone_error_page";
+
+				}
+
 			});
 
-		};
+	};
 
-		function init_popup_state ( pop_doc ) {
+	function init_popup_state ( pop_doc ) {
 
 			$( "#popup", pop_doc ).css({ display: "block" }).show();
 			$( "#popup", pop_doc )[0].set_page( popup_state.page || "popup_welcome" );
@@ -97,7 +110,7 @@
 				}))
 			}
 
-		};
+	};
 
 	window.transferControl = function ( popup_window ) {
 		

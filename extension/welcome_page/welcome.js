@@ -8,15 +8,7 @@
 	    if ( !navigator.getUserMedia ) { navigator.getUserMedia = navigator.webkitGetUserMedia; }
 	    navigator.getUserMedia(
 	        {
-	            "audio": {
-	                "mandatory": {
-	                    "googEchoCancellation": "false",
-	                    "googAutoGainControl": "false",
-	                    "googNoiseSuppression": "false",
-	                    "googHighpassFilter": "false"
-	                },
-	                "optional": []
-	            },
+	            "audio": true
 	        },
 	        function() {
             console.log("ok, got a stream");
