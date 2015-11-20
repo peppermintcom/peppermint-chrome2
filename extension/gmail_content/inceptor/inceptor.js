@@ -30,6 +30,14 @@
 			};
 		};
 
+		function inject_local_storage () {
+			chrome.storage.local.get( null, function ( items ) {
+				window.localStorage.peppermint_storage_items = JSON.stringify( items ); 
+			});
+		};
+
+		inject_local_storage();
+
 		insert_script( "chrome-extension://"+chrome.runtime.id+"/gmail_content/js/lib/jquery.min.js" )
 		.then( function () {
 

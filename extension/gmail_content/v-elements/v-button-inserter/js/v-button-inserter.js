@@ -24,7 +24,15 @@
 
 					private.insert_compose_button();
 					private.insert_dwopdown_button();
-					private.insert_reply_button();
+
+					if (
+						window.localStorage.peppermint_storage_items
+						&& JSON.parse( window.localStorage.peppermint_storage_items ).options_data
+						&& ! JSON.parse( window.localStorage.peppermint_storage_items ).options_data.reply_button_disabled
+					) {
+						private.insert_reply_button();
+					}
+
 
 				},
 				insert_compose_button: function () {

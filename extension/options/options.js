@@ -1,25 +1,35 @@
 
-	V.OptionsData = function ( hub ) {
+	OptionsData = function () {
 		
 		var obj = {
 			
 		};
 		
-		hub.add({
-			
-			"disable_reply_button_change": function ( data ) {
-				obj["reply_button_disabled"] = data.checked;
-				hub.fire({ name: "options_data_change", options_data: obj });
-			}
-			
-		});
-		
-	}
+		$( document ).on( "disable_reply_button_change", function ( event ) {
 
-	V.PageManager = function ( $, hub ) {
+			var data = event.originalEvent.detail
+			obj["reply_button_disabled"] = data.checked;
+
+			document.dispatchEvent( new CustomEvent( "options_data_change", {
+				detail: {
+					options_data: obj
+				}
+			}));
+
+		});
+
+	};
+
+	PageManager = function () {
 		
 		$("#disable_reply_button").change( function ( event ) {
-			hub.fire({ name: "disable_reply_button_change", checked: event.target.checked });
+
+			document.dispatchEvent( new CustomEvent( "disable_reply_button_change", {
+				detail: {
+					checked: event.target.checked		
+				}
+			}));
+
 		});
 		
 		return {
@@ -34,7 +44,7 @@
 		
 	};
 	
-	V.StorageManager = function ( chrome ) {
+	StorageManager = function ( chrome ) {
 		
 		return {
 			
@@ -59,33 +69,30 @@
 			
 		};
 		
-		obj.hub = new V.EventHub('options_hub',{});
-		obj.page_manager = new V.PageManager( jQuery, obj.hub );
-		obj.storage_manager = new V.StorageManager( chrome );
-		obj.options_data = new V.OptionsData( obj.hub );
+		obj.page_manager = new PageManager();
+		obj.storage_manager = new StorageManager( chrome );
+		obj.options_data = new OptionsData();
 		
-		obj.hub.add({
-			
-			"ready": function () {
-				obj.storage_manager.get( function ( items ) {
-					if ( items["options_data"] !== undefined ) {
-						obj.page_manager.set_options_data(
-							items["options_data"]
-						);
-					};
-				});
-			},
-			
-			"options_data_change": function ( data ) {
-				obj.storage_manager.set({
-					"options_data": data.options_data
-				});
-			}
-			
+		$( document ).ready( function () {
+			obj.storage_manager.get( function ( items ) {
+				if ( items["options_data"] !== undefined ) {
+					obj.page_manager.set_options_data(
+						items["options_data"]
+					);
+				};
+			});
 		});
-		
-		obj.hub.fire({ name: "ready" });
-		
+
+		$( document ).on( "options_data_change", function ( event ) {
+
+			var data = event.originalEvent.detail;
+
+			obj.storage_manager.set({
+				"options_data": data.options_data
+			});
+
+		});
+
 	} ( jQuery, chrome ) );
 	
 	
