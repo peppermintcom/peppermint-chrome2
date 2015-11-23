@@ -31,6 +31,11 @@
 						&& ! JSON.parse( window.localStorage.peppermint_storage_items ).options_data.reply_button_disabled
 					) {
 						private.insert_reply_button();
+					} else if (
+						!window.localStorage.peppermint_storage_items
+						|| !JSON.parse( window.localStorage.peppermint_storage_items ).options_data
+					) {
+						private.insert_reply_button();
 					}
 
 

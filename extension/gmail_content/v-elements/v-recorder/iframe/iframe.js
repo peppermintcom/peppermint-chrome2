@@ -42,13 +42,13 @@
 								private.context.createMediaStreamSource( stream ),
 								{
 									workerDir: "lib/",
-									numChannels: 1,
-									encoding: 'ogg',
+									numChannels: 2,
+									encoding: 'mp3',
 									options: {
 										timeLimit: 60 * 60 * 24,
 										encodeAfterRecord: true,
-										ogg: {
-											quality: -0.1
+										mp3: {
+											bitRate: 32
 										}
 									}
 								}

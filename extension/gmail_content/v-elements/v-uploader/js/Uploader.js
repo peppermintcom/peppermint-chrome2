@@ -10,7 +10,7 @@
 
 				xhr.onload = success_callback;
 				xhr.onerror = failure_callback;
-				xhr.setRequestHeader( "Content-Type", "audio/ogg" );
+				xhr.setRequestHeader( "Content-Type", "audio/mpeg" );
 
 				xhr.upload.onprogress = function( e ) {
 
@@ -71,7 +71,7 @@
 						{
 							type: 'POST',
 							data: JSON.stringify({
-							  "content_type": "audio/ogg"
+							  "content_type": "audio/mpeg"
 							}),
 							headers: {
 								'Authorization': 'Bearer ' + token,
