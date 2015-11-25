@@ -20,6 +20,7 @@
 	};
 
 	var pop_doc = null;
+	var timer;
 
 	function copy_to_clipboard ( text ) {
 		    var doc = document,
@@ -43,6 +44,9 @@
 
 			$("#recorder")[0].start()
 			.then( function () {
+
+				start_timer();
+
 				$( "#timer", pop_doc )[0].reset();
 				$( "#timer", pop_doc )[0].start();
 				$( "#popup", pop_doc ).show();
@@ -50,6 +54,7 @@
 				$( "#popup", pop_doc )[0].set_page_status("recording");
 				popup_state.page = "recording_page";
 				popup_state.page_status = "recording";
+
 			})
 			.catch( function ( error ) {
 
@@ -112,6 +117,16 @@
 
 	};
 
+	function start_timer() {
+		timer = setTimeout( function () {
+			document.dispatchEvent( new CustomEvent( "timeout" ) );
+		}, 1000 * 60 * 5 );
+	};
+
+	function stop_timer() {
+		clearTimeout( timer );
+	};
+
 	window.transferControl = function ( popup_window ) {
 		
 		pop_doc = popup_window.document;
@@ -144,6 +159,7 @@
 
 		$( pop_doc ).on( "recording_cancel_button_click",  "#popup", function () {
 
+			stop_timer();
 			$('#recorder')[0].cancel();
 			$( "#popup", pop_doc )[0].set_page("popup_welcome");
 			popup_state.page = "popup_welcome";
@@ -151,8 +167,66 @@
 
 		});
 
-		$( pop_doc ).on( "recording_done_button_click",  "#popup", function () {
+		$( document ).on( "timeout", function () {
 
+			current_recording_thread_id = popup_state.recording_thread_id;
+
+			$( "#player", pop_doc )[0].reset();
+			$( "#player", pop_doc )[0].disable();
+			$( "#popup", pop_doc )[0].set_page_status("uploading");
+			$( "#popup", pop_doc )[0].set_page("uploading_page");
+			popup_state.page_status = "uploading";
+			popup_state.page = "uploading_page";
+
+			$("#recorder")[0].finish()
+			.then( function ( blob ) {
+
+				$("#recorder")[0].blob_to_data_url( blob )
+				.then( function ( data_url ) {
+
+					console.log( data_url );
+					popup_state.audio_data_url = data_url;
+					
+					$( "#player", pop_doc )[0].enable();
+					$( "#player", pop_doc )[0].set_url( data_url );
+
+				});
+
+				$("#recorder")[0].blob_to_buffer( blob )
+				.then( function ( buffer ) {
+					$("#uploader")[0].uploader.upload_buffer( buffer )
+					.then( function ( url ) {
+						if ( current_recording_thread_id === popup_state.recording_thread_id ) {
+
+							console.log( "uploaded:", url );
+							copy_to_clipboard( url );
+
+							popup_state.recording_url = url;
+							popup_state.page_status = "finished";
+							popup_state.page = "popup_finish";
+
+							$( "#popup", pop_doc )[0].set_page_status("finished");
+							$( "#popup", pop_doc )[0].set_page("popup_finish");
+							$( "#popup", pop_doc )[0].set_url( url );
+					
+						} else {
+
+							console.log( "aborted recording url:", url )
+
+						}
+					})
+					.catch();
+				});
+
+			});
+
+			alert("You have reached the maximum recording length of 5 minutes");
+
+		});
+
+		$( pop_doc ).on( "recording_done_button_click",  "#popup", function () {
+			
+			stop_timer();
 			current_recording_thread_id = popup_state.recording_thread_id;
 
 			$( "#player", pop_doc )[0].reset();
