@@ -1,5 +1,5 @@
 
-	( function () {
+	( function ( $ ) {
 
 		var Recorder = function () {
 
@@ -114,5 +114,5 @@
 
 		document.registerElement( prefix, { prototype: proto } );
 
-	} () );
+	} ( $pmjQuery ) );
 	

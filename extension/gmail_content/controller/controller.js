@@ -1,6 +1,6 @@
 
-	( function () {
-
+	( function ( $ ) {
+		
 		var State = function () {
 
 			var private = {
@@ -332,4 +332,4 @@
 
 		});
 
-	} () );
+	} ( $pmjQuery ) );

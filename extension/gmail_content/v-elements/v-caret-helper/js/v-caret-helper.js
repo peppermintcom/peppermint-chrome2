@@ -63,6 +63,6 @@
 
 		document.registerElement( prefix, { prototype: proto } );
 
-	} ( jQuery ) );
+	} ( $pmjQuery ) );
 	
 

@@ -6,7 +6,7 @@
 		
 		proto.createdCallback = function () {
 
-			this.uploader = new VUploader( jQuery );
+			this.uploader = new VUploader( $pmjQuery );
 			
 		};
 
