@@ -45,18 +45,17 @@
 
 		<body>
 
-			<v-popup
+			<v-mini-popup
 				id = 'popup'
-				url-prefix = '../extension/gmail_content/v-elements/v-popup'
+				url-prefix = '../extension/gmail_content/v-elements/v-popup-mini'
 			>
 				<v-player></v-player>
-			<v-popup>
+			<v-mini-popup>
 
 			<script>
 
-				popup.style.display = 'block';
-				popup.set_page("uploading_page");
-				popup.set_page_status("uploading");
+				$("#popup")[0].set_state("uploading_failed");
+				$("#popup").show();
 
 			</script>
 		

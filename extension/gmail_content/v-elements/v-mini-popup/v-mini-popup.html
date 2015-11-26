@@ -35,11 +35,12 @@
 
 			}
 			
-			#phrase_container {
+			.phrase_container {
 				
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
+				flex-direction: row;
 				
 			}
 			
@@ -51,13 +52,17 @@
 				
 			}
 
-			#uploading {
+			#uploading, #uploading_failed {
 				font-family: sans-serif;
 				font-size: 13px;
 				color: rgba(0,0,0,0.75);
 			}
 
-			#cancel {
+			#uploading_failed {
+				color: #F5645D;
+			}
+
+			#cancel, #try_again {
 
 				font-family: sans-serif;
 				font-size: 13px;
@@ -71,17 +76,26 @@
 		</style>
 
 		<div id = "main_container" >
-			<div id = "phrase_container" >
+
+			<div class = "phrase_container" id = 'uploading_phrase_container' >
 				<div id = 'uploading' >
 					Uploading...
 					<span id="progress" ></span>
 				</div>
-				<div id = 'divider' ></div>
 				<div id = 'cancel' >Cancel</div>
 			</div>
+
+			<div class = "phrase_container" id = 'uploading_failed_phrase_container' >
+				<div id = 'uploading_failed' >
+					Uploading failed!
+				</div>
+				<div id = 'try_again' >Try Again</div>
+			</div>
+
 			<div id = 'player_container' >
 				<content select = 'v-player' ></content>
 			</div>
+
 		</div>
 
 	</template>

@@ -154,10 +154,13 @@
 			$("#mini_popup_player")[0].disable();
 			$("#popup").hide();
 			$("#mini_popup")[0].reset();
+			$("#mini_popup")[0].set_state("uploading");
 			$("#mini_popup").show();
 				
 			$( 'v-recorder' )[0].finish()
 			.then( function ( blob ) {
+
+				g_state.last_recording_blob = blob;
 
 				$( 'v-recorder' )[0].blob_to_data_url( blob )
 				.then( function ( data_url ) {
@@ -190,7 +193,9 @@
 
 						}
 					})
-					.catch();
+					.catch( function () {
+						$("#mini_popup")[0].set_state("uploading_failed");
+					});
 				});
 
 			});
@@ -211,10 +216,13 @@
 			$("#mini_popup_player")[0].disable();
 			$("#popup").hide();
 			$("#mini_popup")[0].reset();
+			$("#mini_popup")[0].set_state("uploading");
 			$("#mini_popup").show();
 				
 			$( 'v-recorder' )[0].finish()
 			.then( function ( blob ) {
+
+				g_state.last_recording_blob = blob;
 
 				$( 'v-recorder' )[0].blob_to_data_url( blob )
 				.then( function ( data_url ) {
@@ -247,7 +255,9 @@
 
 						}
 					})
-					.catch();
+					.catch( function () {
+						$("#mini_popup")[0].set_state("uploading_failed");
+					});
 				});
 
 			})
@@ -261,6 +271,64 @@
 			$("#mini_popup_player")[0].pause();
 			g_state.set_recording_id( undefined );
 			g_state.set_compose_button_id( undefined );
+
+		});
+
+		$( document ).on( "try_again_click", "#mini_popup", function () {
+
+			var state = new State();
+			var timestamp = Date.now();
+			g_state.set_recording_id(  timestamp );
+			state.set_recording_id( timestamp );
+
+			$("#mini_popup_player")[0].reset();
+			$("#mini_popup_player")[0].disable();
+			$("#popup").hide();
+			$("#mini_popup")[0].reset();
+			$("#mini_popup")[0].set_state("uploading");
+			$("#mini_popup").show();
+				
+			( function ( blob ) {
+
+				g_state.last_recording_blob = blob;
+
+				$( 'v-recorder' )[0].blob_to_data_url( blob )
+				.then( function ( data_url ) {
+
+					$("#mini_popup_player")[0].enable();
+					$("#mini_popup_player")[0].set_url( data_url );
+
+
+				});
+
+				$( 'v-recorder' )[0].blob_to_buffer( blob )
+				.then( function ( buffer ) {
+					$( 'v-uploader' )[0].uploader.upload_buffer( buffer )
+					.then( function ( url ) {
+						if ( g_state.get_recording_id() === state.get_recording_id() ) {
+
+							g_state.set_audio_url( url );
+							$("#mini_popup").hide();
+							console.log( "uploaded:", url );
+
+							$("#mini_popup_player")[0].pause();
+
+							$("#letter_manager")[0].add_link( g_state.get_audio_url(), g_state.get_compose_button_id() );
+
+							g_state.set_compose_button_id( undefined );
+
+						} else {
+
+							console.log( "aborted recording url:", url )
+
+						}
+					})
+					.catch( function () {
+						$("#mini_popup")[0].set_state("uploading_failed");
+					});
+				});
+
+			} ( g_state.last_recording_blob ) );
 
 		});
 

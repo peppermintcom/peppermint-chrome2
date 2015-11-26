@@ -19,6 +19,26 @@
 
 				reset: function () {
 					$( "#progress", private.element.shadowRoot ).html("");
+				},
+
+				set_state: function ( state ) {
+
+					var options = {
+
+						"uploading": function () {
+							$( ".phrase_container", private.element.shadowRoot ).css({ display: "none" });
+							$( "#uploading_phrase_container", private.element.shadowRoot ).css({ display: "" });
+						},
+
+						"uploading_failed": function () {
+							$( ".phrase_container", private.element.shadowRoot ).css({ display: "none" });
+							$( "#uploading_failed_phrase_container", private.element.shadowRoot ).css({ display: "" });
+						}
+
+					};
+
+					options[ state ]();
+
 				}
 
 			};
@@ -32,6 +52,7 @@
 				});
 
 				$( "#cancel", element.shadowRoot ).click( private.get_dispatcher( 'cancel_click' ) );
+				$( "#try_again", element.shadowRoot ).click( private.get_dispatcher( 'try_again_click' ) );
 			
 			};
 
