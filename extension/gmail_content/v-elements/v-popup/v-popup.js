@@ -1,5 +1,5 @@
 
-	( function () {
+	( function ( $ ) {
 		
 		var Popup = function () {
 			
@@ -113,5 +113,5 @@
 
 		document.registerElement( prefix, { prototype: proto } );
 
-	} () );
+	} ( $pmjQuery ) );
 	

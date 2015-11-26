@@ -1,5 +1,5 @@
 
-	OptionsData = function () {
+	OptionsData = function ( $ ) {
 		
 		var obj = {
 			
@@ -18,9 +18,9 @@
 
 		});
 
-	};
+	} ( $pmjQuery );
 
-	PageManager = function () {
+	PageManager = function ( $ ) {
 		
 		$("#disable_reply_button").change( function ( event ) {
 
@@ -42,7 +42,7 @@
 			
 		};
 		
-	};
+	} ( $pmjQuery );
 	
 	StorageManager = function ( chrome ) {
 		
@@ -62,7 +62,7 @@
 		
 	};
 
-	( function ( jQuery, chrome ) {
+	( function ( $, chrome ) {
 		
 		var obj = {
 			
@@ -93,7 +93,7 @@
 
 		});
 
-	} ( jQuery, chrome ) );
+	} ( $pmjQuery, chrome ) );
 	
 	
 	

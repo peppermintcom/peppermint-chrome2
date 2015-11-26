@@ -1,5 +1,5 @@
 
-	( function () {
+	( function ( $ ) {
 		
 		var MiniPopup = function ( element ) {
 			
@@ -63,5 +63,5 @@
 
 		document.registerElement( prefix, { prototype: proto } );
 
-	} () );
+	} ( $pmjQuery ) );
 	

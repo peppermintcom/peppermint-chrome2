@@ -1,5 +1,5 @@
 
-	( function () {
+	( function ( $ ) {
 		
 		var LetterManager = function () {
 			
@@ -151,4 +151,4 @@
 
 		document.registerElement( prefix, { prototype: proto } );
 
-	} () );
+	} ( $pmjQuery ) );

@@ -1,5 +1,5 @@
 
-	( function () {
+	( function ( $ ) {
 		
 		var Player = function ( element ) {
 			
@@ -111,5 +111,5 @@
 
 		document.registerElement( prefix, { prototype: proto } );
 
-	} () );
+	} ( $pmjQuery ) );
 	
