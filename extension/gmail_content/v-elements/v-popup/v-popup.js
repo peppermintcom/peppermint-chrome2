@@ -73,6 +73,7 @@
 					"popup_finish_start_new_button",
 					"uploading_done_button",
 					"popup_welcome_start_recording",
+					"restart_upload",
 					"cancel"
 				].forEach( private.create_click_dispatcher );
 

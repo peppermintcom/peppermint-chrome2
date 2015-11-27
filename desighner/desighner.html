@@ -8,7 +8,7 @@
 			
 			<title>Desighner</title>
 			
-			<script src = 'jquery.min.js' ></script>
+			<script src = '../extension/gmail_content/js/lib/jquery.min.js' ></script>
 			
 			<link
 				rel = 'import'
@@ -45,17 +45,18 @@
 
 		<body>
 
-			<v-mini-popup
+			<v-popup
 				id = 'popup'
-				url-prefix = '../extension/gmail_content/v-elements/v-popup-mini'
+				url-prefix = '../extension/gmail_content/v-elements/v-popup'
 			>
 				<v-player></v-player>
-			<v-mini-popup>
+			<v-popup>
 
 			<script>
 
-				$("#popup")[0].set_state("uploading_failed");
-				$("#popup").show();
+				popup.set_page("uploading_failed_page");
+				popup.style.display = 'block';
+				popup.style.position = 'absolute'
 
 			</script>
 		
