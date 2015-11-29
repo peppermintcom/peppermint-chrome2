@@ -83,7 +83,7 @@
 
 							if ( selection && editable.contains( selection.anchorNode ) ) {
 								private.html_before_selection( 
-									"I sent you an audio reply. Listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>{{AUDIO_TRANSCRIPT}}<br>"
+									"I sent you an audio reply. Listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>Reply via <a href='https://peppermint.com/reply' >Peppermint</a>{{AUDIO_TRANSCRIPT}}<br>"
 									.replace( "{{URL}}", url )
 									.replace( "{{URL}}", url )
 									.replace( "{{AUDIO_TRANSCRIPT}}", audioFinalTranscriptionText ),
@@ -91,7 +91,7 @@
 								);
 							} else {
 								$( editable ).prepend(
-									"I sent you an audio reply. Listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>{{AUDIO_TRANSCRIPT}}<br>"
+									"I sent you an audio reply. Listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>Reply via <a href='https://peppermint.com/reply' >Peppermint</a>{{AUDIO_TRANSCRIPT}}<br>"
 									.replace( "{{URL}}", url )
 									.replace( "{{URL}}", url )
 									.replace( "{{AUDIO_TRANSCRIPT}}", audioFinalTranscriptionText )
@@ -106,15 +106,14 @@
 
 							if ( selection && editable.contains( selection.anchorNode ) ) {
 								private.html_before_selection(
-									"I've sent you an audio message via Peppermint. Listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>{{AUDIO_TRANSCRIPT}}<br>"
-									.replace( "{{URL}}", url )
+									"I've sent you an audio message via Peppermint. Listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>Reply via <a href='https://peppermint.com/reply' >Peppermint</a>{{AUDIO_TRANSCRIPT}}<br>"
 									.replace( "{{URL}}", url )
 									.replace( "{{AUDIO_TRANSCRIPT}}", audioFinalTranscriptionText ),
 									selection
 								);
 							} else {
 								$( editable ).prepend(
-									"I've sent you an audio message via Peppermint. Listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>{{AUDIO_TRANSCRIPT}}<br>"
+									"I've sent you an audio message via Peppermint. Listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>Reply via <a href='https://peppermint.com/reply' >Peppermint</a>{{AUDIO_TRANSCRIPT}}<br>"
 									.replace( "{{URL}}", url )
 									.replace( "{{URL}}", url )
 									.replace( "{{AUDIO_TRANSCRIPT}}", audioFinalTranscriptionText )
