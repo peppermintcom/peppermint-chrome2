@@ -104,6 +104,7 @@
 				'start': function () {
 					recorder_wrap.start()
 					.then( function () {
+						console.log("started");
 						window.top.postMessage({
 							name: 'started',
 						},"*");
