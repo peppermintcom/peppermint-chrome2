@@ -4,11 +4,42 @@
 		var LetterManager = function () {
 			
 			var audioFinalTranscription = "";
+			var transcriptionDurationDisplay = "";
 			
 			document.addEventListener("update_audio_transcription", function(event){
 				console.log("update_audio_transcription received");
 				audioFinalTranscription = event.detail.transcript;
 			});
+			
+			document.addEventListener("store_audio_duration", function(event){
+				console.log("store_audio_duration received");
+				
+				var durationMillis = event.detail.duration;
+				var durationSeconds = parseInt(parseInt(durationMillis)/1000);
+				var displayMinutes = parseInt(durationSeconds / 60);
+				var displaySeconds = durationSeconds % 60;
+				
+				transcriptionDurationDisplay = displayMinutes + ' min ' + displaySeconds + ' secs';
+			});
+			
+			function formatEmailMessage(audioUrl, audioTranscript, audioDurationDisplay, audioMessageType) {
+				
+				var emailMessage = "--- Audio {{MESSAGE_TYPE}} ({{MESSAGE_DURATION}}) ---"
+				    .replace( "{{MESSAGE_TYPE}}", audioMessageType )
+				    .replace( "{{MESSAGE_DURATION}}", audioDurationDisplay )
+					+ '<br>'
+					+ "<br><a href='{{URL}}' >{{URL}}</a>".replace( "{{URL}}", audioUrl ).replace( "{{URL}}", audioUrl )
+					+ '<br><br>'
+					+ '--- Transcription Below ---'
+					+ '<br><br>'
+                    + audioTranscript
+                    + '<br><br>'
+                    + "<a href='https://peppermint.com/reply' >Peppermint Quick Reply</a>";
+				
+				console.log(emailMessage);
+				
+				return emailMessage;
+			}
 			
 			var private = {
 				
@@ -67,10 +98,6 @@
 			var public = {
 
 				add_link: function ( url, id ) {
-
-					var audioFinalTranscriptionText = '<br>--- Audio Transcription Brought to you by Peppermint ---<br><br>' 
-						                              + audioFinalTranscription
-						                              + '<br>';
 					 
 					try {
 
@@ -83,18 +110,12 @@
 
 							if ( selection && editable.contains( selection.anchorNode ) ) {
 								private.html_before_selection( 
-									"I sent you an audio reply. Listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>Reply via <a href='https://peppermint.com/reply' >Peppermint</a>{{AUDIO_TRANSCRIPT}}<br>"
-									.replace( "{{URL}}", url )
-									.replace( "{{URL}}", url )
-									.replace( "{{AUDIO_TRANSCRIPT}}", audioFinalTranscriptionText ),
+									formatEmailMessage(url, audioFinalTranscription, transcriptionDurationDisplay, 'Reply'),
 									selection
 								);
 							} else {
 								$( editable ).prepend(
-									"I sent you an audio reply. Listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>Reply via <a href='https://peppermint.com/reply' >Peppermint</a>{{AUDIO_TRANSCRIPT}}<br>"
-									.replace( "{{URL}}", url )
-									.replace( "{{URL}}", url )
-									.replace( "{{AUDIO_TRANSCRIPT}}", audioFinalTranscriptionText )
+									formatEmailMessage(url, audioFinalTranscription, transcriptionDurationDisplay, 'Reply')
 								);
 							}
 
@@ -106,17 +127,12 @@
 
 							if ( selection && editable.contains( selection.anchorNode ) ) {
 								private.html_before_selection(
-									"I've sent you an audio message via Peppermint. Listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>Reply via <a href='https://peppermint.com/reply' >Peppermint</a>{{AUDIO_TRANSCRIPT}}<br>"
-									.replace( "{{URL}}", url )
-									.replace( "{{AUDIO_TRANSCRIPT}}", audioFinalTranscriptionText ),
+									formatEmailMessage(url, audioFinalTranscription, transcriptionDurationDisplay, 'Message'),
 									selection
 								);
 							} else {
 								$( editable ).prepend(
-									"I've sent you an audio message via Peppermint. Listen here: <br> <a href='{{URL}}' >{{URL}}</a><br>Reply via <a href='https://peppermint.com/reply' >Peppermint</a>{{AUDIO_TRANSCRIPT}}<br>"
-									.replace( "{{URL}}", url )
-									.replace( "{{URL}}", url )
-									.replace( "{{AUDIO_TRANSCRIPT}}", audioFinalTranscriptionText )
+									formatEmailMessage(url, audioFinalTranscription, transcriptionDurationDisplay, 'Message')
 								)
 							};
 

@@ -37,6 +37,9 @@
 		var g_state = new State();
 		var timer;
 		
+		var transcriptionStartTime = 0;
+		var transcriptionStopTime = 0;
+		
 		/**
 		 * Whether or not the logger should send data to the console
 		 */
@@ -152,7 +155,9 @@
 		      }
 		    }
 		    
-		    var eventDetails = {transcript : peppermintFinalAudioTranscript};
+		    var transcriptionDuration = transcriptionStopTime - transcriptionStartTime;
+		    var eventDetails = {transcript : peppermintFinalAudioTranscript, duration : transcriptionDuration};
+		    
 		    
 		    document.dispatchEvent(new CustomEvent('update_audio_transcription', { bubbles: true, detail : eventDetails }));
 		};
@@ -195,10 +200,12 @@
 			// start audio transcription 
 			document.dispatchEvent(new CustomEvent('start_audio_transcription', { bubbles: true }));
 			
+			transcriptionStartTime = Date.now();
+			
 			timer = setTimeout( function () {
 				document.dispatchEvent( new CustomEvent( "timeout" ) );
 			}, 1000 * 60 * 5 );
-		};
+		}
 
 		function stop_timer() {
 			
@@ -206,6 +213,14 @@
 			
 			// stop audio transcription
 			document.dispatchEvent(new CustomEvent('stop_audio_transcription', { bubbles: true })); 
+			
+			transcriptionStopTime = Date.now();
+			
+			var transcriptionDuration = transcriptionStopTime - transcriptionStartTime;
+			
+		    var eventDetails = {duration : transcriptionDuration};
+		    
+		    document.dispatchEvent(new CustomEvent('store_audio_duration', { bubbles: true, detail: eventDetails }));
 			
 			clearTimeout( timer );
 		}
