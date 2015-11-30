@@ -34,6 +34,9 @@
 
 		};
 
+		// Recording timeout limit is 5 minutes (300,000 milliseconds or 300 seconds)
+		var RECORDING_TIMEOUT_LIMIT = 5 * 60 * 1000;
+		
 		var g_state = new State();
 		var timer;
 		
@@ -203,8 +206,8 @@
 			transcriptionStartTime = Date.now();
 			
 			timer = setTimeout( function () {
-				document.dispatchEvent( new CustomEvent( "timeout" ) );
-			}, 1000 * 60 * 5 );
+				document.dispatchEvent(new CustomEvent("timeout"));
+			}, RECORDING_TIMEOUT_LIMIT );
 		}
 
 		function stop_timer() {
@@ -325,6 +328,8 @@
 
 		$( document ).on( "timeout", function () {
 
+			stop_timer();
+			
 			var state = new State();
 			var timestamp = Date.now();
 			g_state.set_recording_id(  timestamp );
