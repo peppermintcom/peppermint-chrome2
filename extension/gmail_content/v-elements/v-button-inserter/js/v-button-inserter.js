@@ -101,6 +101,26 @@
 
 							};
 						});
+						
+						$(".a3s").each( function ( index, element ) {
+							$("a[href$='https://peppermint.com/reply']", element ).each( function ( index, element) {
+								var link = $(element);
+								
+								if ( link.attr('id') !== 'peppermintReply' ) {
+									
+									link.attr('id','peppermintReply');
+	
+									link.on( "click", function () {
+										event.preventDefault();
+										
+										link[0].dispatchEvent( new CustomEvent( 'reply_button_click', { bubbles: true } ) );
+									})
+
+								};
+							})
+							
+						});
+						
 					}, 50 )
 				}
 
