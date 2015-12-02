@@ -18,9 +18,9 @@
 
 		});
 
-	} ( $pmjQuery );
+	};
 
-	PageManager = function ( $ ) {
+	function PageManager ( $ ) {
 		
 		$("#disable_reply_button").change( function ( event ) {
 
@@ -42,7 +42,7 @@
 			
 		};
 		
-	} ( $pmjQuery );
+	}
 	
 	StorageManager = function ( chrome ) {
 		
@@ -69,9 +69,9 @@
 			
 		};
 		
-		obj.page_manager = new PageManager();
+		obj.page_manager = new PageManager( $pmjQuery );
 		obj.storage_manager = new StorageManager( chrome );
-		obj.options_data = new OptionsData();
+		obj.options_data = new OptionsData( $pmjQuery );
 		
 		$( document ).ready( function () {
 			obj.storage_manager.get( function ( items ) {

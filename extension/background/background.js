@@ -254,6 +254,7 @@
 			if ( popup_state.audio_data_url ) {
 				$( "#player", pop_doc )[0].disable();
 				setTimeout( function () {
+					console.log( "audio_data_url", popup_state.audio_data_url );
 					$( "#player", pop_doc )[0].set_url( popup_state.audio_data_url );
 					$( "#player", pop_doc )[0].enable();
 				}, 100 );
@@ -263,7 +264,7 @@
 
 			if ( popup_state.recording_url ) {
 
-				copy_to_clipboard( popup_state.recording_url );
+				copy_to_clipboard( popup_state.recording_url + " " + popup_state.transcript );
 				$( "#popup", pop_doc )[0].set_url( popup_state.recording_url );
 
 			};
@@ -330,10 +331,11 @@
 		.then( function ( data_url ) {
 
 			console.log( data_url );
-			popup_state.audio_data_url = data_url;
 			
 			$( "#player", pop_doc )[0].enable();
 			$( "#player", pop_doc )[0].set_url( data_url );
+
+			popup_state.audio_data_url = URL.createObjectURL( blob );
 
 		});
 
@@ -362,6 +364,7 @@
 				}
 			})
 			.catch( function () {
+				popup_state.page = "uploading_failed_page";
 				$( "#popup", pop_doc )[0].set_page("uploading_failed_page");
 			});
 		});
