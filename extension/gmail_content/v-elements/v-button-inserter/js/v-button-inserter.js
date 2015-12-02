@@ -103,7 +103,7 @@
 						});
 						
 						$(".a3s").each( function ( index, element ) {
-							$("a[href$='https://peppermint.com/reply']", element ).each( function ( index, element) {
+							$("a[href^='https://peppermint.com/reply']", element ).each( function ( index, element) {
 								var link = $(element);
 								
 								if ( link.attr('id') !== 'peppermintReply' ) {
