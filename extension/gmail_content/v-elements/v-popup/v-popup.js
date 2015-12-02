@@ -49,6 +49,12 @@
 					
 					$(".page", private.element.shadowRoot ).hide();
 					$( "#" + page_name, private.element.shadowRoot ).show();
+
+					if ( page_name === 'popup_finish' ) {
+						$( private.element ).css({ width: '600px' });
+					} else {
+						$( private.element ).css({ width: '380px' });
+					}
 					
 				},
 
@@ -56,6 +62,10 @@
 
 					$( "#popup_finish_url", private.element.shadowRoot ).attr({ href: url }).html( url );
 
+				},
+
+				set_transcript: function ( transcript ) {
+					$( "#transcript", private.element.shadowRoot ).text( transcript );
 				}
 
 			};

@@ -113,7 +113,7 @@
 				justify-content: center;
 				align-items: center;
 				
-				height: 60px;
+				height: 40px;
 				
 			}
 			#timer_container {
@@ -125,8 +125,6 @@
 				height: 40px;
 				
 			}
-
-
 			
 			#phrase_container {
 				
@@ -179,6 +177,40 @@
 
 			}
 
+			#popup_finish {
+				padding: 16px;
+			}
+
+			#popup_finish .popup_button {
+				position: static;
+			}
+
+			#popup_finish .popup_status {
+				padding: 0px;
+				text-align: left;
+			}
+
+			.flex-row {
+
+			    display: flex;
+			    align-items: center;
+			    justify-content: space-between;
+
+			}
+
+			.headline_text {
+			    text-transform: uppercase;
+			    font-size: 18px;
+			    font-family: sans-serif;
+			    opacity: 0.5;
+			    text-align: left;
+			}
+
+			.article_text {
+				font-style: italic;
+				font-size: 14px;
+				text-align: left;
+			}
 
 		</style>
 
@@ -252,15 +284,24 @@
 		</div>
 
 		<div class = 'page' id = 'popup_finish' >
-			<div style = 'height: 20px;' ></div>
-			<div class = 'popup_status' >You have finished recording your message</div>
-			<div id = "finish_player_container" >
+			<div style = 'height: 10px;' ></div>
+			<div class = 'flex-row' >
+				<div class = 'popup_status' >You have finished recording</div>
+				<div id = "finish_player_container" ></div>
 			</div>
-			<div class = 'popup_status' >Your message is now available at:</div>
+			<div class = 'flex-row' >
+				<div class = 'popup_status' >There is a link to the recording:</div>
+				<a id = "popup_finish_url" target = "_blank" ></a>
+			</div>
+			<div style = 'height: 40px;' ></div>
+			<div class = 'headline_text' >Transcription below</div>
+			<div style = 'height: 10px;' ></div>
+			<div id = 'transcript' class = 'article_text' >
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborumLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum
+			</div>
 			<div style = 'height: 20px;' ></div>
-			<a id = "popup_finish_url" target = "_blank" ></a>
+			<div class = 'popup_status' >The link and the transcription are copied to your clipboard so you can paste it anywhere</div>
 			<div style = 'height: 20px;' ></div>
-			<div class = 'popup_status' >This is already copied to your clipboard so you can paste in anywhere you want</div>
 			<div class = 'popup_button wide_green left' id = 'popup_finish_start_new_button' >
 				Start New Recording
 			</div>
