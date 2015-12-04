@@ -42,6 +42,9 @@
 			.popup_status.uploading {
 				margin-top: 20px;
 			}
+			.popup_status.big {
+				font-size: 20px;
+			}
 			.popup_button {
 				
 				position: absolute;
@@ -198,6 +201,10 @@
 
 			}
 
+			.flex-row.left {
+				justify-content: flex-start;
+			}
+
 			.headline_text {
 			    text-transform: uppercase;
 			    font-size: 18px;
@@ -285,24 +292,36 @@
 
 		<div class = 'page' id = 'popup_finish' >
 			<div style = 'height: 10px;' ></div>
-			<div class = 'flex-row' >
-				<div class = 'popup_status' >You have finished recording</div>
+			<div class = 'flex-row left' >
+				<div class = 'popup_status big' >You have finished recording</div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 				<div id = "finish_player_container" ></div>
 			</div>
-			<div class = 'flex-row' >
-				<div class = 'popup_status' >There is a link to the recording:</div>
-				<a id = "popup_finish_url" target = "_blank" ></a>
-			</div>
-			<div style = 'height: 40px;' ></div>
-			<div class = 'headline_text' >Transcription below</div>
+			<div style = 'height: 20px;' ></div>
+			<div class = 'headline_text' >Transcription</div>
 			<div style = 'height: 10px;' ></div>
 			<div id = 'transcript' class = 'article_text' ></div>
 			<div style = 'height: 20px;' ></div>
-			<div class = 'popup_status' >The link and the transcription are copied to your clipboard so you can paste it anywhere</div>
+
+			<div class = 'flex-row left' >
+				<div class = 'popup_status' >This is the link to the recording: </div>
+				&nbsp;
+				<a id = "popup_finish_url" target = "_blank" ></a>
+			</div>
+		
+			<div style = 'height: 5px;' ></div>
+
+			<div class = 'popup_status' >
+				The link and the transcription are copied to your clipboard so you can paste it anywhere
+			</div>
+
 			<div style = 'height: 20px;' ></div>
+
 			<div class = 'popup_button wide_green left' id = 'popup_finish_start_new_button' >
 				Start New Recording
 			</div>
+
 		</div>
 
 		<div class = 'page' id = 'uploading_page_old' >

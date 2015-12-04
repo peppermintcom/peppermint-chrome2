@@ -51,7 +51,7 @@
 					$( "#" + page_name, private.element.shadowRoot ).show();
 
 					if ( page_name === 'popup_finish' ) {
-						$( private.element ).css({ width: '600px' });
+						$( private.element ).css({ width: '655px' });
 					} else {
 						$( private.element ).css({ width: '380px' });
 					}
