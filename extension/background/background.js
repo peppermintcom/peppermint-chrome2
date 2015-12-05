@@ -290,7 +290,7 @@
 
 	};
 
-	function start_timer() {
+	function start_timer () {
 		
 		console.log("start_timer");
 		
@@ -300,16 +300,20 @@
 		transcriptionStartTime = Date.now();
 		
 		timer = setTimeout( function () {
-			document.dispatchEvent(new CustomEvent("timeout"));
+
+			console.log( "timeout" );
+			document.dispatchEvent( new CustomEvent("timeout") );
+
 		}, RECORDING_TIMEOUT_LIMIT );
+
 	};
 
-	function stop_timer() {
+	function stop_timer () {
 		
 		console.log("stop_timer");
 		
 		// stop audio transcription
-		document.dispatchEvent(new CustomEvent('stop_audio_transcription', { bubbles: true })); 
+		document.dispatchEvent( new CustomEvent('stop_audio_transcription', { bubbles: true }) ); 
 		
 		transcriptionStopTime = Date.now();
 		
@@ -320,6 +324,7 @@
 	    document.dispatchEvent(new CustomEvent('store_audio_duration', { bubbles: true, detail: eventDetails }));
 		
 		clearTimeout( timer );
+
 	};
 
 	function process_recording_blob ( blob, current_recording_thread_id ) {
@@ -345,7 +350,7 @@
 				if ( current_recording_thread_id === popup_state.recording_thread_id ) {
 
 					console.log( "uploaded:", url );
-					
+
 					if ( popup_state.transcript ) {
 						copy_to_clipboard( url + " " + popup_state.transcript );
 					} else {
@@ -372,6 +377,24 @@
 				$( "#popup", pop_doc )[0].set_page("uploading_failed_page");
 			});
 		});
+
+	};
+
+	function show_uploading_screen ( pop_doc ) {
+
+		if ( pop_doc.defaultView ) {
+
+			$( "#player", pop_doc )[0].reset();
+			$( "#player", pop_doc )[0].disable();
+			$( "#popup", pop_doc )[0].set_page_status("uploading");
+			$( "#popup", pop_doc )[0].set_page("uploading_page");
+		
+		} else {
+			console.log("popup is closed");
+		}
+
+		popup_state.page_status = "uploading";
+		popup_state.page = "uploading_page";
 
 	};
 
@@ -423,12 +446,7 @@
 
 			current_recording_thread_id = popup_state.recording_thread_id;
 
-			$( "#player", pop_doc )[0].reset();
-			$( "#player", pop_doc )[0].disable();
-			$( "#popup", pop_doc )[0].set_page_status("uploading");
-			$( "#popup", pop_doc )[0].set_page("uploading_page");
-			popup_state.page_status = "uploading";
-			popup_state.page = "uploading_page";
+			show_uploading_screen( pop_doc );
 
 			$("#recorder")[0].finish()
 			.then( function ( blob ) {
@@ -446,12 +464,7 @@
 			stop_timer();
 			current_recording_thread_id = popup_state.recording_thread_id;
 
-			$( "#player", pop_doc )[0].reset();
-			$( "#player", pop_doc )[0].disable();
-			$( "#popup", pop_doc )[0].set_page_status("uploading");
-			$( "#popup", pop_doc )[0].set_page("uploading_page");
-			popup_state.page_status = "uploading";
-			popup_state.page = "uploading_page";
+			show_uploading_screen();
 
 			$("#recorder")[0].finish()
 			.then( function ( blob ) {
@@ -464,15 +477,9 @@
 
 		$( pop_doc ).on( "restart_upload_click",  "#popup", function () {
 
-			stop_timer();
 			current_recording_thread_id = popup_state.recording_thread_id;
 
-			$( "#player", pop_doc )[0].reset();
-			$( "#player", pop_doc )[0].disable();
-			$( "#popup", pop_doc )[0].set_page_status("uploading");
-			$( "#popup", pop_doc )[0].set_page("uploading_page");
-			popup_state.page_status = "uploading";
-			popup_state.page = "uploading_page";
+			show_uploading_screen();
 
 			process_recording_blob( popup_state.last_recording_blob, current_recording_thread_id );
 

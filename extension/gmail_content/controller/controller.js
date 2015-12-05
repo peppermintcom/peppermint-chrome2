@@ -194,7 +194,7 @@
 
 	////////////
 
-		function start_timer() {
+		function start_timer () {
 			
 			console.log("start_timer");
 			
@@ -206,9 +206,10 @@
 			timer = setTimeout( function () {
 				document.dispatchEvent(new CustomEvent("timeout"));
 			}, RECORDING_TIMEOUT_LIMIT );
+		
 		}
 
-		function stop_timer() {
+		function stop_timer () {
 			
 			console.log("stop_timer");
 			
@@ -224,6 +225,7 @@
 		    document.dispatchEvent(new CustomEvent('store_audio_duration', { bubbles: true, detail: eventDetails }));
 			
 			clearTimeout( timer );
+		
 		}
 
 		function copy_to_clipboard ( text ) {
@@ -316,7 +318,7 @@
 						$( document ).one( "click", function () {
 							copy_to_clipboard( url );
 						});
-						
+
 						console.log( "uploaded:", url );
 
 						$("#mini_popup_player")[0].pause();
