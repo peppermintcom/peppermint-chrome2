@@ -27,16 +27,6 @@
 				"css": [
 					"/gmail_content/css/style.css"
 				]
-			},
-			{
-				"matches": ["http://localhost/prj/chrome_extensions/UPWORK/peppermint.com/desighner/desighner_2.html"],
-				"js": [
-					"/gmail_content/js/lib/jquery.min.js",
-					"/gmail_content/inceptor/inceptor.js"
-				],
-				"css": [
-					"/gmail_content/css/style.css"
-				]
 			}
 		],
 
