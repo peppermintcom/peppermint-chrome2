@@ -290,7 +290,6 @@
 
 	};
 
-
 	function start_timer() {
 		
 		console.log("start_timer");
@@ -346,7 +345,12 @@
 				if ( current_recording_thread_id === popup_state.recording_thread_id ) {
 
 					console.log( "uploaded:", url );
-					copy_to_clipboard( url + " " + popup_state.transcript );
+					
+					if ( popup_state.transcript ) {
+						copy_to_clipboard( url + " " + popup_state.transcript );
+					} else {
+						copy_to_clipboard( url );
+					}
 
 					popup_state.recording_url = url;
 					popup_state.page_status = "finished";

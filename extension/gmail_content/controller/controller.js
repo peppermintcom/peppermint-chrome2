@@ -9,12 +9,6 @@
 
 			var public = {
 
-				set_recording_id: function ( recording_id ) {
-					private.recording_id = recording_id;
-				},
-				get_recording_id: function () {
-					return private.recording_id;
-				},
 				set_compose_button_id: function ( id ) {
 					private.compose_button_id = id;
 				},
@@ -34,6 +28,7 @@
 
 		};
 
+	//TRANSCRIPT
 		// Recording timeout limit is 5 minutes (300,000 milliseconds or 300 seconds)
 		var RECORDING_TIMEOUT_LIMIT = 5 * 60 * 1000;
 		
@@ -196,6 +191,9 @@
 			stopSpeechRecognition();
 		});
 
+
+	////////////
+
 		function start_timer() {
 			
 			console.log("start_timer");
@@ -228,13 +226,24 @@
 			clearTimeout( timer );
 		}
 
-		$( document ).on( "compose_button_click", function ( event ) {
+		function copy_to_clipboard ( text ) {
+			    
+		    var doc = document,
+		        temp = doc.createElement("textarea"),
+		        initScrollTop = doc.body.scrollTop;
 
-			console.log("compose_button_click");
-			
-			if ( g_state.get_compose_button_id() ) return;
+		    doc.body.insertBefore(temp, doc.body.firstChild);
+		    temp.value = text;
+		    temp.focus();
+		    doc.execCommand("SelectAll");
+		    doc.execCommand("Copy", false, null);
+		    temp.blur();
+		    doc.body.scrollTop = initScrollTop;
+		    doc.body.removeChild(temp);
+	
+		};
 
-			g_state.set_compose_button_id( event.target.dataset["id"] );
+		function begin_recording () {
 
 			$( 'v-recorder' )[0].start()
 			.then( function () {
@@ -264,6 +273,81 @@
 				}
 
 			});
+
+		};
+
+		function show_uploading_screen () {
+
+			$("#mini_popup_player")[0].reset();
+			$("#mini_popup_player")[0].disable();
+			$("#popup").hide();
+			$("#mini_popup")[0].reset();
+			$("#mini_popup")[0].set_state("uploading");
+			$("#mini_popup").show();
+
+		}
+
+		function process_recording_blob ( blob ) {
+
+			var recording_id = Date.now();
+			g_state.recording_id = recording_id;
+
+			g_state.last_recording_blob = blob;
+
+			$( 'v-recorder' )[0].blob_to_data_url( blob )
+			.then( function ( data_url ) {
+
+				$("#mini_popup_player")[0].enable();
+				$("#mini_popup_player")[0].set_url( data_url );
+
+			});
+
+			$( 'v-recorder' )[0].blob_to_buffer( blob )
+			.then( function ( buffer ) {
+
+				$( 'v-uploader' )[0].uploader.upload_buffer( buffer )
+
+				.then( function ( url ) {
+					if ( g_state.recording_id === recording_id ) {
+
+						g_state.set_audio_url( url );
+						$("#mini_popup").hide();
+
+						$( document ).one( "click", function () {
+							copy_to_clipboard( url );
+						});
+						
+						console.log( "uploaded:", url );
+
+						$("#mini_popup_player")[0].pause();
+
+						$("#letter_manager")[0].add_link( g_state.get_audio_url(), g_state.get_compose_button_id() );
+
+						g_state.set_compose_button_id( undefined );
+
+					} else {
+
+						console.log( "aborted recording url:", url )
+
+					}
+				})
+				.catch( function () {
+					$("#mini_popup")[0].set_state("uploading_failed");
+				});
+
+			});
+
+		};
+
+		$( document ).on( "compose_button_click", function ( event ) {
+
+			console.log("compose_button_click");
+			
+			if ( g_state.get_compose_button_id() ) return;
+
+			g_state.set_compose_button_id( event.target.dataset["id"] );
+
+			begin_recording();
 
 		});
 
@@ -285,35 +369,7 @@
 
 		$( document ).on( "error_try_again_button_click", "#popup", function () {
 
-
-			$( 'v-recorder' )[0].start()
-			.then( function () {
-
-				start_timer();
-				$("v-timer")[0].reset();
-				$("v-timer")[0].start();
-				$('#popup').show();
-				$('#popup')[0].set_page("recording_page");
-				$('#popup')[0].set_page_status("recording");
-
-			})
-			.catch( function ( error ) {
-
-				if ( error.name === "PermissionDeniedError" ) {
-
-					chrome.tabs.create({
-						url: chrome.extension.getURL("/welcome_page/welcome.html")
-					});
-					console.log("permission denied");
-
-				} else {
-
-					$('#popup').show();
-					$('#popup')[0].set_page("microphone_error_page");
-
-				}
-
-			});
+			begin_recording();
 
 		});
 
@@ -330,59 +386,11 @@
 
 			stop_timer();
 			
-			var state = new State();
-			var timestamp = Date.now();
-			g_state.set_recording_id(  timestamp );
-			state.set_recording_id( timestamp );
-
-			$("#mini_popup_player")[0].reset();
-			$("#mini_popup_player")[0].disable();
-			$("#popup").hide();
-			$("#mini_popup")[0].reset();
-			$("#mini_popup")[0].set_state("uploading");
-			$("#mini_popup").show();
+			show_uploading_screen();
 				
 			$( 'v-recorder' )[0].finish()
 			.then( function ( blob ) {
-
-				g_state.last_recording_blob = blob;
-
-				$( 'v-recorder' )[0].blob_to_data_url( blob )
-				.then( function ( data_url ) {
-
-					$("#mini_popup_player")[0].enable();
-					$("#mini_popup_player")[0].set_url( data_url );
-
-
-				});
-
-				$( 'v-recorder' )[0].blob_to_buffer( blob )
-				.then( function ( buffer ) {
-					$( 'v-uploader' )[0].uploader.upload_buffer( buffer )
-					.then( function ( url ) {
-						if ( g_state.get_recording_id() === state.get_recording_id() ) {
-
-							g_state.set_audio_url( url );
-							$("#mini_popup").hide();
-							console.log( "uploaded:", url );
-
-							$("#mini_popup_player")[0].pause();
-
-							$("#letter_manager")[0].add_link( g_state.get_audio_url(), g_state.get_compose_button_id() );
-
-							g_state.set_compose_button_id( undefined );
-
-						} else {
-
-							console.log( "aborted recording url:", url )
-
-						}
-					})
-					.catch( function () {
-						$("#mini_popup")[0].set_state("uploading_failed");
-					});
-				});
-
+				process_recording_blob( blob );
 			});
 
 			alert("You have reached the maximum recording length of 5 minutes");
@@ -392,60 +400,13 @@
 		$( document ).on( "recording_done_button_click", "#popup", function () {
 
 			stop_timer();
-			var state = new State();
-			var timestamp = Date.now();
-			g_state.set_recording_id(  timestamp );
-			state.set_recording_id( timestamp );  
-			
-			$("#mini_popup_player")[0].reset();
-			$("#mini_popup_player")[0].disable();
-			$("#popup").hide();
-			$("#mini_popup")[0].reset();
-			$("#mini_popup")[0].set_state("uploading");
-			$("#mini_popup").show();
+
+			show_uploading_screen();
 				
 			$( 'v-recorder' )[0].finish()
 			.then( function ( blob ) {
-
-				g_state.last_recording_blob = blob;
-
-				$( 'v-recorder' )[0].blob_to_data_url( blob )
-				.then( function ( data_url ) {
-
-					$("#mini_popup_player")[0].enable();
-					$("#mini_popup_player")[0].set_url( data_url );
-
-
-				});
-
-				$( 'v-recorder' )[0].blob_to_buffer( blob )
-				.then( function ( buffer ) {
-					$( 'v-uploader' )[0].uploader.upload_buffer( buffer )
-					.then( function ( url ) {
-						if ( g_state.get_recording_id() === state.get_recording_id() ) {
-
-							g_state.set_audio_url( url );
-							$("#mini_popup").hide();
-							console.log( "uploaded:", url );
-
-							$("#mini_popup_player")[0].pause();
-
-							$("#letter_manager")[0].add_link( g_state.get_audio_url(), g_state.get_compose_button_id() );
-
-							g_state.set_compose_button_id( undefined );
-
-						} else {
-
-							console.log( "aborted recording url:", url )
-
-						}
-					})
-					.catch( function () {
-						$("#mini_popup")[0].set_state("uploading_failed");
-					});
-				});
-
-			})
+				process_recording_blob( blob );
+			});
 
 		});
 
@@ -461,59 +422,11 @@
 
 		$( document ).on( "try_again_click", "#mini_popup", function () {
 
-			var state = new State();
-			var timestamp = Date.now();
-			g_state.set_recording_id(  timestamp );
-			state.set_recording_id( timestamp );
+			stop_timer();
 
-			$("#mini_popup_player")[0].reset();
-			$("#mini_popup_player")[0].disable();
-			$("#popup").hide();
-			$("#mini_popup")[0].reset();
-			$("#mini_popup")[0].set_state("uploading");
-			$("#mini_popup").show();
-				
-			( function ( blob ) {
-
-				g_state.last_recording_blob = blob;
-
-				$( 'v-recorder' )[0].blob_to_data_url( blob )
-				.then( function ( data_url ) {
-
-					$("#mini_popup_player")[0].enable();
-					$("#mini_popup_player")[0].set_url( data_url );
-
-
-				});
-
-				$( 'v-recorder' )[0].blob_to_buffer( blob )
-				.then( function ( buffer ) {
-					$( 'v-uploader' )[0].uploader.upload_buffer( buffer )
-					.then( function ( url ) {
-						if ( g_state.get_recording_id() === state.get_recording_id() ) {
-
-							g_state.set_audio_url( url );
-							$("#mini_popup").hide();
-							console.log( "uploaded:", url );
-
-							$("#mini_popup_player")[0].pause();
-
-							$("#letter_manager")[0].add_link( g_state.get_audio_url(), g_state.get_compose_button_id() );
-
-							g_state.set_compose_button_id( undefined );
-
-						} else {
-
-							console.log( "aborted recording url:", url )
-
-						}
-					})
-					.catch( function () {
-						$("#mini_popup")[0].set_state("uploading_failed");
-					});
-				});
-
-			} ( g_state.last_recording_blob ) );
+			show_uploading_screen();
+			
+			process_recording_blob( g_state.last_recording_blob );
 
 		});
 
