@@ -13,7 +13,7 @@
 				document.head.appendChild( script );
 
 			});
-		};
+		}
 
 		function get_import_inserter ( id, path ) {
 			return function () {
@@ -28,13 +28,13 @@
 					document.head.appendChild( link );
 				});
 			};
-		};
+		}
 
 		function inject_local_storage () {
 			chrome.storage.local.get( null, function ( items ) {
 				window.localStorage.peppermint_storage_items = JSON.stringify( items ); 
 			});
-		};
+		}
 
 		inject_local_storage();
 
@@ -57,7 +57,7 @@
 				.then( function () {
 					var inceptor_import = document.querySelector('#v-inceptor').import;
 					inceptor_import.body.innerHTML = inceptor_import.body.innerHTML
-					.replace( /{{URL_PREFIX}}/g, chrome.extension.getURL( "/gmail_content/v-elements" ) )
+					.replace( /{{URL_PREFIX}}/g, chrome.extension.getURL( "/gmail_content/v-elements" ) );
 					for ( var i = 0; i < inceptor_import.body.children.length; i++ ) {
 						$( document.body ).append( $( inceptor_import.body.children[i] ).clone() );
 					}	
@@ -66,5 +66,5 @@
 
 		});
 
-	} ( $pmjQuery, chrome, document ) )
+	} ( $pmjQuery, chrome, document ) );
 

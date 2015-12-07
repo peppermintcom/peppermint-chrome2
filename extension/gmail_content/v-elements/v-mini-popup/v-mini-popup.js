@@ -10,7 +10,7 @@
 				get_dispatcher: function ( event_name ) {
 					return function () {
 						private.element.dispatchEvent( new CustomEvent( event_name, { bubbles: true } ) );
-					}
+					};
 				}
 
 			};

@@ -28,7 +28,7 @@
 							}
 							
 						});
-					};
+					}
 				});
 			},
 
@@ -36,7 +36,7 @@
 				if ( private.recorder ) {
 					private.recorder.stop();
 				} else {
-					throw new Error( "recorder is falsy" )
+					throw new Error( "recorder is falsy" );
 				}				
 			},
 
@@ -68,7 +68,7 @@
 						}, 'audio/mp3' );
 					} else {
 						reject( new Error("recorder is falsy") );
-					};
+					}
 
 				});
 			},
@@ -85,7 +85,7 @@
 						}, 'audio/mp3' );
 					} else {
 						reject( new Error("recorder is falsy") );
-					};
+					}
 
 				});
 			},
@@ -104,7 +104,7 @@
 						}, 'audio/mp3' );
 					} else {
 						reject( new Error("recorder is falsy") );
-					};
+					}
 
 				});
 			}

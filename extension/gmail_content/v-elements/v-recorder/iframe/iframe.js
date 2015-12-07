@@ -114,7 +114,7 @@
 							name: 'not_started',
 							error: { name: error.name }
 						},"*");
-					})
+					});
 				},
 
 				'cancel': function () {

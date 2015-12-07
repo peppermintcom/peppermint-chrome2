@@ -27,7 +27,7 @@
 							$( '#uploaded_logo', private.element.shadowRoot ).hide();
 							$( '#uploading_done_button', private.element.shadowRoot ).hide();
 							$( '#uploading_page .popup_status', private.element.shadowRoot ).show();
-							$( "#uploading_player_container", private.element.shadowRoot ).append( $( '#player_content', private.element.shadowRoot )[0] )
+							$( "#uploading_player_container", private.element.shadowRoot ).append( $( '#player_content', private.element.shadowRoot )[0] );
 						},
 						"uploaded": function () {
 							$( '#uploading_logo', private.element.shadowRoot ).hide();
@@ -36,7 +36,7 @@
 							$( '#uploading_page .popup_status', private.element.shadowRoot ).hide();
 						},
 						"finished": function () {
-							$( "#finish_player_container", private.element.shadowRoot ).append( $( '#player_content', private.element.shadowRoot )[0] )
+							$( "#finish_player_container", private.element.shadowRoot ).append( $( '#player_content', private.element.shadowRoot )[0] );
 						}
 						
 					};
@@ -120,7 +120,7 @@
 
 			popup.constructor( element );
 
-		}
+		};
 
 		document.registerElement( prefix, { prototype: proto } );
 

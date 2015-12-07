@@ -7,8 +7,8 @@
 		
 		$( document ).on( "disable_reply_button_change", function ( event ) {
 
-			var data = event.originalEvent.detail
-			obj["reply_button_disabled"] = data.checked;
+			var data = event.originalEvent.detail;
+			obj.reply_button_disabled = data.checked;
 
 			document.dispatchEvent( new CustomEvent( "options_data_change", {
 				detail: {
@@ -36,7 +36,7 @@
 			
 			set_options_data: function ( data ) {
 				
-				if ( data["reply_button_disabled"] !== undefined ) $("#disable_reply_button").prop( "checked", data["reply_button_disabled"] );
+				if ( data.reply_button_disabled !== undefined ) $("#disable_reply_button").prop( "checked", data.reply_button_disabled );
 				
 			}
 			
@@ -58,7 +58,7 @@
 				chrome.storage.local.get( null, callback );
 			}
 			
-		}
+		};
 		
 	};
 
@@ -75,11 +75,11 @@
 		
 		$( document ).ready( function () {
 			obj.storage_manager.get( function ( items ) {
-				if ( items["options_data"] !== undefined ) {
+				if ( items.options_data !== undefined ) {
 					obj.page_manager.set_options_data(
-						items["options_data"]
+						items.options_data
 					);
-				};
+				}
 			});
 		});
 

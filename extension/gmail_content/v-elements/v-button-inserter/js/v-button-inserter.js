@@ -26,14 +26,14 @@
 					private.insert_dwopdown_button();
 
 					if (
-						window.localStorage.peppermint_storage_items
-						&& JSON.parse( window.localStorage.peppermint_storage_items ).options_data
-						&& ! JSON.parse( window.localStorage.peppermint_storage_items ).options_data.reply_button_disabled
+						window.localStorage.peppermint_storage_items && 
+						JSON.parse( window.localStorage.peppermint_storage_items ).options_data && 
+						!JSON.parse( window.localStorage.peppermint_storage_items ).options_data.reply_button_disabled
 					) {
 						private.insert_reply_button();
 					} else if (
-						!window.localStorage.peppermint_storage_items
-						|| !JSON.parse( window.localStorage.peppermint_storage_items ).options_data
+						!window.localStorage.peppermint_storage_items || 
+						!JSON.parse( window.localStorage.peppermint_storage_items ).options_data
 					) {
 						private.insert_reply_button();
 					}
@@ -51,8 +51,8 @@
 								var id = Date.now() + '-' + Math.random() + '-' + Math.random() + '-' + Math.random();
 								var button = $( "#v_compose_button", private.element.shadowRoot ).clone();
 								
-								container.dataset["id"] = id;
-								button[0].dataset["id"] = id;
+								container.dataset.id = id;
+								button[0].dataset.id = id;
 								
 								button.on( 'click', function () {
 									button[0].dispatchEvent(
@@ -62,11 +62,11 @@
 
 								$( ".a8X.gU>div", container ).append( button );
 
-							};
+							}
 
 						});
 
-					}, 50 )
+					}, 50 );
 
 				},
 				insert_dwopdown_button: function () {
@@ -82,9 +82,9 @@
 
 								$( element ).children('div:eq(2)').after( button );
 
-							};
+							}
 						});
-					}, 50 )
+					}, 50 );
 				},
 				insert_reply_button: function () {
 					setInterval( function () {
@@ -95,11 +95,11 @@
 
 								button.on( "click", function () {
 									button[0].dispatchEvent( new CustomEvent( 'reply_button_click', { bubbles: true } ) );
-								})
+								});
 
 								$( element ).prepend( button );
 
-							};
+							}
 						});
 						
 						$(".a3s").each( function ( index, element ) {
@@ -114,14 +114,14 @@
 										event.preventDefault();
 										
 										link[0].dispatchEvent( new CustomEvent( 'reply_button_click', { bubbles: true } ) );
-									})
+									});
 
-								};
-							})
+								}
+							});
 							
 						});
 						
-					}, 50 )
+					}, 50 );
 				}
 
 

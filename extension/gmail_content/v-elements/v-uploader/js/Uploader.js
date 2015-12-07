@@ -60,7 +60,7 @@
 								reject();
 							}
 						}
-					)
+					);
 				});
 			},
 			
@@ -90,7 +90,7 @@
 			
 			upload: function ( signed_url, buffer ) {
 				return new Promise( function ( resolve, reject ) {
-					lib.upload( signed_url, buffer, resolve, reject )
+					lib.upload( signed_url, buffer, resolve, reject );
 				});
 			},
 			
@@ -183,4 +183,4 @@
 		
 		return public;
 		
-	}
+	};

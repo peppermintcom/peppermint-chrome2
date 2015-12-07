@@ -3,4 +3,4 @@
 
 		chrome.extension.getBackgroundPage().transferControl( window );
 
-	} ( $pmjQuery ) )
+	} ( $pmjQuery ) );

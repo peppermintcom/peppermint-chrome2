@@ -13,7 +13,7 @@
 				constructor: function ( element ) {
 
 					var template = document.getElementById( prefix + '-import' ).import.getElementById( 'template' );
-					template.innerHTML = template.innerHTML.replace( /{{URL_PREFIX}}/g, element.dataset["url_prefix"] );
+					template.innerHTML = template.innerHTML.replace( /{{URL_PREFIX}}/g, element.dataset.url_prefix );
 
 					element.createShadowRoot().appendChild(
 						document.importNode( template.content, true )
@@ -32,14 +32,15 @@
 				},
 				html_before_selection: function ( html, selection ) {
 
+					var anchorNode;
 					var container_div = document.createElement( 'div' );
 					
 					if ( typeof selection.anchorNode.splitText === 'function' ) {
-						var anchorNode = selection.anchorNode;
+						anchorNode = selection.anchorNode;
 						anchorNode.splitText( selection.anchorOffset );
 						anchorNode = anchorNode.nextSibling;
 					} else {
-						var anchorNode = selection.anchorNode;
+						anchorNode = selection.anchorNode;
 					}
 
 					container_div.innerHTML = html;
@@ -47,7 +48,7 @@
 
 					while ( nodes.length ) {
 						anchorNode.parentNode.insertBefore( nodes[0], anchorNode );
-					};
+					}
 
 				}
 

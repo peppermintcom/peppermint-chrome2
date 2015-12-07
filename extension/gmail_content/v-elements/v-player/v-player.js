@@ -107,7 +107,7 @@
 				element[ key ] = player[ key ];
 			});
 
-		}
+		};
 
 		document.registerElement( prefix, { prototype: proto } );
 

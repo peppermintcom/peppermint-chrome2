@@ -1,5 +1,5 @@
 
-	var $ = $pmjQuery
+	var $ = $pmjQuery;
 
 	// Open the welcome page on install
 	chrome.runtime.onInstalled.addListener(function (details) {
@@ -243,7 +243,7 @@
 
 			});
 
-	};
+	}
 
 	function init_popup_state ( pop_doc ) {
 
@@ -260,35 +260,35 @@
 				}, 100 );
 			} else {
 				$( "#player", pop_doc )[0].disable();
-			};
+			}
 
 			if ( popup_state.recording_url ) {
 
 				copy_to_clipboard( popup_state.recording_url + " " + popup_state.transcript );
 				$( "#popup", pop_doc )[0].set_url( popup_state.recording_url );
 
-			};
+			}
 
 			if ( popup_state.timestamp ) {
 
 				$( "#timer", pop_doc )[0].set_time( Date.now() - popup_state.timestamp );
 				$( "#timer", pop_doc )[0].continue();
 
-			};
+			}
 
 			if ( popup_state.progress ) {
 				pop_doc.dispatchEvent( new CustomEvent( "upload_progress", {
 					detail: {
 						progress: popup_state.progress
 					}
-				}))
-			};
+				}));
+			}
 
 			if ( popup_state.transcript ) {
 				$( "#popup", pop_doc )[0].set_transcript( popup_state.transcript );
-			};
+			}
 
-	};
+	}
 
 	function start_timer () {
 		
@@ -306,7 +306,7 @@
 
 		}, RECORDING_TIMEOUT_LIMIT );
 
-	};
+	}
 
 	function stop_timer () {
 		
@@ -325,7 +325,7 @@
 		
 		clearTimeout( timer );
 
-	};
+	}
 
 	function process_recording_blob ( blob, current_recording_thread_id ) {
 
@@ -368,7 +368,7 @@
 			
 				} else {
 
-					console.log( "aborted recording url:", url )
+					console.log( "aborted recording url:", url );
 
 				}
 			})
@@ -378,7 +378,7 @@
 			});
 		});
 
-	};
+	}
 
 	function show_uploading_screen ( pop_doc ) {
 
@@ -396,7 +396,7 @@
 		popup_state.page_status = "uploading";
 		popup_state.page = "uploading_page";
 
-	};
+	}
 
 	document.addEventListener("update_audio_transcription", function(event){
 		popup_state.transcript = event.detail.transcript;
@@ -406,7 +406,7 @@
 		
 		pop_doc = popup_window.document;
 
-		init_popup_state( pop_doc )
+		init_popup_state( pop_doc );
 
 		$( pop_doc ).on( "tick", "#timer", function () {
 			popup_state.timestamp = $( "#timer", pop_doc )[0].get_timestamp();
@@ -471,7 +471,7 @@
 
 				process_recording_blob( blob, current_recording_thread_id );
 
-			})
+			});
 
 		});
 
@@ -506,7 +506,7 @@
 				detail: {
 					progress: event.originalEvent.detail.progress
 				}
-			}))
+			}));
 		
 			popup_state.progress = event.originalEvent.detail.progress;
 		

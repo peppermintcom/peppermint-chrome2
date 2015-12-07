@@ -31,7 +31,7 @@
 					var seconds = parseInt( milliseconds / 1000 );
 					var hours = parseInt( seconds / 3600 ) % 24;
 					var minutes = parseInt( seconds / 60 ) % 60;
-					var seconds = private.pad( seconds % 60 );
+					seconds = private.pad( seconds % 60 );
 					var time_string = ( hours > 0 ) ? hours+':'+private.pad( minutes )+':'+seconds : minutes+':'+seconds;
 
 					$( "#time_container", private.element.shadowRoot ).html( time_string );

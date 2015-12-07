@@ -243,7 +243,7 @@
 		    doc.body.scrollTop = initScrollTop;
 		    doc.body.removeChild(temp);
 	
-		};
+		}
 
 		function begin_recording () {
 
@@ -276,7 +276,7 @@
 
 			});
 
-		};
+		}
 
 		function show_uploading_screen () {
 
@@ -329,7 +329,7 @@
 
 					} else {
 
-						console.log( "aborted recording url:", url )
+						console.log( "aborted recording url:", url );
 
 					}
 				})
@@ -339,7 +339,7 @@
 
 			});
 
-		};
+		}
 
 		$( document ).on( "compose_button_click", function ( event ) {
 
@@ -347,7 +347,7 @@
 			
 			if ( g_state.get_compose_button_id() ) return;
 
-			g_state.set_compose_button_id( event.target.dataset["id"] );
+			g_state.set_compose_button_id( event.target.dataset.id );
 
 			begin_recording();
 
@@ -357,7 +357,7 @@
 
 			$(".ams:contains('Reply')").click();
 			setTimeout( function () {
-				$('#v_compose_button').click()
+				$('#v_compose_button').click();
 			}, 100 );
 
 		});
