@@ -1,6 +1,28 @@
 
 	( function ( $ ) {
 		
+		//draggable plugin
+
+			(function($){
+			    $.fn.tinyDraggable = function(options){
+			        var settings = $.extend({ handle: 0, exclude: 0 }, options);
+			        return this.each(function(){
+			            var dx, dy, el = $(this), handle = settings.handle ? settings.handle : el;
+			            handle.on({
+			                mousedown: function(e){
+			                    if (settings.exclude && ~$.inArray(e.target, settings.exclude, el)) return;
+			                    e.preventDefault();
+			                    var os = el.offset(); dx = e.pageX-os.left, dy = e.pageY-os.top;
+			                    $(document).on('mousemove.drag', function(e){ el.offset({top: e.pageY-dy, left: e.pageX-dx}); });
+			                },
+			                mouseup: function(e){ $(document).off('mousemove.drag'); }
+			            });
+			        });
+			    }
+			}($));
+
+		//
+
 		var Popup = function () {
 			
 			var private = {
@@ -53,7 +75,7 @@
 					if ( page_name === 'popup_finish' ) {
 						$( private.element ).css({ width: '655px', height: 'auto' });
 					} else {
-						$( private.element ).css({ width: '380px', height: '300px' });
+						$( private.element ).css({ width: '380px', height: '336px' });
 					}
 					
 				},
@@ -86,6 +108,15 @@
 					"restart_upload",
 					"cancel"
 				].forEach( private.create_click_dispatcher );
+
+				$( element ).tinyDraggable({
+					handle: $( "#header", element.shadowRoot ),
+					exclude: $( ".header_button", element.shadowRoot )
+				});
+
+				$( "hide_button", element.shadowRoot ).click( function () {
+					
+				});
 
 				$( document ).on( "upload_progress", function ( event ) {
 					$( "#progress", element.shadowRoot ).html( event.originalEvent.detail.progress + "%" );

@@ -8,9 +8,9 @@
 				display: none;
 				
 				width: 380px;
-				height: 300px;
+				height: 336px;
 				
-				border-radius: 5px;
+				border-radius: 2px;
 				border: 1px solid #A8ABAB;
 				background-color: white;
 				box-shadow: 0px 0px 50px 0px #888;
@@ -219,7 +219,57 @@
 				text-align: left;
 			}
 
+			#header {
+
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+
+				overflow: hidden;
+				box-sizing: border-box;
+
+				height: 36px;
+				width: 100%;
+				padding-right: 6px;
+				padding-left: 16px;
+
+				background-color: #404040;
+
+				cursor: move;
+			
+			}
+
+			#header span {
+
+				font-family: arial,sans-serif;
+				font-size: 12.8px;
+				color: white;
+
+			}
+
+			.header_button {
+
+				opacity: 0.6;
+
+				cursor: pointer;
+
+			}
+
+			#hide_button {
+			
+    			width: 24px;
+    			height: 24px;
+
+				background: no-repeat url(https://ssl.gstatic.com/mail/sprites/general-ea1c329fa1beb8a15b1137ebf03f930b.png) 0 -364px;
+			
+			}
+
 		</style>
+
+		<div id = 'header' >
+			<span>Recording</span>
+			<div id = 'hide_button' class = 'header_button' ></div>
+		</div>
 
 		<div class = 'page' id = 'popup_welcome' >
 			<img class = 'popup_logo' src = '{{URL_PREFIX}}/img/logo.png' >
