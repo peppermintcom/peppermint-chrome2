@@ -382,7 +382,7 @@
 
 	function show_uploading_screen ( pop_doc ) {
 
-		if ( pop_doc.defaultView ) {
+		if ( pop_doc && pop_doc.defaultView ) {
 
 			$( "#player", pop_doc )[0].reset();
 			$( "#player", pop_doc )[0].disable();
@@ -464,7 +464,7 @@
 			stop_timer();
 			current_recording_thread_id = popup_state.recording_thread_id;
 
-			show_uploading_screen();
+			show_uploading_screen( pop_doc );
 
 			$("#recorder")[0].finish()
 			.then( function ( blob ) {
@@ -479,7 +479,7 @@
 
 			current_recording_thread_id = popup_state.recording_thread_id;
 
-			show_uploading_screen();
+			show_uploading_screen( pop_doc );
 
 			process_recording_blob( popup_state.last_recording_blob, current_recording_thread_id );
 
