@@ -38,6 +38,10 @@
 
 		inject_local_storage();
 
+		document.addEventListener( "open_welcome_page", function () {
+			chrome.runtime.sendMessage( "open_welcome_page" );
+		});
+
 		insert_script( "chrome-extension://"+chrome.runtime.id+"/gmail_content/js/lib/jquery.min.js" )
 		.then( function () {
 

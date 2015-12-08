@@ -11,6 +11,17 @@
 		}
 	});
 
+// set up the open welcome page listener.
+	chrome.runtime.onMessage.addListener( function ( message ) {
+		console.log( message );
+		if ( message === 'open_welcome_page' ) {
+		    chrome.tabs.create({
+		        url: chrome.extension.getURL("welcome_page/welcome.html"),
+		        active: true
+		    });
+		}
+	})
+
 //////////////////////////////Transcript
 
 
