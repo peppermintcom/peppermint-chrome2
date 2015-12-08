@@ -35,12 +35,26 @@
 				var displayMinutes = parseInt(durationSeconds / 60);
 				var displaySeconds = durationSeconds % 60;
 				
-				transcriptionDurationDisplay = displayMinutes + ' min ' + displaySeconds + ' secs';
+				transcriptionDurationDisplay = zeroPad(displayMinutes) + ':' + zeroPad(displaySeconds);
 			});
+			
+			function zeroPad(originalNumber) {
+				
+				numberValue = parseInt(originalNumber);
+				
+				if (numberValue < 10) {
+					return '0' + numberValue;
+				}
+				
+				return '' + numberValue;
+			}
+			
 			
 			function formatEmailMessage(audioUrl, audioTranscript, audioDurationDisplay, emailTemplate) {
 				
-				var emailMessage = emailTemplate.replace("{{audio}}", audioUrl).replace("{{transcript}}", audioTranscript);
+				var emailMessage = emailTemplate.replace("{{audio}}", audioUrl)
+												.replace("{{transcript}}", audioTranscript)
+												.replace("{{duration}}", audioDurationDisplay);
 				
 				return emailMessage;
 			}
