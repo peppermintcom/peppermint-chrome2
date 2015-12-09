@@ -114,8 +114,25 @@
 					exclude: $( ".header_button", element.shadowRoot )
 				});
 
-				$( "hide_button", element.shadowRoot ).click( function () {
-					
+				$( "#hide_button", element.shadowRoot ).click( function () {
+					$( element ).css({ left: '0px', bottom: '-300px', top: 'initial' });
+					$( "#hide_button", element.shadowRoot ).hide();
+					$( "#show_button", element.shadowRoot ).show();
+				});
+
+				$( "#show_button", element.shadowRoot ).click( function () {
+					$( element ).css({ left: 'calc( 50% - 190px )', top: '100px', bottom: 'initial' });
+					$( "#hide_button", element.shadowRoot ).show();
+					$( "#show_button", element.shadowRoot ).hide();
+				});
+
+				$( "#header", element.shadowRoot ).on( "mousedown", function ( event ) {
+					if ( $( event.originalEvent.path[0] ).is( "#header" ) ) {
+
+						$( "#hide_button", element.shadowRoot ).show();
+						$( "#show_button", element.shadowRoot ).hide();
+
+					}
 				});
 
 				$( document ).on( "upload_progress", function ( event ) {

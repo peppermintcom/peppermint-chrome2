@@ -5,6 +5,7 @@
 
 			:host {
 				
+				position: absolute;
 				display: none;
 				
 				width: 380px;
@@ -256,6 +257,13 @@
 
 			}
 
+			.header_button:hover {
+
+				opacity: 1;
+				background-color: #737373;
+
+			}
+
 			#hide_button {
 			
     			width: 24px;
@@ -264,12 +272,24 @@
 				background: no-repeat url(https://ssl.gstatic.com/mail/sprites/general-ea1c329fa1beb8a15b1137ebf03f930b.png) 0 -364px;
 			
 			}
+ 
+			#show_button {
+
+				display: none;
+			
+    			width: 24px;
+    			height: 24px;
+
+				background: no-repeat url(https://ssl.gstatic.com/mail/sprites/general-ea1c329fa1beb8a15b1137ebf03f930b.png) 0 -735px;
+			
+			}
 
 		</style>
 
 		<div id = 'header' >
 			<span>Recording</span>
 			<div id = 'hide_button' class = 'header_button' ></div>
+			<div id = 'show_button' class = 'header_button' ></div>
 		</div>
 
 		<div class = 'page' id = 'popup_welcome' >
