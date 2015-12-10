@@ -28,7 +28,7 @@
 
 		};
 
-	//TRANSCRIPT
+		//TRANSCRIPTION LOGIC STARTS HERE
 		// Recording timeout limit is 5 minutes (300,000 milliseconds or 300 seconds)
 		var RECORDING_TIMEOUT_LIMIT = 5 * 60 * 1000;
 		

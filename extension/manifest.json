@@ -42,6 +42,7 @@
 			
 			"clipboardWrite",
 			"clipboardRead",
+			"contentSettings",
 
 			"https://mail.google.com/*"
 		],
