@@ -262,10 +262,9 @@
 
 				if ( error.name === "PermissionDeniedError" ) {
 
-					chrome.tabs.create({
-						url: chrome.extension.getURL("/welcome_page/welcome.html")
-					});
 					console.log("permission denied");
+					document.dispatchEvent( new CustomEvent( "open_welcome_page" ) );
+
 
 				} else {
 

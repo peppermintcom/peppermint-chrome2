@@ -5,6 +5,22 @@
 			
 			var audioFinalTranscription = "";
 			var transcriptionDurationDisplay = "";
+			var newCompositionTemplate = "";
+			var replyCompositionTemplate = "";
+			
+			
+			
+			$(document).ready(function() {
+				
+				$.get('https://s3.amazonaws.com/peppermint-templates/composition-new.html', function(templateNew) {
+					newCompositionTemplate = templateNew;
+				});
+				
+				$.get('https://s3.amazonaws.com/peppermint-templates/composition-reply.html', function(templateReply) {
+					replyCompositionTemplate = templateReply;
+				});
+			
+			});
 			
 			document.addEventListener("update_audio_transcription", function(event){
 				console.log("update_audio_transcription received");
@@ -19,24 +35,26 @@
 				var displayMinutes = parseInt(durationSeconds / 60);
 				var displaySeconds = durationSeconds % 60;
 				
-				transcriptionDurationDisplay = displayMinutes + ' min ' + displaySeconds + ' secs';
+				transcriptionDurationDisplay = zeroPad(displayMinutes) + ':' + zeroPad(displaySeconds);
 			});
 			
-			function formatEmailMessage(audioUrl, audioTranscript, audioDurationDisplay, audioMessageType) {
+			function zeroPad(originalNumber) {
 				
-				var emailMessage = "--- Audio {{MESSAGE_TYPE}} ({{MESSAGE_DURATION}}) ---"
-				    .replace( "{{MESSAGE_TYPE}}", audioMessageType )
-				    .replace( "{{MESSAGE_DURATION}}", audioDurationDisplay )
-					+ '<br>'
-					+ "<br><a href='{{URL}}' >{{URL}}</a>".replace( "{{URL}}", audioUrl ).replace( "{{URL}}", audioUrl )
-					+ '<br><br>'
-					+ '--- Transcription Below ---'
-					+ '<br><br>'
-                    + audioTranscript
-                    + '<br><br>'
-                    + "<a href='https://peppermint.com/reply' >Peppermint Quick Reply</a>";
+				numberValue = parseInt(originalNumber);
 				
-				console.log(emailMessage);
+				if (numberValue < 10) {
+					return '0' + numberValue;
+				}
+				
+				return '' + numberValue;
+			}
+			
+			
+			function formatEmailMessage(audioUrl, audioTranscript, audioDurationDisplay, emailTemplate) {
+				
+				var emailMessage = emailTemplate.replace("{{audio}}", audioUrl)
+												.replace("{{transcript}}", audioTranscript)
+												.replace("{{duration}}", audioDurationDisplay);
 				
 				return emailMessage;
 			}
@@ -110,12 +128,12 @@
 
 							if ( selection && editable.contains( selection.anchorNode ) ) {
 								private.html_before_selection( 
-									formatEmailMessage(url, audioFinalTranscription, transcriptionDurationDisplay, 'Reply'),
+									formatEmailMessage(url, audioFinalTranscription, transcriptionDurationDisplay, replyCompositionTemplate),
 									selection
 								);
 							} else {
 								$( editable ).prepend(
-									formatEmailMessage(url, audioFinalTranscription, transcriptionDurationDisplay, 'Reply')
+									formatEmailMessage(url, audioFinalTranscription, transcriptionDurationDisplay, replyCompositionTemplate)
 								);
 							}
 
@@ -127,12 +145,12 @@
 
 							if ( selection && editable.contains( selection.anchorNode ) ) {
 								private.html_before_selection(
-									formatEmailMessage(url, audioFinalTranscription, transcriptionDurationDisplay, 'Message'),
+									formatEmailMessage(url, audioFinalTranscription, transcriptionDurationDisplay, newCompositionTemplate),
 									selection
 								);
 							} else {
 								$( editable ).prepend(
-									formatEmailMessage(url, audioFinalTranscription, transcriptionDurationDisplay, 'Message')
+									formatEmailMessage(url, audioFinalTranscription, transcriptionDurationDisplay, newCompositionTemplate)
 								)
 							};
 
