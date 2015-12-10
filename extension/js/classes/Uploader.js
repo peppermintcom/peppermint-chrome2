@@ -1,5 +1,5 @@
 	
-	VUploader = function ( $ ) {
+	Uploader = function ( $ ) {
 		
 		var lib = {
 
