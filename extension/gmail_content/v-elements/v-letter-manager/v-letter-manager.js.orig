@@ -40,6 +40,18 @@
 			
 			function zeroPad(originalNumber) {
 				
+<<<<<<< HEAD
+				var emailMessage = "--- Audio {{MESSAGE_TYPE}} ({{MESSAGE_DURATION}}) ---"
+				    .replace( "{{MESSAGE_TYPE}}", audioMessageType )
+				    .replace( "{{MESSAGE_DURATION}}", audioDurationDisplay ) + 
+					'<br>' + 
+					"<br><a href='{{URL}}' >{{URL}}</a>".replace( "{{URL}}", audioUrl ).replace( "{{URL}}", audioUrl ) + 
+					'<br><br>' + 
+					'--- Transcription Below ---' + 
+					'<br><br>' + 
+					audioTranscript + '<br><br>' + 
+					"<a href='https://peppermint.com/reply' >Peppermint Quick Reply</a>";
+=======
 				numberValue = parseInt(originalNumber);
 				
 				if (numberValue < 10) {
@@ -51,6 +63,7 @@
 			
 			
 			function formatEmailMessage(audioUrl, audioTranscript, audioDurationDisplay, emailTemplate) {
+>>>>>>> master
 				
 				var emailMessage = emailTemplate.replace("{{audio}}", audioUrl)
 												.replace("{{transcript}}", audioTranscript)
@@ -147,9 +160,15 @@
 								);
 							} else {
 								$( editable ).prepend(
+<<<<<<< HEAD
+									formatEmailMessage(url, audioFinalTranscription, transcriptionDurationDisplay, 'Message')
+								);
+							}
+=======
 									formatEmailMessage(url, audioFinalTranscription, transcriptionDurationDisplay, newCompositionTemplate)
 								)
 							};
+>>>>>>> master
 
 							if ( $(".I5[data-id='"+id+"'] input[name='subjectbox']").val() === '' ) {
 								$(".I5[data-id='"+id+"'] input[name='subjectbox']").val("I sent you an audio message");
