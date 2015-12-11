@@ -3,13 +3,19 @@
 		
 		var lib = {
 
-			upload: function ( url, buffer, success_callback, failure_callback ) {
+			upload: function ( url, buffer, success_callback, failure_callback, retries ) {
 
+				retries = retries || 3;
+				
 				var xhr = new XMLHttpRequest();
 				xhr.open( 'PUT', url, true );
 
 				xhr.onload = success_callback;
-				xhr.onerror = failure_callback;
+				xhr.onerror = function(){
+					if(retries > 0){
+						lib.upload(url,buffer,success_callback,failure_callback,--retries);
+					} else failure_callback();
+				};
 				xhr.setRequestHeader( "Content-Type", "audio/mpeg" );
 
 				xhr.upload.onprogress = function( e ) {
