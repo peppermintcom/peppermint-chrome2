@@ -28,7 +28,7 @@
 
 		};
 
-		//TRANSCRIPTION LOGIC STARTS HERE
+	//TRANSCRIPTION LOGIC STARTS HERE
 		// Recording timeout limit is 5 minutes (300,000 milliseconds or 300 seconds)
 		var RECORDING_TIMEOUT_LIMIT = 5 * 60 * 1000;
 		
@@ -254,6 +254,7 @@
 				$("v-timer")[0].reset();
 				$("v-timer")[0].start();
 				$('#popup').show();
+				$('#popup')[0].center();
 				$('#popup')[0].set_page("recording_page");
 				$('#popup')[0].set_page_status("recording");
 

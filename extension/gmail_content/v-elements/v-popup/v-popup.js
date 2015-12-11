@@ -39,6 +39,10 @@
 
 			var public = {
 
+				center: function () {
+					$( private.element ).css({ left: 'calc( 50% - 190px )', top: '100px', bottom: 'initial' });
+				},
+
 				set_page_status: function ( page_status ) {
 					
 					var options = {
