@@ -7,7 +7,7 @@
 				
 				audio: new Audio(),
 				
-				set_control_icon( state ) {
+				set_control_icon: function( state ) {
 					if ( state === 'play' ) {
 						element.shadowRoot.querySelector("#play").style.display = 'block';
 						element.shadowRoot.querySelector("#pause").style.display = 'none';
