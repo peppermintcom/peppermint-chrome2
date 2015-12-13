@@ -119,7 +119,29 @@
 								}
 							});
 							
-						});
+							$("img[src*='player.png']", element ).each( function ( index, element) {
+								var link = $(element);
+								
+								if ( link.attr('id') !== 'peppermintMessage' ) {
+									
+									link.attr('id','peppermintMessage');
+									link.attr('data-pm_msg_src', link.parent().attr('href'));
+	
+									link.on( "click", function (element) {
+										event.preventDefault();
+										
+										var src = $(element.currentTarget).data('pm_msg_src');
+										
+										console.log('play message at `' + src +	'`');
+											
+										$('body').append('<embed id="embed_player" src="' + 
+											src + '" autostart="true" hidden="true"></embed>');
+									});
+
+								}
+							});
+							
+						});						
 						
 					}, 50 );
 				}
