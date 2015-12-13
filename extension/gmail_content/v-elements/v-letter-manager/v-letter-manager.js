@@ -52,9 +52,18 @@
 			
 			function formatEmailMessage(audioUrl, audioTranscript, audioDurationDisplay, emailTemplate) {
 				
+				var transcriptHeader = "MESSAGE TRANSCRIPTION";
+				
+				if (audioTranscript.trim().length < 1) {
+					transcriptHeader = "";
+				}
+				
 				var emailMessage = emailTemplate.replace("{{audio}}", audioUrl)
+												.replace("{{transcript_header}}", transcriptHeader)
 												.replace("{{transcript}}", audioTranscript)
 												.replace("{{duration}}", audioDurationDisplay);
+				
+				audioFinalTranscription = "";
 				
 				return emailMessage;
 			}

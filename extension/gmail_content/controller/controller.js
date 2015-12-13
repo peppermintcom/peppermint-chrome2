@@ -102,6 +102,7 @@
 		 */
 		peppermintRecognition.onstart = function() {
 			recognizing = true;
+			peppermintFinalAudioTranscript = '';
 			transcriptionLogger("Starting Speech Recognition for Audio Transcription for Language " + transcriptionLanguage);
 		};
 
