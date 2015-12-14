@@ -1,5 +1,5 @@
 
-	function PopupController ( recorder, uploader, $ ) {
+	function PopupController ( recorder, uploader, $, event_hub ) {
 
 		var popup_state = {
 
@@ -104,12 +104,11 @@
 
 			begin_recording: function () {
 
-				popup_state = {};
 				popup_state.recording_thread_id = Date.now();
 
 				recorder.start()
 				.then( function () {
-debugger;
+
 					private.start_timer();
 
 					$( "#timer", popup_state.pop_doc )[0].reset();
@@ -122,7 +121,9 @@ debugger;
 
 				})
 				.catch( function ( error ) {
-debugger;
+
+					console.error( "Failed to begin recording", error );
+
 					if ( error.name === "PermissionDeniedError" ) {
 
 						chrome.tabs.create({
@@ -144,38 +145,17 @@ debugger;
 
 			start_timer: function () {
 				
-				console.log("start_timer");
-				
-				// start audio transcription 
-				document.dispatchEvent(new CustomEvent('start_audio_transcription', { bubbles: true }));
-				
-				transcriptionStartTime = Date.now();
-				
-				timer = setTimeout( function () {
+				popup_state.timer = setTimeout( function () {
 
-					console.log( "timeout" );
-					document.dispatchEvent( new CustomEvent("timeout") );
+					event_hub.fire( "timeout" );
 
-				}, RECORDING_TIMEOUT_LIMIT );
+				}, 5 * 60 * 1000 );
 
 			},
 
 			stop_timer: function () {
 				
-				console.log("stop_timer");
-				
-				// stop audio transcription
-				document.dispatchEvent( new CustomEvent('stop_audio_transcription', { bubbles: true }) ); 
-				
-				transcriptionStopTime = Date.now();
-				
-				var transcriptionDuration = transcriptionStopTime - transcriptionStartTime;
-				
-			    var eventDetails = {duration : transcriptionDuration};
-			    
-			    document.dispatchEvent(new CustomEvent('store_audio_duration', { bubbles: true, detail: eventDetails }));
-				
-				clearTimeout( timer );
+				clearTimeout( popup_state.timer );
 
 			},
 
@@ -198,7 +178,7 @@ debugger;
 				recorder.blob_to_buffer( blob )
 				.then( function ( buffer ) {
 
-					uploader.uploader.upload_buffer( buffer )
+					uploader.upload_buffer( buffer )
 					.then( function ( url ) {
 						if ( current_recording_thread_id === popup_state.recording_thread_id ) {
 
@@ -327,26 +307,9 @@ debugger;
 
 		};
 
-		$( document ).on( "timeout", function () {
-
-			current_recording_thread_id = popup_state.recording_thread_id;
-
-			private.show_uploading_screen( pop_doc );
-
-			recorder.finish()
-			.then( function ( blob ) {
-				
-				private.process_recording_blob( blob, current_recording_thread_id );
-
-			});
-
-			alert("You have reached the maximum recording length of 5 minutes");
-
-		});
-
 		$( document ).on( "upload_progress",  function ( event ) {
 		
-			pop_doc.dispatchEvent( new CustomEvent( "upload_progress", {
+			popup_state.pop_doc.dispatchEvent( new CustomEvent( "upload_progress", {
 				detail: {
 					progress: event.originalEvent.detail.progress
 				}
@@ -354,6 +317,27 @@ debugger;
 		
 			popup_state.progress = event.originalEvent.detail.progress;
 		
+		});
+
+		event_hub.add({
+
+			"timeout": function () {
+
+				current_recording_thread_id = popup_state.recording_thread_id;
+
+				private.show_uploading_screen( popup_state.pop_doc );
+
+				recorder.finish()
+				.then( function ( blob ) {
+					
+					private.process_recording_blob( blob, current_recording_thread_id );
+
+				});
+
+				alert("You have reached the maximum recording length of 5 minutes");
+
+			}
+
 		});
 
 		return public;

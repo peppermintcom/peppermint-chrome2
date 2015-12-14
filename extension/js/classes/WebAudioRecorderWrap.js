@@ -1,5 +1,5 @@
 
-	function WebAudioRecorderWrap ( navigator, WebAudioRecorder, AudioContext ) {
+	function WebAudioRecorderWrap ( navigator, WebAudioRecorder, AudioContext, worker_dir ) {
 
 		var private = {
 			
@@ -39,7 +39,7 @@
 						private.recorder = new WebAudioRecorder(
 							private.context.createMediaStreamSource( stream ),
 							{
-								workerDir: "lib/",
+								workerDir: worker_dir,
 								numChannels: 2,
 								encoding: 'mp3',
 								options: {
@@ -84,6 +84,30 @@
 					private.recorder.finishRecording();
 					public.cancel();
 
+				});
+			},
+
+			blob_to_buffer: function ( blob ) {
+				return new Promise( function ( resolve ) {
+
+					var reader = new FileReader();
+					reader.readAsArrayBuffer( blob );
+					reader.onloadend = function () {
+						resolve( reader.result );
+					};
+
+				});
+			},
+
+			blob_to_data_url: function ( blob ) {
+				return new Promise ( function ( resolve ) {
+
+					var reader = new FileReader();
+					reader.onloadend = function () {
+						resolve( reader.result );
+					};
+					reader.readAsDataURL( blob );
+					
 				});
 			}
 

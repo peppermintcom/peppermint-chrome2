@@ -1,5 +1,5 @@
 
-	function Timer ( $, template ) {
+	function Timer ( $, template, element ) {
 
 		var private = {
 
@@ -17,13 +17,13 @@
 				seconds = private.pad( seconds % 60 );
 				var time_string = ( hours > 0 ) ? hours+':'+private.pad( minutes )+':'+seconds : minutes+':'+seconds;
 
-				$( "#time_container", private.element.shadowRoot ).html( time_string );
+				$( "#time_container", element.shadowRoot ).html( time_string );
 				
 			},
 
 			notify_tick: function () {
 
-				private.element.dispatchEvent( new CustomEvent( "tick", {
+				element.dispatchEvent( new CustomEvent( "tick", {
 					bubbles: true,
 				}));
 
@@ -98,21 +98,13 @@
 
 		( function constructor () {
 
-			var proto = Object.create( HTMLElement.prototype );
+			element.createShadowRoot().appendChild( document.importNode( template.content, true ) );
 
-			proto.attachedCallback = function () {
-
-				this.createShadowRoot().appendChild( document.importNode( template.content, true ) );
-				
-				private.element = this;
-
-			};
-
-			$.extend( this, public );
-
-			document.registerElement( 'v-timer', { prototype: proto } );
+			$.extend( element, public );
 
 		} () )
+
+		return element;
 
 	};
 

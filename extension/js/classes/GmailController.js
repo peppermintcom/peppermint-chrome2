@@ -1,5 +1,5 @@
 
-	function GmailController ( recorder, welcome_window_opener, event_hub ) {
+	function GmailController ( recorder, uploader, event_hub, chrome, letter_manager ) {
 
 		var state = {
 
@@ -52,7 +52,7 @@
 					if ( error.name === "PermissionDeniedError" ) {
 						
 						console.log("permission denied");
-						welcome_window_opener.open();
+						chrome.runtime.sendMessage( "open_welcome_page" );
 						
 					} else {
 						
@@ -82,7 +82,7 @@
 				state.recording_id = recording_id;
 				state.last_recording_blob = blob;
 
-				$( 'v-recorder' )[0].blob_to_data_url( blob )
+				recorder.blob_to_data_url( blob )
 				.then( function ( data_url ) {
 
 					$("#peppermint_mini_popup_player")[0].enable();
@@ -90,10 +90,10 @@
 
 				});
 
-				$( 'v-recorder' )[0].blob_to_buffer( blob )
+				recorder.blob_to_buffer( blob )
 				.then( function ( buffer ) {
 
-					$( 'v-uploader' )[0].uploader.upload_buffer( buffer )
+					uploader.upload_buffer( buffer )
 					.then( function ( url ) {
 
 						if ( state.recording_id === recording_id ) {
@@ -108,7 +108,7 @@
 
 							console.log( "uploaded:", url );
 							$("#peppermint_mini_popup_player")[0].pause();
-							$("#letter_manager")[0].add_link( state.audio_url, state.compose_button_id );
+							letter_manager.add_link( state.audio_url, state.compose_button_id );
 							state.compose_button_id = undefined;
 
 						} else {
@@ -193,7 +193,7 @@
 			
 			show_uploading_screen();
 				
-			$( 'v-recorder' )[0].finish()
+			recorder.finish()
 			.then( function ( blob ) {
 				process_recording_blob( blob );
 			});

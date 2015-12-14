@@ -1,5 +1,5 @@
 
-	var LetterManager = function ( $, document ) {
+	function LetterManager ( $, document ) {
 		
 		var private = {
 				
@@ -145,19 +145,19 @@
 
 		( function constructor () {
 
-				$( document ).on( "selectionchange", private.selectionchange_handler );
+			$( document ).on( "selectionchange", private.selectionchange_handler );
 
-				$.get( 'https://s3.amazonaws.com/peppermint-templates/composition-new.html', function( response ) {
+			$.get( 'https://s3.amazonaws.com/peppermint-templates/composition-new.html', function( response ) {
 
-					private.compose_template = response;
+				private.compose_template = response;
 
-				});
-				
-				$.get( 'https://s3.amazonaws.com/peppermint-templates/composition-reply.html', function( response ) {
+			});
+			
+			$.get( 'https://s3.amazonaws.com/peppermint-templates/composition-reply.html', function( response ) {
 
-					private.compose_template = response;
+				private.compose_template = response;
 
-				});
+			});
 
 		} () )
 

@@ -11,31 +11,23 @@
 			"file": "extension/manifest.json",
 			"settings":
 			{
-				"buffer_size": 1357,
+				"buffer_size": 1709,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "extension/popup/popup.html",
+			"file": "extension/js/inceptor.js",
 			"settings":
 			{
-				"buffer_size": 914,
+				"buffer_size": 1989,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "extension/popup/popup.js",
+			"file": "/C/xampp/htdocs/prj/star_wars_spoiler_alert/extension/js/content.js",
 			"settings":
 			{
-				"buffer_size": 579,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "extension/popup/popup.css",
-			"settings":
-			{
-				"buffer_size": 133,
+				"buffer_size": 8194,
 				"line_ending": "Windows"
 			}
 		},
@@ -43,23 +35,23 @@
 			"file": "extension/js/background.js",
 			"settings":
 			{
-				"buffer_size": 911,
+				"buffer_size": 1181,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "extension/js/elements/Popup.js",
+			"file": "extension/js/classes/ButtonInserter.js",
 			"settings":
 			{
-				"buffer_size": 4878,
+				"buffer_size": 2615,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "extension/js/elements/Player.js",
+			"file": "extension/js/classes/LetterManager.js",
 			"settings":
 			{
-				"buffer_size": 2863,
+				"buffer_size": 4461,
 				"line_ending": "Windows"
 			}
 		},
@@ -67,7 +59,31 @@
 			"file": "extension/js/classes/PopupController.js",
 			"settings":
 			{
-				"buffer_size": 9589,
+				"buffer_size": 8907,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "extension/popup/popup.html",
+			"settings":
+			{
+				"buffer_size": 888,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "extension/popup/popup.js",
+			"settings":
+			{
+				"buffer_size": 631,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "extension/js/elements/Popup.js",
+			"settings":
+			{
+				"buffer_size": 4496,
 				"line_ending": "Windows"
 			}
 		},
@@ -75,15 +91,23 @@
 			"file": "extension/js/elements/Timer.js",
 			"settings":
 			{
-				"buffer_size": 2237,
+				"buffer_size": 2050,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "extension/js/classes/WebAudioRecorderWrap.js",
+			"file": "extension/js/elements/MiniPopup.js",
 			"settings":
 			{
-				"buffer_size": 1638,
+				"buffer_size": 1417,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "extension/js/elements/Player.js",
+			"settings":
+			{
+				"buffer_size": 2511,
 				"line_ending": "Windows"
 			}
 		}
@@ -112,6 +136,21 @@
 	},
 	"file_history":
 	[
+		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/templates/v-popup.html",
+		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/templates/v-mini-popup.html",
+		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/js/classes/GmailController.js",
+		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/js/classes/WebAudioRecorderWrap.js",
+		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/js/classes/ContentRecorder.js",
+		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/js/classes/BackgroundRecorder.js",
+		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/js/elements/Popup.js",
+		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/js/classes/CaretHelper.js",
+		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/popup/popup.js",
+		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/popup/popup.css",
+		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/popup/popup.html",
+		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/js/classes/BackgroundRecorderController.js",
+		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/js/classes/PopupController.js",
+		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/js/elements/Timer.js",
+		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/js/elements/Player.js",
 		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/js/elements/MiniPopup.js",
 		"/C/xampp/htdocs/prj/star_wars_spoiler_alert/extension/js/background.js"
 	],
@@ -131,6 +170,14 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"content>",
+			"content",
+			"#popup",
+			"popup",
+			"private.element",
+			"welcome_win",
+			"uploader",
+			"popup_state",
 			"pop_doc",
 			"uploader",
 			"recorder",
@@ -156,6 +203,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"element",
 			"private.element"
 		],
 		"reverse": false,
@@ -167,7 +215,7 @@
 	"groups":
 	[
 		{
-			"selected": 0,
+			"selected": 3,
 			"sheets":
 			[
 				{
@@ -175,15 +223,15 @@
 					"file": "extension/manifest.json",
 					"settings":
 					{
-						"buffer_size": 1357,
+						"buffer_size": 1709,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								386,
-								386
+								695,
+								695
 							]
 						],
 						"settings":
@@ -192,87 +240,112 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 62.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "extension/popup/popup.html",
+					"file": "extension/js/inceptor.js",
 					"settings":
 					{
-						"buffer_size": 914,
+						"buffer_size": 1989,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								107,
-								107
+								1663,
+								1663
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 93.0,
+						"translation.y": 591.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "extension/popup/popup.js",
+					"file": "/C/xampp/htdocs/prj/star_wars_spoiler_alert/extension/js/content.js",
 					"settings":
 					{
-						"buffer_size": 579,
+						"buffer_size": 8194,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								440,
-								440
-							],
-							[
-								534,
-								534
+								7977,
+								7977
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 4352.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 3,
-					"file": "extension/popup/popup.css",
+					"file": "extension/js/background.js",
 					"settings":
 					{
-						"buffer_size": 133,
+						"buffer_size": 1181,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								133,
-								133
+								1181,
+								1181
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/CSS/CSS.tmLanguage"
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 198.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "extension/js/classes/ButtonInserter.js",
+					"settings":
+					{
+						"buffer_size": 2615,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -281,19 +354,19 @@
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "extension/js/background.js",
+					"buffer": 5,
+					"file": "extension/js/classes/LetterManager.js",
 					"settings":
 					{
-						"buffer_size": 911,
+						"buffer_size": 4461,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								647,
-								647
+								994,
+								994
 							]
 						],
 						"settings":
@@ -310,50 +383,23 @@
 			]
 		},
 		{
-			"selected": 4,
+			"selected": 1,
 			"sheets":
 			[
 				{
-					"buffer": 5,
-					"file": "extension/js/elements/Popup.js",
-					"settings":
-					{
-						"buffer_size": 4878,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3229,
-								3229
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1561.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
 					"buffer": 6,
-					"file": "extension/js/elements/Player.js",
+					"file": "extension/js/classes/PopupController.js",
 					"settings":
 					{
-						"buffer_size": 2863,
+						"buffer_size": 8907,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2071,
-								2071
+								3703,
+								3703
 							]
 						],
 						"settings":
@@ -362,52 +408,78 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 947.0,
+						"translation.y": 1875.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 7,
-					"file": "extension/js/classes/PopupController.js",
+					"file": "extension/popup/popup.html",
 					"settings":
 					{
-						"buffer_size": 9589,
+						"buffer_size": 888,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2684,
-								2684
+								224,
+								224
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"syntax": "Packages/HTML/HTML.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 347.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 8,
-					"file": "extension/js/elements/Timer.js",
+					"file": "extension/popup/popup.js",
 					"settings":
 					{
-						"buffer_size": 2237,
+						"buffer_size": 631,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								773,
-								773
+								631,
+								631
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "extension/js/elements/Popup.js",
+					"settings":
+					{
+						"buffer_size": 4496,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								913,
+								913
 							]
 						],
 						"settings":
@@ -422,19 +494,19 @@
 					"type": "text"
 				},
 				{
-					"buffer": 9,
-					"file": "extension/js/classes/WebAudioRecorderWrap.js",
+					"buffer": 10,
+					"file": "extension/js/elements/Timer.js",
 					"settings":
 					{
-						"buffer_size": 1638,
+						"buffer_size": 2050,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								338,
-								338
+								2014,
+								2014
 							]
 						],
 						"settings":
@@ -443,7 +515,61 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 80.0,
+						"translation.y": 1153.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "extension/js/elements/MiniPopup.js",
+					"settings":
+					{
+						"buffer_size": 1417,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								44,
+								44
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "extension/js/elements/Player.js",
+					"settings":
+					{
+						"buffer_size": 2511,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2314,
+								2314
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 475.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -479,7 +605,7 @@
 		"cols":
 		[
 			0.0,
-			0.048828125,
+			0.2236328125,
 			1.0
 		],
 		"rows":

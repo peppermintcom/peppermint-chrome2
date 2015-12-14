@@ -1,15 +1,42 @@
 
-	body {
-
-		margin: 0px;
+	#popup {
+		
+		z-index: 9999;
+		position: absolute;
+		
+		left: calc(50% - 190px);
+		top: 70px;
 
 	}
 
-	#popup {
+	#v_reply_button {
+		margin-right: 12px;
+	}
+	#v_reply_button_icon {
+		height: 15px;
+	}
 
-	    border: none;
-	    box-shadow: none;
-
-	    margin-top: -36px;
-
+	#v_compose_button_icon {
+		background-position: 50% 50%;
+		background-size: 16px 16px;
+		background-repeat: no-repeat;
+	}
+	
+			
+	/*dropdown button*/
+	#v_dropdown_button {
+		
+	}
+	#v_dropdown_button:hover {
+		background-color: #EEEEEE;
+	}
+	#v_dropdown_button img {
+		
+		box-sizing: border-box;
+		
+		padding: 2px 4px 5px 4px;
+		
+		opacity: 0.6;
+		background: none;
+		
 	}

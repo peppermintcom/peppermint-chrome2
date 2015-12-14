@@ -1,5 +1,5 @@
 	
-	function MiniPopup ( $, template ) {
+	function MiniPopup ( $, template, element ) {
 		
 		var private = {
 			
@@ -7,7 +7,7 @@
 
 			get_dispatcher: function ( event_name ) {
 				return function () {
-					private.element.dispatchEvent( new CustomEvent( event_name, { bubbles: true } ) );
+					element.dispatchEvent( new CustomEvent( event_name, { bubbles: true } ) );
 				};
 			}
 
@@ -16,7 +16,7 @@
 		var public = {
 
 			reset: function () {
-				$( "#progress", private.element.shadowRoot ).html("");
+				$( "#progress", element.shadowRoot ).html("");
 			},
 
 			set_state: function ( state ) {
@@ -24,13 +24,13 @@
 				var options = {
 
 					"uploading": function () {
-						$( ".phrase_container", private.element.shadowRoot ).css({ display: "none" });
-						$( "#uploading_phrase_container", private.element.shadowRoot ).css({ display: "" });
+						$( ".phrase_container", element.shadowRoot ).css({ display: "none" });
+						$( "#uploading_phrase_container", element.shadowRoot ).css({ display: "" });
 					},
 
 					"uploading_failed": function () {
-						$( ".phrase_container", private.element.shadowRoot ).css({ display: "none" });
-						$( "#uploading_failed_phrase_container", private.element.shadowRoot ).css({ display: "" });
+						$( ".phrase_container", element.shadowRoot ).css({ display: "none" });
+						$( "#uploading_failed_phrase_container", element.shadowRoot ).css({ display: "" });
 					}
 
 				};
@@ -43,27 +43,19 @@
 
 		( function constructor () {
 
-			var proto = Object.create( HTMLElement.prototype );
-			
-			proto.attachedCallback = function () {
+			element.createShadowRoot().appendChild( document.importNode( template.content, true ) );
 
-				this.createShadowRoot().appendChild( document.importNode( template.content, true ) );
+			$( document ).on( "upload_progress", function ( event ) {
+				$( "#progress", element.shadowRoot ).html( event.originalEvent.detail.progress + "%" );
+			});
 
-				$( document ).on( "upload_progress", function ( event ) {
-					$( "#progress", this.shadowRoot ).html( event.originalEvent.detail.progress + "%" );
-				});
+			$( "#cancel", element.shadowRoot ).click( private.get_dispatcher( 'cancel_click' ) );
+			$( "#try_again", element.shadowRoot ).click( private.get_dispatcher( 'try_again_click' ) );
 
-				$( "#cancel", this.shadowRoot ).click( private.get_dispatcher( 'cancel_click' ) );
-				$( "#try_again", this.shadowRoot ).click( private.get_dispatcher( 'try_again_click' ) );
-
-				private.element = this;
-
-				$.extend( this, public );
-				
-			};
-
-			document.registerElement( "v-mini-popup", { prototype: proto } );
+			$.extend( element, public );
 
 		} () )
+
+		return element;
 		
 	};

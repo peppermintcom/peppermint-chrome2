@@ -20,13 +20,22 @@
 	// 	}
 	// });
 
-	// set up popup controller
-	( function ( window, jQuery ) {
+	( function set_up_popup_controller ( window, jQuery ) {
 
 		window.popup_controller = new PopupController(
-			new WebAudioRecorderWrap( window.navigator, WebAudioRecorder, AudioContext ),
+			new WebAudioRecorderWrap( window.navigator, WebAudioRecorder, AudioContext, "/js/lib/WebAudioRecorder/" ),
 			new Uploader( jQuery.ajax ),
-			jQuery
+			jQuery,
+			new EventHub()
 		);
 
-	} ( window, jQuery ) )
+	} ( window, jQuery ) );
+
+	( function set_up_gmail_recorder ( chrome ) {
+
+		new BackgroundRecorder(
+			chrome.runtime,
+			new WebAudioRecorderWrap( window.navigator, WebAudioRecorder, AudioContext, "/js/lib/WebAudioRecorder/" )
+		);
+
+	} ( chrome) );

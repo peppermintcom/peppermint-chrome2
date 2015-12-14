@@ -21,8 +21,23 @@
 			{
 				"matches": ["https://mail.google.com/*"],
 				"js": [
+
 					"/js/lib/jQuery/jquery-2.1.4.min.js",
+				
+					"/js/classes/Uploader.js",
+					"/js/classes/EventHub.js",
+					"/js/classes/LetterManager.js",
+					"/js/classes/ButtonInserter.js",
+					"/js/classes/ContentRecorder.js",
+					"/js/classes/GmailController.js",
+
+					"/js/elements/Timer.js",
+					"/js/elements/Popup.js",
+					"/js/elements/Player.js",
+					"/js/elements/MiniPopup.js",
+
 					"/js/inceptor.js"
+				
 				],
 				"css": [
 					"/css/content.css"
@@ -55,6 +70,8 @@
 				"/js/shims.js",
 				
 				"/js/classes/WebAudioRecorderWrap.js",
+				"/js/classes/BackgroundRecorder.js",
+				"/js/classes/EventHub.js",
 				"/js/classes/Uploader.js",
 				"/js/classes/PopupController.js",
 
