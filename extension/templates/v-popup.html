@@ -1,5 +1,5 @@
 	
-	<template id = 'template' >
+	<template>
 	
 		<style>
 
@@ -62,19 +62,19 @@
 			
 			}
 			.popup_button.medium_green {
-				background-image: url({{URL_PREFIX}}/img/green_empty.png);
+				background-image: url(/img/green_empty.png);
 				background-size: 172px 44px;
 				width: 172px;
 				height: 44px;
 			}
 			.popup_button.medium_grey {
-				background-image: url({{URL_PREFIX}}/img/grey_empty.png);
+				background-image: url(/img/grey_empty.png);
 				background-size: 172px 44px;
 				width: 172px;
 				height: 44px;
 			}
 			.popup_button.wide_green {
-				background-image: url({{URL_PREFIX}}/img/wide_green_empty.png);
+				background-image: url(/img/wide_green_empty.png);
 				background-size: 356px 44px;
 				width: 356px;
 				height: 44px;
@@ -293,7 +293,7 @@
 		</div>
 
 		<div class = 'page' id = 'popup_welcome' >
-			<img class = 'popup_logo' src = '{{URL_PREFIX}}/img/logo.png' >
+			<img class = 'popup_logo' src = '/img/logo.png' >
 			<div style = 'height: 20px;' ></div>
 			<div class = 'popup_status' >Record a message and get a link <br> you can share anywhere!</div>
 			<div class = 'popup_button wide_green left' id = 'popup_welcome_start_recording' >
@@ -302,7 +302,7 @@
 		</div>
 
 		<div class = 'page' id = 'recording_page' >
-			<img class = 'popup_logo' src = '{{URL_PREFIX}}/img/recording.gif' >
+			<img class = 'popup_logo' src = '/img/recording.gif' >
 			<div id = 'timer_container' >
 				<content select = "v-timer" ></content>
 			</div>
@@ -316,7 +316,7 @@
 		</div>
 
 		<div class = 'page' id = 'microphone_error_page' >
-			<img class = 'popup_logo' src = '{{URL_PREFIX}}/img/mic_off.png' >
+			<img class = 'popup_logo' src = '/img/mic_off.png' >
 			<div class = 'popup_status' >
 				Your microphone is not working. Please check your audio settings and try again
 			</div>
@@ -325,14 +325,14 @@
 			</div>
 			<div class = 'popup_button medium_green right' id = 'error_try_again_button' >
 				<img
-					src = "{{URL_PREFIX}}/img/icon_refresh.png"
+					src = "/img/icon_refresh.png"
 				>
 				Try Again
 			</div>
 		</div>
 
 		<div class = 'page' id = 'uploading_failed_page' >
-			<img class = 'popup_logo' src = '{{URL_PREFIX}}/img/uploading_failed.png' >
+			<img class = 'popup_logo' src = '/img/uploading_failed.png' >
 			<div style = 'height: 20px;' ></div>
 			<div class = 'popup_status' >There was an error uploading the file <br> Plese click here to try again</div>
 			<div class = 'popup_button wide_green left' id = 'restart_upload' >
@@ -351,13 +351,13 @@
 				<div id = 'cancel' >Cancel</div>
 			</div>
 
-			<img class = 'popup_logo' id = 'uploaded_logo' src = '{{URL_PREFIX}}/img/mic.png' >
+			<img class = 'popup_logo' id = 'uploaded_logo' src = '/img/mic.png' >
 
 			<div id = 'uploading_player_container' >
 				<content select = "v-player" id = "player_content" ></content>
 			</div>
 			
-			<img src = '{{URL_PREFIX}}/img/dude.gif' >
+			<img src = '/img/dude.gif' >
 
 		</div>
 
@@ -397,12 +397,12 @@
 
 		<div class = 'page' id = 'uploading_page_old' >
 			<div class = 'popup_status uploading' >Uploading...</div>
-			<img class = 'popup_logo' id = 'uploading_logo' src = '{{URL_PREFIX}}/img/uploading.gif' >
-			<img class = 'popup_logo' id = 'uploaded_logo' src = '{{URL_PREFIX}}/img/mic.png' >
+			<img class = 'popup_logo' id = 'uploading_logo' src = '/img/uploading.gif' >
+			<img class = 'popup_logo' id = 'uploaded_logo' src = '/img/mic.png' >
 			<div id = 'player_container' >
 			</div>
 			<div class = 'popup_button medium_green left' id = 'uploading_re_record_button' >
-				<img src = "{{URL_PREFIX}}/img/icon_refresh.png" >
+				<img src = "/img/icon_refresh.png" >
 				Re-Record
 			</div>
 			<div class = 'popup_button medium_green right' id = 'uploading_done_button' >
@@ -411,11 +411,3 @@
 		</div>
 
 	</template>
-	
-	<script src = 'v-popup.js' ></script>
-	
-	
-	
-	
-	
-	

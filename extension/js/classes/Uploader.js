@@ -1,5 +1,5 @@
 	
-	Uploader = function ( $ ) {
+	Uploader = function ( ajax ) {
 		
 		var lib = {
 
@@ -42,7 +42,7 @@
 			
 			get_token: function () {
 				return new Promise( function ( resolve, reject ) {
-					$.ajax(
+					ajax(
 						"https://qdkkavugcd.execute-api.us-west-2.amazonaws.com/prod/v1/recorder",
 						{
 							type: 'POST',
@@ -66,7 +66,7 @@
 			
 			token_to_signed_url: function ( token ) {
 				return new Promise( function ( resolve, reject ) {
-					$.ajax(
+					ajax(
 						"https://qdkkavugcd.execute-api.us-west-2.amazonaws.com/prod/v1/uploads",
 						{
 							type: 'POST',
@@ -96,7 +96,7 @@
 			
 			get_canonical_url: function ( token, signed_url ) {
 				return new Promise( function ( resolve, reject ) {
-					$.ajax(
+					ajax(
 						"https://qdkkavugcd.execute-api.us-west-2.amazonaws.com/prod/v1/record",
 						{
 							type: 'POST',
@@ -120,7 +120,7 @@
 
 			get_short_url: function ( token, signed_url ) {
 				return new Promise( function ( resolve, reject ) {
-					$.ajax(
+					ajax(
 						"https://qdkkavugcd.execute-api.us-west-2.amazonaws.com/prod/v1/record",
 						{
 							type: 'POST',

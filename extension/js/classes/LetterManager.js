@@ -1,67 +1,42 @@
 
-	( function ( $ ) {
+	var LetterManager = function ( $, document ) {
 		
-		var LetterManager = function () {
-			
-			var audioFinalTranscription = "";
-			var transcriptionDurationDisplay = "";
-			var newCompositionTemplate = "";
-			var replyCompositionTemplate = "";
-			
-			
-			
-			$(document).ready(function() {
-				
-				$.get('https://s3.amazonaws.com/peppermint-templates/composition-new.html', function(templateNew) {
-					newCompositionTemplate = templateNew;
-				});
-				
-				$.get('https://s3.amazonaws.com/peppermint-templates/composition-reply.html', function(templateReply) {
-					replyCompositionTemplate = templateReply;
-				});
-			
-			});
-			
-			document.addEventListener("update_audio_transcription", function(event){
-				console.log("update_audio_transcription received");
-				audioFinalTranscription = event.detail.transcript;
-			});
-			
-			document.addEventListener("store_audio_duration", function(event){
-				console.log("store_audio_duration received");
-				
-				var durationMillis = event.detail.duration;
-				var durationSeconds = parseInt(parseInt(durationMillis)/1000);
-				var displayMinutes = parseInt(durationSeconds / 60);
-				var displaySeconds = durationSeconds % 60;
-				
-				transcriptionDurationDisplay = zeroPad(displayMinutes) + ':' + zeroPad(displaySeconds);
-			});
-			
-			function zeroPad(originalNumber) {
-				
-				numberValue = parseInt(originalNumber);
-				
-				if (numberValue < 10) {
-					return '0' + numberValue;
-				}
-				
-				return '' + numberValue;
-			}
-			
-			
-			function formatEmailMessage(audioUrl, audioTranscript, audioDurationDisplay, emailTemplate) {
-				
-				var emailMessage = emailTemplate.replace("{{audio}}", audioUrl)
-												.replace("{{transcript}}", audioTranscript)
-												.replace("{{duration}}", audioDurationDisplay);
-				
-				return emailMessage;
-			}
-			
-			var private = {
+		var private = {
 				
 				last_selections: {},
+
+				zeroPad: function ( originalNumber ) {
+					
+					numberValue = parseInt(originalNumber);
+					
+					if (numberValue < 10) {
+						return '0' + numberValue;
+					}
+					
+					return '' + numberValue;
+				},
+
+				format_duration: function ( duration ) {
+				
+					var durationMillis = duration;
+					var durationSeconds = parseInt(parseInt(durationMillis)/1000);
+					var displayMinutes = parseInt(durationSeconds / 60);
+					var displaySeconds = durationSeconds % 60;
+					
+					return private.zeroPad( displayMinutes ) + ':' + private.zeroPad( displaySeconds );
+
+				},
+
+				formatEmailMessage: function ( audioUrl, audioTranscript, audioDurationDisplay, emailTemplate ) {
+					
+					var emailMessage = emailTemplate
+					.replace("{{audio}}", audioUrl)
+					.replace("{{transcript}}", audioTranscript)
+					.replace("{{duration}}", audioDurationDisplay);
+					
+					return emailMessage;
+
+				},
 
 				html_before_selection: function ( html, selection ) {
 
@@ -112,29 +87,30 @@
 
 				}
 
-			};
+		};
 
-			var public = {
+		var public = {
 
-				add_link: function ( url, id ) {
+				add_link: function ( url, id, transcript, duration ) {
 					 
 					try {
 						
 						var letter = $(".I5[data-id='"+id+"']")[0];
 						var editable = $( letter ).find('.Am.Al.editable.LW-avf')[0];
 						var selection = private.last_selections[ letter.dataset.id ];
+						duration = private.format_duration( duration );
 
 						// if element is a child of a dialog - it is a compose message
 						if ( $(".I5[data-id='"+id+"']").closest(".nH.Hd").length === 0 ) {
 
 							if ( selection && editable.contains( selection.anchorNode ) ) {
 								private.html_before_selection( 
-									formatEmailMessage(url, audioFinalTranscription, transcriptionDurationDisplay, replyCompositionTemplate),
+									private.formatEmailMessage( url, transcript, duration, private.reply_template ),
 									selection
 								);
 							} else {
 								$( editable ).prepend(
-									formatEmailMessage(url, audioFinalTranscription, transcriptionDurationDisplay, replyCompositionTemplate)
+									private.formatEmailMessage( url, transcript, duration, private.reply_template )
 								);
 							}
 
@@ -142,12 +118,12 @@
 
 							if ( selection && editable.contains( selection.anchorNode ) ) {
 								private.html_before_selection(
-									formatEmailMessage(url, audioFinalTranscription, transcriptionDurationDisplay, newCompositionTemplate),
+									private.formatEmailMessage( url, transcript, duration, private.compose_template ),
 									selection
 								);
 							} else {
 								$( editable ).prepend(
-									formatEmailMessage(url, audioFinalTranscription, transcriptionDurationDisplay, newCompositionTemplate)
+									private.formatEmailMessage( url, transcript, duration, private.compose_template )
 								)
 							};
 
@@ -165,35 +141,27 @@
 
 				}
 
-			};
+		};
 
-			public.constructor = function ( element ) {
+		( function constructor () {
 
 				$( document ).on( "selectionchange", private.selectionchange_handler );
 
-			};
+				$.get( 'https://s3.amazonaws.com/peppermint-templates/composition-new.html', function( response ) {
 
-			return public;
-			
-		};
+					private.compose_template = response;
+
+				});
+				
+				$.get( 'https://s3.amazonaws.com/peppermint-templates/composition-reply.html', function( response ) {
+
+					private.compose_template = response;
+
+				});
+
+		} () )
+
+		return public;
 	
+	};
 
-		var proto = Object.create( HTMLElement.prototype );
-		var prefix = 'v-letter-manager';
-
-		proto.attachedCallback = function () {
-
-			var element = this;
-			var letter_manager = new LetterManager();
-			
-			Object.keys( letter_manager ).forEach( function ( key ) {
-				element[ key ] = letter_manager[ key ];
-			});
-
-			letter_manager.constructor( element );
-
-		};
-
-		document.registerElement( prefix, { prototype: proto } );
-
-	} ( $pmjQuery ) );
