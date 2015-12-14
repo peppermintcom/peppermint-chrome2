@@ -47,7 +47,7 @@
 
 			insert_script( chrome.extension.getURL( "/gmail_content/controller/controller.js" ) )
 			.then( function () {
-			
+				
 				get_import_inserter( 'v-player-import', 'gmail_content/v-elements/v-player/v-player.html' )();
 				get_import_inserter( 'v-timer-import', 'gmail_content/v-elements/v-timer/v-timer.html' )();
 				get_import_inserter( 'v-popup-import', 'gmail_content/v-elements/v-popup/v-popup.html' )();
@@ -66,6 +66,11 @@
 						$( document.body ).append( $( inceptor_import.body.children[i] ).clone() );
 					}	
 				});
+			});
+			
+			insert_script( chrome.extension.getURL( "/gmail_content/transcription/transcription.js" ) )
+				.then(function() {
+					
 			});
 
 		});
