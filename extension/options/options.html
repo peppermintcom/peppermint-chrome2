@@ -14,11 +14,41 @@
 			</head>
 		
 			<body>
+				<form>
 
 				<label>
 					<input type = 'checkbox' id = 'disable_reply_button'>
 					<span>Disable Reply Button</span>
 				</label>
+				
+				<br/><br/>
+				<label>
+					<span>Please Select Transcription Language</span>
+					<br/>
+					<select id="transcription_language" name="transcription_language">
+						<option value="en-AU">English-Australia</option>
+				   		<option value="en-CA">English-Canada</option>
+				   		<option value="en-GB">English-United Kingdom</option>
+				   		<option value="en-US" selected="selected">English-United States</option>
+				   		<option value="en-IN">English-India</option>
+				   		<option value="en-NZ">English-New Zealand</option>
+				   		<option value="en-ZA">English-South Africa</option>
+				   		<option value="fr-FR">French</option>
+				   		<option value="it-IT">Italian</option>
+				   		<option value="ja-JP">Japanese</option>
+				   		<option value="pt-BR">Portuguese-Brasil</option>
+				   		<option value="pt-PT">Portuguese-Portugal</option>
+				   		<option value="ru-RU">Pусский</option>
+				   		<option value="uk-UA">Українська</option>
+				   		<option value="sr-RS">Српски</option>
+				   		<option value="es-AR">Spanish-Argentina</option>
+				   		<option value="es-MX">Spanish-Mexico</option>
+				   		<option value="es-ES">Spanish-Spain</option>
+				   		<option value="es-US">Spanish-United States</option>
+					</select>
+				</label>
+				
+				</form>
 			
 				<script src = '/gmail_content/js/lib/jquery.min.js' ></script>
 				<script src = 'options.js' ></script>
