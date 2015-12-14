@@ -9,6 +9,12 @@
 
 			var public = {
 
+				set_recording_id: function ( recording_id ) {		
+					private.recording_id = recording_id;		
+				},		
+				get_recording_id: function () {		
+					return private.recording_id;		
+				},
 				set_compose_button_id: function ( id ) {
 					private.compose_button_id = id;
 				},
