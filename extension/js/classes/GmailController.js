@@ -195,7 +195,7 @@
 				
 			recorder.finish()
 			.then( function ( blob ) {
-				process_recording_blob( blob );
+				private.process_recording_blob( blob );
 			});
 			alert("You have reached the maximum recording length of 5 minutes");
 		});
@@ -206,7 +206,7 @@
 				
 			recorder.finish()
 			.then( function ( blob ) {
-				process_recording_blob( blob );
+				private.process_recording_blob( blob );
 			});
 
 		});

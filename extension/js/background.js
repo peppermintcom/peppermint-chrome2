@@ -33,7 +33,7 @@
 
 	( function set_up_gmail_recorder ( chrome ) {
 
-		new BackgroundRecorder(
+		window.background_recorder = new BackgroundRecorder(
 			chrome.runtime,
 			new WebAudioRecorderWrap( window.navigator, WebAudioRecorder, AudioContext, "/js/lib/WebAudioRecorder/" )
 		);

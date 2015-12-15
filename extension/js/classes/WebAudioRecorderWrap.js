@@ -78,6 +78,7 @@
 				return new Promise( function ( resolve ) {
 
 					private.recorder.onComplete = function ( recorder, blob ) {
+						console.log( blob );
 						resolve( blob );
 					};
 

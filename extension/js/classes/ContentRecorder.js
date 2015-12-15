@@ -36,10 +36,25 @@
 					runtime.sendMessage(
 						{
 							class_name: "BackgroundRecorder",
-							method_name: "start"
+							method_name: "finish"
 						},
-						function ( blob ) {
-							resolve( blob );
+						function () {
+
+							resolve( chrome.getBackgroundPage() );
+							console.log( blob_url );
+
+							$.ajax({
+								url: blob_url,
+								type: 'GET',
+								dataType: 'blob',
+								success: function ( blob ) {
+								
+									console.log( blob );
+									resolve( blob );
+								
+								}
+							})
+						
 						}
 					);
 

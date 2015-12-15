@@ -3,6 +3,10 @@
 	{
 		"selected_items":
 		[
+			[
+				"peppermin",
+				"peppermint_mini_popup"
+			]
 		]
 	},
 	"buffers":
@@ -11,23 +15,23 @@
 			"file": "extension/manifest.json",
 			"settings":
 			{
-				"buffer_size": 1709,
+				"buffer_size": 2363,
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "designer/designer_2.html",
+			"settings":
+			{
+				"buffer_size": 440,
+				"line_ending": "Unix"
 			}
 		},
 		{
 			"file": "extension/js/inceptor.js",
 			"settings":
 			{
-				"buffer_size": 1989,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/xampp/htdocs/prj/star_wars_spoiler_alert/extension/js/content.js",
-			"settings":
-			{
-				"buffer_size": 8194,
+				"buffer_size": 2556,
 				"line_ending": "Windows"
 			}
 		},
@@ -35,15 +39,39 @@
 			"file": "extension/js/background.js",
 			"settings":
 			{
-				"buffer_size": 1181,
+				"buffer_size": 1210,
 				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "extension/css/content.css",
+			"settings":
+			{
+				"buffer_size": 568,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "extension/popup/popup.css",
+			"settings":
+			{
+				"buffer_size": 133,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "extension/templates/v-button-inserter.html",
+			"settings":
+			{
+				"buffer_size": 1526,
+				"line_ending": "Unix"
 			}
 		},
 		{
 			"file": "extension/js/classes/ButtonInserter.js",
 			"settings":
 			{
-				"buffer_size": 2615,
+				"buffer_size": 2809,
 				"line_ending": "Windows"
 			}
 		},
@@ -51,7 +79,34 @@
 			"file": "extension/js/classes/LetterManager.js",
 			"settings":
 			{
-				"buffer_size": 4461,
+				"buffer_size": 4447,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "extension/js/classes/GmailController.js",
+			"settings":
+			{
+				"buffer_size": 5248,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "\n	function ContentRecorder ( runtime ) {\n\n		var public = {\n\n			start: function () {\n				return new Promise( function ( resolve, reject ) {\n\n					runtime.sendMessage(\n						{\n							class_name: \"BackgroundRecorder\",\n							method_name: \"start\"\n						},\n						function ( response ) {\n							if ( response.started ) {\n								resolve();\n							} else {\n								reject( response.error );\n							}\n						}\n					);\n\n				});\n			},\n\n			cancel: function () {\n				runtime.sendMessage({\n					class_name: \"BackgroundRecorder\",\n					method_name: \"cancel\"\n				});\n			},\n\n			finish: function () {\n				return new Promise( function ( resolve, reject ) {\n\n					runtime.sendMessage(\n						{\n							class_name: \"BackgroundRecorder\",\n							method_name: \"finish\"\n						},\n						function () {\n\n							resolve( chrome.getBackgroundPage(\n								) );\n							console.log( blob_url );\n\n							$.ajax({\n								url: blob_url,\n								type: 'GET',\n								dataType: 'blob',\n								success: function ( blob ) {\n								\n									console.log( blob );\n									resolve( blob );\n								\n								}\n							})\n						\n						}\n					);\n\n				});\n			},\n\n			blob_to_buffer: function ( blob ) {\n				return new Promise( function ( resolve ) {\n\n					var reader = new FileReader();\n					reader.readAsArrayBuffer( blob );\n					reader.onloadend = function () {\n						resolve( reader.result );\n					};\n\n				});\n			},\n\n			blob_to_data_url: function ( blob ) {\n				return new Promise ( function ( resolve ) {\n\n					var reader = new FileReader();\n					reader.onloadend = function () {\n						resolve( reader.result );\n					};\n					reader.readAsDataURL( blob );\n					\n				});\n			}\n\n		};\n\n		return public;\n\n	}",
+			"file": "extension/js/classes/ContentRecorder.js",
+			"file_size": 1739,
+			"file_write_time": 130946486362329407,
+			"settings":
+			{
+				"buffer_size": 1657,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "extension/js/classes/BackgroundRecorder.js",
+			"settings":
+			{
+				"buffer_size": 946,
 				"line_ending": "Windows"
 			}
 		},
@@ -64,50 +119,10 @@
 			}
 		},
 		{
-			"file": "extension/popup/popup.html",
+			"file": "extension/js/classes/WebAudioRecorderWrap.js",
 			"settings":
 			{
-				"buffer_size": 888,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "extension/popup/popup.js",
-			"settings":
-			{
-				"buffer_size": 631,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "extension/js/elements/Popup.js",
-			"settings":
-			{
-				"buffer_size": 4496,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "extension/js/elements/Timer.js",
-			"settings":
-			{
-				"buffer_size": 2050,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "extension/js/elements/MiniPopup.js",
-			"settings":
-			{
-				"buffer_size": 1417,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "extension/js/elements/Player.js",
-			"settings":
-			{
-				"buffer_size": 2511,
+				"buffer_size": 2197,
 				"line_ending": "Windows"
 			}
 		}
@@ -136,22 +151,25 @@
 	},
 	"file_history":
 	[
+		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/js/background.js",
+		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/js/classes/PopupController.js",
+		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/js/elements/MiniPopup.js",
+		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/popup/popup.js",
+		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/js/elements/Player.js",
+		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/js/elements/Popup.js",
+		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/templates/v-player.html",
 		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/templates/v-popup.html",
+		"/C/xampp/htdocs/prj/star_wars_spoiler_alert/extension/js/content.js",
+		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/js/elements/Timer.js",
 		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/templates/v-mini-popup.html",
+		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/popup/popup.html",
 		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/js/classes/GmailController.js",
 		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/js/classes/WebAudioRecorderWrap.js",
 		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/js/classes/ContentRecorder.js",
 		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/js/classes/BackgroundRecorder.js",
-		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/js/elements/Popup.js",
 		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/js/classes/CaretHelper.js",
-		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/popup/popup.js",
 		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/popup/popup.css",
-		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/popup/popup.html",
 		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/js/classes/BackgroundRecorderController.js",
-		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/js/classes/PopupController.js",
-		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/js/elements/Timer.js",
-		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/js/elements/Player.js",
-		"/C/xampp/htdocs/prj/peppermint-chrome2/extension/js/elements/MiniPopup.js",
 		"/C/xampp/htdocs/prj/star_wars_spoiler_alert/extension/js/background.js"
 	],
 	"find":
@@ -167,9 +185,38 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": false,
+		"case_sensitive": true,
 		"find_history":
 		[
+			"console",
+			"process_re",
+			"begin_",
+			"audio_data_url",
+			"URL",
+			"console.log",
+			"process_recording_blob",
+			"recorder.finish",
+			"recorder.cancel",
+			"process_reco",
+			"private",
+			"process_recording_blob",
+			"button_click",
+			"v-",
+			"$( 'v-recorder' )[0]",
+			"v-",
+			"icon_mic",
+			"{{URL_PREFIX}}/img",
+			"letter_manager",
+			"private.element",
+			"{{URL_PREFIX}}/img",
+			"URL",
+			"gif",
+			"png",
+			"/img",
+			"png",
+			"gif",
+			"png",
+			".png",
 			"content>",
 			"content",
 			"#popup",
@@ -203,6 +250,10 @@
 		"regex": false,
 		"replace_history":
 		[
+			"recorder",
+			"{{IMG_URL}}",
+			"element",
+			"{{IMG_URL}}",
 			"element",
 			"private.element"
 		],
@@ -223,15 +274,15 @@
 					"file": "extension/manifest.json",
 					"settings":
 					{
-						"buffer_size": 1709,
+						"buffer_size": 2363,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								695,
-								695
+								1133,
+								1133
 							]
 						],
 						"settings":
@@ -239,194 +290,26 @@
 							"syntax": "Packages/JavaScript/JSON.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
-						"translation.x": 0.0,
-						"translation.y": 62.0,
+						"translation.x": 84.0,
+						"translation.y": 559.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "extension/js/inceptor.js",
+					"file": "designer/designer_2.html",
 					"settings":
 					{
-						"buffer_size": 1989,
+						"buffer_size": 440,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1663,
-								1663
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 591.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "/C/xampp/htdocs/prj/star_wars_spoiler_alert/extension/js/content.js",
-					"settings":
-					{
-						"buffer_size": 8194,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								7977,
-								7977
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 4352.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "extension/js/background.js",
-					"settings":
-					{
-						"buffer_size": 1181,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1181,
-								1181
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 198.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "extension/js/classes/ButtonInserter.js",
-					"settings":
-					{
-						"buffer_size": 2615,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "extension/js/classes/LetterManager.js",
-					"settings":
-					{
-						"buffer_size": 4461,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								994,
-								994
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
-			]
-		},
-		{
-			"selected": 1,
-			"sheets":
-			[
-				{
-					"buffer": 6,
-					"file": "extension/js/classes/PopupController.js",
-					"settings":
-					{
-						"buffer_size": 8907,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3703,
-								3703
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 1875.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "extension/popup/popup.html",
-					"settings":
-					{
-						"buffer_size": 888,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								224,
-								224
+								85,
+								85
 							]
 						],
 						"settings":
@@ -441,24 +324,193 @@
 					"type": "text"
 				},
 				{
-					"buffer": 8,
-					"file": "extension/popup/popup.js",
+					"buffer": 2,
+					"file": "extension/js/inceptor.js",
 					"settings":
 					{
-						"buffer_size": 631,
+						"buffer_size": 2556,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								631,
-								631
+								1646,
+								1646
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false,
+							"word_wrap": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 445.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "extension/js/background.js",
+					"settings":
+					{
+						"buffer_size": 1210,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1015,
+								1034
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 175.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "extension/css/content.css",
+					"settings":
+					{
+						"buffer_size": 568,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								324,
+								324
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "extension/popup/popup.css",
+					"settings":
+					{
+						"buffer_size": 133,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/CSS/CSS.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "extension/templates/v-button-inserter.html",
+					"settings":
+					{
+						"buffer_size": 1526,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1371,
+								1371
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 557.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 3,
+			"sheets":
+			[
+				{
+					"buffer": 7,
+					"file": "extension/js/classes/ButtonInserter.js",
+					"settings":
+					{
+						"buffer_size": 2809,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								228,
+								228
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 19.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "extension/js/classes/LetterManager.js",
+					"settings":
+					{
+						"buffer_size": 4447,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4219,
+								4219
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -468,45 +520,46 @@
 				},
 				{
 					"buffer": 9,
-					"file": "extension/js/elements/Popup.js",
+					"file": "extension/js/classes/GmailController.js",
 					"settings":
 					{
-						"buffer_size": 4496,
+						"buffer_size": 5248,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								913,
-								913
+								1303,
+								1310
 							]
 						],
 						"settings":
 						{
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"translate_tabs_to_spaces": false
+							"translate_tabs_to_spaces": false,
+							"word_wrap": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 411.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 10,
-					"file": "extension/js/elements/Timer.js",
+					"file": "extension/js/classes/ContentRecorder.js",
 					"settings":
 					{
-						"buffer_size": 2050,
+						"buffer_size": 1657,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2014,
-								2014
+								1076,
+								1076
 							]
 						],
 						"settings":
@@ -515,25 +568,25 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 1153.0,
+						"translation.y": 352.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 11,
-					"file": "extension/js/elements/MiniPopup.js",
+					"file": "extension/js/classes/BackgroundRecorder.js",
 					"settings":
 					{
-						"buffer_size": 1417,
+						"buffer_size": 946,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								44,
-								44
+								565,
+								561
 							]
 						],
 						"settings":
@@ -542,25 +595,25 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 293.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 12,
-					"file": "extension/js/elements/Player.js",
+					"file": "extension/js/classes/PopupController.js",
 					"settings":
 					{
-						"buffer_size": 2511,
+						"buffer_size": 8907,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2314,
-								2314
+								4184,
+								4184
 							]
 						],
 						"settings":
@@ -569,7 +622,34 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 475.0,
+						"translation.y": 1245.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 13,
+					"file": "extension/js/classes/WebAudioRecorderWrap.js",
+					"settings":
+					{
+						"buffer_size": 2197,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1637,
+								1637
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 927.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -605,7 +685,7 @@
 		"cols":
 		[
 			0.0,
-			0.2236328125,
+			0.048828125,
 			1.0
 		],
 		"rows":
