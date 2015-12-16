@@ -46,6 +46,8 @@
 					$('#peppermint_popup')[0].set_page("recording_page");
 					$('#peppermint_popup')[0].set_page_status("recording");
 
+					state.recording = true;
+
 				})
 				.catch( function ( error ) {
 
@@ -103,7 +105,7 @@
 							$("#peppermint_mini_popup").hide();
 
 							$( document ).one( "click", function () {
-								copy_to_clipboard( url );
+								private.copy_to_clipboard( url );
 							});
 
 							console.log( "uploaded:", url );
@@ -139,6 +141,16 @@
 
 				};
 
+			},
+
+			finish_recording: function () {
+				recorder.finish()
+				.then( function ( blob ) {
+
+					state.recording = false;
+					private.process_recording_blob( blob );
+
+				});
 			}
 
 		};
@@ -148,7 +160,6 @@
 			if ( !state.recording && !state.uploading ) {
 
 				state.compose_button_id = event.target.dataset.id;
-				state.recording = true;
 
 				private.begin_recording();
 
@@ -172,8 +183,6 @@
 
 			if ( !state.recording && !state.uploading ) {
 
-				state.recording = true;
-
 				private.begin_recording();
 
 			}
@@ -191,23 +200,17 @@
 		$( document ).on( "timeout", function () {
 			stop_timer();
 			
-			show_uploading_screen();
-				
-			recorder.finish()
-			.then( function ( blob ) {
-				private.process_recording_blob( blob );
-			});
+			private.show_uploading_screen();
+			private.finish_recording();
+
 			alert("You have reached the maximum recording length of 5 minutes");
+
 		});
 
 		$( document ).on( "recording_done_button_click", "#peppermint_popup", function () {
 
 			private.show_uploading_screen();
-				
-			recorder.finish()
-			.then( function ( blob ) {
-				private.process_recording_blob( blob );
-			});
+			private.finish_recording();
 
 		});
 

@@ -20,6 +20,19 @@
 
 			},
 
+
+			blob_to_data_url: function ( blob ) {
+				return new Promise ( function ( resolve ) {
+
+					var reader = new FileReader();
+					reader.onloadend = function () {
+						resolve( reader.result );
+					};
+					reader.readAsDataURL( blob );
+					
+				});
+			},
+
 			cancel: function () {
 				web_audio_recorder_wrap.cancel();
 			},
@@ -27,20 +40,10 @@
 			finish: function ( callback ) {
 
 				web_audio_recorder_wrap.finish()
-				.then( function ( blob ) {
-
-					public.last_recording_blob = blob;
-					callback( true );
-
-				});
+				.then( private.blob_to_data_url )
+				.then( callback );
 
 			}
-
-		};
-
-		var public = {
-
-			last_recording_blob: null
 
 		};
 
@@ -58,8 +61,6 @@
 			});
 
 		} () )
-
-		return public;
 
 	}
 

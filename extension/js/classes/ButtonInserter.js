@@ -51,6 +51,7 @@
 
 			insert_reply_button: function () {
 				setInterval( function () {
+
 					$(".gH.acX").each( function ( index, element ) {
 						if ( $( "#v_reply_button", element ).length === 0 ) {
 
