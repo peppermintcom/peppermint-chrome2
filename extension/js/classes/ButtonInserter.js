@@ -8,10 +8,10 @@
 
 					$(".I5").each( function ( index, container ) {
 
-						if ( $( "#v_compose_button", container ).length === 0 ) {
+						if ( $( "#peppermint_compose_button", container ).length === 0 ) {
 
 							var id = Date.now() + '-' + Math.random() + '-' + Math.random() + '-' + Math.random();
-							var button = $( "#v_compose_button", element.shadowRoot ).clone();
+							var button = $( "#peppermint_compose_button", element.shadowRoot ).clone();
 							
 							container.dataset.id = id;
 							button[0].dataset.id = id;
@@ -33,8 +33,8 @@
 
 			insert_dwopdown_button: function () {
 				setInterval( function () {
-					$(".b7.J-M").each( function ( index, element ) {
-						if ( $( "#v_dropdown_button", element ).length === 0 ) {
+					$(".b7.J-M").each( function ( index, container ) {
+						if ( $( "#v_dropdown_button", container ).length === 0 ) {
 
 							var button = $( "#v_dropdown_button", element.shadowRoot ).clone();
 
@@ -42,7 +42,7 @@
 								button[0].dispatchEvent( new CustomEvent( 'peppermint_reply_button_click', { bubbles: true } ) );
 							});
 
-							$( element ).children('div:eq(2)').after( button );
+							$( container ).children('div:eq(2)').after( button );
 
 						}
 					});
@@ -52,8 +52,8 @@
 			insert_reply_button: function () {
 				setInterval( function () {
 
-					$(".gH.acX").each( function ( index, element ) {
-						if ( $( "#v_reply_button", element ).length === 0 ) {
+					$(".gH.acX").each( function ( index, container ) {
+						if ( $( "#v_reply_button", container ).length === 0 ) {
 
 							var button = $( "#v_reply_button", element.shadowRoot ).clone();
 
@@ -61,7 +61,7 @@
 								button[0].dispatchEvent( new CustomEvent( 'peppermint_reply_button_click', { bubbles: true } ) );
 							});
 
-							$( element ).prepend( button );
+							$( container ).prepend( button );
 
 						}
 					});

@@ -169,13 +169,16 @@
 
 		$( document ).on( "peppermint_reply_button_click", function () {
 
-			$(".ams")[0].click();
+			if ( $(".ams")[0] ) $(".ams")[0].click();
 			
-			setTimeout( function () {
-			
-				$( '#peppermint_compose_button' ).click();
-			
-			}, 100 );
+			var interval = setInterval( function () {
+				if ( $( '#peppermint_compose_button' ).length > 0 ) {
+
+					$( '#peppermint_compose_button' ).click();
+					clearInterval( interval );
+
+				}
+			}, 20 );
 
 		});
 
