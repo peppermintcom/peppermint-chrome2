@@ -79,7 +79,8 @@
 				new Uploader( jQuery.ajax ),
 				new EventHub(),
 				chrome,
-				new LetterManager( jQuery, document )
+				new LetterManager( jQuery, document ),
+				jQuery
 			);
 
 		});

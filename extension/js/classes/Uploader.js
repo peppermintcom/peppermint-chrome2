@@ -64,14 +64,16 @@
 				});
 			},
 			
-			token_to_signed_url: function ( token ) {
+			token_to_signed_url: function ( token, sender_data ) {
 				return new Promise( function ( resolve, reject ) {
 					ajax(
 						"https://qdkkavugcd.execute-api.us-west-2.amazonaws.com/prod/v1/uploads",
 						{
 							type: 'POST',
 							data: JSON.stringify({
-							  "content_type": "audio/mpeg"
+							  content_type: "audio/mpeg",
+							  sender_name: sender_data.sender_name,
+							  sender_email: sender_data.sender_email
 							}),
 							headers: {
 								'Authorization': 'Bearer ' + token,
@@ -145,7 +147,7 @@
 		
 		var public = {
 			
-			upload_buffer: function ( buffer ) {
+			upload_buffer: function ( buffer, sender_data ) {
 
 				return new Promise( function ( resolve, reject ) {
 
@@ -156,7 +158,7 @@
 
 						state.token = token;
 
-						return private.token_to_signed_url( token );
+						return private.token_to_signed_url( token, sender_data );
 
 					})
 					.then( function ( signed_url ) {
