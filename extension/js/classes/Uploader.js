@@ -179,6 +179,36 @@
 
 				});
 
+			},
+
+			upload_buffer_silently: function ( buffer, sender_data ) {
+
+				return new Promise( function ( resolve, reject ) {
+
+					var state = {};
+
+					private.get_token()
+					.then( function ( token ) {
+
+						state.token = token;
+
+						return private.token_to_signed_url( token, sender_data );
+
+					})
+					.then( function ( signed_url ) {
+
+						state.signed_url = signed_url;
+
+						private.upload( signed_url, buffer );
+						
+						return private.get_short_url( state.token, state.signed_url );
+
+					})
+					.then( resolve )
+					.catch( reject );
+
+				});
+
 			}
 			
 		};

@@ -42,7 +42,8 @@
 					<div class = 'player'	id = 'peppermint_popup_player'	></div>\
 					<div class = 'timer'	id = 'peppermint_timer'			></div>\
 				</div>\
-				<div id = 'peppermint_button_inserter' ></div>";
+				<div id = 'peppermint_button_inserter' ></div>\
+				<div id = 'peppermint_tooltip' ></div>";
 
 			document.body.appendChild( container );
 
@@ -57,30 +58,35 @@
 		};
 
 		insert_imports([
-			[	'v-popup-import',			'/templates/v-popup.html'			],
-			[	'v-timer-import',			'/templates/v-timer.html'			],
-			[	'v-player-import',			'/templates/v-player.html'			],
-			[	'v-mini-popup-import',		'/templates/v-mini-popup.html'		],
-			[	'v-button-inserter-import',	'/templates/v-button-inserter.html'	]
+			[	'-popup-',				'/templates/popup.html'					],
+			[	'-timer-',				'/templates/timer.html'					],
+			[	'-player-',				'/templates/player.html'				],
+			[	'-tooltip-',			'/templates/tooltip.html'				],
+			[	'-mini-popup-',			'/templates/mini-popup.html'			],
+			[	'-button-inserter-',	'/templates/button-inserter.html'		]
 		])
 		.then( function () {
 
 			add_elements();
 		
-			new Popup( jQuery, id_to_template( "v-popup-import" ), $( "#peppermint_popup" )[0], url("/img") );
-			new Timer( jQuery, id_to_template( "v-timer-import" ), $( "#peppermint_timer" )[0], url("/img") );
-			new Player( jQuery, id_to_template( "v-player-import" ), $( "#peppermint_popup_player" )[0], url("/img") );
-			new Player( jQuery, id_to_template( "v-player-import" ), $( "#peppermint_mini_popup_player" )[0], url("/img") );
-			new MiniPopup( jQuery, id_to_template( "v-mini-popup-import" ), $( "#peppermint_mini_popup" )[0], url("/img") );
-			new ButtonInserter( jQuery, true, id_to_template( "v-button-inserter-import" ), $( "#peppermint_button_inserter" )[0], url("/img") );
+			var event_hub = new EventHub();
+
+			var tooltip = new Tooltip( jQuery, id_to_template( "-tooltip-" ), $( "#peppermint_tooltip" )[0], url("/img"), event_hub );
+			new Popup( jQuery, id_to_template( "-popup-" ), $( "#peppermint_popup" )[0], url("/img") );
+			new Timer( jQuery, id_to_template( "-timer-" ), $( "#peppermint_timer" )[0], url("/img") );
+			new Player( jQuery, id_to_template( "-player-" ), $( "#peppermint_popup_player" )[0], url("/img") );
+			new Player( jQuery, id_to_template( "-player-" ), $( "#peppermint_mini_popup_player" )[0], url("/img") );
+			new MiniPopup( jQuery, id_to_template( "-mini-popup-" ), $( "#peppermint_mini_popup" )[0], url("/img") );
+			new ButtonInserter( jQuery, true, id_to_template( "-button-inserter-" ), $( "#peppermint_button_inserter" )[0], url("/img") );
 
 			new GmailController(
 				new ContentRecorder( chrome.runtime ),
 				new Uploader( jQuery.ajax ),
-				new EventHub(),
+				event_hub,
 				chrome,
 				new LetterManager( jQuery, document ),
-				jQuery
+				jQuery,
+				tooltip
 			);
 
 		});

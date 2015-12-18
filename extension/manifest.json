@@ -34,6 +34,7 @@
 					"/js/elements/Timer.js",
 					"/js/elements/Popup.js",
 					"/js/elements/Player.js",
+					"/js/elements/Tooltip.js",
 					"/js/elements/MiniPopup.js",
 
 					"/js/inceptor.js"
@@ -44,7 +45,7 @@
 				]
 			},
 			{
-				"matches": ["http://localhost/prj/peppermint-chrome2/designer/designer_2.html"],
+				"matches": ["http://localhost/prj/chrome_extensions/peppermint/designer/designer_2.html"],
 				"js": [
 
 					"/js/lib/jQuery/jquery-2.1.4.min.js",
@@ -59,6 +60,7 @@
 					"/js/elements/Timer.js",
 					"/js/elements/Popup.js",
 					"/js/elements/Player.js",
+					"/js/elements/Tooltip.js",
 					"/js/elements/MiniPopup.js",
 
 					"/js/inceptor.js"

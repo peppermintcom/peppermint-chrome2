@@ -17,9 +17,13 @@
 	}
 
 	#v_compose_button_icon {
+
+		position: relative;
+
 		background-position: 50% 50%;
 		background-size: 16px 16px;
 		background-repeat: no-repeat;
+
 	}
 	
 			

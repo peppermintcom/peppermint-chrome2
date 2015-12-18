@@ -1,0 +1,65 @@
+	
+	<template>
+	
+		<style>
+
+			:host {
+
+				position: absolute;
+				z-index: 88888888;
+				box-sizing: border-box;
+				display: none;
+
+				width: 210px;
+				padding: 10px 14px;
+
+				background-color: #42BC9E;
+				border-radius: 5px;
+				color: white;
+
+				font-family: sans-serif;
+				font-size: 14px;
+
+				transform: translate( -43%, -63px );
+
+			}
+
+			#pointer {
+
+				position: absolute;
+
+				left: calc( 50% - 7px );
+				bottom: -7px;
+				width: 14px;
+				height: 14px;
+
+				background-color: #42BC9E;
+				border-radius: 1px;
+
+				transform: rotate( 45deg );
+
+			}
+
+			#cross {
+
+				position: absolute;
+
+				top: 6px;
+				right: 6px;
+
+				cursor: pointer;
+
+			}
+
+			#cross:hover {
+				opacity: 0.75;
+			}
+
+		</style>
+
+		<div>Click on the microphone <br> to record an audio message</div>
+
+		<img id = 'cross' src = '{{IMG_URL}}/cross.png' >
+		<div id = 'pointer' ></div>
+
+	</template>

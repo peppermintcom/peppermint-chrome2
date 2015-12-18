@@ -1,5 +1,5 @@
 
-	function GmailController ( recorder, uploader, event_hub, chrome, letter_manager, $ ) {
+	function GmailController ( recorder, uploader, event_hub, chrome, letter_manager, $, tooltip ) {
 
 		var state = {
 
@@ -43,6 +43,10 @@
 			},
 
 			begin_recording: function () {
+
+				chrome.storage.local.set({ compose_button_has_been_used: true });
+				tooltip.stop();
+				$( tooltip ).hide();
 
 				recorder.start()
 				.then( function () {
@@ -127,8 +131,9 @@
 						}
 
 					})
-					.catch( function () {
+					.catch( function ( err ) {
 
+						console.error( error );
 						$("#peppermint_mini_popup")[0].set_state("uploading_failed");
 
 					});
@@ -251,9 +256,30 @@
 			
 			'timeout': function () {
 
+			},
+
+			"tooltip_close_button_click": function () {
+
+				tooltip.stop();
+				chrome.storage.local.set({ compose_button_has_been_used: true });
+
 			}
 
 		});
+
+		( function constructor () {
+
+			chrome.storage.local.get( null, function ( items ) {
+			
+				if ( ! items[ 'compose_button_has_been_used' ] ) {
+
+					tooltip.stick_to( "#peppermint_compose_button" );
+					
+				}
+			
+			});
+
+		} () );
 
 	}
 
