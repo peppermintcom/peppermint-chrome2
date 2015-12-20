@@ -1,5 +1,5 @@
 
-	function ContentRecorder ( runtime ) {
+	function ContentRecorder ( runtime, event_hub ) {
 
 		var public = {
 

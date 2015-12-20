@@ -72,15 +72,15 @@
 			var event_hub = new EventHub();
 
 			var tooltip = new Tooltip( jQuery, id_to_template( "-tooltip-" ), $( "#peppermint_tooltip" )[0], url("/img"), event_hub );
-			new Popup( jQuery, id_to_template( "-popup-" ), $( "#peppermint_popup" )[0], url("/img") );
-			new Timer( jQuery, id_to_template( "-timer-" ), $( "#peppermint_timer" )[0], url("/img") );
+			new Popup( jQuery, id_to_template( "-popup-" ), $( "#peppermint_popup" )[0], url("/img"), event_hub );
+			new Timer( jQuery, id_to_template( "-timer-" ), $( "#peppermint_timer" )[0], event_hub );
 			new Player( jQuery, id_to_template( "-player-" ), $( "#peppermint_popup_player" )[0], url("/img") );
 			new Player( jQuery, id_to_template( "-player-" ), $( "#peppermint_mini_popup_player" )[0], url("/img") );
-			new MiniPopup( jQuery, id_to_template( "-mini-popup-" ), $( "#peppermint_mini_popup" )[0], url("/img") );
-			new ButtonInserter( jQuery, true, id_to_template( "-button-inserter-" ), $( "#peppermint_button_inserter" )[0], url("/img") );
+			new MiniPopup( jQuery, id_to_template( "-mini-popup-" ), $( "#peppermint_mini_popup" )[0], url("/img"), event_hub );
+			new ButtonInserter( jQuery, true, id_to_template( "-button-inserter-" ), $( "#peppermint_button_inserter" )[0], url("/img"), event_hub );
 
 			new GmailController(
-				new ContentRecorder( chrome.runtime ),
+				new ContentRecorder( chrome.runtime, event_hub ),
 				new Uploader( jQuery.ajax ),
 				event_hub,
 				chrome,

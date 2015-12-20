@@ -13,77 +13,6 @@
 
 		};
 
-		var event_handlers = {
-
-			timer_tick: function () {
-				popup_state.timestamp = $( "#timer", popup_state.pop_doc )[0].get_timestamp();
-			},
-
-			start_recording_click: function () {
-				private.begin_recording();
-			},
-
-			error_cancel_button_click: function () {
-				$( "#popup", popup_state.pop_doc )[0].set_page("popup_welcome");
-				popup_state.page = "popup_welcome";
-				popup_state.recording_thread_id = Date.now();
-			},
-
-			error_try_again_button_click: function () {
-				private.begin_recording();
-			},
-
-			recording_cancel_button_click: function () {
-
-				private.stop_timer();
-				recorder.cancel();
-				$( "#popup", popup_state.pop_doc )[0].set_page("popup_welcome");
-				popup_state.page = "popup_welcome";
-				popup_state.recording_thread_id = Date.now();
-
-			},
-
-			recording_done_button_click: function () {
-				
-				private.stop_timer();
-				current_recording_thread_id = popup_state.recording_thread_id;
-
-				private.show_uploading_screen( popup_state.pop_doc );
-
-				recorder.finish()
-				.then( function ( blob ) {
-
-					private.process_recording_blob( blob, current_recording_thread_id );
-
-				});
-			
-			},
-
-			restart_upload_click: function () {
-
-				current_recording_thread_id = popup_state.recording_thread_id;
-
-				private.show_uploading_screen( popup_state.pop_doc );
-
-				private.process_recording_blob( popup_state.last_recording_blob, current_recording_thread_id );
-
-			},
-
-			popup_finish_start_new_button_click: function () {
-				private.begin_recording();
-			},
-
-			cancel_click: function () {
-
-				$( "#player", popup_state.pop_doc )[0].reset();
-				$( "#popup", popup_state.pop_doc )[0].set_page("popup_welcome");
-				popup_state.page = "popup_welcome";
-				popup_state.recording_thread_id = Date.now();
-			
-			}
-
-		};
-
 		var private = {
 
 			copy_to_clipboard: function ( text ) {
@@ -205,9 +134,13 @@
 
 						}
 					})
-					.catch( function () {
+					.catch( function ( err ) {
+						
+						console.error( err );
+
 						popup_state.page = "uploading_failed_page";
 						$( "#popup", popup_state.pop_doc )[0].set_page("uploading_failed_page");
+					
 					});
 
 				});
@@ -283,25 +216,86 @@
 
 			},
 
-			register_handlers: function ( pop_doc ) {
+			register_handlers: function ( pop_doc, event_hub ) {
 				
-				$( pop_doc ).on( "tick", "#timer", event_handlers.timer_tick );
+				event_hub.add({
 
-				$( pop_doc ).on( "popup_welcome_start_recording_click", "#popup", event_handlers.start_recording_click );
+					tick: function () {
 
-				$( pop_doc ).on( "error_cancel_button_click", "#popup", event_handlers.error_cancel_button_click );
+						popup_state.timestamp = $( "#timer", popup_state.pop_doc )[0].get_timestamp();
 
-				$( pop_doc ).on( "error_try_again_button_click", "#popup", event_handlers.error_try_again_button_click );
+					},
 
-				$( pop_doc ).on( "recording_cancel_button_click", "#popup", event_handlers.recording_cancel_button_click );
+					popup_welcome_start_recording_click: function () {
 
-				$( pop_doc ).on( "recording_done_button_click", "#popup", event_handlers.recording_done_button_click );
+						private.begin_recording();
 
-				$( pop_doc ).on( "restart_upload_click", "#popup", event_handlers.restart_upload_click );
+					},
 
-				$( pop_doc ).on( "popup_finish_start_new_button_click", "#popup", event_handlers.popup_finish_start_new_button_click );
+					popup_error_cancel_button_click: function () {
+						$( "#popup", popup_state.pop_doc )[0].set_page("popup_welcome");
+						popup_state.page = "popup_welcome";
+						popup_state.recording_thread_id = Date.now();
+					},
 
-				$( pop_doc ).on( "cancel_click", event_handlers.cancel_click );
+					popup_error_try_again_button_click: function () {
+
+						private.begin_recording();
+
+					},
+
+					popup_recording_cancel_button_click: function () {
+
+						private.stop_timer();
+						recorder.cancel();
+						$( "#popup", popup_state.pop_doc )[0].set_page("popup_welcome");
+						popup_state.page = "popup_welcome";
+						popup_state.recording_thread_id = Date.now();
+
+					},
+
+					popup_recording_done_button_click: function () {
+						
+						private.stop_timer();
+						current_recording_thread_id = popup_state.recording_thread_id;
+
+						private.show_uploading_screen( popup_state.pop_doc );
+
+						recorder.finish()
+						.then( function ( blob ) {
+
+							private.process_recording_blob( blob, current_recording_thread_id );
+
+						});
+					
+					},
+
+					popup_restart_upload_click: function () {
+
+						current_recording_thread_id = popup_state.recording_thread_id;
+
+						private.show_uploading_screen( popup_state.pop_doc );
+
+						private.process_recording_blob( popup_state.last_recording_blob, current_recording_thread_id );
+
+					},
+
+					popup_finish_start_new_button_click: function () {
+
+						private.begin_recording();
+
+					},
+
+					popup_cancel_click: function () {
+
+						$( "#player", popup_state.pop_doc )[0].reset();
+						$( "#popup", popup_state.pop_doc )[0].set_page("popup_welcome");
+						popup_state.page = "popup_welcome";
+						popup_state.recording_thread_id = Date.now();
+					
+					}
+
+				})
 
 			}
 

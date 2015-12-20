@@ -1,5 +1,5 @@
 	
-	function Popup ( $, template, element, img_url ) {
+	function Popup ( $, template, element, img_url, event_hub ) {
 		
 		//draggable plugin
 			(function($){
@@ -26,7 +26,7 @@
 			element: null,
 			create_click_dispatcher: function ( id ) {
 				element.shadowRoot.getElementById( id ).addEventListener( "click", function () {
-					element.dispatchEvent( new CustomEvent( id + "_click", { bubbles: true } ) );
+					event_hub.fire( "popup_" + id + "_click" );
 				});
 			}
 
@@ -99,11 +99,11 @@
 				"error_cancel_button",
 				"error_try_again_button",
 				"uploading_re_record_button",
-				"popup_finish_start_new_button",
+				"finish_start_new_button",
 				"uploading_done_button",
-				"popup_welcome_start_recording",
+				"welcome_start_recording",
 				"restart_upload",
-				"cancel"
+				"cancel_uploading"
 			].forEach( private.create_click_dispatcher );
 
 			$( element ).tinyDraggable({

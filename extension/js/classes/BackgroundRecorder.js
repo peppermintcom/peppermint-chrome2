@@ -20,7 +20,6 @@
 
 			},
 
-
 			blob_to_data_url: function ( blob ) {
 				return new Promise ( function ( resolve ) {
 

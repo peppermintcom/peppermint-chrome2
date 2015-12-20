@@ -72,8 +72,8 @@
 							type: 'POST',
 							data: JSON.stringify({
 							  content_type: "audio/mpeg",
-							  sender_name: sender_data.sender_name,
-							  sender_email: sender_data.sender_email
+							  sender_name: sender_data ? sender_data.sender_name : '',
+							  sender_email: sender_data ? sender_data.sender_email : ''
 							}),
 							headers: {
 								'Authorization': 'Bearer ' + token,

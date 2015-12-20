@@ -1,5 +1,5 @@
 
-	function Timer ( $, template, element ) {
+	function Timer ( $, template, element, event_hub ) {
 
 		var private = {
 
@@ -23,9 +23,7 @@
 
 			notify_tick: function () {
 
-				element.dispatchEvent( new CustomEvent( "tick", {
-					bubbles: true,
-				}));
+				event_hub.fire( "tick" );
 
 			},
 

@@ -7,7 +7,7 @@
 
 			get_dispatcher: function ( event_name ) {
 				return function () {
-					element.dispatchEvent( new CustomEvent( event_name, { bubbles: true } ) );
+					event_hub.fire( "mini_popup_" + id + "_click" );
 				};
 			}
 

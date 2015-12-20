@@ -1,5 +1,5 @@
 	
-	function ButtonInserter ( $, insert_reply_button, template, element, img_url ) {
+	function ButtonInserter ( $, insert_reply_button, template, element, img_url, event_hub ) {
 
 		var private = {
 
@@ -17,9 +17,7 @@
 							button[0].dataset.id = id;
 							
 							button.on( 'click', function () {
-								button[0].dispatchEvent(
-									new CustomEvent( 'peppermint_compose_button_click', { bubbles: true } )
-								);
+								event_hub.fire( "peppermint_compose_button_click", { id } );
 							});
 
 							$( ".a8X.gU>div", container ).append( button );
@@ -39,7 +37,7 @@
 							var button = $( "#v_dropdown_button", element.shadowRoot ).clone();
 
 							button.on( "click", function () {
-								button[0].dispatchEvent( new CustomEvent( 'peppermint_reply_button_click', { bubbles: true } ) );
+								event_hub.fire( "peppermint_reply_button_click" );
 							});
 
 							$( container ).children('div:eq(2)').after( button );
@@ -58,7 +56,7 @@
 							var button = $( "#v_reply_button", element.shadowRoot ).clone();
 
 							button.on( "click", function () {
-								button[0].dispatchEvent( new CustomEvent( 'peppermint_reply_button_click', { bubbles: true } ) );
+								event_hub.fire( "peppermint_reply_button_click" );
 							});
 
 							$( container ).prepend( button );
@@ -76,8 +74,7 @@
 
 								link.on( "click", function () {
 									event.preventDefault();
-									
-									link[0].dispatchEvent( new CustomEvent( 'peppermint_reply_button_click', { bubbles: true } ) );
+									event_hub.fire( "peppermint_reply_button_click" );
 								});
 
 							}

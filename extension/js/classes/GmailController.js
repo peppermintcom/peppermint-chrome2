@@ -7,23 +7,30 @@
 			compose_button_id: undefined,
 			last_recording_blob: undefined,
 			recording: false,
-			uploading: false
+			uploading: false,
+			timer: null
 
 		};
 
 		var private = {
+
+			start_timer: function () {
+
+				clearTimeout( state.timer );
+
+				state.timer = setTimeout( function () {
+
+					event_hub.fire( "timeout" );
+
+				}, 5 * 60 * 1000 );
+
+			},
 
 			get_sender_data: function () {
 				return {
 					sender_name: $("div[aria-label='Account Information'] .gb_jb").text(),
 					sender_email: $("div[aria-label='Account Information'] .gb_kb").text()
 				};
-			},
-
-			wait_the_interval: function () {
-				return new Promise( function ( resolve ) {
-					setTimeout( resolve, 5 * 60 * 1000 );
-				});
 			},
 
 			copy_to_clipboard: function ( text ) {
@@ -51,6 +58,8 @@
 				recorder.start()
 				.then( function () {
 
+					private.start_timer();
+
 					$("#peppermint_timer")[0].reset();
 					$("#peppermint_timer")[0].start();
 					$('#peppermint_popup').show();
@@ -58,6 +67,7 @@
 					$('#peppermint_popup')[0].set_page_status("recording");
 
 					state.recording = true;
+					state.recording_id = Date.now();
 
 				})
 				.catch( function ( error ) {
@@ -69,12 +79,14 @@
 						
 					} else {
 						
+						console.log( error );
 						$('#peppermint_popup').show();
 						$('#peppermint_popup')[0].set_page("microphone_error_page");
 						
 					}
 
 				});
+
 			},
 
 			show_uploading_screen: function () {
@@ -143,6 +155,8 @@
 
 			clear_the_state: function () {
 
+				clearTimeout( state.timer );
+
 				state = {
 
 					recording_id: undefined,
@@ -156,6 +170,9 @@
 			},
 
 			finish_recording: function () {
+
+				clearTimeout( state.timer );
+
 				recorder.finish()
 				.then( function ( blob ) {
 
@@ -163,105 +180,101 @@
 					private.process_recording_blob( blob );
 
 				});
+
 			}
 
 		};
 
-		$( document ).on( "peppermint_compose_button_click", function ( event ) {
-
-			if ( !state.recording && !state.uploading ) {
-
-				state.compose_button_id = event.target.dataset.id;
-
-				private.begin_recording();
-
-			}
-
-		});
-
-		$( document ).on( "peppermint_reply_button_click", function () {
-
-			if ( $(".ams")[0] ) $(".ams")[0].click();
-			
-			var interval = setInterval( function () {
-				if ( $( '#peppermint_compose_button' ).length > 0 ) {
-
-					$( '#peppermint_compose_button' ).click();
-					clearInterval( interval );
-
-				}
-			}, 20 );
-
-		});
-
-		$( document ).on( "error_try_again_button_click", "#peppermint_popup", function () {
-
-			if ( !state.recording && !state.uploading ) {
-
-				private.begin_recording();
-
-			}
-		
-		});
-
-		$( document ).on( "try_again_click", "#peppermint_mini_popup", function () {
-
-			private.show_uploading_screen();
-			
-			private.process_recording_blob( state.last_recording_blob );
-
-		});
-
-		$( document ).on( "timeout", function () {
-			stop_timer();
-			
-			private.show_uploading_screen();
-			private.finish_recording();
-
-			alert("You have reached the maximum recording length of 5 minutes");
-
-		});
-
-		$( document ).on( "recording_done_button_click", "#peppermint_popup", function () {
-
-			private.show_uploading_screen();
-			private.finish_recording();
-
-		});
-
-		$( document ).on( "error_cancel_button_click", "#peppermint_popup", function () {
-
-			$("#peppermint_popup").hide();
-			private.clear_the_state();
-
-		});
-
-		$( document ).on( "cancel_click", "#peppermint_mini_popup", function () {
-
-			$("#peppermint_mini_popup").hide();
-			$("#peppermint_mini_popup_player")[0].pause();
-			private.clear_the_state();
-
-		});
-
-		$( document ).on( "recording_cancel_button_click", "#peppermint_popup", function () {
-
-			recorder.cancel();
-			$('#peppermint_popup').hide();
-			private.clear_the_state();
-
-		});
-
 		event_hub.add({
-			
-			'timeout': function () {
 
+			"timeout": function () {
+				
+				private.show_uploading_screen();
+				private.finish_recording();
+
+				alert("You have reached the maximum recording length of 5 minutes");
+			
 			},
 
 			"tooltip_close_button_click": function () {
 
 				tooltip.stop();
 				chrome.storage.local.set({ compose_button_has_been_used: true });
+
+			},
+
+			popup_error_try_again_button_click: function () {
+
+				if ( !state.recording && !state.uploading ) {
+
+					private.begin_recording();
+
+				}
+			
+			},
+
+			popup_recording_done_button_click: function () {
+
+				private.show_uploading_screen();
+				private.finish_recording();
+
+			},
+
+			popup_error_cancel_button_click: function () {
+
+				$("#peppermint_popup").hide();
+				private.clear_the_state();
+
+			},
+
+			popup_recording_cancel_button_click: function () {
+
+				recorder.cancel();
+				$('#peppermint_popup').hide();
+				private.clear_the_state();
+
+			},
+
+			mini_popup_try_again_click: function () {
+
+				private.show_uploading_screen();
+				
+				private.process_recording_blob( state.last_recording_blob );
+
+			},
+
+			mini_popup_cancel_click: function () {
+
+				$("#peppermint_mini_popup").hide();
+				$("#peppermint_mini_popup_player")[0].pause();
+				private.clear_the_state();
+
+			},
+
+			peppermint_compose_button_click: function ( data ) {
+
+				if ( !state.recording && !state.uploading ) {
+
+					state.compose_button_id = data.id;
+
+					private.begin_recording();
+
+				}
+
+			},
+
+			peppermint_reply_button_click: function () {
+
+				if ( $(".ams")[0] ) $(".ams")[0].click();
+				
+				var interval = setInterval( function () {
+					if ( $( '#peppermint_compose_button' ).length > 0 ) {
+
+						$( '#peppermint_compose_button' ).click();
+						clearInterval( interval );
+
+					}
+				}, 20 );
 
 			}
 
