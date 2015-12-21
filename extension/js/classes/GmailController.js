@@ -246,7 +246,7 @@
 			},
 
 			peppermint_compose_button_click: function ( data ) {
-
+debugger;
 				if ( !state.recording && !state.uploading ) {
 
 					state.compose_button_id = data.id;
@@ -278,13 +278,13 @@
 
 			chrome.storage.local.get( null, function ( items ) {
 			
-				if ( ! items[ 'compose_button_has_been_used' ] ) {
+				// if ( ! items[ 'compose_button_has_been_used' ] ) {
 
 					tooltip.stick_to( "#peppermint_compose_button" );
 
 					$( tooltip_top ).show();
 					
-				}
+				// }
 			
 			});
 
