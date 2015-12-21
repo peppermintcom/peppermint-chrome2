@@ -69,7 +69,12 @@
 		.then( function () {
 
 			add_elements();
-		
+
+			var sender_data = {
+				sender_name: $("div[aria-label='Account Information'] .gb_jb").text(),
+				sender_email: $("div[aria-label='Account Information'] .gb_kb").text()
+			};
+
 			var event_hub = new EventHub();
 
 			var tooltip = new Tooltip( jQuery, id_to_template( "-tooltip-" ), $( "#peppermint_tooltip" )[0], url("/img"), event_hub );
@@ -83,7 +88,7 @@
 
 			new GmailController(
 				new ContentRecorder( chrome.runtime, event_hub ),
-				new Uploader( jQuery.ajax ),
+				new Uploader( jQuery.ajax, sender_data ),
 				event_hub,
 				chrome,
 				new LetterManager( jQuery, document ),

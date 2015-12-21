@@ -1,5 +1,5 @@
 	
-	Uploader = function ( ajax ) {
+	Uploader = function ( ajax, sender_data ) {
 		
 		var lib = {
 
@@ -104,7 +104,7 @@
 		
 		var public = {
 			
-			upload_buffer: function ( buffer, sender_data ) {
+			upload_buffer: function ( buffer ) {
 
 				return new Promise( function ( resolve, reject ) {
 
@@ -126,7 +126,7 @@
 						state.short_url = urls.short_url;
 
 						g_state.urls_promise = g_state.token_promise.then( function ( token ) {
-							return private.token_to_urls( token );
+							return private.token_to_urls( token, sender_data );
 						});
 
 						return private.upload( urls.signed_url, buffer );
@@ -143,7 +143,7 @@
 
 			},
 			
-			upload_buffer_immediately: function ( buffer, sender_data ) {
+			upload_buffer_immediately: function ( buffer ) {
 
 				return new Promise( function ( resolve, reject ) {
 
@@ -168,7 +168,7 @@
 						});
 
 						g_state.urls_promise = g_state.token_promise.then( function ( token ) {
-							return private.token_to_urls( token );
+							return private.token_to_urls( token, sender_data );
 						});
 
 						resolve( state.short_url );
@@ -186,8 +186,8 @@
 
 			g_state.token_promise = private.get_token();
 			g_state.urls_promise = g_state.token_promise.then( function ( token ) {
-				return private.token_to_urls( token );
-			})
+				return private.token_to_urls( token, sender_data );
+			});
 
 		} () )
 		

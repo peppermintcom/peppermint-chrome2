@@ -26,13 +26,6 @@
 
 			},
 
-			get_sender_data: function () {
-				return {
-					sender_name: $("div[aria-label='Account Information'] .gb_jb").text(),
-					sender_email: $("div[aria-label='Account Information'] .gb_kb").text()
-				};
-			},
-
 			copy_to_clipboard: function ( text ) {
 				    
 			    var doc = document,
@@ -118,7 +111,7 @@
 				recorder.blob_to_buffer( blob )
 				.then( function ( buffer ) {
 
-					uploader.upload_buffer( buffer, private.get_sender_data() )
+					uploader.upload_buffer( buffer )
 					.then( function ( url ) {
 
 						if ( state.recording_id === recording_id ) {
