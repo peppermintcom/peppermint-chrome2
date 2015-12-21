@@ -246,7 +246,7 @@
 			},
 
 			peppermint_compose_button_click: function ( data ) {
-debugger;
+
 				if ( !state.recording && !state.uploading ) {
 
 					state.compose_button_id = data.id;

@@ -25,7 +25,7 @@
 		options_data: {
 			reply_button_disabled: false
 		}
-	})
+	});
 
 	//
 	( function set_up_popup_controller ( window, jQuery ) {
