@@ -278,13 +278,13 @@ debugger;
 
 			chrome.storage.local.get( null, function ( items ) {
 			
-				// if ( ! items[ 'compose_button_has_been_used' ] ) {
+				if ( ! items[ 'compose_button_has_been_used' ] ) {
 
 					tooltip.stick_to( "#peppermint_compose_button" );
 
 					$( tooltip_top ).show();
 					
-				// }
+				}
 			
 			});
 
