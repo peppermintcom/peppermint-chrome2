@@ -38,6 +38,10 @@
 
 		};
 
+		var g_state = {
+			token_promise: null
+		}
+
 		var private = {
 			
 			get_token: function () {
@@ -64,7 +68,7 @@
 				});
 			},
 			
-			token_to_signed_url: function ( token, sender_data ) {
+			token_to_urls: function ( token, sender_data ) {
 				return new Promise( function ( resolve, reject ) {
 					ajax(
 						"https://qdkkavugcd.execute-api.us-west-2.amazonaws.com/prod/v1/uploads",
@@ -80,8 +84,7 @@
 								'Content-Type': 'application/json'
 							},
 							success: function ( response ) {
-								console.log( response );
-								resolve( response.signed_url );
+								resolve( response );
 							},
 							error: function () {
 								reject();
@@ -107,25 +110,27 @@
 
 					var state = {};
 
-					private.get_token()
+					g_state.token_promise
 					.then( function ( token ) {
 
 						state.token = token;
 
-						return private.token_to_signed_url( token, sender_data );
+						return private.token_to_urls( token, sender_data );
 
 					})
-					.then( function ( signed_url ) {
+					.then( function ( urls ) {
 
-						state.signed_url = signed_url;
+						console.log( urls );
 
-						return private.upload( signed_url, buffer );
+						state.signed_url = urls.signed_url;
+						state.short_url = urls.short_url
 
+						return private.upload( urls.signed_url, buffer );
 
 					})
 					.then( function () {
 
-						return private.get_short_url( state.token, state.signed_url );
+						resolve( state.short_url );
 
 					})
 					.then( resolve )
@@ -133,9 +138,48 @@
 
 				});
 
+			},
+			
+			upload_buffer_immediately: function ( buffer, sender_data ) {
+
+				return new Promise( function ( resolve, reject ) {
+
+					var state = {};
+
+					g_state.token_promise
+					.then( function ( token ) {
+
+						state.token = token;
+
+						return private.token_to_urls( token, sender_data );
+
+					})
+					.then( function ( urls ) {
+
+						state.signed_url = urls.signed_url;
+						state.short_url = urls.short_url
+
+						private.upload( urls.signed_url, buffer )
+						.then( function () {
+							console.log( "buffer uploaded" );
+						})
+
+						resolve( state.short_url );
+
+					})
+					.catch( reject );
+
+				});
+
 			}
 			
 		};
+
+		( function constructor () {
+
+			g_state.token_promise = private.get_token();
+
+		} () )
 		
 		return public;
 		

@@ -22,7 +22,7 @@
 
 					event_hub.fire( "timeout" );
 
-				}, 5 * 1 * 1000 );
+				}, 5 * 60 * 1000 );
 
 			},
 
@@ -145,7 +145,7 @@
 					})
 					.catch( function ( err ) {
 
-						console.error( error );
+						console.error( err );
 						$("#peppermint_mini_popup")[0].set_state("uploading_failed");
 
 					});
