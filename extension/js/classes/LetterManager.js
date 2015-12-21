@@ -155,7 +155,7 @@
 			
 			$.get( 'https://s3.amazonaws.com/peppermint-templates/composition-reply.html', function( response ) {
 
-				private.compose_template = response;
+				private.reply_template = response;
 
 			});
 
