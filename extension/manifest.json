@@ -43,9 +43,6 @@
 			
 			"clipboardWrite",
 			"clipboardRead",
-			"contentSettings",
-			"audio",
-			"audioCapture",
 
 			"https://mail.google.com/*"
 		],
