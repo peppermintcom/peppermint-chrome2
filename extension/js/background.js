@@ -20,6 +20,14 @@
 		}
 	});
 
+	// set up storage defaults
+	chrome.storage.local.set({
+		options_data: {
+			reply_button_disabled: false
+		}
+	})
+
+	//
 	( function set_up_popup_controller ( window, jQuery ) {
 
 		window.popup_controller = new PopupController(

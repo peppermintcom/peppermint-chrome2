@@ -69,9 +69,9 @@
 			
 		};
 		
-		obj.page_manager = new PageManager( $pmjQuery );
+		obj.page_manager = new PageManager( jQuery );
 		obj.storage_manager = new StorageManager( chrome );
-		obj.options_data = new OptionsData( $pmjQuery );
+		obj.options_data = new OptionsData( jQuery );
 		
 		$( document ).ready( function () {
 			obj.storage_manager.get( function ( items ) {
@@ -93,7 +93,7 @@
 
 		});
 
-	} ( $pmjQuery, chrome ) );
+	} ( jQuery, chrome ) );
 	
 	
 	
