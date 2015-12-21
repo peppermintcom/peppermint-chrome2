@@ -115,7 +115,7 @@
 
 						state.token = token;
 
-						return private.token_to_urls( token, sender_data );
+						return g_state.urls_promise;
 
 					})
 					.then( function ( urls ) {
@@ -123,7 +123,11 @@
 						console.log( urls );
 
 						state.signed_url = urls.signed_url;
-						state.short_url = urls.short_url
+						state.short_url = urls.short_url;
+
+						g_state.urls_promise = g_state.token_promise.then( function ( token ) {
+							return private.token_to_urls( token );
+						});
 
 						return private.upload( urls.signed_url, buffer );
 
@@ -133,7 +137,6 @@
 						resolve( state.short_url );
 
 					})
-					.then( resolve )
 					.catch( reject );
 
 				});
@@ -151,18 +154,22 @@
 
 						state.token = token;
 
-						return private.token_to_urls( token, sender_data );
+						return g_state.urls_promise;
 
 					})
 					.then( function ( urls ) {
 
 						state.signed_url = urls.signed_url;
-						state.short_url = urls.short_url
+						state.short_url = urls.short_url;
 
 						private.upload( urls.signed_url, buffer )
 						.then( function () {
 							console.log( "buffer uploaded" );
-						})
+						});
+
+						g_state.urls_promise = g_state.token_promise.then( function ( token ) {
+							return private.token_to_urls( token );
+						});
 
 						resolve( state.short_url );
 
@@ -178,6 +185,9 @@
 		( function constructor () {
 
 			g_state.token_promise = private.get_token();
+			g_state.urls_promise = g_state.token_promise.then( function ( token ) {
+				return private.token_to_urls( token );
+			})
 
 		} () )
 		
