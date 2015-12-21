@@ -80,6 +80,7 @@
 								'Content-Type': 'application/json'
 							},
 							success: function ( response ) {
+								console.log( response );
 								resolve( response.signed_url );
 							},
 							error: function () {
@@ -94,55 +95,8 @@
 				return new Promise( function ( resolve, reject ) {
 					lib.upload( signed_url, buffer, resolve, reject );
 				});
-			},
-			
-			get_canonical_url: function ( token, signed_url ) {
-				return new Promise( function ( resolve, reject ) {
-					ajax(
-						"https://qdkkavugcd.execute-api.us-west-2.amazonaws.com/prod/v1/record",
-						{
-							type: 'POST',
-							data: JSON.stringify({
-							  "signed_url": signed_url
-							}),
-							headers: {
-								'Authorization': 'Bearer ' + token,
-								'Content-Type': 'application/json'
-							},
-							success: function ( response ) {
-								resolve( response.canonical_url );
-							},
-							error: function () {
-								reject();
-							}
-						}
-					);
-				});
-			},
-
-			get_short_url: function ( token, signed_url ) {
-				return new Promise( function ( resolve, reject ) {
-					ajax(
-						"https://qdkkavugcd.execute-api.us-west-2.amazonaws.com/prod/v1/record",
-						{
-							type: 'POST',
-							data: JSON.stringify({
-							  "signed_url": signed_url
-							}),
-							headers: {
-								'Authorization': 'Bearer ' + token,
-								'Content-Type': 'application/json'
-							},
-							success: function ( response ) {
-								resolve( response.short_url );
-							},
-							error: function () {
-								reject();
-							}
-						}
-					);
-				});
 			}
+
 		};
 		
 		var public = {
@@ -171,36 +125,6 @@
 					})
 					.then( function () {
 
-						return private.get_short_url( state.token, state.signed_url );
-
-					})
-					.then( resolve )
-					.catch( reject );
-
-				});
-
-			},
-
-			upload_buffer_silently: function ( buffer, sender_data ) {
-
-				return new Promise( function ( resolve, reject ) {
-
-					var state = {};
-
-					private.get_token()
-					.then( function ( token ) {
-
-						state.token = token;
-
-						return private.token_to_signed_url( token, sender_data );
-
-					})
-					.then( function ( signed_url ) {
-
-						state.signed_url = signed_url;
-
-						private.upload( signed_url, buffer );
-						
 						return private.get_short_url( state.token, state.signed_url );
 
 					})

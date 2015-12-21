@@ -24,6 +24,10 @@
 
 			}
 
+			.message {
+				display: none;
+			}
+
 			#pointer {
 
 				position: absolute;
@@ -55,9 +59,35 @@
 				opacity: 0.75;
 			}
 
+			:host(.button) .button_message {
+				display: block;
+			}
+
+			:host(.top) {
+
+				position: fixed;
+
+				top: 75px;
+				right: -90px;
+				width: 235px;
+
+			}
+
+			:host(.top) .top_message {
+				display: block;
+			}
+
+			:host(.top) #pointer {
+
+				bottom: default;
+				top: -7px;
+
+			}
+
 		</style>
 
-		<div>Click on the microphone <br> to record an audio message</div>
+		<div class = 'message button_message' >Click on the microphone <br> to record an audio message</div>
+		<div class = 'message top_message' >Click on the microphone to <br> record a message and get a link <br> to the audio and transcription</div>
 
 		<img id = 'cross' src = '{{IMG_URL}}/cross.png' >
 		<div id = 'pointer' ></div>

@@ -1,5 +1,5 @@
 
-	function GmailController ( recorder, uploader, event_hub, chrome, letter_manager, $, tooltip ) {
+	function GmailController ( recorder, uploader, event_hub, chrome, letter_manager, $, tooltip, tooltip_top ) {
 
 		var state = {
 
@@ -22,7 +22,7 @@
 
 					event_hub.fire( "timeout" );
 
-				}, 5 * 60 * 1000 );
+				}, 5 * 1 * 1000 );
 
 			},
 
@@ -199,6 +199,7 @@
 			"tooltip_close_button_click": function () {
 
 				tooltip.stop();
+				$( tooltip_top ).hide();
 				chrome.storage.local.set({ compose_button_has_been_used: true });
 
 			},
@@ -287,6 +288,8 @@
 				if ( ! items[ 'compose_button_has_been_used' ] ) {
 
 					tooltip.stick_to( "#peppermint_compose_button" );
+
+					$( tooltip_top ).show();
 					
 				}
 			
