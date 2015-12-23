@@ -1,5 +1,5 @@
 
-	function LetterManager ( $, document ) {
+	function LetterManager ( $, document, chrome ) {
 		
 		var private = {
 				
@@ -147,13 +147,13 @@
 
 			$( document ).on( "selectionchange", private.selectionchange_handler );
 
-			$.get( 'https://s3.amazonaws.com/peppermint-templates/composition-new.html', function( response ) {
+			$.get( chrome.extension.getURL( '/templates/letter.html' ), function( response ) {
 
 				private.compose_template = response;
 
 			});
 			
-			$.get( 'https://s3.amazonaws.com/peppermint-templates/composition-reply.html', function( response ) {
+			$.get( chrome.extension.getURL( '/templates/letter.html' ), function( response ) {
 
 				private.reply_template = response;
 

@@ -93,7 +93,7 @@
 					new Uploader( jQuery.ajax, sender_data ),
 					event_hub,
 					chrome,
-					new LetterManager( jQuery, document ),
+					new LetterManager( jQuery, document, chrome ),
 					jQuery,
 					tooltip,
 					tooltip_top
