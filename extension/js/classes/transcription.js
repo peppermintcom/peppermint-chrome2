@@ -67,9 +67,9 @@ function TranscriptionResult(lang, transcription, duration, audioURL) {
  * @param resultsCallback The asynchronous callback function that will accept the results when the transcription is available
  * @constructor
  */
-function Transcription(lang, resultsCallback) {
+function Transcription(lang) {
 
-    this.language = lang;
+    this.language = lang || window.navigator.language;
 
     this.getLanguage = function() {
         return this.language;
@@ -104,7 +104,7 @@ function Transcription(lang, resultsCallback) {
 
     var transcriptionLanguage = lang;
 
-    var transcriptionCallback = resultsCallback;
+    var transcriptionCallback = null;
 
     /**
      * When the continuous attribute is set to false,
@@ -143,7 +143,8 @@ function Transcription(lang, resultsCallback) {
     /**
      * Fired when the recognition service has started to listen to the audio with the intention of recognizing
      */
-    peppermintRecognition.onstart = function() {
+    peppermintRecognition.onstart = function( resultCallback ) {
+        transcriptionCallback = resultCallback;
         recognizing = true;
         peppermintFinalAudioTranscript = '';
         transcriptionLogger("Starting Speech Recognition for Audio Transcription for Language " + transcriptionLanguage);
@@ -224,12 +225,6 @@ function Transcription(lang, resultsCallback) {
 
 (function ($) {
 
-	/**
-	 * This is the language that will be used for the transcription
-	 * 
-	 * This attribute will set the language of the recognition for the request, using a valid BCP 47 language tag.
-	 */
-	var transcriptionLanguage = window.navigator.language;
 
     var transcriptionResults = null;
 
@@ -239,25 +234,7 @@ function Transcription(lang, resultsCallback) {
 
         var eventDetails = {transcript : transcriptionResults.getText(), duration : transcriptionResults.getDuration()};
 
-        document.dispatchEvent(new CustomEvent('update_audio_transcription', { bubbles: true, detail : eventDetails }));
-
-        document.dispatchEvent(new CustomEvent('store_audio_duration', { bubbles: true, detail: eventDetails }));
     });
-	
-	console.log("Transcription logic is loaded");
 
-	document.addEventListener("start_audio_transcription", function(event){
-		
-		console.log("start_audio_transcription received");
-
-        transcription.start();
-	});
-
-	document.addEventListener("stop_audio_transcription", function(event){
-		
-		console.log("stop_audio_transcription received");
-
-        transcription.stop();
-	});
 	
 } ($pmjQuery));
