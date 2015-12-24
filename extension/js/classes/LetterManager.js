@@ -133,6 +133,8 @@
 							}
 
 						}
+                        
+                        $('table.row.player').hide();
 
 					} catch ( e ) {
 
