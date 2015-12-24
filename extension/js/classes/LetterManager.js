@@ -27,10 +27,11 @@
 
 				},
 
-				formatEmailMessage: function ( audioUrl, audioTranscript, audioDurationDisplay, emailTemplate ) {
+				formatEmailMessage: function ( audioUrls, audioTranscript, audioDurationDisplay, emailTemplate ) {
 					
 					var emailMessage = emailTemplate
-					.replace("{{audio}}", audioUrl)
+					.replace("{{audio}}", audioUrls.short)
+                    .replace(/{{audio_player}}/g, audioUrls.long)
 					.replace("{{transcript}}", audioTranscript)
 					.replace("{{duration}}", audioDurationDisplay);
 					
