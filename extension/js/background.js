@@ -34,8 +34,7 @@
 			new WebAudioRecorderWrap( window.navigator, WebAudioRecorder, AudioContext, "/js/lib/WebAudioRecorder/" ),
 			new Uploader( jQuery.ajax ),
 			jQuery,
-			new EventHub(),
-			new Transcription( window.navigator.language )
+			new EventHub()
 		);
 
 	} ( window, jQuery ) );
