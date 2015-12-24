@@ -112,26 +112,26 @@
 				.then( function ( buffer ) {
 
 					uploader.upload_buffer( buffer )
-					.then( function ( url ) {
+					.then( function ( urls ) {
 
 						if ( state.recording_id === recording_id ) {
 
-							state.audio_url = url;
+							state.audio_urls = urls;
 
 							$("#peppermint_mini_popup").hide();
 
 							$( document ).one( "click", function () {
-								private.copy_to_clipboard( url );
+								private.copy_to_clipboard( urls.short );
 							});
 
-							console.log( "uploaded:", url );
+							console.log( "uploaded:", urls.short );
 							$("#peppermint_mini_popup_player")[0].pause();
-							letter_manager.add_link( state.audio_url, state.compose_button_id );
+							letter_manager.add_link( state.audio_urls, state.compose_button_id );
 							state.compose_button_id = undefined;
 
 						} else {
 
-							console.log( "aborted recording url:", url );
+							console.log( "aborted recording url:", urls.short );
 
 						}
 

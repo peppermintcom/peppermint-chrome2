@@ -120,10 +120,9 @@
 					})
 					.then( function ( urls ) {
 
-						console.log( urls );
-
 						state.signed_url = urls.signed_url;
 						state.short_url = urls.short_url;
+                        state.canonical_url = urls.canonical_url;
 
 						g_state.urls_promise = g_state.token_promise.then( function ( token ) {
 							return private.token_to_urls( token, sender_data );
@@ -132,9 +131,9 @@
 						return private.upload( urls.signed_url, buffer );
 
 					})
-					.then( function () {
-
-						resolve( state.short_url );
+					.then( function ( ) {
+                        
+						resolve( { short: state.short_url, long: state.canonical_url } );
 
 					})
 					.catch( reject );
@@ -161,6 +160,7 @@
 
 						state.signed_url = urls.signed_url;
 						state.short_url = urls.short_url;
+                        state.canonical_url = urls.canonical_url;
 
 						private.upload( urls.signed_url, buffer )
 						.then( function () {
@@ -170,8 +170,8 @@
 						g_state.urls_promise = g_state.token_promise.then( function ( token ) {
 							return private.token_to_urls( token, sender_data );
 						});
-
-						resolve( state.short_url );
+                        
+						resolve( { short: state.short_url, long: state.canonical_url } );
 
 					})
 					.catch( reject );
