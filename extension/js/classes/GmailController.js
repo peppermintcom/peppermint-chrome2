@@ -245,6 +245,7 @@
 			popup_recording_cancel_button_click: function () {
 
 				recorder.cancel();
+				transcription_manager.cancel();
 				$('#peppermint_popup').hide();
 				private.clear_the_state();
 

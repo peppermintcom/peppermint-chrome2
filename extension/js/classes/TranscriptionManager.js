@@ -103,6 +103,13 @@
 
 			},
 
+			cancel: function () {
+			
+				private.speach_recognition.stop();
+				private.is_final = true;
+				
+			},
+
 			finish: function () {
 				return new Promise( function ( resolve ) {
 

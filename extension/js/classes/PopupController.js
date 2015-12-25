@@ -258,6 +258,8 @@
 
 						private.stop_timer();
 						recorder.cancel();
+						transcription_manager.cancel();
+						
 						$( "#popup", popup_state.pop_doc )[0].set_page("popup_welcome");
 						popup_state.page = "popup_welcome";
 						popup_state.recording_thread_id = Date.now();
