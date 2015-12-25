@@ -1,5 +1,5 @@
 
-	function GmailController ( recorder, uploader, event_hub, chrome, letter_manager, $, tooltip, tooltip_top, transcription_manager ) {
+	function GmailController ( recorder, uploader, event_hub, chrome, letter_manager, $, tooltip, tooltip_top, transcription_manager, immediate_insert ) {
 
 		var state = {
 
@@ -87,12 +87,17 @@
 
 			show_uploading_screen: function () {
 
-				$("#peppermint_mini_popup_player")[0].reset();
-				$("#peppermint_mini_popup_player")[0].disable();
+				if ( !immediate_insert ) {
+
+					$("#peppermint_mini_popup_player")[0].reset();
+					$("#peppermint_mini_popup_player")[0].disable();
+					$("#peppermint_mini_popup")[0].reset();
+					$("#peppermint_mini_popup")[0].set_state("uploading");
+					$("#peppermint_mini_popup").show();
+
+				}
+
 				$("#peppermint_popup").hide();
-				$("#peppermint_mini_popup")[0].reset();
-				$("#peppermint_mini_popup")[0].set_state("uploading");
-				$("#peppermint_mini_popup").show();
 
 			},
 
@@ -114,7 +119,9 @@
 				recorder.blob_to_buffer( blob )
 				.then( function ( buffer ) {
 
-					uploader.upload_buffer( buffer )
+					var upload_buffer_function = immediate_insert ? uploader.upload_buffer_immediately : uploader.upload_buffer;
+
+					upload_buffer_function( buffer )
 					.then( function ( urls ) {
 
 						state.transcript_promise

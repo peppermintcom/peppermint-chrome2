@@ -86,8 +86,7 @@
 				new Player( jQuery, id_to_template( "-player-" ), $( "#peppermint_popup_player" )[0], url("/img") );
 				new Player( jQuery, id_to_template( "-player-" ), $( "#peppermint_mini_popup_player" )[0], url("/img") );
 				new MiniPopup( jQuery, id_to_template( "-mini-popup-" ), $( "#peppermint_mini_popup" )[0], url("/img"), event_hub );
-				new ButtonInserter( jQuery, !items["options_data"]["reply_button_disabled"], id_to_template( "-button-inserter-" ), $( "#peppermint_button_inserter" )[0], url("/img"), event_hub );
-
+				new ButtonInserter( jQuery, !items["options_data"]["disable_reply_button"], id_to_template( "-button-inserter-" ), $( "#peppermint_button_inserter" )[0], url("/img"), event_hub );
 
 				new GmailController(
 					new ContentRecorder( chrome.runtime, event_hub ),
@@ -98,7 +97,8 @@
 					jQuery,
 					tooltip,
 					tooltip_top,
-					new TranscriptionManager( jQuery, window.navigator.language )
+					new TranscriptionManager( jQuery, window.navigator.language ),
+					items["options_data"]["enable_immediate_insert"]
 				);
 
 			});

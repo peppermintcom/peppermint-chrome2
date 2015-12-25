@@ -23,7 +23,8 @@
 	// set up storage defaults
 	chrome.storage.local.set({
 		options_data: {
-			reply_button_disabled: false
+			disable_reply_button: false,
+			enable_immediate_insert: true
 		}
 	});
 
