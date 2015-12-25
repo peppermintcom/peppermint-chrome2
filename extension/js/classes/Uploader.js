@@ -165,6 +165,8 @@
 						private.upload( urls.signed_url, buffer )
 						.then( function () {
 							console.log( "buffer uploaded" );
+                            
+                            new AudioPlayer(jQuery).embed_with_insert();
 						});
 
 						g_state.urls_promise = g_state.token_promise.then( function ( token ) {
