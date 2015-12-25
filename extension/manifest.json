@@ -96,6 +96,7 @@
 				"/js/lib/WebAudioRecorder/WebAudioRecorder.js",
 				"/js/shims.js",
 				
+				"/js/classes/TranscriptionManager.js",
 				"/js/classes/WebAudioRecorderWrap.js",
 				"/js/classes/BackgroundRecorder.js",
 				"/js/classes/EventHub.js",

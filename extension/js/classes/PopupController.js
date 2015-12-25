@@ -1,5 +1,5 @@
 
-	function PopupController ( recorder, uploader, $, event_hub, transcription ) {
+	function PopupController ( recorder, uploader, $, event_hub, transcription_manager ) {
 
 		var popup_state = {
 
@@ -39,9 +39,8 @@
 				.then( function () {
 
 					private.start_timer();
-					transcription.start( function ( r ) {
-						console.log( r );
-					})
+					
+					transcription_manager.start();
 
 					$( "#timer", popup_state.pop_doc )[0].reset();
 					$( "#timer", popup_state.pop_doc )[0].start();

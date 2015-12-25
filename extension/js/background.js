@@ -35,7 +35,7 @@
 			new Uploader( jQuery.ajax ),
 			jQuery,
 			new EventHub(),
-			new Transcription( window.navigator.language )
+			new TranscriptionManager( jQuery, window.navigator.language )
 		);
 
 	} ( window, jQuery ) );
