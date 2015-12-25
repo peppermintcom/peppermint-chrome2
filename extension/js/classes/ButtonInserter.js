@@ -65,28 +65,20 @@
 					});
 					
 					$(".a3s").each( function ( index, element ) {
-						$("a[href^='https://peppermint.com/reply']", element ).each( function ( index, element) {
-							var link = $(element);
-							
-							if ( link.attr('id') !== 'peppermintReply' ) {
-								
-								link.attr('id','peppermintReply');
-
-								link.on( "click", function () {
-									event.preventDefault();
-									event_hub.fire( "peppermint_reply_button_click" );
-								});
-
-							}
-						});
-						
+					   $("img[src*='player.png']", element )
+                        .each( function ( index, element) {
+                            if(!$(element).data('checked')){
+                                $(element).attr('data-checked','true');
+                                embed_message_audio(element);
+                            }
+                        });	
 					});
 					
 				}, 50 );
 			}
 
 		};
-
+                                
 		var public = {
 
 		};
@@ -103,6 +95,25 @@
 			if ( insert_reply_button ) private.insert_reply_button();
 
 		} () );
+        
+        function embed_message_audio(element){
+                        
+			var parentTable = function (element) {
+                return $(element).closest('table').parents('table')[1];
+            } (element);
+            
+            var audioLink = function(element) {
+                return $(parentTable).prev().find('input[name="audio_player"]');                
+            } (element);            
+		  
+            if(audioLink.length > 0){                
+                var script = '<audio controls src="' + audioLink.first().val() + '"></audio>'
+                
+                $('input[name="audio_player"]').replaceWith(script);
+                
+                $(parentTable).remove();
+            }
+        }
 
 		return element;
 

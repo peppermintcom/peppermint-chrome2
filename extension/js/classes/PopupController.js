@@ -110,22 +110,22 @@
 				.then( function ( buffer ) {
 
 					uploader.upload_buffer( buffer )
-					.then( function ( url ) {
+					.then( function ( urls ) {
 						if ( current_recording_thread_id === popup_state.recording_thread_id ) {
 
-							console.log( "uploaded:", url );
+							console.log( "uploaded:", urls.short );
 
 							if ( popup_state.transcript ) {
-								private.copy_to_clipboard( url + " " + popup_state.transcript );
+								private.copy_to_clipboard( urls.short + " " + popup_state.transcript );
 							} else {
-								private.copy_to_clipboard( url );
+								private.copy_to_clipboard( urls.short );
 							}
 
-							popup_state.recording_url = url;
+							popup_state.recording_url = urls.short;
 							popup_state.page_status = "finished";
 							popup_state.page = "popup_finish";
 
-							$( "#popup", popup_state.pop_doc )[0].set_url( url );
+							$( "#popup", popup_state.pop_doc )[0].set_url( urls.short );
 							$( "#popup", popup_state.pop_doc )[0].set_transcript( popup_state.transcript );
 							$( "#popup", popup_state.pop_doc )[0].set_page("popup_finish");
 							$( "#popup", popup_state.pop_doc )[0].set_page_status("finished");

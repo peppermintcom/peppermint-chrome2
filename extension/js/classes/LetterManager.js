@@ -27,10 +27,11 @@
 
 				},
 
-				formatEmailMessage: function ( audioUrl, audioTranscript, audioDurationDisplay, emailTemplate ) {
+				formatEmailMessage: function ( audioUrls, audioTranscript, audioDurationDisplay, emailTemplate ) {
 					
 					var emailMessage = emailTemplate
-					.replace("{{audio}}", audioUrl)
+					.replace("{{audio}}", audioUrls.short)
+                    .replace(/{{audio_player}}/g, audioUrls.long)
 					.replace("{{transcript}}", audioTranscript)
 					.replace("{{duration}}", audioDurationDisplay);
 					
@@ -91,7 +92,7 @@
 
 		var public = {
 
-				add_link: function ( url, id, transcript, duration ) {
+				add_link: function ( urls, id, transcript, duration ) {
 					 
 					try {
 						
@@ -105,12 +106,12 @@
 
 							if ( selection && editable.contains( selection.anchorNode ) ) {
 								private.html_before_selection( 
-									private.formatEmailMessage( url, transcript, duration, private.reply_template ),
+									private.formatEmailMessage( urls, transcript, duration, private.reply_template ),
 									selection
 								);
 							} else {
 								$( editable ).prepend(
-									private.formatEmailMessage( url, transcript, duration, private.reply_template )
+									private.formatEmailMessage( urls, transcript, duration, private.reply_template )
 								);
 							}
 
@@ -118,12 +119,12 @@
 
 							if ( selection && editable.contains( selection.anchorNode ) ) {
 								private.html_before_selection(
-									private.formatEmailMessage( url, transcript, duration, private.compose_template ),
+									private.formatEmailMessage( urls, transcript, duration, private.compose_template ),
 									selection
 								);
 							} else {
 								$( editable ).prepend(
-									private.formatEmailMessage( url, transcript, duration, private.compose_template )
+									private.formatEmailMessage( urls, transcript, duration, private.compose_template )
 								)
 							};
 
@@ -132,6 +133,8 @@
 							}
 
 						}
+                        
+                        $('table.row.player').hide();
 
 					} catch ( e ) {
 
