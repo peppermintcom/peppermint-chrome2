@@ -52,17 +52,32 @@
 				}
 
 				for ( var i = event.resultIndex; i < event.results.length; ++i ) {
+
 					if ( event.results[i].isFinal ) {
+
+						private.is_final = true;
 						private.transcript += event.results[i][0].transcript;
 						console.log( private.transcript );
+
+					} else {
+
+						private.is_final = false;
+						console.log( private.transcript + event.results[i][0].transcript );
+
 					}
+
 				}
 
+			
 			}
 
 		};
 
 		var private = {
+
+			transcript: "",
+
+			is_final: true,
 
 			debugging: true,
 
@@ -89,9 +104,23 @@
 			},
 
 			finish: function () {
+				return new Promise( function ( resolve ) {
 
-				private.speach_recognition.stop();
+					private.speach_recognition.stop();
 
+					var interval = setInterval( function () {
+
+						if ( private.is_final ) {
+
+							clearInterval( interval );
+							resolve( private.transcript );
+							private.transcript = '';
+
+						}
+
+					}, 50 );
+
+				});
 			}
 
 		};
@@ -119,7 +148,7 @@
 			 *
 			 * Note, this attribute setting does not affect final results.
 			 */
-			private.speach_recognition.interimResults = false;
+			private.speach_recognition.interimResults = true;
 
 			$.extend( private.speach_recognition, event_handlers );
 

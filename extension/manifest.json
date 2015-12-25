@@ -30,6 +30,7 @@
 					"/js/classes/ButtonInserter.js",
 					"/js/classes/ContentRecorder.js",
 					"/js/classes/GmailController.js",
+					"/js/classes/TranscriptionManager.js",
 
 					"/js/elements/Timer.js",
 					"/js/elements/Popup.js",
@@ -56,6 +57,7 @@
 					"/js/classes/ButtonInserter.js",
 					"/js/classes/ContentRecorder.js",
 					"/js/classes/GmailController.js",
+					"/js/classes/TranscriptionManager.js",
 
 					"/js/elements/Timer.js",
 					"/js/elements/Popup.js",

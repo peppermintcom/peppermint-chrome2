@@ -1,5 +1,5 @@
 
-	function GmailController ( recorder, uploader, event_hub, chrome, letter_manager, $, tooltip, tooltip_top ) {
+	function GmailController ( recorder, uploader, event_hub, chrome, letter_manager, $, tooltip, tooltip_top, transcription_manager ) {
 
 		var state = {
 
@@ -8,7 +8,8 @@
 			last_recording_blob: undefined,
 			recording: false,
 			uploading: false,
-			timer: null
+			timer: null,
+			transcript_promise: null
 
 		};
 
@@ -52,6 +53,8 @@
 				.then( function () {
 
 					private.start_timer();
+
+					transcription_manager.start();
 
 					$("#peppermint_timer")[0].reset();
 					$("#peppermint_timer")[0].start();
@@ -114,26 +117,33 @@
 					uploader.upload_buffer( buffer )
 					.then( function ( urls ) {
 
-						if ( state.recording_id === recording_id ) {
+						state.transcript_promise
+						.then( function ( transcript ) {
 
-							state.audio_urls = urls;
+							if ( state.recording_id === recording_id ) {
 
-							$("#peppermint_mini_popup").hide();
+								state.audio_urls = urls;
 
-							$( document ).one( "click", function () {
-								private.copy_to_clipboard( urls.short );
-							});
+								$("#peppermint_mini_popup").hide();
 
-							console.log( "uploaded:", urls.short );
-							$("#peppermint_mini_popup_player")[0].pause();
-							letter_manager.add_link( state.audio_urls, state.compose_button_id );
-							state.compose_button_id = undefined;
+								$( document ).one( "click", function () {
+									private.copy_to_clipboard( urls.short );
+								});
 
-						} else {
+								console.log( "uploaded:", urls.short );
+								$("#peppermint_mini_popup_player")[0].pause();
 
-							console.log( "aborted recording url:", urls.short );
+								letter_manager.add_link( state.audio_urls, state.compose_button_id, transcript );
 
-						}
+								state.compose_button_id = undefined;
+
+							} else {
+
+								console.log( "aborted recording url:", urls.short );
+
+							}
+							
+						})
 
 					})
 					.catch( function ( err ) {
@@ -162,17 +172,28 @@
 
 			},
 
-			finish_recording: function () {
+			finish_recording: function ( blob ) {
 
 				clearTimeout( state.timer );
 
-				recorder.finish()
-				.then( function ( blob ) {
+				state.transcript_promise = transcription_manager.finish();
+
+				if ( blob ) {
 
 					state.recording = false;
 					private.process_recording_blob( blob );
 
-				});
+				} else {
+
+					recorder.finish()
+					.then( function ( blob ) {
+
+						state.recording = false;
+						private.process_recording_blob( blob );
+
+					});
+
+				}
 
 			}
 
@@ -232,8 +253,7 @@
 			mini_popup_try_again_click: function () {
 
 				private.show_uploading_screen();
-				
-				private.process_recording_blob( state.last_recording_blob );
+				private.finish_recording( state.last_recording_blob );
 
 			},
 

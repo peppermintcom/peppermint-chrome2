@@ -88,6 +88,7 @@
 				new MiniPopup( jQuery, id_to_template( "-mini-popup-" ), $( "#peppermint_mini_popup" )[0], url("/img"), event_hub );
 				new ButtonInserter( jQuery, !items["options_data"]["reply_button_disabled"], id_to_template( "-button-inserter-" ), $( "#peppermint_button_inserter" )[0], url("/img"), event_hub );
 
+
 				new GmailController(
 					new ContentRecorder( chrome.runtime, event_hub ),
 					new Uploader( jQuery.ajax, sender_data ),
@@ -96,7 +97,8 @@
 					new LetterManager( jQuery, document, chrome ),
 					jQuery,
 					tooltip,
-					tooltip_top
+					tooltip_top,
+					new TranscriptionManager( jQuery, window.navigator.language )
 				);
 
 			});

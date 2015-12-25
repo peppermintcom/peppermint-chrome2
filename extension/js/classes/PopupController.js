@@ -9,7 +9,9 @@
 			audio_data_url: null,
 			timestamp: null,
 			last_recording_blob: null,
-			pop_doc: null
+			pop_doc: null,
+			transcript_promise: null,
+			transcript: null
 
 		};
 
@@ -111,30 +113,38 @@
 
 					uploader.upload_buffer( buffer )
 					.then( function ( urls ) {
-						if ( current_recording_thread_id === popup_state.recording_thread_id ) {
 
-							console.log( "uploaded:", urls.short );
+						popup_state.transcript_promise
+						.then( function ( transcript ) {
 
-							if ( popup_state.transcript ) {
-								private.copy_to_clipboard( urls.short + " " + popup_state.transcript );
+							if ( current_recording_thread_id === popup_state.recording_thread_id ) {
+
+								console.log( "uploaded:", urls.short );
+
+								if ( transcript ) {
+									private.copy_to_clipboard( urls.short + " " + transcript );
+								} else {
+									private.copy_to_clipboard( urls.short );
+								}
+
+								popup_state.transcript = transcript;
+								popup_state.recording_url = urls.short;
+								popup_state.page_status = "finished";
+								popup_state.page = "popup_finish";
+
+								$( "#popup", popup_state.pop_doc )[0].set_url( urls.short );
+								$( "#popup", popup_state.pop_doc )[0].set_transcript( transcript );
+								$( "#popup", popup_state.pop_doc )[0].set_page("popup_finish");
+								$( "#popup", popup_state.pop_doc )[0].set_page_status("finished");
+						
 							} else {
-								private.copy_to_clipboard( urls.short );
+
+								console.log( "aborted recording url:", url );
+
 							}
 
-							popup_state.recording_url = urls.short;
-							popup_state.page_status = "finished";
-							popup_state.page = "popup_finish";
+						})
 
-							$( "#popup", popup_state.pop_doc )[0].set_url( urls.short );
-							$( "#popup", popup_state.pop_doc )[0].set_transcript( popup_state.transcript );
-							$( "#popup", popup_state.pop_doc )[0].set_page("popup_finish");
-							$( "#popup", popup_state.pop_doc )[0].set_page_status("finished");
-					
-						} else {
-
-							console.log( "aborted recording url:", url );
-
-						}
 					})
 					.catch( function ( err ) {
 						
@@ -212,9 +222,7 @@
 					}));
 				}
 
-				if ( popup_state.transcript ) {
-					$( "#popup", pop_doc )[0].set_transcript( popup_state.transcript );
-				}
+				$( "#popup", pop_doc )[0].set_transcript( popup_state.transcript );
 
 			},
 
@@ -263,13 +271,15 @@
 
 						private.show_uploading_screen( popup_state.pop_doc );
 
+						popup_state.transcript_promise =  transcription_manager.finish();
+
 						recorder.finish()
 						.then( function ( blob ) {
 
 							private.process_recording_blob( blob, current_recording_thread_id );
 
 						});
-					
+
 					},
 
 					popup_restart_upload_click: function () {
@@ -322,6 +332,8 @@
 				current_recording_thread_id = popup_state.recording_thread_id;
 
 				private.show_uploading_screen( popup_state.pop_doc );
+
+				popup_state.transcript_promise =  transcription_manager.finish();
 
 				recorder.finish()
 				.then( function ( blob ) {

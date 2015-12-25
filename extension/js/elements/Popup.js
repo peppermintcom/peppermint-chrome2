@@ -81,7 +81,18 @@
 			},
 
 			set_transcript: function ( transcript ) {
-				$( "#transcript", element.shadowRoot ).text( transcript );
+
+				if ( transcript ) {
+
+					$( "#transcript", element.shadowRoot ).text( transcript );
+					$( "#transcription_header", element.shadowRoot ).show();
+
+				} else {
+				
+					$( "#transcription_header", element.shadowRoot ).hide();
+
+				}
+
 			}
 
 		};

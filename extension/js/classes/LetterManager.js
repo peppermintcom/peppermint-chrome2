@@ -27,13 +27,23 @@
 
 				},
 
-				formatEmailMessage: function ( audioUrls, audioTranscript, audioDurationDisplay, emailTemplate ) {
+				formatEmailMessage: function ( audioUrls, transcript, audioDurationDisplay, emailTemplate ) {
 					
 					var emailMessage = emailTemplate
-					.replace("{{audio}}", audioUrls.short)
-                    .replace(/{{audio_player}}/g, audioUrls.long)
-					.replace("{{transcript}}", audioTranscript)
-					.replace("{{duration}}", audioDurationDisplay);
+					.replace( "{{audio}}", audioUrls.short )
+                    .replace( /{{audio_player}}/g, audioUrls.long )
+					.replace( "{{TRANSCRIPT}}", transcript )
+					.replace( "{{duration}}", audioDurationDisplay );
+
+					if ( transcript ) {
+
+						emailMessage = emailMessage.replace( "{{TRANSCRIPT_HEADER}}", "MESSAGE TRANSCRIPTION" );
+					
+					} else {
+
+						emailMessage = emailMessage.replace( "{{TRANSCRIPT_HEADER}}", "" );
+
+					} 
 					
 					return emailMessage;
 
