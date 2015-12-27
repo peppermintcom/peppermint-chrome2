@@ -23,7 +23,11 @@
 					var displayMinutes = parseInt(durationSeconds / 60);
 					var displaySeconds = durationSeconds % 60;
 					
-					return private.zeroPad( displayMinutes ) + ':' + private.zeroPad( displaySeconds );
+					returnValue =  private.zeroPad( displayMinutes ) + ':' + private.zeroPad( displaySeconds );
+					
+					console.log("Return Value for duration is: " + returnValue);
+					
+					return returnValue;
 
 				},
 
@@ -111,6 +115,8 @@
 						var selection = private.last_selections[ letter.dataset.id ];
 						duration = private.format_duration( duration );
 
+						console.log("Hello: " + duration);
+						
 						// if element is a child of a dialog - it is a compose message
 						if ( $(".I5[data-id='"+id+"']").closest(".nH.Hd").length === 0 ) {
 
@@ -160,13 +166,13 @@
 
 			$( document ).on( "selectionchange", private.selectionchange_handler );
 
-			$.get( chrome.extension.getURL( '/templates/letter.html' ), function( response ) {
+			$.get( chrome.extension.getURL( '/templates/composition-new.html' ), function( response ) {
 
 				private.compose_template = response;
 
 			});
 			
-			$.get( chrome.extension.getURL( '/templates/letter.html' ), function( response ) {
+			$.get( chrome.extension.getURL( '/templates/composition-reply.html' ), function( response ) {
 
 				private.reply_template = response;
 

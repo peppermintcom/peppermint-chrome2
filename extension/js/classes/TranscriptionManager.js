@@ -56,6 +56,7 @@
 					if ( event.results[i].isFinal ) {
 
 						private.is_final = true;
+						private.confidence = event.results[i][0].confidence;
 						private.transcript += event.results[i][0].transcript;
 						console.log( private.transcript );
 
@@ -83,6 +84,8 @@
 
 			speach_recognition: null,
 
+			confidence : 0.00,
+			
 			log: function ( text ) {
 
 				if ( private.debugging ) console.log( text );
@@ -120,7 +123,7 @@
 						if ( private.is_final ) {
 
 							clearInterval( interval );
-							resolve( private.transcript );
+							resolve( {text : private.transcript, language : lang, confidence_estimate : private.confidence} );
 							private.transcript = '';
 
 						}

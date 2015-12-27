@@ -94,6 +94,34 @@
 				});
 			},
 			
+			upload_transcription: function ( token, transcription_data ) {
+				return new Promise( function ( resolve, reject ) {
+					ajax(
+						"https://qdkkavugcd.execute-api.us-west-2.amazonaws.com/prod/v1/transcriptions",
+						{
+							type: 'POST',
+							data: JSON.stringify({
+							  audio_url: transcription_data.audio_url,
+							  language: transcription_data.language,
+							  confidence : transcription_data.confidence_estimate,
+							  text : transcription_data.text
+							}),
+							headers: {
+								'Authorization': 'Bearer ' + token,
+								'Content-Type': 'application/json',
+								'X-Api-Key' : 'abc123'
+							},
+							success: function ( response ) {
+								resolve( response );
+							},
+							error: function () {
+								reject();
+							}
+						}
+					);
+				});
+			},
+			
 			upload: function ( signed_url, buffer ) {
 				return new Promise( function ( resolve, reject ) {
 					lib.upload( signed_url, buffer, resolve, reject );
@@ -123,7 +151,7 @@
 						state.signed_url = urls.signed_url;
 						state.short_url = urls.short_url;
                         state.canonical_url = urls.canonical_url;
-
+                        
 						g_state.urls_promise = g_state.token_promise.then( function ( token ) {
 							return private.token_to_urls( token, sender_data );
 						});
@@ -180,8 +208,36 @@
 
 				});
 
+			},
+		
+			upload_transcript : function (transcription_data) {
+				
+				return new Promise( function ( resolve, reject ) {
+
+					var state = {};
+
+					g_state.token_promise
+					.then( function ( token ) {
+
+						state.token = token;
+
+						return g_state.urls_promise;
+
+					})
+					.then( function ( urls ) {
+						transcription_data.audio_url = urls.canonical_url;
+						private.upload_transcription(state.token, transcription_data)
+						.then( function (upload_response) {
+							console.log( "transcription uploaded: " +  JSON.stringify(upload_response));
+						});
+                        
+						resolve();
+
+					})
+					.catch( reject );
+
+				});
 			}
-			
 		};
 
 		( function constructor () {
