@@ -24,7 +24,7 @@
 	chrome.storage.local.set({
 		options_data: {
 			disable_reply_button: false,
-			enable_immediate_insert: true
+			enable_immediate_insert: false
 		}
 	});
 

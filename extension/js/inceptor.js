@@ -73,8 +73,8 @@
 				add_elements();
 
 				var sender_data = {
-					sender_name: $("div[aria-label='Account Information'] .gb_jb").text(),
-					sender_email: $("div[aria-label='Account Information'] .gb_kb").text()
+					sender_name: $(".gb_ab.gb_ea .gb_jb").text(),
+					sender_email: $(".gb_ab.gb_ea .gb_kb").text()
 				};
 
 				var event_hub = new EventHub();
