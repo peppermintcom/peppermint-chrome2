@@ -45,8 +45,8 @@
 
 				if ( typeof( event.results ) == 'undefined' ) {
 
-					private.speach_recognition.onend = null;
-					private.speach_recognition.stop();
+					private.speech_recognition.onend = null;
+					private.speech_recognition.stop();
 					return;
 				
 				}
@@ -63,7 +63,7 @@
 					} else {
 
 						private.is_final = false;
-						console.log( private.transcript + event.results[i][0].transcript );
+						//console.log( private.transcript + event.results[i][0].transcript );
 
 					}
 
@@ -82,7 +82,7 @@
 
 			debugging: true,
 
-			speach_recognition: null,
+			speech_recognition: null,
 
 			confidence : 0.00,
 			
@@ -100,15 +100,14 @@
 
 				private.transcript = "";
 
-				private.speach_recognition.lang = lang;
+				private.speech_recognition.lang = lang;
 
-				private.speach_recognition.start();
-
+				private.speech_recognition.start();
 			},
 
 			cancel: function () {
 			
-				private.speach_recognition.stop();
+				private.speech_recognition.stop();
 				private.is_final = true;
 				
 			},
@@ -116,7 +115,7 @@
 			finish: function () {
 				return new Promise( function ( resolve ) {
 
-					private.speach_recognition.stop();
+					private.speech_recognition.stop();
 
 					var interval = setInterval( function () {
 
@@ -137,7 +136,7 @@
 
 		( function constructor () {
 
-			private.speach_recognition = new webkitSpeechRecognition();
+			private.speech_recognition = new webkitSpeechRecognition();
 
 			/**
 			 * When the continuous attribute is set to false,
@@ -148,7 +147,7 @@
 			 *
 			 * The default value must be false
 			 */
-			private.speach_recognition.continuous = true;
+			private.speech_recognition.continuous = true;
 
 			/**
 			 * Controls whether interim results are returned.
@@ -158,9 +157,9 @@
 			 *
 			 * Note, this attribute setting does not affect final results.
 			 */
-			private.speach_recognition.interimResults = true;
+			private.speech_recognition.interimResults = true;
 
-			$.extend( private.speach_recognition, event_handlers );
+			$.extend( private.speech_recognition, event_handlers );
 
 		} () )
 
