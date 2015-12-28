@@ -43,7 +43,7 @@
 								numChannels: 2,
 								encoding: 'mp3',
 								options: {
-									timeLimit: 60 * 60 * 24,
+									timeLimit: 60 * 10,
 									encodeAfterRecord: true,
 									mp3: {
 										bitRate: 32

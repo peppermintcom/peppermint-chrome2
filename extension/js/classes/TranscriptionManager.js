@@ -16,6 +16,7 @@
 			 */
 			onend: function() {
 				private.log( "Speech Recognition for Audio Transcription has ended for Language " + lang );
+				private.ended = true;
 			},
 
 			/**
@@ -24,7 +25,7 @@
 			 */
 			onerror: function( event ) {
 				private.log( "Transcription Error", event.error );
-				private.is_final = true;
+				private.error = true;
 			},
 
 			/**
@@ -81,6 +82,8 @@
 
 			is_final: true,
 
+			ended: false,
+
 			debugging: true,
 
 			speech_recognition: null,
@@ -100,10 +103,12 @@
 			start: function () {
 
 				private.transcript = "";
-
+				private.error = false;
+				private.ended = false;
 				private.speech_recognition.lang = lang;
 
 				private.speech_recognition.start();
+			
 			},
 
 			cancel: function () {
@@ -120,7 +125,7 @@
 
 					var interval = setInterval( function () {
 
-						if ( private.is_final ) {
+						if ( private.is_final || private.error === true || private.ended === true ) {
 
 							clearInterval( interval );
 							resolve( { text : private.transcript, language : lang, confidence_estimate : private.confidence } );
