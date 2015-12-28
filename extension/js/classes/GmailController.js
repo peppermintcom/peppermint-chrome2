@@ -1,6 +1,9 @@
 
 	function GmailController ( recorder, uploader, event_hub, chrome, letter_manager, $, tooltip, tooltip_top, transcription_manager, immediate_insert ) {
 
+		var transcription_time_start = 0;
+		var transcription_time_stop = 0;
+		
 		var state = {
 
 			recording_id: undefined,
@@ -64,6 +67,7 @@
 
 					state.recording = true;
 					state.recording_id = Date.now();
+					transcription_time_start = Date.now();
 
 				})
 				.catch( function ( error ) {
@@ -120,6 +124,7 @@
 				.then( function ( buffer ) {
 
 					var upload_buffer_function = immediate_insert ? uploader.upload_buffer_immediately : uploader.upload_buffer;
+					var upload_transcript_function = uploader.upload_transcript;
 
 					upload_buffer_function( buffer )
 					.then( function ( urls ) {
@@ -140,7 +145,15 @@
 								console.log( "uploaded:", urls.short );
 								$("#peppermint_mini_popup_player")[0].pause();
 
-								letter_manager.add_link( state.audio_urls, state.compose_button_id, transcript );
+								var duration = transcription_time_end - transcription_time_start;
+								
+								letter_manager.add_link( state.audio_urls, state.compose_button_id, transcript.text, duration );
+								
+								upload_transcript_function(transcript).then(function() {
+									console.log("Transcription Uploaded Successfully");
+								}, function () {
+									console.log("Transcription Upload Failed!");
+								});
 
 								state.compose_button_id = undefined;
 
@@ -185,6 +198,8 @@
 
 				state.transcript_promise = transcription_manager.finish();
 
+				transcription_time_end = Date.now();
+				
 				if ( blob ) {
 
 					state.recording = false;

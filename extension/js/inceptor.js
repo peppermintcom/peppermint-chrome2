@@ -57,7 +57,7 @@
 		function url ( url ) {
 			return chrome.extension.getURL( url );
 		};
-
+		
 		chrome.storage.local.get( null, function ( items ) {
 
 			insert_imports([
@@ -97,7 +97,7 @@
 					jQuery,
 					tooltip,
 					tooltip_top,
-					new TranscriptionManager( jQuery, window.navigator.language ),
+					new TranscriptionManager( jQuery, items["options_data"]["transcription_language"] ),
 					items["options_data"]["enable_immediate_insert"]
 				);
 

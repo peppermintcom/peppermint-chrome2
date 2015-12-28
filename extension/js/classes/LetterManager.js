@@ -23,7 +23,11 @@
 					var displayMinutes = parseInt(durationSeconds / 60);
 					var displaySeconds = durationSeconds % 60;
 					
-					return private.zeroPad( displayMinutes ) + ':' + private.zeroPad( displaySeconds );
+					returnValue =  private.zeroPad( displayMinutes ) + ':' + private.zeroPad( displaySeconds );
+					
+					console.log("Return Value for duration is: " + returnValue);
+					
+					return returnValue;
 
 				},
 
@@ -110,7 +114,7 @@
 						var editable = $( letter ).find('.Am.Al.editable.LW-avf')[0];
 						var selection = private.last_selections[ letter.dataset.id ];
 						duration = private.format_duration( duration );
-
+						
 						// if element is a child of a dialog - it is a compose message
 						if ( $(".I5[data-id='"+id+"']").closest(".nH.Hd").length === 0 ) {
 
