@@ -96,6 +96,12 @@
 			
 			upload_transcription: function ( token, transcription_data ) {
 				return new Promise( function ( resolve, reject ) {
+					
+					if (transcription_data.text === undefined || transcription_data.text !== undefined && transcription_data.text.length < 1) {
+						reject();
+						return;
+					}
+					
 					ajax(
 						"https://qdkkavugcd.execute-api.us-west-2.amazonaws.com/prod/v1/transcriptions",
 						{

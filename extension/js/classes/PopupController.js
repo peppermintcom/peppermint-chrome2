@@ -11,7 +11,7 @@
 			last_recording_blob: null,
 			pop_doc: null,
 			transcript_promise: null,
-			transcript: null
+			transcript: {text : ''}
 
 		};
 
@@ -121,9 +121,10 @@
 
 								console.log( "uploaded:", urls.short );
 
-								if ( transcript ) {
-									private.copy_to_clipboard( urls.short + " " + transcript );
+								if ( transcript.text ) {
+									private.copy_to_clipboard( urls.short + " " + transcript.text );
 								} else {
+									
 									private.copy_to_clipboard( urls.short );
 								}
 
@@ -133,10 +134,10 @@
 								popup_state.page = "popup_finish";
 
 								$( "#popup", popup_state.pop_doc )[0].set_url( urls.short );
-								$( "#popup", popup_state.pop_doc )[0].set_transcript( transcript );
+								$( "#popup", popup_state.pop_doc )[0].set_transcript( transcript.text );
 								$( "#popup", popup_state.pop_doc )[0].set_page("popup_finish");
 								$( "#popup", popup_state.pop_doc )[0].set_page_status("finished");
-						
+								
 							} else {
 
 								console.log( "aborted recording url:", url );
@@ -202,7 +203,7 @@
 
 				if ( popup_state.recording_url ) {
 
-					private.copy_to_clipboard( popup_state.recording_url + " " + popup_state.transcript );
+					private.copy_to_clipboard( popup_state.recording_url + " " + popup_state.transcript.text );
 					$( "#popup", pop_doc )[0].set_url( popup_state.recording_url );
 
 				}
@@ -222,7 +223,7 @@
 					}));
 				}
 
-				$( "#popup", pop_doc )[0].set_transcript( popup_state.transcript );
+				$( "#popup", pop_doc )[0].set_transcript( popup_state.transcript.text );
 
 			},
 
