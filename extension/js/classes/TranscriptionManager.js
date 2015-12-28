@@ -24,6 +24,7 @@
 			 */
 			onerror: function( event ) {
 				private.log( "Transcription Error", event.error );
+				private.is_final = true;
 			},
 
 			/**
@@ -86,9 +87,9 @@
 
 			confidence : 0.00,
 			
-			log: function ( text ) {
+			log: function () {
 
-				if ( private.debugging ) console.log( text );
+				if ( private.debugging ) console.trace( arguments );
 
 			}
 
@@ -122,7 +123,7 @@
 						if ( private.is_final ) {
 
 							clearInterval( interval );
-							resolve( {text : private.transcript, language : lang, confidence_estimate : private.confidence} );
+							resolve( { text : private.transcript, language : lang, confidence_estimate : private.confidence } );
 							private.transcript = '';
 
 						}

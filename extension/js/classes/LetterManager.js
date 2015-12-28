@@ -1,5 +1,5 @@
 
-	function LetterManager ( $, document, chrome ) {
+	function LetterManager ( $, document, chrome, sender_data ) {
 		
 		var private = {
 				
@@ -37,6 +37,8 @@
 					.replace( "{{audio}}", audioUrls.short )
                     .replace( /{{audio_player}}/g, audioUrls.long )
 					.replace( "{{TRANSCRIPT}}", transcript )
+					.replace( "{{SENDER_NAME}}", sender_data.sender_name )
+					.replace( "{{SENDER_EMAIL}}", sender_data.sender_email )
 					.replace( "{{duration}}", audioDurationDisplay );
 
 					if ( transcript ) {

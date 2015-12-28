@@ -88,7 +88,8 @@
 					$( "#transcription_header", element.shadowRoot ).show();
 
 				} else {
-				
+					
+					$( "#transcript", element.shadowRoot ).text( "" );
 					$( "#transcription_header", element.shadowRoot ).hide();
 
 				}

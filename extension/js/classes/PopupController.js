@@ -124,7 +124,6 @@
 								if ( transcript.text ) {
 									private.copy_to_clipboard( urls.short + " " + transcript.text );
 								} else {
-									
 									private.copy_to_clipboard( urls.short );
 								}
 
@@ -307,7 +306,7 @@
 
 					},
 
-					popup_cancel_click: function () {
+					popup_cancel_uploading_click: function () {
 
 						$( "#player", popup_state.pop_doc )[0].reset();
 						$( "#popup", popup_state.pop_doc )[0].set_page("popup_welcome");
