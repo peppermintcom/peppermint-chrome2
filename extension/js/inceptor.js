@@ -73,8 +73,8 @@
 				add_elements();
 
 				var sender_data = {
-					sender_name: $(".gb_ab.gb_ea .gb_jb").text(),
-					sender_email: $(".gb_ab.gb_ea .gb_kb").text()
+					sender_name: $(".gb_ab.gb_ea .gb_jb").text() || $(".gb_b.gb_2a.gb_R")[0].title.match( /\:([\s\S]+?)\(/ )[ 1 ].trim(),
+					sender_email: $(".gb_ab.gb_ea .gb_kb").text() || $(".gb_b.gb_2a.gb_R")[0].title.match( /\((.+?)\)/ )[ 1 ]
 				};
 
 				var event_hub = new EventHub();
