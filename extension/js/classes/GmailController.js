@@ -1,5 +1,5 @@
 
-	function GmailController ( recorder, uploader, event_hub, chrome, letter_manager, $, tooltip, tooltip_top, transcription_manager, immediate_insert ) {
+	function GmailController ( recorder, uploader, event_hub, chrome, letter_manager, $, tooltip, transcription_manager, immediate_insert ) {
 
 		var transcription_time_start = 0;
 		var transcription_time_stop = 0;
@@ -47,10 +47,6 @@
 			},
 
 			begin_recording: function () {
-
-				chrome.storage.local.set({ compose_button_has_been_used: true });
-				tooltip.stop();
-				$( tooltip ).hide();
 
 				recorder.start()
 				.then( function () {
@@ -237,7 +233,7 @@
 			"tooltip_close_button_click": function () {
 
 				tooltip.stop();
-				$( tooltip_top ).hide();
+				$( tooltip ).hide();
 				chrome.storage.local.set({ compose_button_has_been_used: true });
 
 			},
@@ -294,6 +290,10 @@
 
 				if ( !state.recording && !state.uploading ) {
 
+					chrome.storage.local.set({ compose_button_has_been_used: true });
+					tooltip.stop();
+					$( tooltip ).hide();
+
 					state.compose_button_id = data.id;
 
 					private.begin_recording();
@@ -327,8 +327,6 @@
 
 					tooltip.stick_to( "#peppermint_compose_button" );
 
-					$( tooltip_top ).show();
-					
 				}
 			
 			});
