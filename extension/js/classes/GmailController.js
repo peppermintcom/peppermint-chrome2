@@ -72,6 +72,8 @@
 				})
 				.catch( function ( error ) {
 
+					console.error( "Failed to begin recording", error );
+
 					if ( error.name === "PermissionDeniedError" ) {
 						
 						console.log("permission denied");

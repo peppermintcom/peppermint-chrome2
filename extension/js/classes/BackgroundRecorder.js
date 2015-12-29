@@ -14,7 +14,9 @@
 				.catch( function ( error ) {
 					callback({
 						started: false,
-						error: error
+						error: {
+							name: error.name
+						}
 					});
 				});
 
