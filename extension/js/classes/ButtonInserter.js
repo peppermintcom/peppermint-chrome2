@@ -64,17 +64,6 @@
 						}
 					});
 					
-					$(".a3s").each( function ( index, element ) {
-					   $("img[src*='player.png']", element )
-                        .each( function ( index, element) {
-                            if(!$(element).data('checked')){
-                                $(element).attr('data-checked','true');
-                                
-                                new AudioPlayer(jQuery).embed_with_replace(element);
-                            }
-                        });	
-					});
-					
 				}, 50 );
 			}
 

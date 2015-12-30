@@ -31,15 +31,16 @@
 
 				},
 
-				formatEmailMessage: function ( audioUrls, transcript, audioDurationDisplay, emailTemplate ) {
+				formatEmailMessage: function ( audioUrls, transcript, audioDurationDisplay, emailTemplate, recording_id ) {
 					
 					var emailMessage = emailTemplate
-					.replace( "{{audio}}", audioUrls.short )
+					.replace( "{{AUDIO_URL}}", audioUrls.short )
                     .replace( /{{audio_player}}/g, audioUrls.long )
 					.replace( "{{TRANSCRIPT}}", transcript )
 					.replace( "{{SENDER_NAME}}", sender_data.sender_name )
 					.replace( "{{SENDER_EMAIL}}", sender_data.sender_email )
-					.replace( "{{duration}}", audioDurationDisplay );
+					.replace( "{{RECORDING_ID}}", recording_id )
+					.replace( "{{DURATION}}", audioDurationDisplay );
 
 					if ( transcript ) {
 
@@ -108,7 +109,7 @@
 
 		var public = {
 
-				add_link: function ( urls, id, transcript, duration ) {
+				add_link: function ( urls, id, transcript, duration, recording_id ) {
 					 
 					try {
 						
@@ -122,12 +123,12 @@
 
 							if ( selection && editable.contains( selection.anchorNode ) ) {
 								private.html_before_selection( 
-									private.formatEmailMessage( urls, transcript, duration, private.reply_template ),
+									private.formatEmailMessage( urls, transcript, duration, private.reply_template, recording_id ),
 									selection
 								);
 							} else {
 								$( editable ).prepend(
-									private.formatEmailMessage( urls, transcript, duration, private.reply_template )
+									private.formatEmailMessage( urls, transcript, duration, private.reply_template, recording_id )
 								);
 							}
 
@@ -135,12 +136,12 @@
 
 							if ( selection && editable.contains( selection.anchorNode ) ) {
 								private.html_before_selection(
-									private.formatEmailMessage( urls, transcript, duration, private.compose_template ),
+									private.formatEmailMessage( urls, transcript, duration, private.compose_template, recording_id ),
 									selection
 								);
 							} else {
 								$( editable ).prepend(
-									private.formatEmailMessage( urls, transcript, duration, private.compose_template )
+									private.formatEmailMessage( urls, transcript, duration, private.compose_template, recording_id )
 								)
 							};
 
@@ -158,6 +159,11 @@
 
 					}
 
+				},
+
+				replace_mock_player: function ( urls, recording_id ) {
+					$( "#peppermint_template_" + recording_id + " .peppermint_mock_player" ).after( "<audio controls src = '{{URL}}' ></audio>".replace( "{{URL}}", urls.long ) );
+					$( "#peppermint_template_" + recording_id + " .peppermint_mock_player" ).addClass( "hidden" );
 				}
 
 		};

@@ -44,3 +44,12 @@
 		background: none;
 		
 	}
+
+	/* Do not displaye hidden mock players in letters */
+	.I5 audio {
+		display: block;
+	}
+
+	.I5 .peppermint_mock_player.hidden {
+		display: none;
+	}

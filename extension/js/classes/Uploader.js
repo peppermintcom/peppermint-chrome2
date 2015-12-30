@@ -166,8 +166,8 @@
 
 					})
 					.then( function ( ) {
-                        
-						resolve( { short: state.short_url, long: state.canonical_url } );
+                      
+						resolve({ short: state.short_url, long: state.canonical_url });
 
 					})
 					.catch( reject );
@@ -176,7 +176,7 @@
 
 			},
 			
-			upload_buffer_immediately: function ( buffer ) {
+			upload_buffer_immediately: function ( buffer, uploaded_callback ) {
 
 				return new Promise( function ( resolve, reject ) {
 
@@ -199,15 +199,14 @@
 						private.upload( urls.signed_url, buffer )
 						.then( function () {
 							console.log( "buffer uploaded" );
-                            
-                            new AudioPlayer(jQuery).embed_with_insert();
+                            uploaded_callback({ short: state.short_url, long: state.canonical_url });
 						});
 
 						g_state.urls_promise = g_state.token_promise.then( function ( token ) {
 							return private.token_to_urls( token, sender_data );
 						});
                         
-						resolve( { short: state.short_url, long: state.canonical_url } );
+						resolve({ short: state.short_url, long: state.canonical_url });
 
 					})
 					.catch( reject );
