@@ -12,6 +12,10 @@
 			chrome.extension.getBackgroundPage().popup_controller.init_popup_state( window.document );
 			chrome.extension.getBackgroundPage().popup_controller.register_handlers( window.document, event_hub );
 
+			chrome.storage.local.set({
+				"browser_action_popup_has_been_opened": true
+			})
+
 		} ( window, jQuery, chrome ) );
 
 	});

@@ -36,9 +36,9 @@
 	chrome.storage.local.set({
 		
 		compose_button_has_been_used: false,
-
 		browser_action_tooltip_has_been_shown: false,
-
+		browser_action_popup_has_been_opened: false,
+		
 		options_data: {
 		
 			disable_reply_button: false,

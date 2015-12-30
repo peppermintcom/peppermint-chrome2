@@ -68,7 +68,25 @@
 
 					if ( window.innerWidth > document.body.clientWidth ) {
 						tooltip.classList.add( "shifted_pointer" );
-					}
+					};
+
+					var interval = setInterval( function () {
+						chrome.storage.local.get( [ "browser_action_popup_has_been_opened" ], function ( items ) {
+							if ( items[ "browser_action_popup_has_been_opened" ] ) {
+								clearInterval( interval );
+								$( tooltip ).hide();
+							}
+						});
+					}, 100 );
+
+					chrome.runtime.onMessage.addListener( function listener ( message ) {
+
+						if ( message === "browser_action_popup_opened" ) {
+							$( tooltip ).hide();
+							chrome.runtime.onMessage.removeListener( listener );							
+						}
+
+					});
 
 					event_hub.add({
 
@@ -78,7 +96,7 @@
 
 						}
 
-					})
+					});
 
 				});
 
