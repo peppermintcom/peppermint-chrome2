@@ -63,6 +63,24 @@
 
 						}
 					});
+                    
+                    $(".a3s").each( function ( index, element ) {
+							$("a[href^='https://peppermint.com/reply']", element ).each( function ( index, element) {
+								var link = $(element);
+								
+								if ( link.attr('id') !== 'peppermintReply' ) {
+									
+									link.attr('id','peppermintReply');
+	
+									link.on( "click", function () {
+										event.preventDefault();
+										event_hub.fire( "peppermint_reply_button_click" );
+									})
+
+								};
+							})
+							
+						});
 					
 				}, 50 );
 			}
