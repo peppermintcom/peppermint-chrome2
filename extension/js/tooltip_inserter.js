@@ -66,6 +66,10 @@
 					var tooltip = new Tooltip( jQuery, id_to_template( "-tooltip-" ), $( "#peppermint_tooltip_top" )[0], url("/img"), event_hub );
 					$( tooltip ).show();
 
+					if ( window.innerWidth > document.body.clientWidth ) {
+						tooltip.classList.add( "shifted_pointer" );
+					}
+
 					event_hub.add({
 
 						"tooltip_close_button_click": function () {

@@ -9,15 +9,27 @@
 		}
 	});
 
-	// set up the open welcome page listener.
-	chrome.runtime.onMessage.addListener( function ( message ) {
-		console.log( message );
+	// set up the open welcome page listener. and get sender data
+	chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
+
 		if ( message === 'open_welcome_page' ) {
 		    chrome.tabs.create({
 		        url: chrome.extension.getURL("welcome_page/welcome.html"),
 		        active: true
 		    });
 		}
+
+		if ( message === 'get_sender_data' ) {
+			chrome.identity.getProfileUserInfo( function ( info ) {
+				callback({
+					sender_name: "",
+					sender_email: info.email
+				});
+			});
+		}
+
+		return true;
+
 	});
 
 	// set up storage defaults
@@ -39,15 +51,18 @@
 
 	//
 	( function set_up_popup_controller ( window, jQuery ) {
-
-		window.popup_controller = new PopupController(
-			new WebAudioRecorderWrap( window.navigator, WebAudioRecorder, AudioContext, "/js/lib/WebAudioRecorder/" ),
-			new Uploader( jQuery.ajax ),
-			jQuery,
-			new EventHub(),
-			new TranscriptionManager( jQuery, window.navigator.language )
-		);
-
+		chrome.identity.getProfileUserInfo( function ( info ) {
+			window.popup_controller = new PopupController(
+				new WebAudioRecorderWrap( window.navigator, WebAudioRecorder, AudioContext, "/js/lib/WebAudioRecorder/" ),
+				new Uploader( jQuery.ajax, {
+					sender_name: "",
+					sender_email: info.email
+				}),
+				jQuery,
+				new EventHub(),
+				new TranscriptionManager( jQuery, window.navigator.language )
+			);
+		});
 	} ( window, jQuery ) );
 
 	( function set_up_gmail_recorder ( chrome ) {

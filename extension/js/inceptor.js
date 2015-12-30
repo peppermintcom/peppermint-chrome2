@@ -70,25 +70,15 @@
 			])
 			.then( function () {
 				
-				chrome.identity.getProfileUserInfo( function ( info ) {
+				chrome.runtime.sendMessage( "get_sender_data", function ( sender_data ) {
 				
 					add_elements();
 
 					try {
 
-						var sender_data = {
-							sender_name: $(".gb_ab.gb_ea .gb_jb").text() || $(".gb_b.gb_2a.gb_R")[0].title.match( /\:([\s\S]+?)\(/ )[ 1 ].trim(),
-							sender_email: $(".gb_ab.gb_ea .gb_kb").text() || $(".gb_b.gb_2a.gb_R")[0].title.match( /\((.+?)\)/ )[ 1 ]
-						};
+						sender_data.sender_name = $(".gb_ab.gb_ea .gb_jb").text() || $(".gb_b.gb_2a.gb_R")[0].title.match( /\:([\s\S]+?)\(/ )[ 1 ].trim(),
 						
-					} catch ( e ) {
-
-						var sender_data = {
-							sender_name: "",
-							sender_email: info.email
-						};
-					
-					}
+					} catch ( e ) {}
 
 					var event_hub = new EventHub();
 
