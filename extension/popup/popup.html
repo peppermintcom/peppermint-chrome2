@@ -7,40 +7,43 @@
 		<meta charset="utf-8">
 		<title>Peppermint</title>
 
-		<link href="popup.css" rel="stylesheet" type="text/css">
-		<script src = '../gmail_content/js/lib/jquery.min.js' ></script>
-
-		<link
-			rel = 'import'
-			id = 'v-player-import' 
-			href = '../gmail_content/v-elements/v-player/v-player.html'
-		>
-		<link
-			rel = 'import'
-			id = 'v-popup-import' 
-			href = '../gmail_content/v-elements/v-popup/v-popup.html'
-		>
-		<link
-			rel = 'import'
-			id = 'v-player-import' 
-			href = '../gmail_content/v-elements/v-player/v-player.html'
-		>
-		<link
-			rel = 'import'
-			id = 'v-timer-import' 
-			href = '../gmail_content/v-elements/v-timer/v-timer.html'
-		>
-
 	</head>
 
 	<body>
 	
-		<v-popup id = "popup" >
-			<v-player id = 'player' ></v-player>
-			<v-timer id = 'timer' ></v-timer>
-		</v-popup>
+		<div id = "popup" >
+			<div class = 'player'	id = 'player'	></div>
+			<div class = 'timer'	id = 'timer'	></div>
+		</div>
 
-		<script src="popup.js" ></script>
+		<link
+			rel = 'import'
+			id = 'v-player-import' 
+			href = "/templates/player.html"
+		>
+		<link
+			rel = 'import'
+			id = 'v-popup-import' 
+			href = "/templates/popup.html"
+		>
+		<link
+			rel = 'import'
+			id = 'v-timer-import' 
+			href = "/templates/timer.html"
+		>
+
+		<link href="popup.css" rel="stylesheet" type="text/css">
+
+		<script src =	"/js/lib/jQuery/jquery-2.1.4.min.js"		></script>
+		<script src =	"/js/shims.js"								></script>
+		
+		<script src =	"/js/elements/Popup.js"						></script>
+		<script src =	"/js/elements/Timer.js"						></script>
+		<script src =	"/js/elements/Player.js"					></script>
+
+		<script src =	"/js/classes/EventHub.js"					></script>
+
+		<script src =	"popup.js"									></script>
 
 	</body>
 

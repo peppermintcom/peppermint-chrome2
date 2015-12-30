@@ -1,104 +1,56 @@
 
-	OptionsData = function ( $ ) {
-		
-		var obj = {
-			
-		};
-		
-		$( document ).on( "disable_reply_button_change", function ( event ) {
-
-			var data = event.originalEvent.detail;
-			obj.reply_button_disabled = data.checked;
-
-			document.dispatchEvent( new CustomEvent( "options_data_change", {
-				detail: {
-					options_data: obj
-				}
-			}));
-
-		});
-
-	};
-
-	function PageManager ( $ ) {
-		
-		$("#disable_reply_button").change( function ( event ) {
-
-			document.dispatchEvent( new CustomEvent( "disable_reply_button_change", {
-				detail: {
-					checked: event.target.checked		
-				}
-			}));
-
-		});
-		
-		return {
-			
-			set_options_data: function ( data ) {
-				
-				if ( data.reply_button_disabled !== undefined ) $("#disable_reply_button").prop( "checked", data.reply_button_disabled );
-				
-			}
-			
-		};
-		
-	}
-	
-	StorageManager = function ( chrome ) {
-		
-		return {
-			
-			"set": function ( obj_to_save ) {
-				
-				chrome.storage.local.set( obj_to_save );
-				
-			},
-			
-			"get": function ( callback ) {
-				chrome.storage.local.get( null, callback );
-			}
-			
-		};
-		
-	};
-
 	( function ( $, chrome ) {
 		
-		var obj = {
+		chrome.storage.local.get( null, function ( items ) {
 			
+			var browser_language = window.navigator.language;
+			var extension_transcription_language = null;
 			
-		};
-		
-		obj.page_manager = new PageManager( $pmjQuery );
-		obj.storage_manager = new StorageManager( chrome );
-		obj.options_data = new OptionsData( $pmjQuery );
-		
-		$( document ).ready( function () {
-			obj.storage_manager.get( function ( items ) {
-				if ( items.options_data !== undefined ) {
-					obj.page_manager.set_options_data(
-						items.options_data
-					);
-				}
-			});
-		});
+			console.log( "extension transcription enable_immediate_insert: " + items["options_data"]["enable_immediate_insert"] );
+			console.log( "extension transcription disable_reply_button: " + items["options_data"]["disable_reply_button"] );
+			
+			console.log( "browser language: " + browser_language);
+			console.log( "extension transcription langauge: " + items["options_data"]["transcription_language"] );
 
-		$( document ).on( "options_data_change", function ( event ) {
-
-			var data = event.originalEvent.detail;
-
-			obj.storage_manager.set({
-				"options_data": data.options_data
-			});
+			$("#ennable_immediate_insert")[0].checked = items["options_data"]["enable_immediate_insert"];
+			$("#disable_reply_button")[0].checked = items["options_data"]["disable_reply_button"];
+			
+			extension_transcription_language = (("transcription_language" in items["options_data"]))? items["options_data"]["transcription_language"] : browser_language;
+			$('#transcription_language').val(extension_transcription_language);
 
 		});
 
-	} ( $pmjQuery, chrome ) );
-	
-	
-	
-	
-	
-	
-	
-	
+		$("#disable_reply_button").change( function ( event ) {
+
+			chrome.storage.local.get( null, function ( items ) {
+
+				items.options_data.disable_reply_button = event.target.checked;
+				chrome.storage.local.set({ options_data: items.options_data });
+			
+			});
+
+		});
+		
+		$("#ennable_immediate_insert").change( function ( event ) {
+
+			chrome.storage.local.get( null, function ( items ) {
+				
+				items.options_data.enable_immediate_insert = event.target.checked;
+				chrome.storage.local.set({ options_data: items.options_data });
+			
+			});
+
+		});
+		
+		$('#transcription_language').change(function ( event ) {
+
+			chrome.storage.local.get( null, function ( items ) {
+				
+				items.options_data.transcription_language = event.target.options[event.target.selectedIndex].value;
+				chrome.storage.local.set({ options_data: items.options_data });
+			
+			});
+
+		});
+
+	} ( jQuery, chrome ) );

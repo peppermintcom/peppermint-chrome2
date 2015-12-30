@@ -1,4 +1,4 @@
-
+	
 	body {
 
 		margin: 0px;
@@ -6,6 +6,8 @@
 	}
 
 	#popup {
+
+		position: static;
 
 	    border: none;
 	    box-shadow: none;

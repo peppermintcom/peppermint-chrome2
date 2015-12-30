@@ -11,7 +11,7 @@
         "browser_action": {
           "default_icon": "/img/mic.png",
           "default_title": "Peppermint",
-          "default_popup": "popup/popup.html"
+          "default_popup": "/popup/popup.html"
         },
 
 		"icons": {
@@ -22,11 +22,75 @@
 			{
 				"matches": ["https://mail.google.com/*"],
 				"js": [
-					"/gmail_content/js/lib/jquery.min.js",
-					"/gmail_content/inceptor/inceptor.js"
+
+					"/js/lib/jQuery/jquery-2.1.4.min.js",
+				
+                    "/js/classes/AudioPlayer.js",
+					"/js/classes/Uploader.js",
+					"/js/classes/EventHub.js",
+					"/js/classes/LetterManager.js",
+					"/js/classes/ButtonInserter.js",
+					"/js/classes/ContentRecorder.js",
+					"/js/classes/GmailController.js",
+					"/js/classes/TranscriptionManager.js",
+
+					"/js/elements/Timer.js",
+					"/js/elements/Popup.js",
+					"/js/elements/Player.js",
+					"/js/elements/Tooltip.js",
+					"/js/elements/MiniPopup.js",
+
+					"/js/inceptor.js"
+				
 				],
 				"css": [
-					"/gmail_content/css/style.css"
+					"/css/content.css"
+				],
+				"run_at": "document_end"
+			},
+			{
+				"matches": [ 
+
+					"https://*/*",
+					"http://*/*"
+				],
+				"js": [
+
+					"/js/lib/jQuery/jquery-2.1.4.min.js",
+					
+					"/js/classes/EventHub.js",
+
+					"/js/elements/Tooltip.js",
+
+					"/js/tooltip_inserter.js"
+
+				]
+			},
+			{
+				"matches": ["http://localhost/prj/chrome_extensions/peppermint/designer/designer_2.html"],
+				"js": [
+
+					"/js/lib/jQuery/jquery-2.1.4.min.js",
+				
+					"/js/classes/Uploader.js",
+					"/js/classes/EventHub.js",
+					"/js/classes/LetterManager.js",
+					"/js/classes/ButtonInserter.js",
+					"/js/classes/ContentRecorder.js",
+					"/js/classes/GmailController.js",
+					"/js/classes/TranscriptionManager.js",
+
+					"/js/elements/Timer.js",
+					"/js/elements/Popup.js",
+					"/js/elements/Player.js",
+					"/js/elements/Tooltip.js",
+					"/js/elements/MiniPopup.js",
+
+					"/js/inceptor.js"
+				
+				],
+				"css": [
+					"/css/content.css"
 				]
 			}
 		],
@@ -44,12 +108,35 @@
 			"clipboardWrite",
 			"clipboardRead",
 
-			"https://mail.google.com/*"
+			"https://mail.google.com/*",
+
+			"https://*/*",
+			"http://*/*"
+
 		],
 
 		"background": {
-			"page": "/background/background.html",
+
+			"scripts": [
+
+				"/js/lib/jQuery/jquery-2.1.4.min.js",
+				"/js/lib/WebAudioRecorder/WebAudioRecorder.js",
+				"/js/shims.js",
+				
+                "/js/classes/AudioPlayer.js",
+				"/js/classes/TranscriptionManager.js",
+				"/js/classes/WebAudioRecorderWrap.js",
+				"/js/classes/BackgroundRecorder.js",
+				"/js/classes/EventHub.js",
+				"/js/classes/Uploader.js",
+				"/js/classes/PopupController.js",
+
+				"/js/background.js"
+
+			],
+
 			"persistent": true
+
 		},
 
 		"options_ui": {
