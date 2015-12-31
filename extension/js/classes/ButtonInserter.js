@@ -83,6 +83,28 @@
 						});
 					
 				}, 50 );
+			},
+
+			replace_moock_player: function () {
+
+				setInterval( function () {
+
+					var player = $( ".a3s div[name='peppermint_mock_player']" )[0];
+
+					if ( player ) {
+
+						player.setAttribute( "name", "" );
+					
+						player.style.display = "none";
+						$( player ).after(
+							"<audio controls src = '{{LONG_URL}}' ></audio>"
+							.replace( "{{LONG_URL}}", player.querySelector( "a[alt='hidden_long_url']" ).href )
+						);
+
+					}
+
+				}, 50 )
+
 			}
 
 		};
@@ -100,6 +122,7 @@
 
 			private.insert_compose_button();
 			private.insert_dwopdown_button();
+			private.replace_moock_player();
 			if ( insert_reply_button ) private.insert_reply_button();
 
 		} () );

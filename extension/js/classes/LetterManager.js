@@ -34,8 +34,8 @@
 				formatEmailMessage: function ( audioUrls, transcript, audioDurationDisplay, emailTemplate, recording_id ) {
 					
 					var emailMessage = emailTemplate
-					.replace( "{{AUDIO_URL}}", audioUrls.short )
-                    .replace( /{{audio_player}}/g, audioUrls.long )
+					.replace( "{{SHORT_URL}}", audioUrls.short )
+                    .replace( "{{LONG_URL}}", audioUrls.long )
 					.replace( "{{TRANSCRIPT}}", transcript )
 					.replace( "{{SENDER_NAME}}", sender_data.sender_name )
 					.replace( "{{SENDER_EMAIL}}", sender_data.sender_email )
