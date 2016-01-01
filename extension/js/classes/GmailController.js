@@ -124,13 +124,7 @@
 					var upload_buffer_function = immediate_insert ? uploader.upload_buffer_immediately : uploader.upload_buffer;
 					var upload_transcript_function = uploader.upload_transcript;
 
-					function handle_buffer_upload ( urls ) {
-
-						letter_manager.replace_mock_player( urls, state.recording_id );
-
-					};
-
-					upload_buffer_function( buffer, handle_buffer_upload )
+					upload_buffer_function( buffer )
 					.then( function ( urls ) {
 
 						state.transcript_promise
@@ -138,6 +132,7 @@
 
 							if ( state.recording_id === recording_id ) {
 
+								urls.object_url = URL.createObjectURL( blob );
 								state.audio_urls = urls;
 
 								$("#peppermint_mini_popup").hide();
@@ -152,10 +147,6 @@
 								var duration = transcription_time_end - transcription_time_start;
 								
 								letter_manager.add_link( state.audio_urls, state.compose_button_id, transcript.text, duration, state.recording_id );
-
-								if ( ! immediate_insert ) {
-									handle_buffer_upload( urls, state.recording_id );
-								};
 								
 								upload_transcript_function(transcript).then(function() {
 									console.log("Transcription Uploaded Successfully");

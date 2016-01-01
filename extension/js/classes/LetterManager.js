@@ -36,6 +36,7 @@
 					var emailMessage = emailTemplate
 					.replace( "{{SHORT_URL}}", audioUrls.short )
                     .replace( "{{LONG_URL}}", audioUrls.long )
+                    .replace( "{{OBJECT_URL}}", audioUrls.object_url )
 					.replace( "{{TRANSCRIPT}}", transcript )
 					.replace( "{{SENDER_NAME}}", sender_data.sender_name )
 					.replace( "{{SENDER_EMAIL}}", sender_data.sender_email )
@@ -159,11 +160,6 @@
 
 					}
 
-				},
-
-				replace_mock_player: function ( urls, recording_id ) {
-					$( "#peppermint_template_" + recording_id + " .peppermint_mock_player" ).after( "<audio controls src = '{{URL}}' ></audio>".replace( "{{URL}}", urls.long ) );
-					$( "#peppermint_template_" + recording_id + " .peppermint_mock_player" ).addClass( "hidden" );
 				}
 
 		};
