@@ -98,7 +98,7 @@
 				return new Promise( function ( resolve, reject ) {
 					
 					if (transcription_data.text === undefined || transcription_data.text !== undefined && transcription_data.text.length < 1) {
-						reject();
+                        reject("no data found for transcription"); 				
 						return;
 					}
 					
@@ -229,17 +229,22 @@
 
 					})
 					.then( function ( urls ) {
+                        
 						transcription_data.audio_url = urls.canonical_url;
+                        
 						private.upload_transcription(state.token, transcription_data)
 						.then( function (upload_response) {
 							console.log( "transcription uploaded: " +  JSON.stringify(upload_response));
-						});
+						}, function( error_message ){
+                            if(error_message)
+                                console.log(error_message);
+                            else
+                                console.log("transcript failed to upload");
+                        });
                         
 						resolve();
 
 					})
-					.catch( reject );
-
 				});
 			}
 		};
