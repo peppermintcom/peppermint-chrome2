@@ -137,11 +137,11 @@
 								$( "#popup", popup_state.pop_doc )[0].set_page("popup_finish");
 								$( "#popup", popup_state.pop_doc )[0].set_page_status("finished");
 								
-								// uploader.upload_transcript( transcript ).then(function() {
-								// 	console.log("Transcription Uploaded Successfully");
-								// }, function () {
-								// 	console.log("Transcription Upload Failed!");
-								// });
+								uploader.upload_transcript( transcript ).then(function() {
+									console.log("Transcription Uploaded Successfully");
+									}, function () {
+									console.log("Transcription Upload Failed!");
+								});
 								
 							} else {
 
