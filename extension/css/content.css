@@ -50,6 +50,10 @@
 		display: block;
 	}
 
+	.a3s audio {
+		display: block;
+	}
+
 	.peppermint_mock_player.hidden {
 		display: none;
 	}
