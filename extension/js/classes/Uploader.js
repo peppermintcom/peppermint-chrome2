@@ -61,7 +61,9 @@
 								resolve( response.at );
 							},
 							error: function () {
-								reject();
+								setTimeout( function () {
+									private.get_token().then( resolve );
+								}, 1000 );
 							}
 						}
 					);
@@ -149,19 +151,15 @@
 
 						state.token = token;
 
-						return g_state.urls_promise;
+						return private.token_to_urls( token, sender_data );
 
 					})
 					.then( function ( urls ) {
 
 						state.signed_url = urls.signed_url;
 						state.short_url = urls.short_url;
-                        state.canonical_url = urls.canonical_url;
-                        
-						g_state.urls_promise = g_state.token_promise.then( function ( token ) {
-							return private.token_to_urls( token, sender_data );
-						});
-
+						state.canonical_url = urls.canonical_url;
+						
 						return private.upload( urls.signed_url, buffer );
 
 					})
@@ -170,7 +168,11 @@
 						resolve({ short: state.short_url, long: state.canonical_url });
 
 					})
-					.catch( reject );
+					.catch( function () {
+
+						reject();
+
+					});
 
 				});
 
@@ -208,7 +210,9 @@
 						resolve({ short: state.short_url, long: state.canonical_url });
 
 					})
-					.catch( reject );
+					.catch( function () {
+						reject();
+					});
 
 				});
 
