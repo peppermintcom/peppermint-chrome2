@@ -89,7 +89,7 @@
 
 				setInterval( function () {
 
-					var player = $( ".a3s div[name='peppermint_mock_player']" )[0];
+					var player = $( ".a3s table[name='peppermint_mock_player']" )[0];
 
 					if ( player ) {
 
