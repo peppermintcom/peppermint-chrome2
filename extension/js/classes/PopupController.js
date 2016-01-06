@@ -111,11 +111,11 @@
 				recorder.blob_to_buffer( blob )
 				.then( function ( buffer ) {
 
-					uploader.upload_buffer( buffer )
-					.then( function ( urls ) {
+				popup_state.transcript_promise
+				.then( function ( transcript ) {
 
-						popup_state.transcript_promise
-						.then( function ( transcript ) {
+					uploader.upload_buffer( buffer, transcript )
+					.then( function ( urls ) {
 
 							if ( current_recording_thread_id === popup_state.recording_thread_id ) {
 

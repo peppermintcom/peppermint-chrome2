@@ -122,50 +122,43 @@
 				.then( function ( buffer ) {
 
 					var upload_buffer_function = immediate_insert ? uploader.upload_buffer_immediately : uploader.upload_buffer;
-					var upload_transcript_function = uploader.upload_transcript;
 
-					upload_buffer_function( buffer )
-					.then( function ( urls ) {
+					state.transcript_promise
+					.then( function ( transcript ) {
 
-						state.transcript_promise
-						.then( function ( transcript ) {
+						upload_buffer_function( buffer, transcript )
+						.then( function ( urls ) {
 
-							if ( state.recording_id === recording_id ) {
+								if ( state.recording_id === recording_id ) {
 
-								urls.object_url = URL.createObjectURL( blob );
-								state.audio_urls = urls;
+									urls.object_url = URL.createObjectURL( blob );
+									state.audio_urls = urls;
 
-								$("#peppermint_mini_popup").hide();
+									$("#peppermint_mini_popup").hide();
 
-								$( document ).one( "click", function () {
-									private.copy_to_clipboard( urls.short );
-								});
+									$( document ).one( "click", function () {
+										private.copy_to_clipboard( urls.short );
+									});
 
-								console.log( "uploaded:", urls.short );
-								$("#peppermint_mini_popup_player")[0].pause();
+									console.log( "uploaded:", urls.short );
+									$("#peppermint_mini_popup_player")[0].pause();
 
-								var duration = transcription_time_end - transcription_time_start;
-								
-								letter_manager.add_link( state.audio_urls, state.compose_button_id, transcript.text, duration, state.recording_id );
-								
-								upload_transcript_function(transcript).then(function() {
-									console.log("Transcription Uploaded Successfully");
-								}, function () {
-									console.log("Transcription Upload Failed!");
-								});
+									var duration = transcription_time_end - transcription_time_start;
+									
+									letter_manager.add_link( state.audio_urls, state.compose_button_id, transcript.text, duration, state.recording_id );
+									
+									state.compose_button_id = undefined;
 
-								state.compose_button_id = undefined;
+								} else {
 
-							} else {
+									console.log( "aborted recording url:", urls.short );
 
-								console.log( "aborted recording url:", urls.short );
+								}
 
-							}
-							
-						})
-
+						});
+						
 					})
-					.catch( function ( err ) {
+				.catch( function ( err ) {
 
 						console.error( err );
 						$("#peppermint_mini_popup")[0].set_state("uploading_failed");

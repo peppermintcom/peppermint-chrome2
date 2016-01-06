@@ -6,7 +6,7 @@
 		"name": "Peppermint",
 		"short_name" : "Peppermint",
 		"description": "Peppermint allows users to send and reply to gmail messages using voice. It also includes automatic transcription.",
-		"version": "1.2.0",
+		"version": "1.2.1",
 
         "browser_action": {
           "default_icon": "/img/mic.png",

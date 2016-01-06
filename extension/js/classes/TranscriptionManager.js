@@ -128,7 +128,7 @@
 						if ( private.is_final || private.error === true || private.ended === true ) {
 
 							clearInterval( interval );
-							resolve( { text : private.transcript, language : lang, confidence_estimate : private.confidence } );
+							resolve({ text: private.transcript, language: lang, confidence_estimate: private.confidence });
 							private.transcript = '';
 
 						}

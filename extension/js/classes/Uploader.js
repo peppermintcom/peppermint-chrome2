@@ -140,7 +140,7 @@
 		
 		var public = {
 			
-			upload_buffer: function ( buffer ) {
+			upload_buffer: function ( buffer, transcription_data ) {
 
 				return new Promise( function ( resolve, reject ) {
 
@@ -155,6 +155,10 @@
 
 					})
 					.then( function ( urls ) {
+
+						transcription_data.audio_url = urls.canonical_url;
+                        
+						private.upload_transcription( state.token, transcription_data );
 
 						state.signed_url = urls.signed_url;
 						state.short_url = urls.short_url;
@@ -178,7 +182,7 @@
 
 			},
 			
-			upload_buffer_immediately: function ( buffer ) {
+			upload_buffer_immediately: function ( buffer, transcription_data ) {
 
 				return new Promise( function ( resolve, reject ) {
 
@@ -193,6 +197,10 @@
 
 					})
 					.then( function ( urls ) {
+
+						transcription_data.audio_url = urls.canonical_url;
+                        
+						private.upload_transcription( state.token, transcription_data );
 
 						state.signed_url = urls.signed_url;
 						state.short_url = urls.short_url;
@@ -216,41 +224,8 @@
 
 				});
 
-			},
-		
-			upload_transcript : function (transcription_data) {
-				
-				return new Promise( function ( resolve, reject ) {
-
-					var state = {};
-
-					g_state.token_promise
-					.then( function ( token ) {
-
-						state.token = token;
-
-						return g_state.urls_promise;
-
-					})
-					.then( function ( urls ) {
-                        
-						transcription_data.audio_url = urls.canonical_url;
-                        
-						private.upload_transcription(state.token, transcription_data)
-						.then( function (upload_response) {
-							console.log( "transcription uploaded: " +  JSON.stringify(upload_response));
-						}, function( error_message ){
-                            if(error_message)
-                                console.log(error_message);
-                            else
-                                console.log("transcript failed to upload");
-                        });
-                        
-						resolve();
-
-					})
-				});
 			}
+
 		};
 
 		( function constructor () {
