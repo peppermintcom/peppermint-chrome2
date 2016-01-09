@@ -8,6 +8,13 @@
 		    });
 		}
 	});
+    
+    // reload all instanes of Gmail
+    chrome.tabs.query({ url: "https://mail.google.com/*"}, function ( tabs ) {
+    	tabs.forEach( function ( tab ) {
+    		chrome.tabs.reload( tab.id );
+    	});
+    });
 
 	// set up the open welcome page listener. and get sender data
 	chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
