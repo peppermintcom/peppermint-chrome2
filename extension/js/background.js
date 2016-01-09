@@ -9,11 +9,6 @@
 		}
 	});
 
-    chrome.tabs.create({
-        url: chrome.extension.getURL("welcome_page/welcome.html"),
-        active: true
-    });
-
 	// set up the open welcome page listener. and get sender data
 	chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
 
