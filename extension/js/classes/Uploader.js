@@ -134,6 +134,32 @@
 				return new Promise( function ( resolve, reject ) {
 					lib.upload( signed_url, buffer, resolve, reject );
 				});
+			},
+			
+			upload_until_success: function ( signed_url, buffer ) {
+				return new Promise( function ( resolve, reject ) {
+					lib.upload( signed_url, buffer, resolve, function () {
+						console.log( "failed to upload buffer" );
+						setTimeout( function () {
+							private.upload_until_success( signed_url, buffer ).then( resolve );
+						}, 1000 );
+					});
+				});
+			},
+
+			token_to_urls_promise: function ( token, sender_data ) {
+				return new Promise( function ( resolve, reject ) {
+					private.token_to_urls( token, sender_data )
+					.then( function( urls ) {
+						resolve( urls );
+					})
+					.catch( function () {
+						console.log( "failed to get urls" );
+						setTimeout( function () {
+							private.token_to_urls_promise( token, sender_data ).then( resolve );
+						}, 1000 );
+					});
+				});
 			}
 
 		};
@@ -206,13 +232,14 @@
 						state.short_url = urls.short_url;
                         state.canonical_url = urls.canonical_url;
 
-						private.upload( urls.signed_url, buffer )
+						private.upload_until_success( urls.signed_url, buffer )
 						.then( function () {
 							console.log( "buffer uploaded" );
 						});
 
 						g_state.urls_promise = g_state.token_promise.then( function ( token ) {
-							return private.token_to_urls( token, sender_data );
+							g_state.urls_promise = private.token_to_urls_promise( token, sender_data );
+							return private.token_to_urls_promise( token, sender_data );
 						});
                         
 						resolve({ short: state.short_url, long: state.canonical_url });
@@ -231,8 +258,10 @@
 		( function constructor () {
 
 			g_state.token_promise = private.get_token();
+			
 			g_state.urls_promise = g_state.token_promise.then( function ( token ) {
-				return private.token_to_urls( token, sender_data );
+				g_state.urls_promise = private.token_to_urls_promise( token, sender_data );
+				return private.token_to_urls_promise( token, sender_data );
 			});
 
 		} () )

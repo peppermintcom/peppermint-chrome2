@@ -113,6 +113,8 @@
 				recorder.blob_to_buffer( data.blob )
 				.then( function ( buffer ) {
 
+					data.buffer = buffer;
+
 					var upload_buffer_function = immediate_insert ? uploader.upload_buffer_immediately : uploader.upload_buffer;
 
 					return upload_buffer_function( buffer, data.transcription_data );
