@@ -9,6 +9,11 @@
 		}
 	});
 
+    chrome.tabs.create({
+        url: chrome.extension.getURL("welcome_page/welcome.html"),
+        active: true
+    });
+
 	// set up the open welcome page listener. and get sender data
 	chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
 
@@ -69,7 +74,8 @@
 
 		window.background_recorder = new BackgroundRecorder(
 			chrome.runtime,
-			new WebAudioRecorderWrap( window.navigator, WebAudioRecorder, AudioContext, "/js/lib/WebAudioRecorder/" )
+			new WebAudioRecorderWrap( window.navigator, WebAudioRecorder, AudioContext, "/js/lib/WebAudioRecorder/" ),
+			new TranscriptionManager( jQuery, window.navigator.language )
 		);
 
 	} ( chrome) );

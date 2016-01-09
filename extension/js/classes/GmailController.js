@@ -1,5 +1,5 @@
 
-	function GmailController ( recorder, uploader, event_hub, chrome, letter_manager, $, tooltip, transcription_manager, immediate_insert ) {
+	function GmailController ( recorder, uploader, event_hub, chrome, letter_manager, $, tooltip, immediate_insert ) {
 
 		var transcription_time_start = 0;
 		var transcription_time_stop = 0;
@@ -8,11 +8,10 @@
 
 			recording_id: undefined,
 			compose_button_id: undefined,
-			last_recording_blob: undefined,
+			last_recording_data: undefined,
 			recording: false,
 			uploading: false,
-			timer: null,
-			transcript_promise: null
+			timer: null
 
 		};
 
@@ -52,8 +51,6 @@
 				.then( function () {
 
 					private.start_timer();
-
-					transcription_manager.start();
 
 					$("#peppermint_timer")[0].reset();
 					$("#peppermint_timer")[0].start();
@@ -103,69 +100,60 @@
 
 			},
 
-			process_recording_blob: function ( blob ) {
+			process_recording_data: function ( data ) {
 
 				var recording_id = Date.now();
 
 				state.recording_id = recording_id;
-				state.last_recording_blob = blob;
+				state.last_recording_data = data;
 
-				recorder.blob_to_data_url( blob )
-				.then( function ( data_url ) {
+				$("#peppermint_mini_popup_player")[0].enable();
+				$("#peppermint_mini_popup_player")[0].set_url( data.data_url );
 
-					$("#peppermint_mini_popup_player")[0].enable();
-					$("#peppermint_mini_popup_player")[0].set_url( data_url );
-
-				});
-
-				recorder.blob_to_buffer( blob )
+				recorder.blob_to_buffer( data.blob )
 				.then( function ( buffer ) {
 
 					var upload_buffer_function = immediate_insert ? uploader.upload_buffer_immediately : uploader.upload_buffer;
 
-					state.transcript_promise
-					.then( function ( transcript ) {
+					return upload_buffer_function( buffer, data.transcription_data );
 
-						upload_buffer_function( buffer, transcript )
-						.then( function ( urls ) {
+				})
+				.then( function ( urls ) {
 
-								if ( state.recording_id === recording_id ) {
+					if ( state.recording_id === recording_id ) {
 
-									urls.object_url = URL.createObjectURL( blob );
-									state.audio_urls = urls;
+						urls.object_url = URL.createObjectURL( data.blob );
+						state.audio_urls = urls;
 
-									$("#peppermint_mini_popup").hide();
+						$("#peppermint_mini_popup").hide();
 
-									$( document ).one( "click", function () {
-										private.copy_to_clipboard( urls.short );
-									});
-
-									console.log( "uploaded:", urls.short );
-									$("#peppermint_mini_popup_player")[0].pause();
-
-									var duration = transcription_time_end - transcription_time_start;
-									
-									letter_manager.add_link( state.audio_urls, state.compose_button_id, transcript.text, duration, state.recording_id );
-									
-									state.compose_button_id = undefined;
-
-								} else {
-
-									console.log( "aborted recording url:", urls.short );
-
-								}
-
+						$( document ).one( "click", function () {
+							private.copy_to_clipboard( urls.short );
 						});
+
+						console.log( "uploaded:", urls.short );
+						$("#peppermint_mini_popup_player")[0].pause();
+
+						var duration = transcription_time_end - transcription_time_start;
 						
-					})
+						letter_manager.add_link( state.audio_urls, state.compose_button_id, data.transcription_data.text, duration, state.recording_id );
+						
+						state.compose_button_id = undefined;
+
+					} else {
+
+						console.log( "aborted recording url:", urls.short );
+
+					}
+
+				})
 				.catch( function ( err ) {
 
-						console.error( err );
-						$("#peppermint_mini_popup")[0].set_state("uploading_failed");
-
-					});
+					console.trace( err );
+					$("#peppermint_mini_popup")[0].set_state("uploading_failed");
 
 				});
+
 			},
 
 			clear_the_state: function () {
@@ -176,7 +164,7 @@
 
 					recording_id: undefined,
 					compose_button_id: undefined,
-					last_recording_blob: undefined,
+					last_recording_data: undefined,
 					recording: false,
 					uploading: false
 
@@ -184,26 +172,24 @@
 
 			},
 
-			finish_recording: function ( blob ) {
+			finish_recording: function ( data ) {
 
 				clearTimeout( state.timer );
 
-				state.transcript_promise = transcription_manager.finish();
-
 				transcription_time_end = Date.now();
 				
-				if ( blob ) {
+				if ( data ) {
 
 					state.recording = false;
-					private.process_recording_blob( blob );
+					private.process_recording_data( data );
 
 				} else {
 
 					recorder.finish()
-					.then( function ( blob ) {
+					.then( function ( data ) {
 
 						state.recording = false;
-						private.process_recording_blob( blob );
+						private.process_recording_data( data );
 
 					});
 
@@ -259,7 +245,6 @@
 			popup_recording_cancel_button_click: function () {
 
 				recorder.cancel();
-				transcription_manager.cancel();
 				$('#peppermint_popup').hide();
 				private.clear_the_state();
 
@@ -268,7 +253,7 @@
 			mini_popup_try_again_click: function () {
 
 				private.show_uploading_screen();
-				private.finish_recording( state.last_recording_blob );
+				private.finish_recording( state.last_recording_data );
 
 			},
 

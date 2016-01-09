@@ -1,15 +1,15 @@
 
-	function BackgroundRecorder ( runtime, web_audio_recorder_wrap ) {
+	function BackgroundRecorder ( runtime, web_audio_recorder_wrap, transcription_manager ) {
 
 		var private = {
 
 			start: function ( callback ) {
-
 				web_audio_recorder_wrap.start()
 				.then( function () {
 					callback({
 						started: true
 					});
+					transcription_manager.start();
 				})
 				.catch( function ( error ) {
 					callback({
@@ -36,13 +36,23 @@
 
 			cancel: function () {
 				web_audio_recorder_wrap.cancel();
+				transcription_manager.cancel();
 			},
 
 			finish: function ( callback ) {
 
 				web_audio_recorder_wrap.finish()
 				.then( private.blob_to_data_url )
-				.then( callback );
+				.then( function ( data_url ) {
+
+					transcription_manager.finish()
+					.then( function ( transcription_data ) {
+
+						callback({ data_url, transcription_data });
+
+					})
+
+				});
 
 			}
 

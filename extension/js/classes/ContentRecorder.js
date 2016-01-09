@@ -38,10 +38,10 @@
 							class_name: "BackgroundRecorder",
 							method_name: "finish"
 						},
-						function ( data_url ) {
+						function ( data ) {
 								
-							console.log( data_url );
-							resolve( public.data_url_to_blob( data_url ) );
+							data.blob = public.data_url_to_blob( data.data_url );
+							resolve( data );
 						
 						}
 					);

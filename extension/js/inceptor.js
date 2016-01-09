@@ -98,7 +98,6 @@
 						new LetterManager( jQuery, document, chrome, sender_data ),
 						jQuery,
 						tooltip,
-						new TranscriptionManager( jQuery, items["options_data"]["transcription_language"] ),
 						items["options_data"]["enable_immediate_insert"]
 					);
 
