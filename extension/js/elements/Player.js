@@ -65,11 +65,11 @@
 			},
 
 			enable: function () {
-				element.shadowRoot.querySelector("#control").style.display = '';
+				$( element.shadowRoot.querySelectorAll("#control, .stripe_container") ).show();
 			},
 
 			disable: function () {
-				element.shadowRoot.querySelector("#control").style.display = 'none';
+				$( element.shadowRoot.querySelectorAll("#control, .stripe_container") ).hide();
 			}
 
 		};
