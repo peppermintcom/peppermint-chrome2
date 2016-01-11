@@ -122,7 +122,7 @@
 				})
 				.then( function ( urls ) {
 
-					if ( state.recording_id === recording_id ) {
+					if ( state.recording_id === recording_id || true ) {
 
 						urls.object_url = URL.createObjectURL( data.blob );
 						state.audio_urls = urls;
@@ -140,8 +140,6 @@
 						
 						letter_manager.add_link( state.audio_urls, state.compose_button_id, data.transcription_data.text, duration, state.recording_id );
 						
-						state.compose_button_id = undefined;
-
 					} else {
 
 						console.log( "aborted recording url:", urls.short );
