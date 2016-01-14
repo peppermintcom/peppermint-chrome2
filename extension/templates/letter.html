@@ -12,15 +12,16 @@
 			class="peppermint_mock_player hidden"
 			name="peppermint_mock_player"
 			style="
-				width: 305px;
+				width: 340px;
 			    height: 35px;
-			    line-height: 35px;
 			    background-color: #6FD5B9;
-			    border-radius: 3px;"
+				border-collapse: collapse;		
+				border-radius: 3px;	    
+			    "
 		>
 			<tr>
 
-				<td>
+				<td style = 'height: 35px; width: 270px;' >
 					<a href="{{LONG_URL}}" alt="hidden_long_url" style="display: none;"></a>
 					
 					<a href="{{SHORT_URL}}" align="left" style="text-decoration:none;!important">
@@ -35,11 +36,24 @@
 				</td>
 
 				<td
-					style="color: #fff !important; font-family: Helvetica, Arial, sans-serif; font-weight: normal; text-align: left; line-height: 19px; font-size: 14px; margin: 0; padding: 8px; text-decoration: none;"
-					align="left"
+					style="width: 70px;"
 					color="#fff"
 				>
-					{{DURATION}}
+					<a
+						target="_blank"
+						href="{{SHORT_URL}}"
+						style="
+							padding: 0px 8px;
+							text-align: center;
+							background: #6FD5B9;
+							color: #ffffff;
+							text-decoration: none;
+							font-weight: bold;
+							font-family: Helvetica, Arial, sans-serif;
+							font-size: 14px;"
+					>
+						{{DURATION}}&nbsp;&nbsp;
+					</a>
 				</td>
 
 			</tr>
@@ -64,31 +78,57 @@
 		<br>
 		<br>
 
-		<a
-			target="_blank"
-			href="https://peppermint.com/reply?name={{SENDER_NAME}}&email={{SENDER_EMAIL}}"
-			style="
-				text-align: center;
-				line-height: 17px;
-				display: inline-block;
-				width: auto!important;
-				border-radius: 3px;
-				background: #3abca4;
-				margin: 0;
-				padding: 8px;
-				border: 1px solid #3abca4;
-				color: #ffffff;
-				text-decoration: none;
-				font-weight: bold;
-				font-family: Helvetica, Arial, sans-serif;
-				font-size: 14px;"
+		<table
+			style = 'border-collapse: collapse;'
 		>
-			<img
-				style="vertical-align: top" border="0" 
-				lign="left"
-				src="https://s3-us-west-2.amazonaws.com/dev.peppermint.com/img/btn-email.png"
-			>
-			Peppermint Quick Reply
-		</a>
+			<tr>
+				<td
+					style="
+						width: 60px;
+						height: 32px;
+						border-top-left-radius: 3px;
+						border-bottom-left-radius: 3px;
+						background: #3abca4;
+						text-align: center;
+						"
+				>
+					<a
+						target="_blank"
+						href="https://peppermint.com/reply?name={{SENDER_NAME}}&email={{SENDER_EMAIL}}"
+						style="text-align: center;"
+					>
+						<img
+							style = 'margin-right: 4px;'
+							border="0" 
+							src="https://s3-us-west-2.amazonaws.com/dev.peppermint.com/img/btn-email.png"
+						>
+					</a>
+				</td>
+				<td
+					style="
+						height: 32px;
+						width: 175px;
+						border-top-right-radius: 3px;
+						border-bottom-right-radius: 3px;
+						background: #3abca4;
+						text-align: left;
+						"
+				>
+					<a
+						target="_blank"
+						href="https://peppermint.com/reply?name={{SENDER_NAME}}&email={{SENDER_EMAIL}}"
+						style="
+							text-align: center;
+							color: #ffffff;
+							text-decoration: none;
+							font-weight: bold;
+							font-family: Helvetica, Arial, sans-serif;
+							font-size: 14px;"
+					>
+						Peppermint Quick Reply
+					</a>
+				</td>
+			</tr>
+		</table>
 
 	</div>

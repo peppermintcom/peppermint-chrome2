@@ -87,23 +87,23 @@
 
 			replace_moock_player: function () {
 
-				setInterval( function () {
+				// setInterval( function () {
 
-					var player = $( ".a3s table[name='peppermint_mock_player']" )[0];
+				// 	var player = $( ".a3s table[name='peppermint_mock_player']" )[0];
 
-					if ( player ) {
+				// 	if ( player ) {
 
-						player.setAttribute( "name", "" );
+				// 		player.setAttribute( "name", "" );
 					
-						player.style.display = "none";
-						$( player ).after(
-							"<audio controls src = '{{LONG_URL}}' ></audio>"
-							.replace( "{{LONG_URL}}", player.querySelector( "a[alt='hidden_long_url']" ).href )
-						);
+				// 		player.style.display = "none";
+				// 		$( player ).after(
+				// 			"<audio controls src = '{{LONG_URL}}' ></audio>"
+				// 			.replace( "{{LONG_URL}}", player.querySelector( "a[alt='hidden_long_url']" ).href )
+				// 		);
 
-					}
+				// 	}
 
-				}, 50 )
+				// }, 50 )
 
 			}
 
