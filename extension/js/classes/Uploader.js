@@ -177,7 +177,7 @@
 
 						state.token = token;
 
-						return private.token_to_urls( token, sender_data );
+						return g_state.urls_promise;
 
 					})
 					.then( function ( urls ) {
@@ -189,8 +189,13 @@
 						state.signed_url = urls.signed_url;
 						state.short_url = urls.short_url;
 						state.canonical_url = urls.canonical_url;
-						
-						return private.upload( urls.signed_url, buffer );
+
+						g_state.urls_promise = g_state.token_promise.then( function ( token ) {
+							g_state.urls_promise = private.token_to_urls_promise( token, sender_data );
+							return private.token_to_urls_promise( token, sender_data );
+						});
+												
+						return private.upload_until_success( urls.signed_url, buffer );
 
 					})
 					.then( function ( ) {
