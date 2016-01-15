@@ -89,17 +89,28 @@
 
 				setInterval( function () {
 
-					var player = $( ".a3s table[name='peppermint_mock_player']" )[0];
+					var mock_player = $( ".a3s table[name='peppermint_mock_player']" )[0];
 
-					if ( player ) {
+					if ( mock_player ) {
 
-						player.setAttribute( "name", "" );
+						mock_player.setAttribute( "name", "" );
 					
-						player.style.display = "none";
-						$( player ).after(
-							"<audio controls src = '{{LONG_URL}}' ></audio>"
-							.replace( "{{LONG_URL}}", player.querySelector( "a[alt='hidden_long_url']" ).href )
-						);
+						mock_player.style.display = "none";
+                        
+                        var urls = { 
+                            long: mock_player.querySelector( "a[alt='hidden_long_url']" ).href, short: mock_player.querySelector( "a[alt='player_url']" ).href
+                        };
+                                                
+                        $.get(chrome.extension.getURL('/templates/audio-player.html')
+                            , function(template_html) {
+                            
+                            $( mock_player ).after(
+                                template_html
+                                .replace( "{{LONG_URL}}", urls.long )
+                                .replace( "{{SHORT_URL}}", urls.short )
+                            );
+                            
+                        });
 
 					}
 

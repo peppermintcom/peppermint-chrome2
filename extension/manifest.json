@@ -25,7 +25,6 @@
 
 					"/js/lib/jQuery/jquery-2.1.4.min.js",
 				
-                    "/js/classes/AudioPlayer.js",
 					"/js/classes/Uploader.js",
 					"/js/classes/EventHub.js",
 					"/js/classes/LetterManager.js",
@@ -124,7 +123,6 @@
 				"/js/lib/WebAudioRecorder/WebAudioRecorder.js",
 				"/js/shims.js",
 				
-                "/js/classes/AudioPlayer.js",
 				"/js/classes/TranscriptionManager.js",
 				"/js/classes/WebAudioRecorderWrap.js",
 				"/js/classes/BackgroundRecorder.js",
