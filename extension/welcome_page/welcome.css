@@ -17,14 +17,75 @@ html, body {
 	width: 50%;
     margin: 0 auto;
     padding: 20px;
+    padding-top: 0px;
     background: #EEE;
 	-webkit-box-shadow: 0px 0px 40px 0px rgba(0,0,0,0.3);
 	box-shadow: 0px 0px 40px 0px rgba(0,0,0,0.3);
-}
-.logo {
-	text-align: right;
 }
 .err-info {
 	display: none;
 	color: red;
 }
+
+
+	/* logo */
+
+		.logo {
+
+			width: 100%;
+			margin-bottom: 15px;
+
+			text-align: center;
+
+			border-bottom: 1px solid rgba( 0, 0, 0, 0.12 );
+
+		}
+
+	/**/
+
+	/* text */
+
+		p {
+
+			margin: 5px;
+
+		}
+
+		p.centered {
+
+			text-align: center;
+
+		}
+
+		p.headline {
+
+			margin: 40px 0px 20px;
+
+		}
+
+	/**/
+
+	/* use cases */
+
+		.use_cases {
+
+			display: flex;
+			justify-content: space-around;
+
+			width: 100%;
+
+		}
+
+		.use_case {
+
+			text-align: center;
+
+		}
+
+		.use_case .number {
+
+			color: #12B9B3;
+
+		}
+
+	/**/
