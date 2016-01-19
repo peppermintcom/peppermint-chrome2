@@ -11,7 +11,8 @@
 			last_recording_blob: null,
 			pop_doc: null,
 			transcript_promise: null,
-			transcript: {text : ''}
+			transcript: {text : ''},
+			recording_url: null
 
 		};
 
@@ -314,6 +315,26 @@
 			}
 
 		};
+
+		chrome.runtime.onMessage.addListener( function ( data ) {
+
+			if ( data.name === "recording_data_uploaded" ) {
+
+				console.log( data );
+
+				$.extend( popup_state, {
+
+					page: "popup_finish",
+					page_status: "finished",
+					audio_data_url: data.recording_data.urls.long,
+					transcript: data.recording_data.transcription_data,
+					recording_url: data.recording_data.urls.short
+
+				});
+
+			}
+
+		});
 
 		$( document ).on( "upload_progress",  function ( event ) {
 		

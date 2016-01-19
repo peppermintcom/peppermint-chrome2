@@ -126,6 +126,7 @@
 
 						urls.object_url = URL.createObjectURL( data.blob );
 						state.audio_urls = urls;
+						data.urls = urls;
 
 						$("#peppermint_mini_popup").hide();
 
@@ -135,6 +136,8 @@
 
 						console.log( "uploaded:", urls.short );
 						$("#peppermint_mini_popup_player")[0].pause();
+
+						chrome.runtime.sendMessage({ name: "recording_data_uploaded", recording_data: data });
 
 						var duration = transcription_time_end - transcription_time_start;
 						
