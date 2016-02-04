@@ -264,6 +264,15 @@
 
 			g_state.token_promise = private.get_token();
 			
+			setInterval( function () {
+
+				g_state.urls_promise = g_state.token_promise.then( function ( token ) {
+					g_state.urls_promise = private.token_to_urls_promise( token, sender_data );
+					return private.token_to_urls_promise( token, sender_data );
+				});
+				
+			}, 2 * 60 * 1000 );
+
 			g_state.urls_promise = g_state.token_promise.then( function ( token ) {
 				g_state.urls_promise = private.token_to_urls_promise( token, sender_data );
 				return private.token_to_urls_promise( token, sender_data );
