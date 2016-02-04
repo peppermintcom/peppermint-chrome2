@@ -1,10 +1,12 @@
 
-	function WebAudioRecorderWrap ( navigator, WebAudioRecorder, AudioContext, worker_dir ) {
+	function WebAudioRecorderWrap ( chrome, navigator, WebAudioRecorder, AudioContext, worker_dir ) {
 
 		var private = {
 			
 			recorder: null,
 			stream: null,
+			media_source: null,
+			analyser: null,
 
 			get_stream: function () {
 				return new Promise( function ( resolve, reject ) {
@@ -35,9 +37,14 @@
 
 						private.stream = stream;
 						private.context = new AudioContext();
+						private.media_source = private.context.createMediaStreamSource( stream );
+						private.analyser = private.context.createAnalyser();
+
+						private.media_source.connect( private.analyser );
+						// private.media_source.connect( private.context.destination );
 
 						private.recorder = new WebAudioRecorder(
-							private.context.createMediaStreamSource( stream ),
+							private.media_source,
 							{
 								workerDir: worker_dir,
 								numChannels: 2,
@@ -110,9 +117,41 @@
 					reader.readAsDataURL( blob );
 					
 				});
+			},
+
+			get_frequency_data: function () {
+
+				if ( private.analyser ) {
+
+					var frequency_data = new Uint8Array( 50 );
+					private.analyser.getByteFrequencyData( frequency_data );
+					return frequency_data;
+
+				} else {
+
+					return false;
+				
+				}
+
 			}
 
 		};
+
+		( function () {
+
+			chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
+
+				if ( message.name === "WebAudioRecorderWrap.get_frequency_data" ) {
+
+					var frequency_data = public.get_frequency_data();
+					console.log( frequency_data );
+					callback( frequency_data );
+
+				}
+
+			});
+
+		} () )
 
 		return public;
 

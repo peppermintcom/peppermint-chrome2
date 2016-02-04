@@ -58,11 +58,12 @@
 
 	});
 
-	//
+	var web_audio_recorder_wrap = new WebAudioRecorderWrap( chrome, window.navigator, WebAudioRecorder, AudioContext, "/js/lib/WebAudioRecorder/" );
+
 	( function set_up_popup_controller ( window, jQuery ) {
 		chrome.identity.getProfileUserInfo( function ( info ) {
 			window.popup_controller = new PopupController(
-				new WebAudioRecorderWrap( window.navigator, WebAudioRecorder, AudioContext, "/js/lib/WebAudioRecorder/" ),
+				web_audio_recorder_wrap,
 				new Uploader( jQuery.ajax, {
 					sender_name: "",
 					sender_email: info.email
@@ -78,7 +79,7 @@
 
 		window.background_recorder = new BackgroundRecorder(
 			chrome.runtime,
-			new WebAudioRecorderWrap( window.navigator, WebAudioRecorder, AudioContext, "/js/lib/WebAudioRecorder/" ),
+			web_audio_recorder_wrap,
 			new TranscriptionManager( jQuery, window.navigator.language )
 		);
 

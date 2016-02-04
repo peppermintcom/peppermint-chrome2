@@ -37,12 +37,14 @@
 					"/js/elements/Player.js",
 					"/js/elements/Tooltip.js",
 					"/js/elements/MiniPopup.js",
+					"/js/elements/AudioVisualizer.js",
 
 					"/js/inceptor.js"
 				
 				],
 				"css": [
-					"/css/content.css"
+					"/css/content.css",
+					"/css/audio_visualizer.css"
 				],
 				"run_at": "document_end"
 			},
