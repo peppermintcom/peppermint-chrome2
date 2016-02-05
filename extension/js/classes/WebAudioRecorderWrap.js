@@ -123,7 +123,7 @@
 
 				if ( private.analyser ) {
 
-					var frequency_data = new Uint8Array( 50 );
+					var frequency_data = new Uint8Array( 200 );
 					private.analyser.getByteFrequencyData( frequency_data );
 					return frequency_data;
 

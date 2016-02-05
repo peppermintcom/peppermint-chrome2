@@ -8,7 +8,7 @@
 	#audio_visualizer table {
 
 		margin: auto;
-		transform: rotate( 180deg );
+		transform: rotateZ( 180deg ) rotateY( 180deg );
 
 	}
 
