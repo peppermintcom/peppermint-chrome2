@@ -51,7 +51,7 @@
 						{
 							type: 'POST',
 							data: JSON.stringify({
-								"api_key": "abc123",
+								"api_key": "kLOtvTZkwzDISbKBVYGbkwLErE1VJPRyyWvnIXi1qhniGLar9Kr5mQ",
 								"recorder": {
 									"description": "Chrome Extension",
 									"recorder_client_id": "chrome_extension" + Date.now()
@@ -117,7 +117,7 @@
 							headers: {
 								'Authorization': 'Bearer ' + token,
 								'Content-Type': 'application/json',
-								'X-Api-Key' : 'abc123'
+								'X-Api-Key' : 'kLOtvTZkwzDISbKBVYGbkwLErE1VJPRyyWvnIXi1qhniGLar9Kr5mQ'
 							},
 							success: function ( response ) {
 								resolve( response );
