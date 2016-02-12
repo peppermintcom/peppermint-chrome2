@@ -26,6 +26,7 @@
 			});
 		    
 		}
+        
 	});
     
     // reload all instanes of Gmail
@@ -56,7 +57,6 @@
             console.info({ source: 'background.js', msg: message, sender: sender });            
         }
         
-		return true;
 	});
 
 	var web_audio_recorder_wrap = new WebAudioRecorderWrap( chrome, window.navigator, WebAudioRecorder, AudioContext, "/js/lib/WebAudioRecorder/" );
