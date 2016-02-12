@@ -112,6 +112,8 @@
 						tooltip,
 						items["options_data"]["enable_immediate_insert"]
 					);
+                    
+                    return true;
 
 				});
 

@@ -89,16 +89,17 @@
 
 				setInterval( function () {
 
-					var mock_player = $( ".a3s table[name='peppermint_mock_player']" )[0];
+					var mock_player = $( ".a3s table[bgcolor='#6fd5b9']:not(.hidden)" )[0];
 
 					if ( mock_player ) {
 
-						mock_player.setAttribute( "name", "" );
+						mock_player.classList.add( "hidden" );
 					
 						mock_player.style.display = "none";
                         
                         var urls = { 
-                            long: mock_player.querySelector( "a[alt='hidden_long_url']" ).href, short: mock_player.querySelector( "a[alt='player_url']" ).href
+                            long: mock_player.querySelector( "a[alt='hidden_long_url']" ).href,
+                            short: mock_player.querySelector( "a[alt='hidden_short_url']" ).href
                         };
                                                 
                         $.get(chrome.extension.getURL('/templates/audio-player.html')

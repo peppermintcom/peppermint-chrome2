@@ -54,6 +54,6 @@
 		display: block;
 	}
 
-	.peppermint_mock_player.hidden {
-		display: none;
+	.I5 td>.row:nth-child( 2 ) {
+		display: none !important;
 	}

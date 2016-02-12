@@ -123,7 +123,7 @@
 
 				if ( private.analyser ) {
 
-					var frequency_data = new Uint8Array( 50 );
+					var frequency_data = new Uint8Array( 200 );
 					private.analyser.getByteFrequencyData( frequency_data );
 					return frequency_data;
 
@@ -144,10 +144,12 @@
 				if ( message.name === "WebAudioRecorderWrap.get_frequency_data" ) {
 
 					var frequency_data = public.get_frequency_data();
-					console.log( frequency_data );
+					
 					callback( frequency_data );
 
 				}
+                
+                return true;
 
 			});
 

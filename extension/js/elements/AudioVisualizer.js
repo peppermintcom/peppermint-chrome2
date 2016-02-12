@@ -31,7 +31,7 @@
 
 					for ( var j = 0; j < cells.length; j++ ) {
 
-						var frequency_rows = Math.floor( rows.length * frequency_data[ j ] / 256 );
+						var frequency_rows = Math.floor( rows.length * frequency_data[ j * 4 ] / 256 / 2 );
 						if ( i <= frequency_rows ) {
 							cells[ j ].classList.add( "active" );
 						} else {

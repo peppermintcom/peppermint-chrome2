@@ -44,19 +44,20 @@
 		        url: chrome.extension.getURL("welcome_page/welcome.html"),
 		        active: true
 		    });
-		}
-
-		if ( message === 'get_sender_data' ) {
+		} else if ( message === 'get_sender_data' ) {
 			chrome.identity.getProfileUserInfo( function ( info ) {
 				callback({
 					sender_name: "",
 					sender_email: info.email
 				});
 			});
-		}
-
+        } else if ( message.name === 'WebAudioRecorderWrap.get_frequency_data' ){
+            // ignore
+        } else{
+            console.info({ source: 'background.js', msg: message, sender: sender });            
+        }
+        
 		return true;
-
 	});
 
 	var web_audio_recorder_wrap = new WebAudioRecorderWrap( chrome, window.navigator, WebAudioRecorder, AudioContext, "/js/lib/WebAudioRecorder/" );
