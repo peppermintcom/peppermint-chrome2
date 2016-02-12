@@ -136,8 +136,9 @@
 
 						console.log( "uploaded:", urls.short );
 						$("#peppermint_mini_popup_player")[0].pause();
-
-						chrome.runtime.sendMessage({ name: "recording_data_uploaded", recording_data: data });
+						chrome.runtime.sendMessage({ 
+                            name: "recording_data_uploaded", recording_data: data 
+                        });
 
 						var duration = transcription_time_end - transcription_time_start;
 						
