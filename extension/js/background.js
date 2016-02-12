@@ -54,7 +54,7 @@
         } else if ( message.name === 'WebAudioRecorderWrap.get_frequency_data' ){
             // ignore
         } else{
-            console.info({ source: 'background.js', msg: message, sender: sender });            
+            console.info({ source: 'background.js', req: message, sender: sender });            
         }
         
 		return true;
