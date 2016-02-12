@@ -41,6 +41,19 @@
             }			
 
 		};
+        
+        chrome.runtime.onMessage.addListener( function ( data ) {
+
+			if ( data.name === "recording_data_uploaded" ) {
+
+                console.log('(background-uploader):(recording_data_uploaded)');
+				console.log( data );
+
+			}
+            
+            return true;
+
+		});
 
 		( function constructor () {
             
@@ -56,17 +69,10 @@
                 })
             }, 500);
 
-			chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
-
-				if ( message.class_name === 'BackgroundUploader' ) {
-					
-					return true;
-
-				}
-
-			});
-
 		} () )
+        
+        
+        
 
 	}
 
