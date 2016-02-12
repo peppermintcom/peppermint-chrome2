@@ -1,6 +1,10 @@
 
 	( function ( $, chrome, document ) {
 		
+        function reset_storage_settings( ) {
+            chrome.storage.local.set({log_level : 'error'});
+        } 
+        
 		function insert_imports( imports ) {
 			
 			return new Promise( function ( resolve ) {
