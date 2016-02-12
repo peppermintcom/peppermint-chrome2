@@ -91,13 +91,19 @@
 					new Player( jQuery, id_to_template( "-player-" ), $( "#peppermint_mini_popup_player" )[0], url("/img") );
 					new MiniPopup( jQuery, id_to_template( "-mini-popup-" ), $( "#peppermint_mini_popup" )[0], url("/img"), event_hub );
 					new ButtonInserter( jQuery, !items["options_data"]["disable_reply_button"], id_to_template( "-button-inserter-" ), $( "#peppermint_button_inserter" )[0], url("/img"), event_hub );
+                    
+                    var contentRecorder = new ContentRecorder( chrome.runtime, event_hub );
+                    var uploader = new Uploader( jQuery.ajax, sender_data );
+                    var letterManager = new LetterManager( jQuery, document, chrome, sender_data );
+                    
+                    var backgroundUploader = new BackgroundUploader(jQuery, chrome, uploader);
 
 					new GmailController(
-						new ContentRecorder( chrome.runtime, event_hub ),
-						new Uploader( jQuery.ajax, sender_data ),
+						contentRecorder,
+						uploader,
 						event_hub,
 						chrome,
-						new LetterManager( jQuery, document, chrome, sender_data ),
+						letterManager,
 						jQuery,
 						tooltip,
 						items["options_data"]["enable_immediate_insert"]
