@@ -148,8 +148,6 @@
 					callback( frequency_data );
 
 				}
-                
-                return true;
 
 			});
 

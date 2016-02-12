@@ -64,8 +64,7 @@
 
 				if ( message.class_name === 'BackgroundRecorder' ) {
 
-					private[ message.method_name ]( callback );
-					return true;
+					private[ message.method_name ]( callback );					
 
 				}
 
