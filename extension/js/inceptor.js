@@ -100,8 +100,6 @@
                     var uploader = new Uploader( jQuery.ajax, sender_data );
                     var letterManager = new LetterManager( jQuery, document, chrome, sender_data );
                     
-                    var backgroundUploader = new BackgroundUploader(jQuery, chrome, uploader);
-
 					new GmailController(
 						contentRecorder,
 						uploader,

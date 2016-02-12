@@ -31,7 +31,6 @@
 					"/js/classes/ButtonInserter.js",
 					"/js/classes/ContentRecorder.js",
 					"/js/classes/GmailController.js",
-                    "/js/classes/BackgroundUploader.js",
 
 					"/js/elements/Timer.js",
 					"/js/elements/Popup.js",
