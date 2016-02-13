@@ -99,6 +99,33 @@
 				$("#peppermint_popup").hide();
 
 			},
+            
+            save_recording_to_storage: function ( recording_data ) {
+                return new Promise(function(resolve,reject){
+                    console.log('save this-' + recording_data.recording_id);
+                    chrome.storage.local.get("peppermint_upload_queue", function( data ){
+                        
+                        var storage;
+                        
+                        if(data && data.peppermint_upload_queue && data.recordings){
+                            storage = data;                                
+                        } else {
+                            storage = { 'peppermint_upload_queue' : { 'recordings' : [] } };
+                        }
+                        
+                        storage.peppermint_upload_queue.recordings.push( recording_data );
+                        
+                        chrome.storage.local.set(storage, function(data) {
+                            if(chrome.runtime.lastError)
+                                console.error(chrome.runtime.lastError);
+                            else
+                                console.log('saved to storage-' + recording_data.recording_id); 
+                        });
+                        
+                    })
+                    resolve( recording_data );
+                })
+            },
 
 			process_recording_data: function ( data ) {
 
@@ -109,8 +136,15 @@
 
 				$("#peppermint_mini_popup_player")[0].enable();
 				$("#peppermint_mini_popup_player")[0].set_url( data.data_url );
-
-				recorder.blob_to_buffer( data.blob )
+                
+                data.recording_id = recording_id;
+                
+                private.save_recording_to_storage( data )
+                .then( function ( data ) {
+                    
+                    return recorder.blob_to_buffer( data.blob );
+                        
+                })
 				.then( function ( buffer ) {
 
 					data.buffer = buffer;
