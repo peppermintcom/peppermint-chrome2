@@ -38,6 +38,37 @@
                     }
                     if(callback) callback();
                 })
+            },
+            
+            remove_from_storage: function ( recording_data, callback ){
+                chrome.storage.local.get("peppermint_upload_queue", function( data ){
+                                        
+                    if(data && data.peppermint_upload_queue && data.peppermint_upload_queue.recordings && data.peppermint_upload_queue.recordings.length > 0){
+                        console.log('checking storage for ' + recording_data.recording_id);
+                        
+                        var record_to_remove = -1;
+                        
+                        $.each(data.peppermint_upload_queue.recordings, function(idx,val){
+                            if(val.recording_id === recording_data.recording_id){
+                                console.log('found it at index ' + idx + ' with id ' + val.recording_id);
+                                record_to_remove = idx;
+                                return false;
+                            }
+                        })
+                        
+                        if(record_to_remove > -1){                            
+                            data.peppermint_upload_queue.recordings.splice(record_to_remove,1);
+                            
+                            chrome.storage.local.set(data, function(set_data) {
+                                if(chrome.runtime.lastError)
+                                    console.error(chrome.runtime.lastError);
+                                else
+                                    console.log('removed from storage-' + recording_data.recording_id); 
+                            });   
+                        }
+                    }
+                    
+                })    
             }			
 
 		};
@@ -46,8 +77,7 @@
 
 			if ( data.name === "recording_data_uploaded" ) {
 
-                console.log('(background-uploader):(recording_data_uploaded)');
-				console.log( data );
+                private.remove_from_storage(data.recording_data);
 
 			}
             
