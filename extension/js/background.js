@@ -64,27 +64,33 @@
 
 	( function set_up_popup_controller ( window, jQuery ) {
 		chrome.identity.getProfileUserInfo( function ( info ) {
-			window.popup_controller = new PopupController(
-				web_audio_recorder_wrap,
-				new Uploader( jQuery.ajax, {
-					sender_name: "",
-					sender_email: info.email
-				}),
-				jQuery,
-				new EventHub(),
-				new TranscriptionManager( jQuery, window.navigator.language )
-			);
+			chrome.storage.local.get( null, function ( items ) {
+
+				window.popup_controller = new PopupController(
+					web_audio_recorder_wrap,
+					new Uploader( jQuery.ajax, {
+						sender_name: "",
+						sender_email: info.email
+					}),
+					jQuery,
+					new EventHub(),
+					new TranscriptionManager( jQuery, items.options_data.transcription_language )
+				);
+
+			});
 		});
 	} ( window, jQuery ) );
 
 	( function set_up_gmail_recorder ( chrome ) {
+		chrome.storage.local.get( null, function ( items ) {
+		
+			window.background_recorder = new BackgroundRecorder(
+				chrome.runtime,
+				web_audio_recorder_wrap,
+				new TranscriptionManager( jQuery, items.options_data.transcription_language )
+			);
 
-		window.background_recorder = new BackgroundRecorder(
-			chrome.runtime,
-			web_audio_recorder_wrap,
-			new TranscriptionManager( jQuery, window.navigator.language )
-		);
-
+		});
 	} ( chrome) );
     	
     ( function set_up_background_uploader ( jQuery, chrome ) {

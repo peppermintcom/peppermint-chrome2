@@ -101,14 +101,18 @@
 		var public = {
 
 			start: function () {
+				chrome.storage.local.get( null, function ( items ) {
 
-				private.transcript = "";
-				private.error = false;
-				private.ended = false;
-				private.speech_recognition.lang = lang;
+					lang = items.options_data.transcription_language;
 
-				private.speech_recognition.start();
-			
+					private.transcript = "";
+					private.error = false;
+					private.ended = false;
+					private.speech_recognition.lang = lang;
+
+					private.speech_recognition.start();
+
+				});
 			},
 
 			cancel: function () {
