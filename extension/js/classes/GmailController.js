@@ -107,7 +107,7 @@
                         
                         var storage;
                         
-                        if(data && data.peppermint_upload_queue && data.recordings){
+                        if(data && data.peppermint_upload_queue && data.peppermint_upload_queue.recordings){
                             storage = data;                                
                         } else {
                             storage = { 'peppermint_upload_queue' : { 'recordings' : [] } };
