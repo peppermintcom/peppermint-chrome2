@@ -69,8 +69,26 @@
                     }
                     
                 })    
-            }			
-
+            },
+            
+            clear_storage: function ( callback ) {
+                
+                chrome.storage.local.get("peppermint_upload_queue", function( data ){
+                    
+                    var recordings_count = 0;
+                                        
+                    if(private.recordings_exist(data))
+                        recordings_count = data.peppermint_upload_queue.recordings.length;               
+                    chrome.storage.local.set({ "peppermint_upload_queue":null }, function(){
+                        
+                        console.log("peppermint_upload_queue cleared of " + recordings_count + " records");
+                        
+                        if(callback)
+                            callback();
+                    });
+                });
+            }
+            
 		};
         
         chrome.runtime.onMessage.addListener( function ( data ) {
@@ -100,9 +118,6 @@
             }, 500);
 
 		} () )
-        
-        
-        
 
 	}
 
