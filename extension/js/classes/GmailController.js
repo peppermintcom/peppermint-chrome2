@@ -123,7 +123,7 @@
                         });
                         
                     })
-                    resolve( recording_data );
+                    resolve( recording_data.blob );
                 })
             },
 
@@ -140,15 +140,15 @@
                 data.recording_id = recording_id;
                 
                 private.save_recording_to_storage( data )
-                .then( function ( data ) {
+                .then( function ( blob ) {
                     
-                    return recorder.blob_to_buffer( data.blob );
-                        
+                    return recorder.blob_to_buffer( blob );
+
                 })
 				.then( function ( buffer ) {
 
 					data.buffer = buffer;
-
+                    
 					var upload_buffer_function = immediate_insert ? uploader.upload_buffer_immediately : uploader.upload_buffer;
 
 					return upload_buffer_function( buffer, data.transcription_data );
