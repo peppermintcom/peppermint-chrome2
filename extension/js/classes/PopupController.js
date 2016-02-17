@@ -338,11 +338,16 @@
 
 		$( document ).on( "upload_progress",  function ( event ) {
 		
-			popup_state.pop_doc.dispatchEvent( new CustomEvent( "upload_progress", {
-				detail: {
-					progress: event.originalEvent.detail.progress
-				}
-			}));
+            if( popup_state && popup_state.pop_doc){
+                
+                popup_state.pop_doc.dispatchEvent( new CustomEvent( "upload_progress", {
+                    detail: {
+                        progress: event.originalEvent.detail.progress
+                    }
+                }));
+                
+            }
+			
 		
 			popup_state.progress = event.originalEvent.detail.progress;
 		
