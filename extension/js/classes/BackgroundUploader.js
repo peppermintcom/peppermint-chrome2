@@ -47,7 +47,7 @@
             remove_from_storage: function ( recording_data, callback ){
                 chrome.storage.local.get("peppermint_upload_queue", function( data ){
                                         
-                    if(data && data.peppermint_upload_queue && data.peppermint_upload_queue.recordings && data.peppermint_upload_queue.recordings.length > 0){
+                    if(private.recordings_exist(data)){
                         console.log('checking storage for ' + recording_data.recording_id);
                         
                         var record_to_remove = -1;
