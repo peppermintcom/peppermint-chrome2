@@ -127,6 +127,7 @@
 				
 				"/js/classes/TranscriptionManager.js",
 				"/js/classes/WebAudioRecorderWrap.js",
+                "/js/classes/ContentRecorder.js",
 				"/js/classes/BackgroundRecorder.js",
                 "/js/classes/BackgroundUploader.js",
 				"/js/classes/EventHub.js",

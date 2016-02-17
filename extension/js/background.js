@@ -94,14 +94,15 @@
 	} ( chrome) );
     	
     ( function set_up_background_uploader ( jQuery, chrome ) {
-		chrome.identity.getProfileUserInfo( function ( info ) {
+		chrome.identity.getProfileUserInfo( function ( info ) {            
 			window.background_uploader = new BackgroundUploader(
 				jQuery,
                 chrome,
 				new Uploader( jQuery.ajax, {
 					sender_name: "",
 					sender_email: info.email
-				})
+				}),
+                new ContentRecorder( chrome.runtime, null )
 			);
 		});
 	} ( jQuery, chrome ) );
