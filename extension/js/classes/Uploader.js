@@ -166,41 +166,59 @@
 		
 		var public = {
 			
-			upload_buffer: function ( buffer, transcription_data ) {
+            get_token_urls: function () {
 
 				return new Promise( function ( resolve, reject ) {
 
-					var state = {};
+					var data = {};
 
 					g_state.token_promise
 					.then( function ( token ) {
 
-						state.token = token;
+						data.token = token;
+                        
+                        g_state.urls_promise = g_state.token_promise.then( function ( token ) {
+                            g_state.urls_promise = private.token_to_urls_promise( token, sender_data );
+                            return private.token_to_urls_promise( token, sender_data );
+                        });
 
 						return g_state.urls_promise;
-
 					})
-					.then( function ( urls ) {
-
-						transcription_data.audio_url = urls.canonical_url;
+                    .then( function ( urls ) {
                         
-						private.upload_transcription( state.token, transcription_data );
+                        data.urls = urls;
+                        
+                        resolve ( data );
+                    })
+					.catch( function () {
 
-						state.signed_url = urls.signed_url;
-						state.short_url = urls.short_url;
-						state.canonical_url = urls.canonical_url;
-
-						g_state.urls_promise = g_state.token_promise.then( function ( token ) {
-							g_state.urls_promise = private.token_to_urls_promise( token, sender_data );
-							return private.token_to_urls_promise( token, sender_data );
-						});
-												
-						return private.upload_until_success( urls.signed_url, buffer );
+						reject();
 
 					})
-					.then( function ( ) {
+
+				});
+
+			},
+            
+			upload_buffer: function ( token, urls, buffer, transcription_data ) {
+
+				return new Promise( function ( resolve, reject ) {
+
+					var state = {};
+                    
+                    state.token = token;
+                    state.signed_url = urls.signed_url;
+                    state.short_url = urls.short_url;
+                    state.canonical_url = urls.canonical_url;
+
+                    transcription_data.audio_url = urls.canonical_url;
+
+                    private.upload_transcription( state.token, transcription_data );                    
+												
+					private.upload_until_success( urls.signed_url, buffer )
+                    .then( function () {
                       
-						resolve({ short: state.short_url, long: state.canonical_url });
+						resolve( true );
 
 					})
 					.catch( function () {
@@ -209,49 +227,35 @@
 
 					});
 
-				});
+				})
 
 			},
 			
-			upload_buffer_immediately: function ( buffer, transcription_data ) {
+			upload_buffer_immediately: function ( token, urls, buffer, transcription_data ) {
 
 				return new Promise( function ( resolve, reject ) {
 
 					var state = {};
 
-					g_state.token_promise
-					.then( function ( token ) {
+					state.token = token;
+                    state.signed_url = urls.signed_url;
+                    state.short_url = urls.short_url;
+                    state.canonical_url = urls.canonical_url;
 
-						state.token = token;
-
-						return g_state.urls_promise;
-
-					})
-					.then( function ( urls ) {
-
-						transcription_data.audio_url = urls.canonical_url;
+					transcription_data.audio_url = urls.canonical_url;
                         
-						private.upload_transcription( state.token, transcription_data );
-
-						state.signed_url = urls.signed_url;
-						state.short_url = urls.short_url;
-                        state.canonical_url = urls.canonical_url;
-
-						private.upload_until_success( urls.signed_url, buffer )
-						.then( function () {
-							console.log( "buffer uploaded" );
-						});
-
-						g_state.urls_promise = g_state.token_promise.then( function ( token ) {
-							g_state.urls_promise = private.token_to_urls_promise( token, sender_data );
-							return private.token_to_urls_promise( token, sender_data );
-						});
-                        
-						resolve({ short: state.short_url, long: state.canonical_url });
+					private.upload_transcription( state.token, transcription_data );
+					
+					private.upload_until_success( urls.signed_url, buffer )
+                    .then( function () {
+                      
+						resolve( true );
 
 					})
 					.catch( function () {
+
 						reject();
+
 					});
 
 				});
