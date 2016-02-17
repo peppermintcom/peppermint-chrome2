@@ -12,6 +12,10 @@
                     console.log(data);
             },
 
+            recordings_exist: function(data){
+                return data && data.peppermint_upload_queue && data.peppermint_upload_queue.recordings && data.peppermint_upload_queue.recordings.length > 0;
+            },
+            
             run: function ( callback ){
                 private.log('background upload check - init');
                 
