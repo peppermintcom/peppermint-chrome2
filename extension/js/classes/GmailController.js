@@ -127,62 +127,64 @@
                 })
             },
 
-			process_recording_data: function ( data ) {
+			process_recording_data: function ( recording_data ) {
 
 				var recording_id = Date.now();
 
 				state.recording_id = recording_id;
-				state.last_recording_data = data;
+				state.last_recording_data = recording_data;
 
 				$("#peppermint_mini_popup_player")[0].enable();
-				$("#peppermint_mini_popup_player")[0].set_url( data.data_url );
+				$("#peppermint_mini_popup_player")[0].set_url( recording_data.data_url );
                 
-                data.recording_id = recording_id;
+                recording_data.recording_id = recording_id;
                 
-                private.save_recording_to_storage( data )
+                uploader.get_token_urls()
+                .then( function( data ){
+                    
+                    recording_data.token = data.token;
+                    recording_data.urls = data.urls;
+                                        
+                    return private.save_recording_to_storage( recording_data );
+                        
+                })                
                 .then( function ( blob ) {
                     
+                    recording_data.urls.object_url = URL.createObjectURL( blob );
+                    
+                    if(immediate_insert)
+                        private.add_to_compose( recording_data );
+                        
                     return recorder.blob_to_buffer( blob );
 
                 })
 				.then( function ( buffer ) {
 
-					data.buffer = buffer;
-                    
+					recording_data.buffer = buffer;
+                                            
 					var upload_buffer_function = immediate_insert ? uploader.upload_buffer_immediately : uploader.upload_buffer;
 
-					return upload_buffer_function( buffer, data.transcription_data );
+                    return upload_buffer_function( recording_data.token, recording_data.urls, buffer, recording_data.transcription_data );
 
 				})
-				.then( function ( urls ) {
-
-					if ( state.recording_id === recording_id || true ) {
-
-						urls.object_url = URL.createObjectURL( data.blob );
-						state.audio_urls = urls;
-						data.urls = urls;
-
-						$("#peppermint_mini_popup").hide();
-
-						$( document ).one( "click", function () {
-							private.copy_to_clipboard( urls.short );
-						});
-
-						console.log( "uploaded:", urls.short );
-						$("#peppermint_mini_popup_player")[0].pause();
-						chrome.runtime.sendMessage({ 
-                            name: "recording_data_uploaded", recording_data: data 
+				.then( function ( upload_success ) {
+                    
+                    if(upload_success){
+                        
+                        console.log( "uploaded: ", recording_data.urls.short_url );
+                    
+                        chrome.runtime.sendMessage({ 
+                            name: "recording_data_uploaded", recording_data: recording_data 
                         });
-
-						var duration = transcription_time_end - transcription_time_start;
-						
-						letter_manager.add_link( state.audio_urls, state.compose_button_id, data.transcription_data.text, duration, state.recording_id );
-						
-					} else {
-
-						console.log( "aborted recording url:", urls.short );
-
-					}
+                        
+                        if(!immediate_insert)
+                            private.add_to_compose( recording_data );
+                            
+                    } else {
+                        
+                        console.log("failed to upload: ", recording_data.urls.short_url);
+                        
+                    }                    
 
 				})
 				.catch( function ( err ) {
@@ -193,6 +195,22 @@
 				});
 
 			},
+            
+            add_to_compose: function( recording_data ){
+                                
+                $("#peppermint_mi_popup").hide();
+
+                $( document ).one( "click", function () {
+                    private.copy_to_clipboard( recording_data.urls.short_url );
+                });
+
+                $("#peppermint_mini_popup_player")[0].pause();                
+
+                var duration = transcription_time_end - transcription_time_start;
+                
+                letter_manager.add_link( recording_data.urls, state.compose_button_id, recording_data.transcription_data.text, duration, recording_data.recording_id );  
+
+            },
 
 			clear_the_state: function () {
 
