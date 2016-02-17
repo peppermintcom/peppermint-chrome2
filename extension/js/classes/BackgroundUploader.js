@@ -1,5 +1,5 @@
 
-	function BackgroundUploader ( $, chrome, uploader ) {
+	function BackgroundUploader ( $, chrome, uploader, recorder ) {
 
 		var private = {
             
