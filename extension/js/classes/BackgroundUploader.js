@@ -1,5 +1,5 @@
 
-	function BackgroundUploader ( $, chrome, uploader, recorder ) {
+	function BackgroundUploader ( $, chrome, utilities, uploader, recorder ) {
 
 		var private = {
             
@@ -57,21 +57,9 @@
                                 console.log( "uploaded:", recording_data.urls.short_url );
                             
                                 $( document ).one( "click", function () {
-                                    // todo: pass in function for this instead of duplicating
-                                    // a general utilities class would be ideal
-                                    
-                                    // private.copy_to_clipboard( recording_data.urls.short_url );
-                                    var doc = document,
-                                    temp = doc.createElement("textarea"),
-                                    initScrollTop = doc.body.scrollTop;
-                                    doc.body.insertBefore(temp, doc.body.firstChild);
-                                    temp.value = text;
-                                    temp.focus();
-                                    doc.execCommand("SelectAll");
-                                    doc.execCommand("Copy", false, null);
-                                    temp.blur();
-                                    doc.body.scrollTop = initScrollTop;
-                                    doc.body.removeChild(temp);
+
+                                    utilities.copy_to_clipboard( recording_data.urls.short_url );
+
                                 });
                         
                                 chrome.runtime.sendMessage({ 
