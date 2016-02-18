@@ -64,11 +64,12 @@
     
 	var web_audio_recorder_wrap = new WebAudioRecorderWrap( chrome, window.navigator, WebAudioRecorder, AudioContext, "/js/lib/WebAudioRecorder/" );
 
-	( function set_up_popup_controller ( window, jQuery ) {
+	( function set_up_popup_controller ( window, chrome, jQuery ) {
 		chrome.identity.getProfileUserInfo( function ( info ) {
 			chrome.storage.local.get( null, function ( items ) {
 
 				window.popup_controller = new PopupController(
+                    chrome,
 					web_audio_recorder_wrap,
 					new Uploader( jQuery.ajax, {
 						sender_name: "",
@@ -81,7 +82,7 @@
 
 			});
 		});
-	} ( window, jQuery ) );
+	} ( window, chrome, jQuery ) );
 
 	( function set_up_gmail_recorder ( chrome ) {
 		chrome.storage.local.get( null, function ( items ) {

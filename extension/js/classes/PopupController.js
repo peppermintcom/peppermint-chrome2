@@ -1,5 +1,5 @@
 
-	function PopupController ( recorder, uploader, $, event_hub, transcription_manager ) {
+	function PopupController ( chrome, recorder, uploader, $, event_hub, transcription_manager ) {
 
 		var popup_state = {
 
@@ -92,72 +92,132 @@
 				clearTimeout( popup_state.timer );
 
 			},
+            
+            save_recording_to_storage: function ( recording_data ) {
+                return new Promise(function(resolve,reject){
+                    console.log('save this-' + recording_data.recording_id);
+                    chrome.storage.local.get("peppermint_upload_queue", function( data ){
+                        
+                        var storage;
+                        
+                        if(data && data.peppermint_upload_queue && data.peppermint_upload_queue.recordings){
+                            storage = data;                                
+                        } else {
+                            storage = { 'peppermint_upload_queue' : { 'recordings' : [] } };
+                        }
+                        
+                        storage.peppermint_upload_queue.recordings.push( recording_data );
+                        
+                        chrome.storage.local.set(storage, function(data) {
+                            if(chrome.runtime.lastError)
+                                console.error(chrome.runtime.lastError);
+                            else
+                                console.log('saved to storage-' + recording_data.recording_id); 
+                        });
+                        
+                    })
+                    resolve( recording_data.blob );
+                })
+            },
 
 			process_recording_blob: function ( blob, current_recording_thread_id ) {
-
-				popup_state.last_recording_blob = blob; 
-
-				recorder.blob_to_data_url( blob )
+                
+                var recording_data = {};
+                
+                recording_data.recording_id = Date.now();
+                
+                popup_state.last_recording_blob = blob;
+                                
+                recorder.blob_to_data_url( blob )
 				.then( function ( data_url ) {
 
-					console.log( data_url );
+                    recording_data.data_url = data_url;
 					
 					$( "#player", popup_state.pop_doc )[0].enable();
 					$( "#player", popup_state.pop_doc )[0].set_url( data_url );
 
 					popup_state.audio_data_url = URL.createObjectURL( blob );
 
-				});
+				})
+                .then( function () {
+                    
+                    return popup_state.transcript_promise;
+                    
+                })
+                .then( function( transcript ) {
+                    
+                    recording_data.transcription_data = transcript;
+                    
+                });
 
-				recorder.blob_to_buffer( blob )
+
+                uploader.get_token_urls()
+                .then( function( data ){
+                    
+                    recording_data.token = data.token;
+                    recording_data.urls = data.urls;
+                                        
+                    return private.save_recording_to_storage( recording_data );
+                        
+                })
+                .then( function () {
+                                        
+                    return recorder.blob_to_buffer( blob );
+                      
+                })								
 				.then( function ( buffer ) {
 
-				popup_state.transcript_promise
-				.then( function ( transcript ) {
+					return uploader.upload_buffer( recording_data.token, recording_data.urls, buffer, recording_data.transcription_data );
+                    
+                })
+                .then( function ( upload_success ) {
+                    
+                    var short_url = recording_data.urls.short_url;
+                    var transcript = recording_data.transcription_data;
+                    
+                    if (current_recording_thread_id !== popup_state.recording_thread_id)
+                        console.log( "aborted recording url:", recording_data.urls.short_url );
+                        
+                    if(upload_success){
+                        
+                        console.log( "uploaded: ", short_url );
+                        
+                        chrome.runtime.sendMessage({ 
+                            name: "recording_data_uploaded", recording_data: recording_data 
+                        });
+                        
+                        if ( transcript.text ) {
+                            private.copy_to_clipboard( short_url + " " + transcript.text );
+                        } else {
+                            private.copy_to_clipboard( short_url );
+                        }
+                        
+                        popup_state.transcript = transcript;
+                        popup_state.recording_url = short_url;
+                        popup_state.page_status = "finished";
+                        popup_state.page = "popup_finish";
 
-					uploader.upload_buffer( buffer, transcript )
-					.then( function ( urls ) {
+                        $( "#popup", popup_state.pop_doc )[0].set_url( short_url );
+                        $( "#popup", popup_state.pop_doc )[0].set_transcript( transcript.text );
+                        $( "#popup", popup_state.pop_doc )[0].set_page("popup_finish");
+                        $( "#popup", popup_state.pop_doc )[0].set_page_status("finished");
+                                                        
+                    } else {
+                        
+                        console.log("failed to upload: ", short_url);
+                        
+                    }                   
 
-							if ( current_recording_thread_id === popup_state.recording_thread_id ) {
+                })
+                .catch( function ( err ) {
+    
+                    console.error( err );
 
-								console.log( "uploaded:", urls.short );
+                    popup_state.page = "uploading_failed_page";
+                    $( "#popup", popup_state.pop_doc )[0].set_page("uploading_failed_page");
 
-								if ( transcript.text ) {
-									private.copy_to_clipboard( urls.short + " " + transcript.text );
-								} else {
-									private.copy_to_clipboard( urls.short );
-								}
-
-								popup_state.transcript = transcript;
-								popup_state.recording_url = urls.short;
-								popup_state.page_status = "finished";
-								popup_state.page = "popup_finish";
-
-								$( "#popup", popup_state.pop_doc )[0].set_url( urls.short );
-								$( "#popup", popup_state.pop_doc )[0].set_transcript( transcript.text );
-								$( "#popup", popup_state.pop_doc )[0].set_page("popup_finish");
-								$( "#popup", popup_state.pop_doc )[0].set_page_status("finished");
-								
-							} else {
-
-								console.log( "aborted recording url:", url );
-
-							}
-
-						})
-
-					})
-					.catch( function ( err ) {
-						
-						console.error( err );
-
-						popup_state.page = "uploading_failed_page";
-						$( "#popup", popup_state.pop_doc )[0].set_page("uploading_failed_page");
-					
-					});
-
-				});
-
+                })
+                
 			},
 
 			show_uploading_screen: function ( pop_doc ) {
