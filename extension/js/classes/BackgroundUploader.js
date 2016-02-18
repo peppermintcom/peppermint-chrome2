@@ -57,13 +57,9 @@
                             if (upload_success){
                                 
                                 console.log( "uploaded:", recording_data.urls.short_url );
-                            
-                                $( document ).one( "click", function () {
-
-                                    utilities.copy_to_clipboard( recording_data.urls.short_url );
-
-                                });
-                        
+                                
+                                utilities.copy_to_clipboard( recording_data.urls.short_url );
+                                                    
                                 chrome.runtime.sendMessage({ 
                                     name: "recording_data_uploaded", recording_data: recording_data 
                                 });
