@@ -30,7 +30,7 @@
                     }
                 }
             },
-            // items["options_data"]["enable_immediate_insert"]
+            
             start: function( callback ) {
                 chrome.storage.local.get("peppermint_upload_queue", function(data){            
                     if(private.recordings_exist(data)){
@@ -39,47 +39,73 @@
                         
                         var immediate_insert = utilities.options_data.enable_immediate_insert;
                         
-                        // todo: check timestamps & pop first recording in stack older than 1 minute
-                        var recording_data = data.peppermint_upload_queue.recordings[0];
+                        var recording_data = null;
                         
-                        var blob = recorder.data_url_to_blob(recording_data.data_url);
-                        
-                        recorder.blob_to_buffer( blob )
-                        .then(function(buffer){
-                            console.log(buffer);    
+                        $.each(data.peppermint_upload_queue.recordings, function( idx,val ){
                             
-                            var upload_buffer_function = immediate_insert ? uploader.upload_buffer_immediately : uploader.upload_buffer;
-
-                            return upload_buffer_function( recording_data.token, recording_data.urls, buffer, recording_data.transcription_data );
-                        })
-                        .then( function( upload_success ){
-                            
-                            if (upload_success){
+                            // check recording timestamp and only re-upload if older than 1.5 minutes
+                            if( val.recording_id && 
+                                val.recording_id > 0 && 
+                                (Date.now()-val.recording_id) / ( 60 * 1000 ) > 1.5){
                                 
-                                console.log( "uploaded:", recording_data.urls.short_url );
-                                
-                                utilities.copy_to_clipboard( recording_data.urls.short_url );
-                                                    
-                                chrome.runtime.sendMessage({ 
-                                    name: "recording_data_uploaded", recording_data: recording_data 
-                                });
-                                
-                                // todo: change to friendly tooltip popup message
-                                alert('background upload complete for ' + recording_data.urls.short_url);
-                                
-                            } else {
-                                
-                                console.log("failed to upload: ", recording_data.urls.short_url);
-                                
+                                recording_data = val;
+                                return false;
                             }
+                                
+                        });
+                        
+                        if( !recording_data ){
+                            
+                            console.log( 'of ' + data.peppermint_upload_queue.recordings.length + ' recordings, none are older than 1.5 minutes' );
+                            
+                            private.inprogress = false;
+                            
+                        }
+                        else{
+                         
+                            var blob = recorder.data_url_to_blob(recording_data.data_url);
+                            
+                            recorder.blob_to_buffer( blob )
+                            .then(function(buffer){
+                                console.log(buffer);    
+                                
+                                var upload_buffer_function = immediate_insert ? uploader.upload_buffer_immediately : uploader.upload_buffer;
 
-                        });                        
+                                return upload_buffer_function( recording_data.token, recording_data.urls, buffer, recording_data.transcription_data );
+                            })
+                            .then( function( upload_success ){
+                                
+                                if (upload_success){
+                                    
+                                    console.log( "uploaded:", recording_data.urls.short_url );
+                                    
+                                    utilities.copy_to_clipboard( recording_data.urls.short_url );
+                                                        
+                                    chrome.runtime.sendMessage({ 
+                                        name: "recording_data_uploaded", recording_data: recording_data 
+                                    });
+                                    
+                                    // todo: change to friendly tooltip popup message
+                                    alert('background upload complete for ' + recording_data.urls.short_url);
+                                    
+                                } else {
+                                    
+                                    console.log("failed to upload: ", recording_data.urls.short_url);
+                                    
+                                }
+
+                            });         
+                        }                                          
                         
                     } else {
+                        
                         private.log('no uploads in queue');
                         private.inprogress = false;
+                        
                     }
+                    
                     if(callback) callback();
+                    
                 })
             },
             
