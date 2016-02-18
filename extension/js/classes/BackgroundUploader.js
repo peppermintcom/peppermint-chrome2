@@ -30,12 +30,14 @@
                     }
                 }
             },
-            
+            // items["options_data"]["enable_immediate_insert"]
             start: function( callback ) {
                 chrome.storage.local.get("peppermint_upload_queue", function(data){            
                     if(private.recordings_exist(data)){
                         console.log('data found');
                         console.log(data);       
+                        
+                        var immediate_insert = utilities.options_data.enable_immediate_insert;
                         
                         // todo: check timestamps & pop first recording in stack older than 1 minute
                         var recording_data = data.peppermint_upload_queue.recordings[0];
