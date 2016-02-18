@@ -3,10 +3,20 @@
 
 		var private = {
 			
+            get_options_data: function ( ){
+                chrome.storage.local.get("options_data", function(data){
+                    
+                    public.options_data = data.options_data;
+                    
+                });    
+            }
+            
         };
-        
+                
         var public = {
 
+            options_data: {},
+            
             copy_to_clipboard: function ( text ) {
 				    
 			    var doc = document,
@@ -26,6 +36,8 @@
         };
 
 		( function constructor () {
+            
+            private.get_options_data();
 			
 
 		} () );
