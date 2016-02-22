@@ -147,11 +147,9 @@
                 .then( function( transcript ) {
                     
                     recording_data.transcription_data = transcript;
-                    
-                });
+                    return  uploader.get_token_urls();
 
-
-                uploader.get_token_urls()
+                })               
                 .then( function( data ){
                     
                     recording_data.token = data.token;
