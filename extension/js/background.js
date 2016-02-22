@@ -31,7 +31,7 @@
 	});
     
     // reload all instanes of Gmail
-    chrome.tabs.query({ url: "https://mail.google.com/*"}, function ( tabs ) {
+    chrome.tabs.query({ url: "https://mail.google.com/*" }, function ( tabs ) {
     	tabs.forEach( function ( tab ) {
     		chrome.tabs.reload( tab.id );
     	});

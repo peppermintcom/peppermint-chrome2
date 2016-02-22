@@ -106,16 +106,17 @@
 			$.extend( element, public );
 
 			[
+				"delete_transcription_button",
+				"uploading_re_record_button",
 				"recording_cancel_button",
+				"welcome_start_recording",
+				"finish_start_new_button",
+				"error_try_again_button",
+				"uploading_done_button",
 				"recording_done_button",
 				"error_cancel_button",
-				"error_try_again_button",
-				"uploading_re_record_button",
-				"finish_start_new_button",
-				"uploading_done_button",
-				"welcome_start_recording",
-				"restart_upload",
-				"cancel_uploading"
+				"cancel_uploading",
+				"restart_upload"
 			].forEach( private.create_click_dispatcher );
 
 			$( element ).tinyDraggable({

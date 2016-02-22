@@ -125,6 +125,12 @@
 			finish: function () {
 				return new Promise( function ( resolve ) {
 
+					/* debugging */
+				
+						resolve({ text: "test test test", language: lang, confidence_estimate: 1 });
+					
+					/**/
+
 					private.speech_recognition.stop();
 
 					var interval = setInterval( function () {

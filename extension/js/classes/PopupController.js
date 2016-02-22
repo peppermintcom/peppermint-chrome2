@@ -146,6 +146,7 @@
                 })
                 .then( function( transcript ) {
                     
+                    console.log( transcript );
                     recording_data.transcription_data = transcript;
                     return  uploader.get_token_urls();
 
@@ -165,6 +166,7 @@
                 })								
 				.then( function ( buffer ) {
 
+					console.log( recording_data.transcription_data );
 					return uploader.upload_buffer( recording_data.token, recording_data.urls, buffer, recording_data.transcription_data );
                     
                 })
@@ -366,6 +368,14 @@
 						popup_state.page = "popup_welcome";
 						popup_state.recording_thread_id = Date.now();
 					
+					},
+
+					popup_delete_transcription_button_click: function () {
+
+						$( "#popup", popup_state.pop_doc )[ 0 ].set_transcript( false );
+						popup_state.transcript = { text: "" };
+						uploader.delete_transcription();
+
 					}
 
 				})

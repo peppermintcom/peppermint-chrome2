@@ -260,6 +260,17 @@
 
 				});
 
+			},
+
+			delete_transcription: function () {
+
+				ajax({
+
+					type: "DELETE",
+					
+
+				});
+
 			}
 
 		};
