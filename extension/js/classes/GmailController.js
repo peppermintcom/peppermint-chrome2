@@ -174,7 +174,7 @@
                         console.log( "uploaded: ", recording_data.urls.short_url );
                     
                         chrome.runtime.sendMessage({ 
-                            name: "recording_data_uploaded", recording_data: recording_data 
+                            name: "recording_data_uploaded", recording_data 
                         });
                         
                         if(!immediate_insert)

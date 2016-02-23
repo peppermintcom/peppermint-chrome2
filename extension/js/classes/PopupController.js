@@ -396,7 +396,7 @@
 					page_status: "finished",
 					audio_data_url: data.recording_data.urls.long,
 					transcript: data.recording_data.transcription_data,
-					recording_url: data.recording_data.urls.short
+					recording_url: data.recording_data.urls.short_url
 
 				});
 
