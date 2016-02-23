@@ -213,7 +213,11 @@
 
                     transcription_data.audio_url = urls.canonical_url;
 
-                    private.upload_transcription( state.token, transcription_data );                    
+                    private.upload_transcription( state.token, transcription_data )
+                    .then( function ( response ) {
+                    	console.log( response );
+                    	g_state.last_transcription_url = response.transcription_url;
+                    });                    
 												
 					private.upload_until_success( urls.signed_url, buffer )
                     .then( function () {
@@ -244,7 +248,11 @@
 
 					transcription_data.audio_url = urls.canonical_url;
                         
-					private.upload_transcription( state.token, transcription_data );
+					private.upload_transcription( state.token, transcription_data )
+					.then( function ( response ) {
+						console.log( response );
+						g_state.last_transcription_url = response.transcription_url;
+					});
 					
 					private.upload_until_success( urls.signed_url, buffer )
                     .then( function () {
@@ -263,11 +271,23 @@
 			},
 
 			delete_transcription: function () {
+				
+				g_state.token_promise.then( function ( token ) {
 
-				ajax({
+					ajax({
 
-					type: "DELETE",
-					
+						type: "DELETE",
+						headers: {
+							'Authorization': 'Bearer ' + token,
+							'Content-Type': 'application/json',
+							'X-Api-Key' : 'kLOtvTZkwzDISbKBVYGbkwLErE1VJPRyyWvnIXi1qhniGLar9Kr5mQ'
+						},
+						url: g_state.last_transcription_url,
+						success: function () {
+							console.log( "transcription deleted" );
+						}
+
+					});
 
 				});
 

@@ -65,7 +65,7 @@
 					} else {
 
 						private.is_final = false;
-						//console.log( private.transcript + event.results[i][0].transcript );
+						console.log( private.transcript + event.results[i][0].transcript );
 
 					}
 
@@ -127,7 +127,7 @@
 
 					/* debugging */
 				
-						resolve({ text: "test test test", language: lang, confidence_estimate: 1 });
+						// resolve({ text: "test test test", language: lang, confidence_estimate: 1 });
 					
 					/**/
 
@@ -136,6 +136,8 @@
 					var interval = setInterval( function () {
 
 						if ( private.is_final || private.error === true || private.ended === true ) {
+
+							console.log( "TRANSCRIPT:", private.transcript );
 
 							clearInterval( interval );
 							resolve({ text: private.transcript, language: lang, confidence_estimate: private.confidence });
