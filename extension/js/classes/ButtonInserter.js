@@ -91,15 +91,15 @@
 
 					var mock_player = $( ".a3s table[bgcolor='#6fd5b9']:not(.hidden)" )[0];
 
-					if ( mock_player && mock_player.parentElement.querySelector( "input[type='hidden'][name='long_url']" ) ) {
+					if ( mock_player && mock_player.parentElement.querySelector( "a[alt='long_url']" ) ) {
 
 						mock_player.classList.add( "hidden" );
 					
 						mock_player.style.display = "none";
                         
                         var urls = { 
-                            long: mock_player.parentElement.querySelector( "input[type='hidden'][name='long_url']" ).value,
-                            short: mock_player.parentElement.querySelector( "input[type='hidden'][name='short_url']" ).value
+                            long: mock_player.parentElement.querySelector( "a[alt='long_url']" ).href,
+                            short: mock_player.parentElement.querySelector( "a[alt='short_url']" ).href
                         };
                                                 
                         $.get(chrome.extension.getURL('/templates/audio-player.html')
