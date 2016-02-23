@@ -54,6 +54,6 @@
 		display: block;
 	}
 
-	.I5 td>.row:nth-child( 2 ) {
+	.I5 td>.row:nth-child( 3 ) {
 		display: none !important;
 	}
