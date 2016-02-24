@@ -7,27 +7,27 @@
 		        url: chrome.extension.getURL("welcome_page/welcome.html"),
 		        active: true
 		    });
-
-			// set up storage defaults
-			chrome.storage.local.set({
-				
-				compose_button_has_been_used: false,
-				browser_action_tooltip_has_been_shown: false,
-				browser_action_popup_has_been_opened: false,
-                log_level: 'error',
-				
-				options_data: {
-				
-					disable_reply_button: false,
-					enable_immediate_insert: true,
-					transcription_language : window.navigator.language
-				
-				}
-			
-			});
 		    
 		}
         
+	});
+
+	// set up storage defaults
+	chrome.storage.local.set({
+		
+		compose_button_has_been_used: false,
+		browser_action_tooltip_has_been_shown: false,
+		browser_action_popup_has_been_opened: false,
+		log_level: 'error',
+		
+		options_data: {
+		
+			disable_reply_button: false,
+			enable_immediate_insert: true,
+			transcription_language : window.navigator.language
+		
+		}
+	
 	});
     
     // reload all instanes of Gmail
