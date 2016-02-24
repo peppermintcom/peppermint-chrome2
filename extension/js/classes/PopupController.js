@@ -175,38 +175,43 @@
                     var short_url = recording_data.urls.short_url;
                     var transcript = recording_data.transcription_data;
                     
-                    if (current_recording_thread_id !== popup_state.recording_thread_id)
-                        console.log( "aborted recording url:", recording_data.urls.short_url );
-                        
-                    if(upload_success){
-                        
-                        console.log( "uploaded: ", short_url );
-                        
-                        chrome.runtime.sendMessage({ 
-                            name: "recording_data_uploaded", recording_data: recording_data 
-                        });
-                        
-                        if ( transcript.text ) {
-                            private.copy_to_clipboard( short_url + " " + transcript.text );
-                        } else {
-                            private.copy_to_clipboard( short_url );
-                        }
-                        
-                        popup_state.transcript = transcript;
-                        popup_state.recording_url = short_url;
-                        popup_state.page_status = "finished";
-                        popup_state.page = "popup_finish";
+                    if ( current_recording_thread_id !== popup_state.recording_thread_id ) {
 
-                        $( "#popup", popup_state.pop_doc )[0].set_url( short_url );
-                        $( "#popup", popup_state.pop_doc )[0].set_transcript( transcript.text );
-                        $( "#popup", popup_state.pop_doc )[0].set_page("popup_finish");
-                        $( "#popup", popup_state.pop_doc )[0].set_page_status("finished");
-                                                        
+                        console.log( "aborted recording url:", recording_data.urls.short_url );
+                    	
                     } else {
-                        
-                        console.log("failed to upload: ", short_url);
-                        
-                    }                   
+
+	                    if ( upload_success ){
+	                        
+	                        console.log( "uploaded: ", short_url );
+	                        
+	                        chrome.runtime.sendMessage({ 
+	                            name: "recording_data_uploaded", recording_data: recording_data 
+	                        });
+	                        
+	                        if ( transcript.text ) {
+	                            private.copy_to_clipboard( short_url + " " + transcript.text );
+	                        } else {
+	                            private.copy_to_clipboard( short_url );
+	                        }
+	                        
+	                        popup_state.transcript = transcript;
+	                        popup_state.recording_url = short_url;
+	                        popup_state.page_status = "finished";
+	                        popup_state.page = "popup_finish";
+
+	                        $( "#popup", popup_state.pop_doc )[0].set_url( short_url );
+	                        $( "#popup", popup_state.pop_doc )[0].set_transcript( transcript.text );
+	                        $( "#popup", popup_state.pop_doc )[0].set_page("popup_finish");
+	                        $( "#popup", popup_state.pop_doc )[0].set_page_status("finished");
+	                                                        
+	                    } else {
+	                        
+	                        console.log("failed to upload: ", short_url);
+	                        
+	                    }       
+
+                    }            
 
                 })
                 .catch( function ( err ) {
