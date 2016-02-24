@@ -5,19 +5,12 @@
             
             inprogress: false,
             
-            loglevel: null,
-            
-            log: function(data){
-                if( private.loglevel == 'verbose' )
-                    console.log(data);
-            },
-
             recordings_exist: function(data){
                 return data && data.peppermint_upload_queue && data.peppermint_upload_queue.recordings && data.peppermint_upload_queue.recordings.length > 0;
             },
             
             run: function ( callback ){
-                private.log('background upload check - init');
+                utilities.log('background upload check - init');
                 
                 if(!private.inprogress){
                     private.inprogress = true;
@@ -67,7 +60,7 @@
                             
                             recorder.blob_to_buffer( blob )
                             .then(function(buffer){
-                                console.log(buffer);    
+                                utilities.log(buffer);    
                                 
                                 var upload_buffer_function = immediate_insert ? uploader.upload_buffer_immediately : uploader.upload_buffer;
 
@@ -99,7 +92,7 @@
                         
                     } else {
                         
-                        private.log('no uploads in queue');
+                        utilities.log('no uploads in queue');
                         private.inprogress = false;
                         
                     }
@@ -175,15 +168,9 @@
 
 		( function constructor () {
             
-            setInterval(function(){
-                chrome.storage.local.get(null, function(data){
-                    private.loglevel = data.log_level;    
-                })
-            }, 2000);
-            
             var background_upload_check_interval = setInterval(function(){
                 private.run(function(){
-                    private.log('backgound upload check - complete');
+                    utilities.log('backgound upload check - complete');
                 })
             }, 500);
 
