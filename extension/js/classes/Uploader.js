@@ -223,6 +223,11 @@
                         .then( function ( response ) {
                             console.log( response );
                             g_state.last_transcription_url = response.transcription_url;
+                        })
+                        .catch( function ( error ) {
+
+                            console.log(error);
+
                         });
                         
                     }              
@@ -266,6 +271,11 @@
                         .then( function ( response ) {
                             console.log( response );
                             g_state.last_transcription_url = response.transcription_url;
+                        })
+                        .catch( function ( error ) {
+
+                            console.log(error);
+
                         });
                         
                     }
