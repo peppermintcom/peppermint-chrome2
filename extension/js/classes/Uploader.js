@@ -211,13 +211,21 @@
                     state.short_url = urls.short_url;
                     state.canonical_url = urls.canonical_url;
 
-                    transcription_data.audio_url = urls.canonical_url;
-
-                    private.upload_transcription( state.token, transcription_data )
-                    .then( function ( response ) {
-                    	console.log( response );
-                    	g_state.last_transcription_url = response.transcription_url;
-                    });                    
+                    if(!transcription_data){
+                        
+                        console.log('no transcription data found');
+                        
+                    } else {
+                        
+                        transcription_data.audio_url = urls.canonical_url;
+                        
+                        private.upload_transcription( state.token, transcription_data )
+                        .then( function ( response ) {
+                            console.log( response );
+                            g_state.last_transcription_url = response.transcription_url;
+                        });
+                        
+                    }              
 												
 					private.upload_until_success( urls.signed_url, buffer )
                     .then( function () {
@@ -245,14 +253,22 @@
                     state.signed_url = urls.signed_url;
                     state.short_url = urls.short_url;
                     state.canonical_url = urls.canonical_url;
-
-					transcription_data.audio_url = urls.canonical_url;
+                                        
+                    if(!transcription_data){
                         
-					private.upload_transcription( state.token, transcription_data )
-					.then( function ( response ) {
-						console.log( response );
-						g_state.last_transcription_url = response.transcription_url;
-					});
+                        console.log('no transcription data found');
+                        
+                    } else {
+                        
+                        transcription_data.audio_url = urls.canonical_url;
+                        
+                        private.upload_transcription( state.token, transcription_data )
+                        .then( function ( response ) {
+                            console.log( response );
+                            g_state.last_transcription_url = response.transcription_url;
+                        });
+                        
+                    }
 					
 					private.upload_until_success( urls.signed_url, buffer )
                     .then( function () {

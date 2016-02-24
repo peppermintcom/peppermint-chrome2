@@ -10,25 +10,30 @@
             },
             
             run: function ( callback ){
-                utilities.log('background upload check - init');
                 
                 if(!private.inprogress){
+                    
                     private.inprogress = true;
                     
                     try {
+                        
                         private.start( callback );
+                        
                     } catch (error) {
+                        
                         console.error(error);                        
                         private.inprogress = false;
+                        
                     }
                 }
+                
             },
             
             start: function( callback ) {
                 chrome.storage.local.get("peppermint_upload_queue", function(data){            
                     if(private.recordings_exist(data)){
-                        console.log('data found');
-                        console.log(data);       
+                        console.log('recording found');
+                        utilities.log(data);       
                         
                         var immediate_insert = utilities.options_data.enable_immediate_insert;
                         
@@ -49,7 +54,7 @@
                         
                         if( !recording_data ){
                             
-                            console.log( 'of ' + data.peppermint_upload_queue.recordings.length + ' recordings, none are older than 1.5 minutes' );
+                            utilities.log( 'of ' + data.peppermint_upload_queue.recordings.length + ' recordings, none are older than 1.5 minutes' );
                             
                             private.inprogress = false;
                             
@@ -87,7 +92,14 @@
                                     
                                 }
 
-                            });         
+                            })
+                            .catch( function ( error ) {
+
+                                console.error('failed to complete background upload');
+                                console.error(error);                        
+                                private.inprogress = false;
+
+                            });       
                         }                                          
                         
                     } else {
