@@ -15,13 +15,13 @@
             
             get_log_level: function ( ) {
                 setInterval(function(){
-                    chrome.storage.local.get(null, function(data){
+                    chrome.storage.local.get("log_level", function(data){
                         if (!private.loglevel || private.loglevel !== data.log_level)
                             console.log('log level set to `' + data.log_level + '`');
                             
                         private.loglevel = data.log_level;    
                     })
-                }, 2000);
+                }, 500);
             }            
             
         };
