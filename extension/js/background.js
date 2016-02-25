@@ -54,6 +54,8 @@
 			});
         } else if ( message.name === 'WebAudioRecorderWrap.get_frequency_data' ){
             // ignore
+        } else if ( message.name === 'page_alert' ){
+            // ignore
         } else{
             console.info({ source: 'background.js', req: message, sender: sender });            
         }

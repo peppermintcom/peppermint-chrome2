@@ -65,6 +65,8 @@
 		
         reset_storage_settings();
         
+        var alerts = new PageAlerts( chrome, $ );        
+        
 		chrome.storage.local.get( null, function ( items ) {
 
 			insert_imports([
