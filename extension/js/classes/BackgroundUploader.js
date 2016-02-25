@@ -3,6 +3,8 @@
 
 		var private = {
             
+            minutes_to_wait: 1.25,
+            
             inprogress: false,
             
             recordings_exist: function(data){
@@ -44,7 +46,7 @@
                             // check recording timestamp and only re-upload if older than 1.5 minutes
                             if( val.recording_id && 
                                 val.recording_id > 0 && 
-                                (Date.now()-val.recording_id) / ( 60 * 1000 ) > 1.5){
+                                (Date.now()-val.recording_id) / ( 60 * 1000 ) > private.minutes_to_wait){
                                 
                                 recording_data = val;
                                 return false;
@@ -54,7 +56,7 @@
                         
                         if( !recording_data ){
                             
-                            utilities.log( 'of ' + data.peppermint_upload_queue.recordings.length + ' recordings, none are older than 1.5 minutes' );
+                            utilities.log( 'of ' + data.peppermint_upload_queue.recordings.length + ' recordings, none are older than ' + private.minutes_to_wait + ' minutes' );
                             
                             private.inprogress = false;
                             
@@ -83,8 +85,10 @@
                                         name: "recording_data_uploaded", recording_data: recording_data 
                                     });
                                     
-                                    // todo: change to friendly tooltip popup message
-                                    alert('background upload complete for ' + recording_data.urls.short_url);
+                                    utilities.set_page_alert({ 
+                                        'message':'Peppermint: recording upload completed!',
+                                        'type':'info'
+                                    });                                    
                                     
                                 } else {
                                     

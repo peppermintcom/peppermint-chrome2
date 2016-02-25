@@ -68,8 +68,7 @@
         border-radius: 4px;
         position: absolute;
         top: 8px;
-        left: 8px;
-        /*right: 8px;*/
+        right: 8px;
         /* Each alert has its own width */
         float: right;
         clear: right;
