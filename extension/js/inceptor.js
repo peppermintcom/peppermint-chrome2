@@ -98,7 +98,7 @@
 					new Player( jQuery, id_to_template( "-player-" ), $( "#peppermint_popup_player" )[0], url("/img") );
 					new Player( jQuery, id_to_template( "-player-" ), $( "#peppermint_mini_popup_player" )[0], url("/img") );
 					new MiniPopup( jQuery, id_to_template( "-mini-popup-" ), $( "#peppermint_mini_popup" )[0], url("/img"), event_hub );
-					new ButtonInserter( jQuery, !items["options_data"]["disable_reply_button"], id_to_template( "-button-inserter-" ), $( "#peppermint_button_inserter" )[0], url("/img"), event_hub );
+					new ButtonInserter( chrome, jQuery, !items["options_data"]["disable_reply_button"], id_to_template( "-button-inserter-" ), $( "#peppermint_button_inserter" )[0], url("/img"), event_hub );
                     
                     var contentRecorder = new ContentRecorder( chrome.runtime, event_hub );
                     var uploader = new Uploader( jQuery.ajax, sender_data );
