@@ -85,7 +85,7 @@
 				}, 50 );
 			},
 
-			replace_moock_player: function () {
+			replace_mock_player: function () {
 
 				setInterval( function () {
 
@@ -134,7 +134,7 @@
 
 			private.insert_compose_button();
 			private.insert_dropdown_button();
-			private.replace_moock_player();
+			private.replace_mock_player();
 			if ( insert_reply_button ) private.insert_reply_button();
 
 		} () );
