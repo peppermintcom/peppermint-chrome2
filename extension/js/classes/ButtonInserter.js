@@ -29,7 +29,7 @@
 				}, 50 );
 			},
 
-			insert_dwopdown_button: function () {
+			insert_dropdown_button: function () {
 				setInterval( function () {
 					$(".b7.J-M").each( function ( index, container ) {
 						if ( $( "#v_dropdown_button", container ).length === 0 ) {
@@ -133,7 +133,7 @@
 			$.extend( element, public );
 
 			private.insert_compose_button();
-			private.insert_dwopdown_button();
+			private.insert_dropdown_button();
 			private.replace_moock_player();
 			if ( insert_reply_button ) private.insert_reply_button();
 
