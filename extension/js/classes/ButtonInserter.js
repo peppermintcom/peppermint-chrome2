@@ -1,5 +1,5 @@
 	
-	function ButtonInserter ( $, insert_reply_button, template, element, img_url, event_hub ) {
+	function ButtonInserter ( chrome, $, insert_reply_button, template, element, img_url, event_hub ) {
 
 		var private = {
 
@@ -99,9 +99,11 @@
                         
                         var urls = { 
                             long: mock_player.parentElement.querySelector( "span[alt='long_url']" ).getAttribute( "title" ),
-                            short: mock_player.parentElement.querySelector( "span[alt='short_url']" ).getAttribute( "title" )
+                            short: mock_player.parentElement.querySelector( "span[alt='short_url']" ).getAttribute( "title" )                            
                         };
-                                                
+                        
+                        urls.long_no_protocol = urls.long.replace('http:','');
+                        
                         $.get(chrome.extension.getURL('/templates/audio-player.html')
                             , function(template_html) {
                             
@@ -111,6 +113,29 @@
                                 .replace( "{{SHORT_URL}}", urls.short )
                             );
                             
+                        });
+                        
+                        // if audio can't be reached, swap to an error message/icon
+                        $.ajax({
+                            type: 'HEAD',
+                            url: urls.long_no_protocol,                            
+                            complete: function(xhr, textStatus) {
+                                
+                                console.log(xhr);
+                                
+                                if( xhr.status == 403 || xhr.status == 404 )
+                                {
+                                    $.get(chrome.extension.getURL('/templates/audio-player-error.html')
+                                        , function(template_html) {
+                                        
+                                        $( mock_player ).next().html(
+                                            template_html
+                                            .replace( "{{IMG_URL}}", img_url )
+                                        );
+                                        
+                                    });
+                                }
+                            }
                         });
 
 					}
