@@ -35,7 +35,7 @@
 
 					var emailMessage = emailTemplate
 					.replace( /{{SHORT_URL}}/g, audioUrls.short_url )
-                    .replace( "{{LONG_URL}}", audioUrls.canonical_url )
+                    .replace( "{{LONG_URL}}", audioUrls.cloudfront_ssl_url )
                     .replace( "{{OBJECT_URL}}", audioUrls.object_url )
 					.replace( "{{TRANSCRIPT}}", transcript )
 					.replace( /{{SENDER_NAME}}/g, sender_data.sender_name )					

@@ -188,6 +188,8 @@
                         
                         data.urls = urls;
                         
+                        urls.cloudfront_ssl_url = urls.canonical_url.replace('http://go.peppermint.com/','https://duw3fm6pm35xc.cloudfront.net/');
+                        
                         resolve ( data );
                     })
 					.catch( function () {

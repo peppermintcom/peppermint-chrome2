@@ -103,7 +103,11 @@
                         };
                         
                         urls.long_no_protocol = urls.long.replace('http:','');
-                        urls.cloudfront_ssl = urls.long.replace('http://go.peppermint.com/','https://duw3fm6pm35xc.cloudfront.net/');
+                        
+                        if(urls.long.indexOf('cloudfront.net') > 0)
+                            urls.cloudfront_ssl = urls.long;
+                        else
+                            urls.cloudfront_ssl = urls.long.replace('http://go.peppermint.com/','https://duw3fm6pm35xc.cloudfront.net/');
                         
                         $.get(chrome.extension.getURL('/templates/audio-player.html')
                             , function(template_html) {
