@@ -99,17 +99,18 @@
                         
                         var urls = { 
                             long: mock_player.parentElement.querySelector( "span[alt='long_url']" ).getAttribute( "title" ),
-                            short: mock_player.parentElement.querySelector( "span[alt='short_url']" ).getAttribute( "title" )                            
+                            short: mock_player.parentElement.querySelector( "span[alt='short_url']" ).getAttribute( "title" )
                         };
                         
                         urls.long_no_protocol = urls.long.replace('http:','');
+                        urls.cloudfront_ssl = urls.long.replace('http://go.peppermint.com/','https://duw3fm6pm35xc.cloudfront.net/');
                         
                         $.get(chrome.extension.getURL('/templates/audio-player.html')
                             , function(template_html) {
                             
                             $( mock_player ).after(
                                 template_html
-                                .replace( "{{LONG_URL}}", urls.long )
+                                .replace( "{{LONG_URL}}", urls.cloudfront_ssl )
                                 .replace( "{{SHORT_URL}}", urls.short )
                             );
                             
@@ -118,10 +119,8 @@
                         // if audio can't be reached, swap to an error message/icon
                         $.ajax({
                             type: 'HEAD',
-                            url: urls.long_no_protocol,                            
+                            url: urls.cloudfront_ssl,
                             complete: function(xhr, textStatus) {
-                                
-                                console.log(xhr);
                                 
                                 if( xhr.status == 403 || xhr.status == 404 )
                                 {
