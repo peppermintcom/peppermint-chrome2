@@ -65,9 +65,7 @@
 		
         var utilities = new Utilities( chrome, $ );
         
-        var alerts = new PageAlerts( chrome, $ );        
-        
-        Raven.captureMessage("Test Error Message from inceptor");
+        var alerts = new PageAlerts( chrome, $ ); 
         
         reset_storage_settings();
         
