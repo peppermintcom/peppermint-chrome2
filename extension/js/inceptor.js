@@ -65,8 +65,8 @@
 		
         var utilities = new Utilities( chrome, $ );
         
-        var alerts = new PageAlerts( chrome, $ ); 
-        
+        var alerts = new PageAlerts( chrome, $, utilities );
+                
         reset_storage_settings();
         
 		chrome.storage.local.get( null, function ( items ) {
@@ -125,7 +125,10 @@
 
 			});
 
-		})
+		});
+        
+                 
+        
 
 	} ( jQuery, chrome, document ) );
 
