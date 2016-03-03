@@ -47,7 +47,7 @@
             
             load_error_logger: function( ) {
                 
-                Raven.config('https://55c6e25c0692442896dfd946e7972889@app.getsentry.com/69124').install();
+                Raven.config('https://53153404d9bf49e1893fe34d56a180d1@app.getsentry.com/69131').install();
                 
             }            
             
