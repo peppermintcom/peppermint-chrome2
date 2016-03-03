@@ -95,6 +95,8 @@
                                     console.log("failed to upload: ", recording_data.urls.short_url);
                                     
                                 }
+                                
+                                private.inprogress = false;
 
                             })
                             .catch( function ( error ) {
