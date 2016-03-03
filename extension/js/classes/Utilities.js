@@ -43,6 +43,12 @@
                     
                 });	
                 
+            },
+            
+            load_error_logger: function( ) {
+                
+                Raven.config('https://55c6e25c0692442896dfd946e7972889@app.getsentry.com/69124').install();
+                
             }            
             
         };
@@ -85,6 +91,8 @@
         };
 
 		( function constructor () {
+            
+            private.load_error_logger();
             
             private.get_log_level();
             
