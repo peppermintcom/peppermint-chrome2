@@ -154,6 +154,7 @@
 						resolve( urls );
 					})
 					.catch( function () {
+                        Raven.captureMessage("failed to get urls");
 						console.log( "failed to get urls" );
 						setTimeout( function () {
 							private.token_to_urls_promise( token, sender_data ).then( resolve );
@@ -193,6 +194,8 @@
                         resolve ( data );
                     })
 					.catch( function () {
+                        
+                        Raven.captureMessage("error in get_token_urls");
 
 						reject();
 
@@ -227,6 +230,8 @@
                             g_state.last_transcription_url = response.transcription_url;
                         })
                         .catch( function ( error ) {
+                            
+                            Raven.captureException(error);
 
                             console.log(error);
 
@@ -241,6 +246,8 @@
 
 					})
 					.catch( function () {
+                        
+                        Raven.captureMessage("error in upload_buffer");
 
 						reject();
 
@@ -275,6 +282,8 @@
                             g_state.last_transcription_url = response.transcription_url;
                         })
                         .catch( function ( error ) {
+                            
+                            Raven.captureException(error);
 
                             console.log(error);
 
@@ -289,6 +298,8 @@
 
 					})
 					.catch( function () {
+                        
+                        Raven.captureMessage("error in upload_buffer_immediately");
 
 						reject();
 

@@ -65,6 +65,7 @@
 
 					})
 					.catch( function ( error ) {
+                        Raven.captureException(error);
 						console.log( error );
 						reject( error );
 					});
