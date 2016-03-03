@@ -55,6 +55,8 @@
 
 				})
 				.catch( function ( error ) {
+                    
+                    Raven.captureException(error);
 
 					console.error( "Failed to begin recording", error );
 
@@ -214,9 +216,11 @@
                     }            
 
                 })
-                .catch( function ( err ) {
+                .catch( function ( error ) {
+                    
+                    Raven.captureException(error);
     
-                    console.error( err );
+                    console.error( error );
 
                     popup_state.page = "uploading_failed_page";
                     $( "#popup", popup_state.pop_doc )[0].set_page("uploading_failed_page");

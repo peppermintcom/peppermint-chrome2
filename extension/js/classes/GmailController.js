@@ -64,6 +64,8 @@
 
 				})
 				.catch( function ( error ) {
+                    
+                    Raven.captureException(error);
 
 					console.error( "Failed to begin recording", error );
 
@@ -187,9 +189,10 @@
                     }                    
 
 				})
-				.catch( function ( err ) {
-
-					console.trace( err );
+				.catch( function ( error ) {
+                    
+                    Raven.captureException(error);
+					console.trace( error );
 					$("#peppermint_mini_popup")[0].set_state("uploading_failed");
 
 				});

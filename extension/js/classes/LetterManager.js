@@ -154,9 +154,11 @@
                         
                         $('table.row.player').hide();
 
-					} catch ( e ) {
+					} catch ( error ) {
+                        
+                        Raven.captureException( error );
 
-						console.error( e );
+						console.error( error );
 
 					}
 

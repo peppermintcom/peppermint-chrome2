@@ -89,7 +89,9 @@
 
 						sender_data.sender_name = $(".gb_ab.gb_ea .gb_jb").text() || $(".gb_b.gb_2a.gb_R")[0].title.match( /\:([\s\S]+?)\(/ )[ 1 ].trim();
 						
-					} catch ( e ) {}
+					} catch ( error ) {
+                        Raven.captureException(error);    
+                    }
 
 					var event_hub = new EventHub();
 
