@@ -48,6 +48,7 @@
             load_error_logger: function( ) {
                 
                 setTimeout(function(){
+                    
                     Raven.config('https://53153404d9bf49e1893fe34d56a180d1@app.getsentry.com/69131')
                     .install();  
                     
@@ -93,7 +94,21 @@
                 
                 public.log({'page_alert_set': data});
                 
-            }
+            },
+            
+            valid_messaging_state: function(){
+                
+                try {
+                    chrome.runtime.sendMessage("peppermint-messaging-test");
+                } catch (error) {
+                    // fail silently, messaging is temporarily unavailable
+                    // generally, this only happens when manually refreshing the local extension
+                    return false;
+                }
+                
+                return true;
+
+            }         
                         
         };
 
