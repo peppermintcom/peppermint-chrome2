@@ -40,6 +40,10 @@
 	// set up the open welcome page listener. and get sender data
 	chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
 
+        // don't attempt to read bad messages
+        if(!message || !message.name)
+            return;
+            
 		if ( message === 'open_welcome_page' ) {
 		    chrome.tabs.create({
 		        url: chrome.extension.getURL("welcome_page/welcome.html"),
