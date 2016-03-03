@@ -63,7 +63,7 @@
 			return chrome.extension.getURL( url );
 		};
 		
-        var utilities = new Utilities( chrome, $ );
+        var utilities = new Utilities( chrome, $, 'inceptor' );
         
         var alerts = new PageAlerts( chrome, $, utilities );
                 

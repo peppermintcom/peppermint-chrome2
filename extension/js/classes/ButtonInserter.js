@@ -128,6 +128,8 @@
                                 
                                 if( xhr.status == 403 || xhr.status == 404 )
                                 {
+                                    Raven.captureMessage("invalid audio URL");
+                                    
                                     $.get(chrome.extension.getURL('/templates/audio-player-error.html')
                                         , function(template_html) {
                                         

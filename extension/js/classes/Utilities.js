@@ -1,5 +1,5 @@
 
-	function Utilities ( chrome, $ ) {
+	function Utilities ( chrome, $, source ) {
 
 		var private = {
 			
@@ -52,8 +52,8 @@
                     Raven.config('https://53153404d9bf49e1893fe34d56a180d1@app.getsentry.com/69131')
                     .install();  
                     
-                    console.log('Raven loaded');
-                    Raven.captureMessage('Raven loaded');
+                    console.log('Raven loaded from ' + source);
+                    Raven.captureMessage('Raven loaded from ' + source);
                     
                 }, 50);
                 
