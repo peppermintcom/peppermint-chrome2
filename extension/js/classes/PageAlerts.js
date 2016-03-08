@@ -1,5 +1,5 @@
 
-	function PageAlerts ( chrome, $, utilities ) {
+	function PageAlerts ( chrome, $ ) {
 
 		var private = {			          
             
@@ -7,8 +7,6 @@
                 
                 var listener = setInterval(function(){
                 
-                    if(!utilities.valid_messaging_state()) return;
-                        
                     chrome.runtime.sendMessage({name: "page_alert"}, function( data ){
                         
                         public.show_alert( data );

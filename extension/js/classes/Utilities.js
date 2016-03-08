@@ -1,5 +1,5 @@
 
-	function Utilities ( chrome, $, source ) {
+	function Utilities ( chrome, $ ) {
 
 		var private = {
 			
@@ -43,20 +43,6 @@
                     
                 });	
                 
-            },
-            
-            load_error_logger: function( ) {
-                
-                setTimeout(function(){
-                    
-                    Raven.config('https://53153404d9bf49e1893fe34d56a180d1@app.getsentry.com/69131')
-                    .install();  
-                    
-                    console.log('Raven loaded from ' + source);
-                    Raven.captureMessage('Raven loaded from ' + source);
-                    
-                }, 50);
-                
             }            
             
         };
@@ -94,27 +80,11 @@
                 
                 public.log({'page_alert_set': data});
                 
-            },
-            
-            valid_messaging_state: function(){
-                
-                try {
-                    chrome.runtime.sendMessage("peppermint-messaging-test");
-                } catch (error) {
-                    // fail silently, messaging is temporarily unavailable
-                    // generally, this only happens when manually refreshing the local extension
-                    return false;
-                }
-                
-                return true;
-
-            }         
+            }
                         
         };
 
 		( function constructor () {
-            
-            private.load_error_logger();
             
             private.get_log_level();
             

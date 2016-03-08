@@ -63,11 +63,9 @@
 			return chrome.extension.getURL( url );
 		};
 		
-        var utilities = new Utilities( chrome, $, 'inceptor' );
-        
-        var alerts = new PageAlerts( chrome, $, utilities );
-                
         reset_storage_settings();
+        
+        var alerts = new PageAlerts( chrome, $ );        
         
 		chrome.storage.local.get( null, function ( items ) {
 
@@ -89,14 +87,12 @@
 
 						sender_data.sender_name = $(".gb_ab.gb_ea .gb_jb").text() || $(".gb_b.gb_2a.gb_R")[0].title.match( /\:([\s\S]+?)\(/ )[ 1 ].trim();
 						
-					} catch ( error ) {
-                        Raven.captureException(error);    
-                    }
+					} catch ( e ) {}
 
 					var event_hub = new EventHub();
 
 					var tooltip = new Tooltip( jQuery, id_to_template( "-tooltip-" ), $( "#peppermint_tooltip" )[0], url("/img"), event_hub );
-					new AudioVisualizer( jQuery, $( "#audio_visualizer" )[0], chrome, utilities );
+					new AudioVisualizer( jQuery, $( "#audio_visualizer" )[0], chrome );
 					new Popup( jQuery, id_to_template( "-popup-" ), $( "#peppermint_popup" )[0], url("/img"), event_hub );
 					new Timer( jQuery, id_to_template( "-timer-" ), $( "#peppermint_timer" )[0], event_hub );
 					new Player( jQuery, id_to_template( "-player-" ), $( "#peppermint_popup_player" )[0], url("/img") );
@@ -125,10 +121,7 @@
 
 			});
 
-		});
-        
-                 
-        
+		})
 
 	} ( jQuery, chrome, document ) );
 

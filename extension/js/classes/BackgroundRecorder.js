@@ -12,7 +12,6 @@
 					transcription_manager.start();
 				})
 				.catch( function ( error ) {
-                    Raven.captureException(error);
 					callback({
 						started: false,
 						error: {

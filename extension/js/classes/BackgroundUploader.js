@@ -23,7 +23,6 @@
                         
                     } catch (error) {
                         
-                        Raven.captureException(error);
                         console.error(error);                        
                         private.inprogress = false;
                         
@@ -101,9 +100,8 @@
 
                             })
                             .catch( function ( error ) {
-                                
-                                Raven.captureException(error);
-                                console.error('failed to complete background upload')                                
+
+                                console.error('failed to complete background upload');
                                 console.error(error);                        
                                 private.inprogress = false;
 
