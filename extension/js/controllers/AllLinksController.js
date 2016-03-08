@@ -21,23 +21,23 @@
 
 			},
 
-			process_a_link: function ( element ) {
+			process_a_link: function ( link ) {
 
-				var short_link_id = private.link_to_short_link_id( element );
+				var short_link_id = private.link_to_short_link_id( link );
 
-				if ( short_link_id && !element.dataset.upgraded ) {
+				if ( short_link_id && !link.peppermint_link_flag ) {
 
 					backend_manager.short_link_id_to_recording_data(
-						private.link_to_short_link_id( element )
+						private.link_to_short_link_id( link )
 					).then( function ( data ) {
 
 						peppermint_link_maker.upgrade_link(
-							element,
+							link,
 							data.long_url,
 							data.transcription
 						);
 
-						element.dataset.upgraded = true;
+						link.peppermint_link_flag = true;
 
 					});
 
@@ -45,57 +45,27 @@
 
 			},
 
-			mutation_observer:  function ( mutations ) {
+			process_links: function ( links ) {
 
-				for ( var i = mutations.length; i--; ) {
+				for ( var i = links.length; i--; ) {
 
-					if ( mutations[ i ].type = "childList" ) {
-
-						for ( var j = mutations[ i ].addedNodes.length; j--; ) {
-
-							if ( $( mutations[ j ].addedNodes[ j ] ).is( "a" ) ) {
-
-								private.process_a_link( mutations[ j ].addedNodes[ j ] );								
-
-							} else {
-
-								$( "a", mutations[ j ].addedNodes[ j ] ).each( function ( index, element ) {
-
-									private.process_a_link( element );
-
-								});
-
-							}
-
-						};
-
-					}
+					private.process_a_link( links[ i ] );
 
 				}
 
-			},
+			}
 
 		};
 
 		( function () {
 
-			var observer = new MutationObserver( private.mutation_observer );
+			private.process_links( document.getElementsByTagName( "a" ) );
 
-			observer.observe( document.body, {
-
-				childList: true,
-				attributes: false,
-				characterData: false,
-				subtree: true,
-				attributeOldValue: false
-
-			});
-
-			$( "a" ).each( function ( index, element ) {
-
-				private.process_a_link( element );
-
-			});
+			var interval = setInterval( function () {
+		
+				private.process_links( document.getElementsByTagName( "a" ) );
+		
+			}, 50 );
 
 		} () )
 

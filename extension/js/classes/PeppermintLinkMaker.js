@@ -28,12 +28,41 @@
 
 			},
 
-			make_play_icon: function ( element ) {
+			attach_icon_to_link: function ( icon, link ) {
+
+				var interval = setInterval( function () {
+
+					var rect = link.getBoundingClientRect();
+
+					icon.style.top = rect.top + "px";
+					icon.style.left = rect.left + "px";
+
+					if ( document.elementFromPoint( rect.left + 12, rect.top ) === link ) {
+
+						icon.classList.remove( "peppermint_link_icon_overlayed" );
+
+					} else {
+
+						icon.classList.add( "peppermint_link_icon_overlayed" );
+
+					}
+
+					if ( !$.contains( document, link ) ) {
+
+						clearInterval( interval );
+						$( icon ).remove();
+
+					}
+
+				}, 10 );
+
+			},
+
+			make_play_icon: function ( link ) {
 
 				var play_icon = document.createElement( "img" );
 				play_icon.src = chrome.extension.getURL( "/img/play-button.png" );
 				play_icon.classList.add( "peppermint_link_icon" );
-				play_icon.classList.add( "peppermint_link_icon_first" );
 				private.detach_events( play_icon );
 
 				$( play_icon ).on( "click", function () {
@@ -44,25 +73,17 @@
 
 				});
 
-				setInterval( function () {
-
-					var bounding_client_rect = element.getBoundingClientRect();
-
-					play_icon.style.top = bounding_client_rect.top + "px";
-					play_icon.style.left = bounding_client_rect.left + "px";
-
-				}, 50 );
+				private.attach_icon_to_link( play_icon, link );
 
 				return play_icon;
 
 			},
 
-			make_pause_icon: function ( element ) {
+			make_pause_icon: function ( link ) {
 
 				var pause_icon = document.createElement( "img" );
 				pause_icon.src = chrome.extension.getURL( "/img/pause-button.png" );
 				pause_icon.classList.add( "peppermint_link_icon" );
-				pause_icon.classList.add( "peppermint_link_icon_first" );
 				private.detach_events( pause_icon );
 
 				$( pause_icon ).on( "click", function () {
@@ -73,14 +94,7 @@
 
 				});
 
-				setInterval( function () {
-
-					var bounding_client_rect = element.getBoundingClientRect();
-
-					pause_icon.style.top = bounding_client_rect.top + "px";
-					pause_icon.style.left = bounding_client_rect.left + "px";
-
-				}, 50 );
+				private.attach_icon_to_link( pause_icon, link );
 
 				$( pause_icon ).hide();
 
@@ -127,7 +141,7 @@
 				play_icon.audio_element = audio_element;
 				pause_icon.audio_element = audio_element;
 
-				$( document.body ).append( text_icon );
+				// $( document.body ).append( text_icon );
 				$( document.body ).append( play_icon );
 				$( document.body ).append( pause_icon );
 
