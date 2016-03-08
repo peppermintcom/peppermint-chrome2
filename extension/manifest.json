@@ -34,7 +34,8 @@
 					"/js/classes/LetterManager.js",
 					"/js/classes/ButtonInserter.js",
 					"/js/classes/ContentRecorder.js",
-					"/js/classes/GmailController.js",
+
+					"/js/controllers/GmailController.js",
 
 					"/js/elements/Timer.js",
 					"/js/elements/Popup.js",
@@ -70,6 +71,33 @@
 
 					"/js/tooltip_inserter.js"
 
+				]
+			},
+			{
+				"matches": [ 
+
+					"https://*/*",
+					"http://*/*"
+				],
+				"exclude_matches": [
+					
+					"https://mail.google.com/*"
+
+				],
+				"js": [
+
+					"/js/lib/jQuery/jquery-2.1.4.min.js",
+					
+					"/js/classes/BackendManager.js",
+					"/js/classes/PeppermintLinkMaker.js",
+
+					"/js/controllers/AllLinksController.js",
+
+					"/js/all_links_content.js"
+
+				],
+				"css": [
+					"/css/all_links_styles.css"
 				]
 			}
 		],
@@ -114,7 +142,8 @@
                 "/js/classes/BackgroundUploader.js",
 				"/js/classes/EventHub.js",
 				"/js/classes/Uploader.js",
-				"/js/classes/PopupController.js",
+				
+				"/js/controllers/PopupController.js",
 
 				"/js/background.js"
 
