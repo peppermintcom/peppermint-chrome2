@@ -70,12 +70,61 @@
                         writeKey: "cc6c23ec2471b22c29a9760a4dea1611d44b5b07fad2a64b5b892c6883d6ce9d415bc2fcd2742d2f9d5a3d72ba3c7b72fdda0632788ed7bd8aeacac3999ad69dc19e175c1a1375b02d136b429379d5dc1b808fb04f985ffb22244073d801ba99"
                     });
                     
-                    private.analytics_client.addEvent("analytics_load", { source: source });
+                    private.analytics_client.addEvent("analytics-load", { source: source });
                     
-                    console.log("keen analytics loaded");
+                    console.log("Keen loaded from " + source);
                     
                 }
                 
+            },
+            
+            send_analytics_metric: function ( metric, callback ) {
+                
+                if ( private.analytics_client === null ) {
+                    
+                    private.load_analytics_tool();
+                    
+                    setTimeout(function(){
+                        private.send_analytics_metric( metric, callback );
+                    }, 500);
+                    
+                } else {
+                                        
+                    private.analytics_client.addEvent( metric.name, metric.val, function(err, res){
+                        
+                        var response = {};
+                        
+                        if (err) {                            
+                            
+                            // todo: log to Raven
+                            
+                            response = { 
+                                result: 'Keen ERROR', 
+                                metric_name: metric.name, 
+                                metric_val: metric.val, 
+                                err 
+                            };                            
+                            
+                        }
+                        else {  
+                            
+                            response = { 
+                                result: 'Keen result', 
+                                metric_name: metric.name, 
+                                metric_val: metric.val, 
+                                res 
+                            };
+
+                        }
+                        
+                        console.log(response);
+                            
+                        if(callback) callback(response);
+                            
+                    });
+                    
+                }                
+
             }            
             
         };
@@ -130,48 +179,35 @@
             },
             
             // metric: { name: 'name_of_metric', val: {/* object with data to pass */} }
-            send_analytics_metric: function ( metric, callback ) {
+            add_metric: function ( metric, callback ) {
                 
-                if ( private.analytics_client === null ) {
+                if( source === 'background' )
+                
+                    private.send_analytics_metric ( metric, callback );
                     
-                    console.log('keen not yet loaded');
+                else {
                     
-                    private.load_analytics_tool();
+                    if(!public.valid_messaging_state()){
+                        setTimeout(function() {
+                            add_metric( metric, callback );
+                        }, 500);
+                    }
+                    else{
+                        chrome.runtime.sendMessage({ name: 'add_metric', val: metric }, function(result) {
+                            if ( callback ) callback( result );
+                        })    
+                    }
                     
-                    setTimeout(function(){
-                        send_analytics_metric( metric, callback );
-                    }, 500);
-                    
-                } else {
-                    
-                    console.log("sending keen metric");
-                    
-                    private.analytics_client.addEvent( metric.name, metric.val, function(err, res){
-                    
-                        if (err) {                            
-                            // todo: log to Raven
-                            console.log(err);
-                            callback(err);
-                        }
-                        else {                            
-                            console.log(res);
-                            callback(res);
-                        }
-                        
-                    });
-                    
-                }                
-
-            }         
+                }
+                
+            }
                         
         };
 
 		( function constructor () {
             
             private.load_error_logger();
-            
-            private.load_analytics_tool();
-            
+                        
             private.get_log_level();
             
             private.get_options_data();
@@ -179,15 +215,7 @@
             private.send_page_alert_controller();
             
             
-            public.send_analytics_metric( 
-            { 
-                name: 'class-load', val: { 
-                    class: 'Utilities.js',
-                    source: source 
-                }
-            }, function(result){
-                console.log(result);
-            });
+            public.add_metric({ name: 'class-load', val: { class: 'Utilities.js', source: source } });
 
 		} () );
         
