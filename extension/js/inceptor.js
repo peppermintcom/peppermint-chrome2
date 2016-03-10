@@ -127,7 +127,7 @@
 
 		});
         
-                 
+       utilities.add_metric({ name: 'class-load', val: { class: 'inceptor.js' } });          
         
 
 	} ( jQuery, chrome, document ) );

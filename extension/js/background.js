@@ -36,6 +36,7 @@
     chrome.tabs.query({ url: "https://mail.google.com/*" }, function ( tabs ) {
     	tabs.forEach( function ( tab ) {
     		chrome.tabs.reload( tab.id );
+            utilities.add_metric({ name: 'page-load', val: { page: 'gmail', tab_id: tab.id } });
     	});
     });
 
@@ -47,6 +48,7 @@
 		        url: chrome.extension.getURL("welcome_page/welcome.html"),
 		        active: true
 		    });
+            utilities.add_metric({ name: 'page-load', val: { page: 'welcome' } });
 		} else if ( message === 'get_sender_data' ) {
 			chrome.identity.getProfileUserInfo( function ( info ) {
 				callback({
@@ -132,3 +134,5 @@
 			);
 		});
 	} ( jQuery, chrome ) );
+    
+    utilities.add_metric({ name: 'class-load', val: { class: 'background.js' } });
