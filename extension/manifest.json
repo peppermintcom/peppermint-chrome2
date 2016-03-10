@@ -25,7 +25,7 @@
 
 					"/js/lib/jQuery/jquery-2.1.4.min.js",
                     "/js/lib/raven.min.js",
-                    "/js/lib/keen.min.js",                    
+                    "/js/lib/keen-tracker.min.js",                    
                     "/js/lib/ohsnap.min.js",
 				    
                     "/js/classes/Utilities.js",
@@ -65,7 +65,7 @@
 					
                     "/js/lib/raven.min.js",
                     
-                    "/js/lib/keen.min.js",
+                    "/js/lib/keen-tracker.min.js",
                     
 					"/js/classes/EventHub.js",
 
@@ -107,7 +107,7 @@
 				"/js/lib/WebAudioRecorder/WebAudioRecorder.js",
 				"/js/shims.js",
                 "/js/lib/raven.min.js",
-                "/js/lib/keen.min.js",
+                "/js/lib/keen-tracker.min.js",
                 "/js/lib/ohsnap.min.js",
 				
                 "/js/classes/Utilities.js",
