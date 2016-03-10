@@ -134,7 +134,7 @@
 		},
 
 
-		"content_security_policy": "script-src 'self' 'unsafe-eval' https://*.google.com; object-src 'self'",
+		"content_security_policy": "script-src 'self' 'unsafe-eval' https://*.google.com https://api.keen.io; object-src 'self'",
 
 		"homepage_url": "http://peppermint.com"
 
