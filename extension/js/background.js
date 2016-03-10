@@ -1,4 +1,6 @@
 
+    var utilities = new Utilities( chrome, jQuery, 'background' );
+    
 	// Open the welcome page on install
 	chrome.runtime.onInstalled.addListener(function (details) {
 		if ( details.reason === "install" ) {
@@ -52,19 +54,35 @@
 					sender_email: info.email
 				});
 			});
-        } else if ( message.name === 'WebAudioRecorderWrap.get_frequency_data' ){
-            // ignore
-        } else if ( message.name === 'page_alert' ){
-            // ignore
-        } else if ( message === 'peppermint-messaging-test' ){
-            // ignore
-        } else{
-            console.info({ source: 'background.js', req: message, sender: sender });            
         }
         
 	});
+    
+    // send any metrics logged from content scripts
+    chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
 
-    var utilities = new Utilities( chrome, jQuery, 'background' );
+		if ( message.name === 'add_metric' ) {            
+		    utilities.add_metric( message.val, callback );
+		}
+        
+	});
+    
+    // log all unhandled messages
+    chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
+
+		if ( message !== 'open_welcome_page' && 
+             message !== 'get_sender_data' &&
+             message.name !== 'WebAudioRecorderWrap.get_frequency_data' &&
+             message.name !== 'page_alert' &&
+             message !== 'peppermint-messaging-test' &&
+             message.name !== 'add_metric') 
+        {
+		    console.info({ 
+                info: 'unhandled message', source: 'background.js', message, sender 
+            });
+        }
+        
+	});
     
 	var web_audio_recorder_wrap = new WebAudioRecorderWrap( chrome, window.navigator, WebAudioRecorder, AudioContext, "/js/lib/WebAudioRecorder/" );
 
