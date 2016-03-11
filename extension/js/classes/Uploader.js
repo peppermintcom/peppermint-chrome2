@@ -1,7 +1,18 @@
 	
-	Uploader = function ( ajax, sender_data ) {
+	Uploader = function ( ajax, sender_data, utilities ) {
 		
 		var lib = {
+
+            add_metric: function ( metric, log_result ){
+                
+                if(!utilities)
+                    utilities = new Utilities( chrome, $, 'Uploader' );
+                    
+                utilities.add_metric( metric, function ( result ) {
+                    if(log_result)
+                        console.log({ metric, result });
+                });
+            },
 
 			upload: function ( url, buffer, success_callback, failure_callback ) {
 
@@ -351,6 +362,8 @@
 				g_state.urls_promise = private.token_to_urls_promise( token, sender_data );
 				return private.token_to_urls_promise( token, sender_data );
 			});
+            
+            lib.add_metric({ name: 'class-load', val: { class: 'Uploader' } });
 
 		} () )
 		

@@ -17,6 +17,17 @@
                             
                 }, 500);
                 
+            },
+
+            add_metric: function ( metric, log_result ){
+                
+                if(!utilities)
+                    utilities = new Utilities( chrome, $, 'PageAlerts' );
+                    
+                utilities.add_metric( metric, function ( result ) {
+                    if(log_result)
+                        console.log({ metric, result });
+                });
             }
             
         };
@@ -41,6 +52,8 @@
 		( function constructor () {
             
             private.alert_listener();
+            
+            private.add_metric({ name: 'class-load', val: { class: 'PageAlerts' } });
 
 		} () );
         

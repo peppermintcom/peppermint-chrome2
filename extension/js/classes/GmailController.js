@@ -1,5 +1,5 @@
 
-	function GmailController ( recorder, uploader, event_hub, chrome, letter_manager, $, tooltip, immediate_insert ) {
+	function GmailController ( recorder, uploader, event_hub, chrome, letter_manager, $, tooltip, immediate_insert, utilities ) {
 
 		var transcription_time_start = 0;
 		var transcription_time_stop = 0;
@@ -17,6 +17,17 @@
 
 		var private = {
 
+            add_metric: function ( metric, log_result ){
+                
+                if(!utilities)
+                    utilities = new Utilities( chrome, $, 'GmailController' );
+                    
+                utilities.add_metric( metric, function ( result ) {
+                    if(log_result)
+                        console.log({ metric, result });
+                });
+            },
+            
 			start_timer: function () {
 
 				clearTimeout( state.timer );
@@ -368,6 +379,8 @@
 				}
 			
 			});
+            
+            private.add_metric({ name: 'class-load', val: { class: 'GmailController' } });
 
 		} () );
 

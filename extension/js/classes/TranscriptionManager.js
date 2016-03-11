@@ -1,5 +1,5 @@
 
-	function TranscriptionManager ( $, lang ) {
+	function TranscriptionManager ( $, lang, utilities ) {
 
 		var event_handlers = {
 
@@ -94,7 +94,18 @@
 
 				if ( private.debugging ) console.trace( arguments );
 
-			}
+			},
+
+            add_metric: function ( metric, log_result ){
+                
+                if(!utilities)
+                    utilities = new Utilities( chrome, $, 'TranscriptionManager' );
+                    
+                utilities.add_metric( metric, function ( result ) {
+                    if(log_result)
+                        console.log({ metric, result });
+                });
+            }
 
 		};
 
@@ -178,6 +189,8 @@
 			private.speech_recognition.interimResults = true;
 
 			$.extend( private.speech_recognition, event_handlers );
+            
+            private.add_metric({ name: 'class-load', val: { class: 'TranscriptionManager' } });
 
 		} () )
 

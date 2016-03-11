@@ -1,6 +1,21 @@
 
-	function ContentRecorder ( runtime, event_hub ) {
+	function ContentRecorder ( runtime, event_hub, utilities ) {
 
+        var private = {        
+
+            add_metric: function ( metric, log_result ){
+                
+                if(!utilities)
+                    utilities = new Utilities( chrome, $, 'ContentRecorder' );
+                    
+                utilities.add_metric( metric, function ( result ) {
+                    if(log_result)
+                        console.log({ metric, result });
+                });
+            }    
+            
+        };
+        
 		var public = {
 
 			start: function () {
@@ -99,6 +114,12 @@
 			}
 
 		};
+        
+        ( function constructor () {
+            
+            private.add_metric({ name: 'class-load', val: { class: 'ContentRecorder' } });
+
+		} () );
 
 		return public;
 

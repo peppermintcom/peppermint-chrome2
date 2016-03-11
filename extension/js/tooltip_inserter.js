@@ -1,6 +1,17 @@
 
-	( function () {
+	( function ( utilities ) {
 		
+        function add_metric ( metric, log_result ){
+            
+            if(!utilities)
+                utilities = new Utilities( chrome, $, 'tooltip_inserter' );
+                
+            utilities.add_metric( metric, function ( result ) {
+                if(log_result)
+                    console.log({ metric, result });
+            });
+        };
+        
 		function insert_imports( imports ) {
 			
 			return new Promise( function ( resolve ) {
@@ -103,5 +114,11 @@
 			}
 
 		});
+        
+        ( function constructor () {
+            
+            add_metric({ name: 'class-load', val: { class: 'tooltip_inserter' } });
+
+		} () );
 
 	} () )

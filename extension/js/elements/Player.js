@@ -1,9 +1,20 @@
 
-	var Player = function ( $, template, element, img_url ) {
+	var Player = function ( $, template, element, img_url, utilities ) {
 		
 		var private = {
 			
 			audio: new Audio(),
+            
+            add_metric: function ( metric, log_result ){
+                
+                if(!utilities)
+                    utilities = new Utilities( chrome, $, 'Player' );
+                    
+                utilities.add_metric( metric, function ( result ) {
+                    if(log_result)
+                        console.log({ metric, result });
+                });
+            },
 			
 			set_control_icon: function ( state ) {
 				if ( state === 'play' ) {
@@ -29,10 +40,20 @@
 			handle_play_click: function () {
 				private.set_control_icon("pause");
 				private.play();
+                
+                private.add_metric({ 
+                    name: 'user-click', 
+                    val: { class: 'Player', function: 'handle_play_click' }                     
+                }, true);
 			},
 			handle_pause_click: function () {
 				private.set_control_icon("play");
 				public.pause();
+                
+                private.add_metric({ 
+                    name: 'user-click', 
+                    val: { class: 'Player', function: 'handle_pause_click' }                     
+                }, true);
 			},
 			handle_stripe_click: function ( event ) {
 				private.audio.currentTime = ( ( event.offsetX ) / event.currentTarget.getBoundingClientRect().width ) * private.audio.duration;
@@ -87,6 +108,8 @@
 			$( "#play", element.shadowRoot ).on( 'click', private.handle_play_click );
 			$( "#pause", element.shadowRoot ).on( 'click', private.handle_pause_click );
 			$( ".stripe_container", element.shadowRoot ).on( 'click', private.handle_stripe_click );
+            
+            private.add_metric({ name: 'class-load', val: { class: 'Player' } });
 
 		} () )
 

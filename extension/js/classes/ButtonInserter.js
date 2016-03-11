@@ -1,7 +1,18 @@
 	
-	function ButtonInserter ( chrome, $, insert_reply_button, template, element, img_url, event_hub ) {
+	function ButtonInserter ( chrome, $, insert_reply_button, template, element, img_url, event_hub, utilities ) {
 
 		var private = {
+
+            add_metric: function ( metric, log_result ){
+                
+                if(!utilities)
+                    utilities = new Utilities( chrome, $, 'ButtonInserter' );
+                    
+                utilities.add_metric( metric, function ( result ) {
+                    if(log_result)
+                        console.log({ metric, result });
+                });
+            },
 
 			insert_compose_button: function () {
 				setInterval( function () {
@@ -166,6 +177,8 @@
 			private.insert_dropdown_button();
 			private.replace_mock_player();
 			if ( insert_reply_button ) private.insert_reply_button();
+            
+            private.add_metric({ name: 'class-load', val: { class: 'ButtonInserter' } });
 
 		} () );
 

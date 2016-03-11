@@ -86,7 +86,7 @@
         
 	});
     
-	var web_audio_recorder_wrap = new WebAudioRecorderWrap( chrome, window.navigator, WebAudioRecorder, AudioContext, "/js/lib/WebAudioRecorder/" );
+	var web_audio_recorder_wrap = new WebAudioRecorderWrap( chrome, window.navigator, WebAudioRecorder, AudioContext, "/js/lib/WebAudioRecorder/", utilities );
 
 	( function set_up_popup_controller ( window, chrome, jQuery ) {
 		chrome.identity.getProfileUserInfo( function ( info ) {
@@ -101,7 +101,8 @@
 					}),
 					jQuery,
 					new EventHub(),
-					new TranscriptionManager( jQuery, items.options_data.transcription_language )
+					new TranscriptionManager( jQuery, items.options_data.transcription_language ),
+                    utilities
 				);
 
 			});
@@ -114,7 +115,8 @@
 			window.background_recorder = new BackgroundRecorder(
 				chrome.runtime,
 				web_audio_recorder_wrap,
-				new TranscriptionManager( jQuery, items.options_data.transcription_language )
+				new TranscriptionManager( jQuery, items.options_data.transcription_language ),
+                utilities
 			);
 
 		});
@@ -135,4 +137,4 @@
 		});
 	} ( jQuery, chrome ) );
     
-    utilities.add_metric({ name: 'class-load', val: { class: 'background.js' } });
+    utilities.add_metric({ name: 'class-load', val: { class: 'background' } });

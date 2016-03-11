@@ -1,9 +1,20 @@
-(function(){
+( function () {
 
     'use strict';
 
 	window.addEventListener("load", initAudio);
 
+    function add_metric ( metric, log_result ){
+        
+        if(!utilities)
+            utilities = new Utilities( chrome, $, 'welcome' );
+            
+        utilities.add_metric( metric, function ( result ) {
+            if(log_result)
+                console.log({ metric, result });
+        });
+    }
+    
 	function initAudio() {
 	    if ( !navigator.getUserMedia ) { navigator.getUserMedia = navigator.webkitGetUserMedia; }
 	    navigator.getUserMedia(
@@ -26,4 +37,11 @@
 	        }
 	    );
 	}
+    
+    ( function constructor () {
+            
+        add_metric({ name: 'class-load', val: { class: 'welcome' } });
+
+	} () );
+        
 })();

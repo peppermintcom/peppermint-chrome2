@@ -1,6 +1,17 @@
 
-	( function ( $, chrome ) {
+	( function ( $, chrome, utilities ) {
 		
+        function add_metric ( metric, log_result ){
+            
+            if(!utilities)
+                utilities = new Utilities( chrome, $, 'options' );
+                
+            utilities.add_metric( metric, function ( result ) {
+                if(log_result)
+                    console.log({ metric, result });
+            });
+        }
+        
 		chrome.storage.local.get( null, function ( items ) {
 			
 			var browser_language = window.navigator.language;
@@ -52,5 +63,11 @@
 			});
 
 		});
+        
+        ( function constructor () {
+    
+            private.add_metric({ name: 'class-load', val: { class: 'options' } });
+
+        } () );
 
 	} ( jQuery, chrome ) );

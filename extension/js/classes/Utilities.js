@@ -117,7 +117,7 @@
 
                         }
                         
-                        console.log(response);
+                        // console.log(response);
                             
                         if(callback) callback(response);
                             
@@ -206,16 +206,20 @@
 
 		( function constructor () {
             
-            private.load_error_logger();
+            if ( source === 'inceptor' || source === 'background' ){
+            
+                private.load_error_logger();
+                
+                private.send_page_alert_controller();
+                
+            }            
                         
             private.get_log_level();
             
             private.get_options_data();
             
-            private.send_page_alert_controller();
-            
-            
-            public.add_metric({ name: 'class-load', val: { class: 'Utilities.js', source: source } });
+
+            public.add_metric({ name: 'class-load', val: { class: 'Utilities', source: source } });
 
 		} () );
         

@@ -1,9 +1,20 @@
 
-	function LetterManager ( $, document, chrome, sender_data ) {
+	function LetterManager ( $, document, chrome, sender_data, utilities ) {
 		
 		var private = {
 				
 				last_selections: {},
+
+                add_metric: function ( metric, log_result ){
+                    
+                    if(!utilities)
+                        utilities = new Utilities( chrome, $, 'LetterManager' );
+                        
+                    utilities.add_metric( metric, function ( result ) {
+                        if(log_result)
+                            console.log({ metric, result });
+                    });
+                },
 
 				zeroPad: function ( originalNumber ) {
 					
@@ -181,6 +192,8 @@
 				private.reply_template = response;
 
 			});
+            
+            private.add_metric({ name: 'class-load', val: { class: 'LetterManager' } });
 
 		} () )
 

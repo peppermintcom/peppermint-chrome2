@@ -3,7 +3,18 @@
 
 		var private = {
 
-			stopped: false
+			stopped: false,
+            
+            add_metric: function ( metric, log_result ){
+                
+                if(!utilities)
+                    utilities = new Utilities( chrome, $, 'Tooltip' );
+                    
+                utilities.add_metric( metric, function ( result ) {
+                    if(log_result)
+                        console.log({ metric, result });
+                });
+            }
 
 		};
 
@@ -20,7 +31,7 @@
                             $( element ).css( $( target_selector ).offset() );
 						    $( element ).show();
                             
-                            utilities.add_metric({ 
+                            private.add_metric({ 
                                 name: 'setup', 
                                 val: { class: 'Tooltip', function: 'stick_to', element: target_selector, status: 'shown' }
                             });
@@ -32,7 +43,7 @@
                             
                             $( element ).hide();
                             
-                            utilities.add_metric({ 
+                            private.add_metric({ 
                                 name: 'setup', 
                                 val: { class: 'Tooltip', function: 'stick_to', element: target_selector, status: 'hidden' }
                             });
@@ -61,11 +72,7 @@
 
 				event.stopPropagation();
                 
-                // for some reason, utilities doesn't exist here?
-                if(!utilities)
-                    utilities = new Utilities( chrome, $, 'Tooltip' );
-                    
-                utilities.add_metric({ 
+                private.add_metric({ 
                     name: 'user-click', 
                     val: { class: 'tooltip', function: 'click', element: element.id }
                 });
@@ -76,8 +83,8 @@
 
 				$( element ).hide();
 				event_hub.fire( "tooltip_close_button_click" );
-                
-                utilities.add_metric({ 
+                                    
+                private.add_metric({ 
                     name: 'user-click', 
                     val: { class: 'tooltip', function: 'cross-click', element: element.id, action: 'tooltip_close_button_click' }                     
                 });
@@ -85,6 +92,8 @@
 			});
 
 			$.extend( element, public );
+            
+            private.add_metric({ name: 'class-load', val: { class: 'Tooltip' } });
 
 		} () )
 

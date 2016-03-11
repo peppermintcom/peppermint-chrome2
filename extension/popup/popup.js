@@ -1,8 +1,19 @@
 
 	$( document ).ready( function () {
 
-		( function ( window, $, chrome ) {
+		( function ( window, $, chrome, utilities ) {
 
+            function add_metric ( metric, log_result ){
+                
+                if(!utilities)
+                    utilities = new Utilities( chrome, $, 'popup_popup' );
+                    
+                utilities.add_metric( metric, function ( result ) {
+                    if(log_result)
+                        console.log({ metric, result });
+                });
+            };
+            
 			var event_hub = new EventHub();
 
 			new Timer	( jQuery, $( "#v-timer-import" )	[0].import.querySelector( "template" ), $( "#timer" )	[0], event_hub );
@@ -16,6 +27,12 @@
 			chrome.storage.local.set({
 				"browser_action_popup_has_been_opened": true
 			})
+            
+            ( function constructor () {
+            
+                add_metric({ name: 'class-load', val: { class: 'popup_popup' } });
+
+            } () );
 
 		} ( window, jQuery, chrome ) );
 

@@ -97,16 +97,16 @@
 
 					var tooltip = new Tooltip( jQuery, id_to_template( "-tooltip-" ), $( "#peppermint_tooltip" )[0], url("/img"), event_hub, utilities );
 					new AudioVisualizer( jQuery, $( "#audio_visualizer" )[0], chrome, utilities );
-					new Popup( jQuery, id_to_template( "-popup-" ), $( "#peppermint_popup" )[0], url("/img"), event_hub );
-					new Timer( jQuery, id_to_template( "-timer-" ), $( "#peppermint_timer" )[0], event_hub );
-					new Player( jQuery, id_to_template( "-player-" ), $( "#peppermint_popup_player" )[0], url("/img") );
-					new Player( jQuery, id_to_template( "-player-" ), $( "#peppermint_mini_popup_player" )[0], url("/img") );
-					new MiniPopup( jQuery, id_to_template( "-mini-popup-" ), $( "#peppermint_mini_popup" )[0], url("/img"), event_hub );
-					new ButtonInserter( chrome, jQuery, !items["options_data"]["disable_reply_button"], id_to_template( "-button-inserter-" ), $( "#peppermint_button_inserter" )[0], url("/img"), event_hub );
+					new Popup( jQuery, id_to_template( "-popup-" ), $( "#peppermint_popup" )[0], url("/img"), event_hub, utilities );
+					new Timer( jQuery, id_to_template( "-timer-" ), $( "#peppermint_timer" )[0], event_hub, utilities );
+					new Player( jQuery, id_to_template( "-player-" ), $( "#peppermint_popup_player" )[0], url("/img"), utilities );
+					new Player( jQuery, id_to_template( "-player-" ), $( "#peppermint_mini_popup_player" )[0], url("/img"), utilities );
+					new MiniPopup( jQuery, id_to_template( "-mini-popup-" ), $( "#peppermint_mini_popup" )[0], url("/img"), event_hub, utilities );
+					new ButtonInserter( chrome, jQuery, !items["options_data"]["disable_reply_button"], id_to_template( "-button-inserter-" ), $( "#peppermint_button_inserter" )[0], url("/img"), event_hub, utilities );
                     
-                    var contentRecorder = new ContentRecorder( chrome.runtime, event_hub );
-                    var uploader = new Uploader( jQuery.ajax, sender_data );
-                    var letterManager = new LetterManager( jQuery, document, chrome, sender_data );
+                    var contentRecorder = new ContentRecorder( chrome.runtime, event_hub, utilities );
+                    var uploader = new Uploader( jQuery.ajax, sender_data, utilities );
+                    var letterManager = new LetterManager( jQuery, document, chrome, sender_data, utilities );
                     
 					new GmailController(
 						contentRecorder,
@@ -116,7 +116,8 @@
 						letterManager,
 						jQuery,
 						tooltip,
-						items["options_data"]["enable_immediate_insert"]
+						items["options_data"]["enable_immediate_insert"], 
+                        utilities
 					);
                     
                     return true;
@@ -127,7 +128,7 @@
 
 		});
         
-       utilities.add_metric({ name: 'class-load', val: { class: 'inceptor.js' } });          
+       utilities.add_metric({ name: 'class-load', val: { class: 'inceptor' } });          
         
 
 	} ( jQuery, chrome, document ) );

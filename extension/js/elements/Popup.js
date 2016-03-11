@@ -1,5 +1,5 @@
 	
-	function Popup ( $, template, element, img_url, event_hub ) {
+	function Popup ( $, template, element, img_url, event_hub, utilities ) {
 		
 		//draggable plugin
 			(function($){
@@ -28,7 +28,18 @@
 				element.shadowRoot.getElementById( id ).addEventListener( "click", function () {
 					event_hub.fire( "popup_" + id + "_click" );
 				});
-			}
+			},
+            
+            add_metric: function ( metric, log_result ){
+                
+                if(!utilities)
+                    utilities = new Utilities( chrome, $, 'Popup' );
+                    
+                utilities.add_metric( metric, function ( result ) {
+                    if(log_result)
+                        console.log({ metric, result });
+                });
+            }
 
 		};
 
@@ -146,6 +157,8 @@
 			$( document ).on( "upload_progress", function ( event ) {
 				$( "#progress", element.shadowRoot ).html( event.originalEvent.detail.progress + "%" );
 			});
+            
+            private.add_metric({ name: 'class-load', val: { class: 'Popup' } });
 		
 		} () )
 		
