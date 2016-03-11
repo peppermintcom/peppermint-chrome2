@@ -93,7 +93,7 @@
                         Raven.captureException(error);    
                     }
 
-					var event_hub = new EventHub();
+					var event_hub = new EventHub( null, utilities );
 
 					var tooltip = new Tooltip( jQuery, id_to_template( "-tooltip-" ), $( "#peppermint_tooltip" )[0], url("/img"), event_hub, utilities );
 					new AudioVisualizer( jQuery, $( "#audio_visualizer" )[0], chrome, utilities );

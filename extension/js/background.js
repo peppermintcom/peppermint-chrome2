@@ -1,5 +1,22 @@
 
-    var utilities = new Utilities( chrome, jQuery, 'background' );
+    var utilities;
+
+    ( function constructor () {
+    
+        add_metric({ name: 'class-load', val: { class: 'background' } });
+
+    } () );
+            
+    function add_metric ( metric, log_result, callback ){
+        
+        if(!utilities)
+            utilities = new Utilities( chrome, $, 'background' );
+            
+        utilities.add_metric( metric, function ( result ) {
+            if(log_result)
+                console.log({ metric, result });
+        });
+    }
     
 	// Open the welcome page on install
 	chrome.runtime.onInstalled.addListener(function (details) {
@@ -32,11 +49,12 @@
 	
 	});
     
-    // reload all instanes of Gmail
+    // reload all instances of Gmail
     chrome.tabs.query({ url: "https://mail.google.com/*" }, function ( tabs ) {
     	tabs.forEach( function ( tab ) {
     		chrome.tabs.reload( tab.id );
-            utilities.add_metric({ name: 'page-load', val: { page: 'gmail', tab_id: tab.id } });
+            
+            add_metric({ name: 'page-load', val: { page: 'gmail', tab_id: tab.id } });
     	});
     });
 
@@ -48,7 +66,8 @@
 		        url: chrome.extension.getURL("welcome_page/welcome.html"),
 		        active: true
 		    });
-            utilities.add_metric({ name: 'page-load', val: { page: 'welcome' } });
+            
+            add_metric({ name: 'page-load', val: { page: 'welcome' } });
 		} else if ( message === 'get_sender_data' ) {
 			chrome.identity.getProfileUserInfo( function ( info ) {
 				callback({
@@ -64,7 +83,7 @@
     chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
 
 		if ( message.name === 'add_metric' ) {            
-		    utilities.add_metric( message.val, callback );
+		    add_metric( message.val, false, callback );
 		}
         
 	});
@@ -85,7 +104,7 @@
         }
         
 	});
-    
+
 	var web_audio_recorder_wrap = new WebAudioRecorderWrap( chrome, window.navigator, WebAudioRecorder, AudioContext, "/js/lib/WebAudioRecorder/", utilities );
 
 	( function set_up_popup_controller ( window, chrome, jQuery ) {
@@ -98,10 +117,10 @@
 					new Uploader( jQuery.ajax, {
 						sender_name: "",
 						sender_email: info.email
-					}),
+					}, utilities),
 					jQuery,
-					new EventHub(),
-					new TranscriptionManager( jQuery, items.options_data.transcription_language ),
+					new EventHub( null, utilities ),
+					new TranscriptionManager( jQuery, items.options_data.transcription_language, utilities ),
                     utilities
 				);
 
@@ -115,7 +134,7 @@
 			window.background_recorder = new BackgroundRecorder(
 				chrome.runtime,
 				web_audio_recorder_wrap,
-				new TranscriptionManager( jQuery, items.options_data.transcription_language ),
+				new TranscriptionManager( jQuery, items.options_data.transcription_language, utilities ),
                 utilities
 			);
 
@@ -131,10 +150,9 @@
 				new Uploader( jQuery.ajax, {
 					sender_name: "",
 					sender_email: info.email
-				}),
-                new ContentRecorder( chrome.runtime, null )
+				}, utilities),
+                new ContentRecorder( chrome.runtime, null, utilities )
 			);
 		});
 	} ( jQuery, chrome ) );
     
-    utilities.add_metric({ name: 'class-load', val: { class: 'background' } });

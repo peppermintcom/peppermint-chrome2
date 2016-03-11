@@ -17,11 +17,12 @@
                 });    
             },
             
-            get_log_level: function ( ) {
+            get_log_level: function ( log_result ) {
                 setInterval(function(){
                     chrome.storage.local.get("log_level", function(data){
                         if (!private.loglevel || private.loglevel !== data.log_level)
-                            console.log('log level set to `' + data.log_level + '`');
+                            if (log_result)
+                                console.log('log level set to `' + data.log_level + '`');
                             
                         private.loglevel = data.log_level;    
                     })
@@ -206,15 +207,20 @@
 
 		( function constructor () {
             
+            console.log('Utilities instantiated from ' + source);
+            
             if ( source === 'inceptor' || source === 'background' ){
             
                 private.load_error_logger();
                 
                 private.send_page_alert_controller();
                 
-            }            
-                        
-            private.get_log_level();
+                private.get_log_level( true );
+                
+            } else {
+                
+                private.get_log_level();
+            }           
             
             private.get_options_data();
             

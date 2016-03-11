@@ -72,9 +72,9 @@
 
 					add_elements();
 
-					var event_hub = new EventHub();
+					var event_hub = new EventHub( null, utilities );
 
-					var tooltip = new Tooltip( jQuery, id_to_template( "-tooltip-" ), $( "#peppermint_tooltip_top" )[0], url("/img"), event_hub );
+					var tooltip = new Tooltip( jQuery, id_to_template( "-tooltip-" ), $( "#peppermint_tooltip_top" )[0], url("/img"), event_hub, utilities );
 					$( tooltip ).show();
 
 					if ( window.innerWidth > document.body.clientWidth ) {
