@@ -1,5 +1,5 @@
 
-	function Tooltip ( $, template, element, img_url, event_hub ) {
+	function Tooltip ( $, template, element, img_url, event_hub, utilities ) {
 
 		var private = {
 
@@ -15,12 +15,28 @@
 
 					if ( $( target_selector ).length > 0 && private.stopped === false ) {
 					
-						$( element ).css( $( target_selector ).offset() );
-						$( element ).show();
+                        if (!$(element).is(':visible') ){
+                            
+                            $( element ).css( $( target_selector ).offset() );
+						    $( element ).show();
+                            
+                            utilities.add_metric({ 
+                                name: 'setup', 
+                                val: { class: 'Tooltip', function: 'stick_to', element: target_selector, status: 'shown' }
+                            });
+                        }
 
 					} else {
-
-						$( element ).hide();
+                        
+                        if ($(element).is(':visible') ){
+                            
+                            $( element ).hide();
+                            
+                            utilities.add_metric({ 
+                                name: 'setup', 
+                                val: { class: 'Tooltip', function: 'stick_to', element: target_selector, status: 'hidden' }
+                            });
+                        }
 
 					}
 
@@ -44,13 +60,27 @@
 			$( element ).on( "click", function ( event ) {
 
 				event.stopPropagation();
+                
+                // for some reason, utilities doesn't exist here?
+                if(!utilities)
+                    utilities = new Utilities( chrome, $, 'Tooltip' );
+                    
+                utilities.add_metric({ 
+                    name: 'user-click', 
+                    val: { class: 'tooltip', function: 'click', element: element.id }
+                });
 
 			});
 
 			$( "#cross", element.shadowRoot ).on( "click", function () {
 
 				$( element ).hide();
-				event_hub.fire( "tooltip_close_button_click" )
+				event_hub.fire( "tooltip_close_button_click" );
+                
+                utilities.add_metric({ 
+                    name: 'user-click', 
+                    val: { class: 'tooltip', function: 'cross-click', element: element.id, action: 'tooltip_close_button_click' }                     
+                });
 
 			});
 

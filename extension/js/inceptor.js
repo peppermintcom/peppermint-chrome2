@@ -95,7 +95,7 @@
 
 					var event_hub = new EventHub();
 
-					var tooltip = new Tooltip( jQuery, id_to_template( "-tooltip-" ), $( "#peppermint_tooltip" )[0], url("/img"), event_hub );
+					var tooltip = new Tooltip( jQuery, id_to_template( "-tooltip-" ), $( "#peppermint_tooltip" )[0], url("/img"), event_hub, utilities );
 					new AudioVisualizer( jQuery, $( "#audio_visualizer" )[0], chrome, utilities );
 					new Popup( jQuery, id_to_template( "-popup-" ), $( "#peppermint_popup" )[0], url("/img"), event_hub );
 					new Timer( jQuery, id_to_template( "-timer-" ), $( "#peppermint_timer" )[0], event_hub );
