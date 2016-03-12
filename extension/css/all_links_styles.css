@@ -1,0 +1,27 @@
+
+	/* general */
+
+		.peppermint_link_icon {
+		
+			position: fixed;
+			z-index: 2147483647;
+
+			width: 16px;
+			height: 16px;
+
+			margin-top: -6px;
+			margin-left: -6px;
+		
+			cursor: pointer;
+			border-radius: 100%;
+			background-color: white;
+
+		}
+
+		.peppermint_link_icon_overlayed {
+
+			display: none !important;
+
+		}
+
+	/**/
