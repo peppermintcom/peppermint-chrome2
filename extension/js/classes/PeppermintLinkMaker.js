@@ -60,9 +60,10 @@
 
 			make_play_icon: function ( link ) {
 
-				var play_icon = document.createElement( "img" );
+				var play_icon = document.createElement( "div" );
 				play_icon.src = chrome.extension.getURL( "/img/play-button.png" );
 				play_icon.classList.add( "peppermint_link_icon" );
+				play_icon.innerHTML = "▶";
 				private.detach_events( play_icon );
 
 				$( play_icon ).on( "click", function () {
@@ -137,6 +138,8 @@
 		var public = {
 
 			upgrade_link: function ( element, long_url, transcription ) {
+
+				element.classList.add( "peppermint_link" );
 
 				var play_icon = private.make_play_icon( element );
 				var pause_icon = private.make_pause_icon( element );

@@ -9,12 +9,22 @@
 			width: 16px;
 			height: 16px;
 
-			margin-top: -6px;
-			margin-left: -6px;
+			margin-top: 0px;
+			margin-left: -20px;
 		
 			cursor: pointer;
-			border-radius: 100%;
-			background-color: white;
+			border-radius: 3px;
+		    background-color: black;
+
+			text-align: center;
+			line-height: 16px;
+			color: white;
+
+		}
+
+		.peppermint_link {
+
+			margin-left: 20px;
 
 		}
 

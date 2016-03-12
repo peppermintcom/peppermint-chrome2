@@ -47,7 +47,9 @@
 
 			process_links: function ( links ) {
 
-				for ( var i = links.length; i--; ) {
+				var length = links.length;
+
+				for ( var i = 0; i < length; i++ ) {
 
 					private.process_a_link( links[ i ] );
 
