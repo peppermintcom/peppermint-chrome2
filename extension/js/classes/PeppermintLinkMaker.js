@@ -67,6 +67,13 @@
 
 				$( play_icon ).on( "click", function () {
 
+					if ( !play_icon.audio_element ) {
+
+						play_icon.audio_element = private.make_audio_element( play_icon.long_url );
+						play_icon.pause_icon.audio_element = play_icon.audio_element;
+
+					}
+
 					play_icon.audio_element.play();
 					$( play_icon ).hide();
 					$( play_icon.pause_icon ).show();
@@ -134,12 +141,10 @@
 				var play_icon = private.make_play_icon( element );
 				var pause_icon = private.make_pause_icon( element );
 				var text_icon = private.make_text_icon( element, transcription );
-				var audio_element = private.make_audio_element( long_url );
 
-				pause_icon.play_icon = play_icon;
+				play_icon.long_url = long_url;
 				play_icon.pause_icon = pause_icon;
-				play_icon.audio_element = audio_element;
-				pause_icon.audio_element = audio_element;
+				pause_icon.play_icon = play_icon;
 
 				// $( document.body ).append( text_icon );
 				$( document.body ).append( play_icon );
