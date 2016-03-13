@@ -1,36 +1,15 @@
 
 	/* general */
 
-		.peppermint_link_icon {
-		
-			position: fixed;
-			z-index: 2147483647;
-
-			width: 16px;
-			height: 16px;
-
-			margin-top: 0px;
-			margin-left: -20px;
-		
-			cursor: pointer;
-			border-radius: 3px;
-		    background-color: black;
-
-			text-align: center;
-			line-height: 16px;
-			color: white;
-
-		}
-
 		.peppermint_link {
 
-			margin-left: 20px;
+			margin-left: 24px;
 
 		}
 
 		.peppermint_link_icon_overlayed {
 
-			display: none !important;
+			display: none;
 
 		}
 

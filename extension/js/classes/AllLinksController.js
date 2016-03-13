@@ -1,7 +1,9 @@
 	
-	function AllLinksController ( $, hub, peppermint_link_maker, backend_manager ) {
+	function AllLinksController ( $, hub, pep_link_addon_factory, backend_manager ) {
 		
 		var state = {
+
+			peppermint_links: []
 
 		};
 
@@ -25,17 +27,18 @@
 
 				var short_link_id = private.link_to_short_link_id( link );
 
-				if ( short_link_id && !link.peppermint_link_flag ) {
-						
-					link.peppermint_link_flag = true;
+				if ( short_link_id && state.peppermint_links.indexOf( link ) === -1 ) {
+
+					state.peppermint_links.push( link );
+
+					link.classList.add( "peppermint_link" );						
 
 					backend_manager.short_url_to_recording_data( link.href ).then( function ( data ) {
 
-						peppermint_link_maker.upgrade_link(
-							link,
-							data.data[0].attributes.secure_url,
-							data.data[0].attributes.transcription
-						);
+						var pep_link_addon = pep_link_addon_factory.make_addon( link, data.data[0].attributes.secure_url, data.data[0].attributes.transcription );
+						link.pep_link_addon = pep_link_addon;
+
+						document.body.appendChild( pep_link_addon );
 
 					}).catch( function ( error ) {
 						console.log( error );
@@ -55,6 +58,12 @@
 
 				}
 
+			},
+
+			downgrade_up_removed_links: function () {
+
+
+
 			}
 
 		};
@@ -66,6 +75,8 @@
 			var interval = setInterval( function () {
 		
 				private.process_links( document.getElementsByTagName( "a" ) );
+
+				private.downgrade_up_removed_links();
 		
 			}, 50 );
 

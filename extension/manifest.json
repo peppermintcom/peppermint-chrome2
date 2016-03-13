@@ -81,9 +81,12 @@
 					"/js/lib/jQuery/jquery-2.1.4.min.js",
 					
 					"/js/classes/BackendManager.js",
-					"/js/classes/PeppermintLinkMaker.js",
-
+					"/js/classes/LauncherHelper.js",
+					"/js/classes/PepLinkAddonFactory.js",
+					
 					"/js/classes/AllLinksController.js",
+
+					"/js/elements/PepLinkAddon.js",
 
 					"/js/all_links_content.js"
 
