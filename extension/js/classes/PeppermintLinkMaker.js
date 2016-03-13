@@ -28,6 +28,12 @@
 
 			},
 
+			get_link_addon: function () {
+
+				
+
+			},
+
 			attach_icon_to_link: function ( icon, link ) {
 
 				var interval = setInterval( function () {
@@ -64,7 +70,6 @@
 				play_icon.src = chrome.extension.getURL( "/img/play-button.png" );
 				play_icon.classList.add( "peppermint_link_icon" );
 				play_icon.innerHTML = "▶";
-				private.detach_events( play_icon );
 
 				$( play_icon ).on( "click", function () {
 
@@ -72,6 +77,7 @@
 
 						play_icon.audio_element = private.make_audio_element( play_icon.long_url );
 						play_icon.pause_icon.audio_element = play_icon.audio_element;
+						$( play_icon ).append( play_icon.audio_element );
 
 					}
 
@@ -92,7 +98,6 @@
 				var pause_icon = document.createElement( "img" );
 				pause_icon.src = chrome.extension.getURL( "/img/pause-button.png" );
 				pause_icon.classList.add( "peppermint_link_icon" );
-				private.detach_events( pause_icon );
 
 				$( pause_icon ).on( "click", function () {
 
@@ -126,8 +131,7 @@
 
 				var audio_element = document.createElement( "audio" );
 				audio_element.src = long_url;
-				audio_element.controls = false;
-				audio_element.loop = true;
+				// audio_element.controls = false;
 
 				return audio_element;
 
