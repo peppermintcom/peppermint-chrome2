@@ -12,7 +12,7 @@
 
 			stick_to_link: function ( link ) {
 
-				state.stick_to_link_interval = setInterval( function () {
+				function tick () {
 
 					var rect = link.getBoundingClientRect();
 					var element_at_point = document.elementFromPoint( rect.left + 2, rect.top + 2 );
@@ -30,14 +30,18 @@
 
 					}
 
-				}, 50 );
+					requestAnimationFrame( tick );
+
+				}
+
+				tick();
 
 			},
 
 			play_click_handler: function () {
 
 				$( "#play_icon", state.wrap ).hide();
-				$( "#pause_icon", state.wrap ).show();
+				$( "#pause_icon", state.wrap ).css( "display", "flex" );
 
 				$( "#audio_element", state.wrap ).animate({ width: "300px" });
 				$( "#audio_element", state.wrap )[ 0 ].play();
@@ -46,7 +50,7 @@
 
 			pause_click_handler: function () {
 
-				$( "#play_icon", state.wrap ).show();
+				$( "#play_icon", state.wrap ).css( "display", "flex" );
 				$( "#pause_icon", state.wrap ).hide();
 
 				$( "#audio_element", state.wrap ).animate({ width: "0px" });

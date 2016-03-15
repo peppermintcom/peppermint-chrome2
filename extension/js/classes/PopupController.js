@@ -20,17 +20,17 @@
 
 			copy_to_clipboard: function ( text ) {
 
-				    var doc = document,
-				        temp = doc.createElement("textarea"),
-				        initScrollTop = doc.body.scrollTop;
-				    doc.body.insertBefore(temp, doc.body.firstChild);
-				    temp.value = text;
-				    temp.focus();
-				    doc.execCommand("SelectAll");
-				    doc.execCommand("Copy", false, null);
-				    temp.blur();
-				    doc.body.scrollTop = initScrollTop;
-				    doc.body.removeChild(temp);
+			    var doc = document,
+			        temp = doc.createElement("textarea"),
+			        initScrollTop = doc.body.scrollTop;
+			    doc.body.insertBefore(temp, doc.body.firstChild);
+			    temp.value = text;
+			    temp.focus();
+			    doc.execCommand("SelectAll");
+			    doc.execCommand("Copy", false, null);
+			    temp.blur();
+			    doc.body.scrollTop = initScrollTop;
+			    doc.body.removeChild(temp);
 			
 			},
 
@@ -189,11 +189,7 @@
 	                            name: "recording_data_uploaded", recording_data: recording_data 
 	                        });
 	                        
-	                        if ( transcript.text ) {
-	                            private.copy_to_clipboard( short_url + " " + transcript.text );
-	                        } else {
-	                            private.copy_to_clipboard( short_url );
-	                        }
+                            private.copy_to_clipboard( short_url );
 	                        
 	                        popup_state.transcript = transcript;
 	                        popup_state.recording_url = short_url;
@@ -268,7 +264,7 @@
 
 				if ( popup_state.recording_url ) {
 
-					private.copy_to_clipboard( popup_state.recording_url + " " + popup_state.transcript.text );
+					private.copy_to_clipboard( popup_state.recording_url );
 					$( "#popup", pop_doc )[0].set_url( popup_state.recording_url );
 
 				}
