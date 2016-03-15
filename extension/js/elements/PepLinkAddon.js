@@ -58,6 +58,16 @@
 				$( "#audio_element", state.wrap ).animate({ width: "0px" });
 				$( "#audio_element", state.wrap )[ 0 ].pause();
 
+			},
+
+			audio_ended_handler: function () {
+
+				$( "#play_icon", state.wrap ).css( "display", "flex" );
+				$( "#pause_icon", state.wrap ).hide();
+
+				$( "#audio_element", state.wrap ).animate({ width: "0px" });
+				$( "#audio_element", state.wrap )[ 0 ].pause();
+
 			}
 
 		};
@@ -86,6 +96,7 @@
 			private.stick_to_link( link );
 
 			$( "#audio_element", wrap )[ 0 ].src = long_url;
+			$( "#audio_element", wrap ).on( "ended", private.audio_ended_handler );
 
 			$( "#pause_icon", wrap ).on( "click", private.pause_click_handler );
 			$( "#play_icon", wrap ).on( "click", private.play_click_handler );
