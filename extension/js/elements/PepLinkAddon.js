@@ -17,8 +17,10 @@
 					var rect = link.getBoundingClientRect();
 					var element_at_point = document.elementFromPoint( rect.left + 2, rect.top + 2 );
 
-					element.style.top = rect.top + "px";
-					element.style.left = rect.left + "px";
+					// element.style.top = rect.top + "px";
+					// element.style.left = rect.left + "px";
+
+					element.style.transform = "translate( Xpx, Ypx )".replace( "X", rect.left ).replace( "Y", rect.top );
 
 					if ( element_at_point === link || element_at_point === element ) {
 
