@@ -60,9 +60,20 @@
 
 			},
 
-			downgrade_up_removed_links: function () {
+			downgrade_removed_links: function () {
 
+				for ( var i = state.peppermint_links.length; i--; ) {
 
+					if ( !$.contains( document, state.peppermint_links[ i ] ) ) {
+
+						state.peppermint_links[ i ].pep_link_addon.remove();
+						state.peppermint_links[ i ] = false;
+
+					}
+
+				};
+
+				state.peppermint_links = state.peppermint_links.filter( function ( a ) { return a } );
 
 			}
 
@@ -76,7 +87,7 @@
 		
 				private.process_links( document.getElementsByTagName( "a" ) );
 
-				private.downgrade_up_removed_links();
+				private.downgrade_removed_links();
 		
 			}, 50 );
 

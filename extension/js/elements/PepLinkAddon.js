@@ -3,8 +3,8 @@
 		
 		var state = {
 
-			stick_to_link_interval: null,
-			wrap: null
+			wrap: null,
+			removed: false
 
 		};
 
@@ -32,7 +32,7 @@
 
 					}
 
-					requestAnimationFrame( tick );
+					if ( !state.removed ) requestAnimationFrame( tick );
 
 				}
 
@@ -63,6 +63,16 @@
 		};
 
 		var public = {
+
+			remove: function () {
+
+				state.removed = true;
+				$( "#audio_element", state.wrap )[ 0 ].pause();
+				$( "#play_icon", state.wrap ).off();
+				$( "#pause_icon", state.wrap ).off();
+				$( element ).remove();
+
+			}
 
 		};
 
