@@ -31,7 +31,6 @@
 
 					backend_manager.short_url_to_recording_data( link.href ).then( function ( data ) {
 
-
 						state.peppermint_links.push( link );
 						link.classList.add( "peppermint_link" );
 
