@@ -27,12 +27,12 @@
 
 				var short_link_id = private.link_to_short_link_id( link );
 
-				if ( short_link_id && state.peppermint_links.indexOf( link ) === -1 && !link.pep_link_is_bad ) {						
+				if ( short_link_id && state.peppermint_links.indexOf( link ) === -1 ) {						
+
+					state.peppermint_links.push( link );
+					link.classList.add( "peppermint_link" );
 
 					backend_manager.short_url_to_recording_data( link.href ).then( function ( data ) {
-
-						state.peppermint_links.push( link );
-						link.classList.add( "peppermint_link" );
 
 						var pep_link_addon = pep_link_addon_factory.make_addon( link, data.data[0].attributes.secure_url, data.data[0].attributes.transcription );
 						link.pep_link_addon = pep_link_addon;
@@ -40,8 +40,6 @@
 						document.body.appendChild( pep_link_addon );
 
 					}).catch( function ( error ) {
-
-						link.pep_link_is_bad = true;
 
 					});
 

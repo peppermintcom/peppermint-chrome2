@@ -68,6 +68,20 @@
 				$( "#audio_element", state.wrap ).animate({ width: "0px" });
 				$( "#audio_element", state.wrap )[ 0 ].pause();
 
+			},
+
+			icons_mouseenter_handler: function () {
+
+				$( "#transcription", state.wrap ).show().animate( { opacity: 1 }, 200 );
+
+			},
+
+			icons_mouseleave_handler: function () {
+
+				$( "#transcription", state.wrap ).animate( { opacity: 0 }, 200, function () {
+					$( "#transcription", state.wrap ).hide();
+				});
+
 			}
 
 		};
@@ -90,8 +104,7 @@
 			
 			element.createShadowRoot().appendChild( document.importNode( template.content, true ) );
 
-			var wrap = element.shadowRoot.querySelector( "#wrap" );
-			state.wrap = wrap;
+			var wrap = state.wrap = element.shadowRoot.querySelector( "#wrap" );
 
 			private.stick_to_link( link );
 
@@ -101,8 +114,10 @@
 			$( "#pause_icon", wrap ).on( "click", private.pause_click_handler );
 			$( "#play_icon", wrap ).on( "click", private.play_click_handler );
 
-			$( "#pause_icon", wrap ).attr( "title", transcription );
-			$( "#play_icon", wrap ).attr( "title", transcription );
+			$( wrap ).on( "mouseenter", private.icons_mouseenter_handler );
+			$( wrap ).on( "mouseleave", private.icons_mouseleave_handler );
+
+			$( "#transcription", wrap ).html( transcription );
 
 			$.extend( element, public );
 

@@ -79,7 +79,7 @@
 				"js": [
 
 					"/js/lib/jQuery/jquery-2.1.4.min.js",
-					
+
 					"/js/classes/BackendManager.js",
 					"/js/classes/LauncherHelper.js",
 					"/js/classes/PepLinkAddonFactory.js",
