@@ -25,10 +25,12 @@
 					if ( element_at_point === link || element_at_point === element ) {
 
 						element.classList.remove( "peppermint_link_icon_overlayed" );
+						link.classList.add( "peppermint_link" );
 
 					} else {
 
 						element.classList.add( "peppermint_link_icon_overlayed" );
+						link.classList.remove( "peppermint_link" );
 
 					}
 
@@ -72,15 +74,23 @@
 
 			icons_mouseenter_handler: function () {
 
-				$( "#transcription", state.wrap ).show().animate( { opacity: 1 }, 200 );
+				if ( transcription ) {
+
+					$( "#transcription", state.wrap ).show().animate( { opacity: 1 }, 200 );
+
+				}
 
 			},
 
 			icons_mouseleave_handler: function () {
 
-				$( "#transcription", state.wrap ).animate( { opacity: 0 }, 200, function () {
-					$( "#transcription", state.wrap ).hide();
-				});
+				if ( transcription ) {
+
+					$( "#transcription", state.wrap ).animate( { opacity: 0 }, 200, function () {
+						$( "#transcription", state.wrap ).hide();
+					});
+					
+				}
 
 			}
 
