@@ -20,6 +20,7 @@
     
 	// Open the welcome page on install
 	chrome.runtime.onInstalled.addListener(function (details) {
+		
 		if ( details.reason === "install" ) {
 			
 		    chrome.tabs.create({
@@ -28,16 +29,21 @@
 		    });
 		    
 		}
+
+		// set up storage defaults
+		chrome.storage.local.set({
+			
+			compose_button_has_been_used: false,
+			browser_action_tooltip_has_been_shown: false,
+			browser_action_popup_has_been_opened: false,
+			log_level: 'error'
+		
+		});
         
 	});
 
 	// set up storage defaults
 	chrome.storage.local.set({
-		
-		compose_button_has_been_used: false,
-		browser_action_tooltip_has_been_shown: false,
-		browser_action_popup_has_been_opened: false,
-		log_level: 'error',
 		
 		options_data: {
 		

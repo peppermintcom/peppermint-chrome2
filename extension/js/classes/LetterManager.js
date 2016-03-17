@@ -38,7 +38,7 @@
 					
 					console.log("Return Value for duration is: " + returnValue);
 					
-					return returnValue;
+					return returnValue.split( "" ).join( "<span>&#8203;</span>" );
 
 				},
 

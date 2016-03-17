@@ -108,20 +108,19 @@
 					
 						mock_player.style.display = "none";
                         
-                        var urls = { 
+                        var urls = {
                             long: mock_player.parentElement.querySelector( "span[alt='long_url']" ).getAttribute( "title" ),
                             short: mock_player.parentElement.querySelector( "span[alt='short_url']" ).getAttribute( "title" )
                         };
                         
                         urls.long_no_protocol = urls.long.replace('http:','');
                         
-                        if(urls.long.indexOf('cloudfront.net') > 0)
+                        if ( urls.long.indexOf( 'cloudfront.net' ) > 0 )
                             urls.cloudfront_ssl = urls.long;
                         else
                             urls.cloudfront_ssl = urls.long.replace('http://go.peppermint.com/','https://duw3fm6pm35xc.cloudfront.net/');
                         
-                        $.get(chrome.extension.getURL('/templates/audio-player.html')
-                            , function(template_html) {
+                        $.get(chrome.extension.getURL('/templates/audio-player.html'), function(template_html) {
                             
                             $( mock_player ).after(
                                 template_html
