@@ -62,13 +62,15 @@
             // ignore
         } else if ( message.name === 'page_alert' ){
             // ignore
+        } else if ( message === 'peppermint-messaging-test' ){
+            // ignore
         } else{
             console.info({ source: 'background.js', req: message, sender: sender });            
         }
         
 	});
 
-    var utilities = new Utilities( chrome, jQuery );
+    var utilities = new Utilities( chrome, jQuery, 'background' );
     
 	var web_audio_recorder_wrap = new WebAudioRecorderWrap( chrome, window.navigator, WebAudioRecorder, AudioContext, "/js/lib/WebAudioRecorder/" );
 
