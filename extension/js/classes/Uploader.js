@@ -71,6 +71,7 @@
 			},
 			
 			token_to_urls: function ( token, sender_data ) {
+				console.log( "TOKEN", token );
 				return new Promise( function ( resolve, reject ) {
 					ajax(
 						"https://qdkkavugcd.execute-api.us-west-2.amazonaws.com/prod/v1/uploads",
