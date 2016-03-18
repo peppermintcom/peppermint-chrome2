@@ -103,7 +103,7 @@
         
 	});
     
-    var known_messages = ['open_welcome_page','get_sender_data','WebAudioRecorderWrap.get_frequency_data','page_alert','peppermint-messaging-test','add_metric','track_analytic'];
+    var known_messages = ['open_welcome_page','get_sender_data','WebAudioRecorderWrap.get_frequency_data','page_alert','peppermint-messaging-test','track_analytic'];
     
     // log all unhandled messages
     chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
