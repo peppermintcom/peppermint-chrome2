@@ -86,7 +86,9 @@
 			$( "#play", element.shadowRoot ).on( 'click', private.handle_play_click );
 			$( "#pause", element.shadowRoot ).on( 'click', private.handle_pause_click );
 			$( ".stripe_container", element.shadowRoot ).on( 'click', private.handle_stripe_click );
-            
+
+			event_hub.fire( "class_load", { name : "Player" } );
+
 		} () )
 
 		return element;

@@ -131,6 +131,8 @@
 
 			$.extend( element, public );
 
+			event_hub.fire( "class_load", { name : "PepLinkAddon" } );
+
 		} () )
 
 		return element;

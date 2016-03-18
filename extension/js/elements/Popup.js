@@ -145,7 +145,9 @@
 			$( document ).on( "upload_progress", function ( event ) {
 				$( "#progress", element.shadowRoot ).html( event.originalEvent.detail.progress + "%" );
 			});
-		
+
+			event_hub.fire( "class_load", { name : "Popup" } );
+
 		} () )
 		
 		return element;
