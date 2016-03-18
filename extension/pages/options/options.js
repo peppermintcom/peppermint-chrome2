@@ -1,20 +1,12 @@
 
-	( function ( $, chrome, utilities ) {
+	( function ( $, chrome, utilities, event_hub ) {
 		
         var private = {
             
-            add_metric: function ( metric, log_result ){
+            init: function ( ) {
                 
-                if(log_result)
-                    console.log('adding metric ' + metric.name + ' for element ' + metric.val.element);
-                
-                if(!utilities)
-                    utilities = new Utilities( chrome, $, 'options' );
-                    
-                utilities.add_metric( metric, function ( result ) {
-                    if(log_result)
-                        console.log({ metric, result });
-                });
+                utilities = new Utilities( chrome, $, 'options_page' );
+                event_hub = new EventHub( null, utilities );
             }
             
         };
@@ -39,7 +31,7 @@
             
             console.log({ 'options_data': options_data });
             
-            private.add_metric({name:'options-data', val: { type: 'load', data: options_data } });
+            event_hub.fire( 'setup', { name: 'options_data', type: 'load', data: options_data } );            
 
 		});
 
@@ -51,7 +43,7 @@
 				
                 chrome.storage.local.set({ options_data: items.options_data });
                 
-                private.add_metric({name:'options-data', val: { type: 'change', element: '#disable_reply_button', enabled: event.target.checked } });
+                event_hub.fire( 'options_change', { element: '#disable_reply_button', enabled: event.target.checked } );
 			
 			});
 
@@ -65,7 +57,7 @@
                 
 				chrome.storage.local.set({ options_data: items.options_data });
                 
-                private.add_metric({name:'options-data', val: { type: 'change', element: '#ennable_immediate_insert', enabled: event.target.checked } });
+                event_hub.fire( 'options_change', { element: '#ennable_immediate_insert', enabled: event.target.checked } );
 			
 			});
 
@@ -79,15 +71,17 @@
                 
 				chrome.storage.local.set({ options_data: items.options_data });
                 
-                private.add_metric({name:'options-data', val: { type: 'change', element: '#transcription_language', value: items.options_data.transcription_language } });
-			
+                event_hub.fire( 'options_change', { element: '#transcription_language', value: items.options_data.transcription_language } );
+                			
 			});
 
 		});
         
         ( function constructor () {
             
-            private.add_metric({ name: 'class-load', val: { class: 'options' } });
+            private.init();
+            
+            event_hub.fire( 'class_load', { name: 'options_page' } );
 
         } () );
 

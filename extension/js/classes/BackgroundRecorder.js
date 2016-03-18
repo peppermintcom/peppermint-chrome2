@@ -1,18 +1,7 @@
 
-	function BackgroundRecorder ( runtime, web_audio_recorder_wrap, transcription_manager, utilities ) {
+	function BackgroundRecorder ( runtime, web_audio_recorder_wrap, transcription_manager, utilities, event_hub ) {
 
 		var private = {
-
-            add_metric: function ( metric, log_result ){
-                
-                if(!utilities)
-                    utilities = new Utilities( chrome, $, 'BackgroundRecorder' );
-                    
-                utilities.add_metric( metric, function ( result ) {
-                    if(log_result)
-                        console.log({ metric, result });
-                });
-            },
 
 			start: function ( callback ) {
 				web_audio_recorder_wrap.start()
@@ -82,7 +71,7 @@
 
 			});
             
-            private.add_metric({ name: 'class-load', val: { class: 'BackgroundRecorder' } });
+            event_hub.fire( 'class_load', { name: 'BackgroundRecorder' } );            
 
 		} () )
 

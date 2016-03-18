@@ -1,22 +1,11 @@
 
-	function BackgroundUploader ( $, chrome, utilities, uploader, recorder ) {
+	function BackgroundUploader ( $, chrome, utilities, event_hub, uploader, recorder ) {
 
 		var private = {
             
             minutes_to_wait: 1.25,
             
             inprogress: false,            
-
-            add_metric: function ( metric, log_result ){
-                
-                if(!utilities)
-                    utilities = new Utilities( chrome, $, 'BackgroundUploader' );
-                    
-                utilities.add_metric( metric, function ( result ) {
-                    if(log_result)
-                        console.log({ metric, result });
-                });
-            },
 
             recordings_exist: function(data){
                 return data && data.peppermint_upload_queue && data.peppermint_upload_queue.recordings && data.peppermint_upload_queue.recordings.length > 0;
@@ -203,7 +192,7 @@
                 })
             }, 500);
             
-            private.add_metric({ name: 'class-load', val: { class: 'BackgroundUploader' } });
+            event_hub.fire( 'class_load', { name: 'BackgroundUploader' } );
 
 		} () )
 

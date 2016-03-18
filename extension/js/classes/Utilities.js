@@ -117,7 +117,7 @@
             
             console.log('Utilities instantiated from ' + source);
             
-            if ( source === 'inceptor' || source === 'background' ){
+            if ( source === 'gmail_content' || source === 'background' ){
             
                 private.load_error_logger();
                 

@@ -68,7 +68,7 @@
     	tabs.forEach( function ( tab ) {
     		chrome.tabs.reload( tab.id );
             
-            event_hub.fire( 'page_load', { page: 'gmail', tab_id: tab.id } );            
+            event_hub.fire( 'page_load', { name: 'gmail', tab_id: tab.id } );            
     	});
     });
 
@@ -81,7 +81,7 @@
 		        active: true
 		    });
             
-            event_hub.fire( 'page_load', { page: 'welcome' } );
+            event_hub.fire( 'page_load', { name: 'welcome' } );
                         
 		} else if ( message === 'get_sender_data' ) {
 			chrome.identity.getProfileUserInfo( function ( info ) {
@@ -117,7 +117,7 @@
         
 	});
 
-	var web_audio_recorder_wrap = new WebAudioRecorderWrap( chrome, window.navigator, WebAudioRecorder, AudioContext, "/js/lib/WebAudioRecorder/", utilities );
+	var web_audio_recorder_wrap = new WebAudioRecorderWrap( chrome, window.navigator, WebAudioRecorder, AudioContext, "/js/lib/WebAudioRecorder/", utilities, event_hub );
 
 	( function set_up_popup_controller ( window, chrome, jQuery ) {
 		chrome.identity.getProfileUserInfo( function ( info ) {
@@ -129,10 +129,10 @@
 					new Uploader( jQuery.ajax, {
 						sender_name: "",
 						sender_email: info.email
-					}, utilities),
+					}, utilities, event_hub),
 					jQuery,
-					new EventHub( null, utilities ),
-					new TranscriptionManager( jQuery, items.options_data.transcription_language, utilities ),
+					event_hub,
+					new TranscriptionManager( jQuery, items.options_data.transcription_language, utilities, event_hub ),
                     utilities
 				);
 
@@ -146,8 +146,9 @@
 			window.background_recorder = new BackgroundRecorder(
 				chrome.runtime,
 				web_audio_recorder_wrap,
-				new TranscriptionManager( jQuery, items.options_data.transcription_language, utilities ),
-                utilities
+				new TranscriptionManager( jQuery, items.options_data.transcription_language, utilities, event_hub ),
+                utilities,
+                event_hub
 			);
 
 		});
@@ -159,11 +160,12 @@
 				jQuery,
                 chrome,
                 utilities,
+                event_hub,
 				new Uploader( jQuery.ajax, {
 					sender_name: "",
 					sender_email: info.email
-				}, utilities),
-                new ContentRecorder( chrome.runtime, null, utilities )
+				}, utilities, event_hub ),
+                new ContentRecorder( chrome.runtime, event_hub, utilities )
 			);
 		});
 	} ( jQuery, chrome ) );

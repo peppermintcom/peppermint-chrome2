@@ -18,18 +18,7 @@
 
 		var private = {
             
-            add_metric: function ( metric, log_result ){
-                
-                if(!utilities)
-                    utilities = new Utilities( chrome, $, 'PopupController' );
-                    
-                utilities.add_metric( metric, function ( result ) {
-                    if(log_result)
-                        console.log({ metric, result });
-                });
-            },
-
-			copy_to_clipboard: function ( text ) {
+            copy_to_clipboard: function ( text ) {
 
 			    var doc = document,
 			        temp = doc.createElement("textarea"),
@@ -462,7 +451,7 @@
 
         ( function constructor () {
             
-            private.add_metric({ name: 'class-load', val: { class: 'PopupController' } });
+            event_hub.fire( 'class_load', { name: 'PopupController' } );
 
 		} () );
 

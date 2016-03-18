@@ -27,9 +27,7 @@
                     });
                     
                     private.event_hub_setup();
-                    
-                    private.client.addEvent("analytics-load", { source: source });
-                    
+                                        
                     console.log("Keen loaded from " + source);
                     
                 }
@@ -61,6 +59,9 @@
                         },
                         tooltip_close_button_click: function( data ){
                             private.handle_event( 'tooltip_close_button_click' , data );
+                        },
+                        options_change: function( data ){
+                            private.handle_event( 'options_change' , data );
                         },
                         timeout: function( data ){
                             // private.handle_event( 'timeout' , data );
@@ -110,14 +111,15 @@
                     
                     var response = {};
                     
+                    var info = analytic.name + ((analytic.val.name) ? '.' + analytic.val.name : '');
+                    
                     if (err) {                            
                         
                         // todo: log to Raven
                         
                         response = { 
-                            result: 'Keen ERROR', 
-                            analytic_name: analytic.name, 
-                            analytic_val: analytic.val, 
+                            _result: 'ERROR: ' + info, 
+                            analytic, 
                             err 
                         };                            
                         
@@ -125,9 +127,8 @@
                     else {  
                         
                         response = { 
-                            result: 'Keen result', 
-                            analytic_name: analytic.name, 
-                            analytic_val: analytic.val, 
+                            _result: 'success: ' + info, 
+                            analytic,
                             res 
                         };
 
@@ -135,7 +136,7 @@
                     
                     if(callback) callback(response);
                     else{
-                        console.log("no callback for ", response);
+                        console.log("Analytic Send Result (no callback): ", response);
                     }
                         
                 });
@@ -157,6 +158,8 @@
 		( function constructor () {
             
             private.load( source );
+            
+            event_hub.fire( 'class_load', { name : 'AnalyticsManager' } );
 
 		} () )
 

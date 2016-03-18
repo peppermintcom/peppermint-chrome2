@@ -1,5 +1,5 @@
 
-	function WebAudioRecorderWrap ( chrome, navigator, WebAudioRecorder, AudioContext, worker_dir, utilities ) {
+	function WebAudioRecorderWrap ( chrome, navigator, WebAudioRecorder, AudioContext, worker_dir, utilities, event_hub ) {
 
 		var private = {
 			
@@ -22,18 +22,7 @@
 						}
 					);
 				});
-			},
-
-            add_metric: function ( metric, log_result ){
-                
-                if(!utilities)
-                    utilities = new Utilities( chrome, $, 'WebAudioRecorderWrap' );
-                    
-                utilities.add_metric( metric, function ( result ) {
-                    if(log_result)
-                        console.log({ metric, result });
-                });
-            }
+			}
 
 		};
 
@@ -163,7 +152,7 @@
 
 			});
             
-            private.add_metric({ name: 'class-load', val: { class: 'WebAudioRecorderWrap' } });
+            event_hub.fire( 'class_load', { name: 'WebAudioRecorderWrap' } );
 
 		} () )
 
