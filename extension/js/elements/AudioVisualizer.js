@@ -1,5 +1,5 @@
 
-	function AudioVisualizer ( $, element, chrome, utilities ) {
+	function AudioVisualizer ( chrome, $, event_hub, element, utilities ) {
 		
 		var private = {
 			
@@ -15,18 +15,7 @@
 
 				return table_string;
 
-			},
-            
-            add_metric: function ( metric, log_result ){
-                
-                if(!utilities)
-                    utilities = new Utilities( chrome, $, 'AudioVisualizer' );
-                    
-                utilities.add_metric( metric, function ( result ) {
-                    if(log_result)
-                        console.log({ metric, result });
-                });
-            }
+			}
 
 		};
 		
@@ -71,8 +60,6 @@
 			}, 20 );
 
 			$( element ).append( private.get_table_string( 20, 50 ) );
-            
-            private.add_metric({ name: 'class-load', val: { class: 'AudioVisualizer' } });
 
 		} () )
 

@@ -181,13 +181,13 @@
 
 			$( document ).on( "selectionchange", private.selectionchange_handler );
 
-			$.get( chrome.extension.getURL( '/templates/letter.html' ), function( response ) {
+			$.get( chrome.extension.getURL( '/html/templates/letter.html' ), function( response ) {
 
 				private.compose_template = response;
 
 			});
 			
-			$.get( chrome.extension.getURL( '/templates/letter.html' ), function( response ) {
+			$.get( chrome.extension.getURL( '/html/templates/letter.html' ), function( response ) {
 
 				private.reply_template = response;
 

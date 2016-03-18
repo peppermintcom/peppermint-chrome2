@@ -1,5 +1,5 @@
 	
-	function PepLinkAddonFactory ( jQuery, PepLinkAddon, template ) {
+	function PepLinkAddonFactory ( jQuery, event_hub, PepLinkAddon, template ) {
 		
 		var public = {
 
@@ -7,6 +7,7 @@
 
 				return new PepLinkAddon(
 					jQuery,
+					event_hub,
 					template,
 					document.createElement( "div" ),
 					long_url,

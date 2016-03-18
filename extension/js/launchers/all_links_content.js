@@ -5,13 +5,13 @@
 
 		launcher_helper.urls_to_templates( chrome.extension.getURL( "/" ), [
 		
-			chrome.extension.getURL( "/templates/pep_link_addon.html" )
+			[ "addon", "html/elements/pep_link_addon.html" ]
 		
 		])
-		.then( function ( templates ) {
+		.then( function ( t ) {
 
 			var event_hub = new EventHub();
-			var pep_link_addon_factory = new PepLinkAddonFactory( jQuery, PepLinkAddon, templates[ 0 ] );
+			var pep_link_addon_factory = new PepLinkAddonFactory( jQuery, event_hub, PepLinkAddon, t["addon"] );
 
 			new AllLinksController(
 				jQuery,

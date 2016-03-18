@@ -1,5 +1,5 @@
 
-	function Timer ( $, template, element, event_hub, utilities ) {
+	function Timer ( $, event_hub, template, element ) {
 
 		var private = {
 
@@ -29,18 +29,7 @@
 
 			start_timestamp: null,
 			time: null,
-			interval: null,
-            
-            add_metric: function ( metric, log_result ){
-                
-                if(!utilities)
-                    utilities = new Utilities( chrome, $, 'Timer' );
-                    
-                utilities.add_metric( metric, function ( result ) {
-                    if(log_result)
-                        console.log({ metric, result });
-                });
-            }
+			interval: null
 
 		};
 
@@ -110,8 +99,6 @@
 			element.createShadowRoot().appendChild( document.importNode( template.content, true ) );
 
 			$.extend( element, public );
-            
-            private.add_metric({ name: 'class-load', val: { class: 'Timer' } });
 
 		} () )
 

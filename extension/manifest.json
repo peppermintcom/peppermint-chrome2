@@ -11,7 +11,7 @@
         "browser_action": {
           "default_icon": "/img/mic.png",
           "default_title": "Peppermint",
-          "default_popup": "/popup/popup.html"
+          "default_popup": "/pages/popup/popup.html"
         },
 
 		"icons": {
@@ -33,10 +33,11 @@
 					"/js/classes/Uploader.js",
 					"/js/classes/EventHub.js",
 					"/js/classes/LetterManager.js",
+					"/js/classes/LauncherHelper.js",
 					"/js/classes/ButtonInserter.js",
 					"/js/classes/ContentRecorder.js",
 
-					"/js/classes/GmailController.js",
+					"/js/controllers/GmailController.js",
 
 					"/js/elements/Timer.js",
 					"/js/elements/Popup.js",
@@ -45,7 +46,7 @@
 					"/js/elements/MiniPopup.js",
 					"/js/elements/AudioVisualizer.js",
 
-					"/js/inceptor.js"
+					"/js/launchers/gmail_content.js"
 				
 				],
 				"css": [
@@ -69,10 +70,11 @@
                     "/js/lib/keen-tracker.min.js",
                     
 					"/js/classes/EventHub.js",
+					"/js/classes/LauncherHelper.js",
 
 					"/js/elements/Tooltip.js",
 
-					"/js/tooltip_inserter.js"
+					"/js/launchers/tooltip_content.js"
 
 				]
 			},
@@ -81,6 +83,7 @@
 
 					"https://*/*",
 					"http://*/*"
+
 				],
 				"js": [
 
@@ -90,11 +93,11 @@
 					"/js/classes/LauncherHelper.js",
 					"/js/classes/PepLinkAddonFactory.js",
 					
-					"/js/classes/AllLinksController.js",
+					"/js/controllers/AllLinksController.js",
 
 					"/js/elements/PepLinkAddon.js",
 
-					"/js/all_links_content.js"
+					"/js/launchers/all_links_content.js"
 
 				],
 				"css": [
@@ -106,6 +109,42 @@
 		"web_accessible_resources": [
 			"/*"
 		],
+
+		"background": {
+
+			"scripts": [
+
+				"/js/misc/shims.js",
+
+				"/js/lib/jQuery/jquery-2.1.4.min.js",                
+				"/js/lib/WebAudioRecorder/WebAudioRecorder.js",
+                "/js/lib/raven.min.js",
+                "/js/lib/keen-tracker.min.js",
+                "/js/lib/ohsnap.min.js",
+				
+                "/js/classes/Utilities.js",
+				"/js/classes/TranscriptionManager.js",
+				"/js/classes/WebAudioRecorderWrap.js",
+                "/js/classes/ContentRecorder.js",
+				"/js/classes/BackgroundRecorder.js",
+                "/js/classes/BackgroundUploader.js",
+				"/js/classes/EventHub.js",
+				"/js/classes/Uploader.js",
+				
+				"/js/controllers/PopupController.js",
+
+				"/js/launchers/background.js"
+
+			],
+
+			"persistent": true
+
+		},
+        
+		"options_ui": {
+			"page": "/pages/options/options.html",
+			"chrome_style": true
+		},
 
 		"permissions": [
 
@@ -124,42 +163,6 @@
 			"http://*/*"
 
 		],
-
-		"background": {
-
-			"scripts": [
-
-				"/js/lib/jQuery/jquery-2.1.4.min.js",                
-				"/js/lib/WebAudioRecorder/WebAudioRecorder.js",
-				"/js/shims.js",
-                "/js/lib/raven.min.js",
-                "/js/lib/keen-tracker.min.js",
-                "/js/lib/ohsnap.min.js",
-				
-                "/js/classes/Utilities.js",
-				"/js/classes/TranscriptionManager.js",
-				"/js/classes/WebAudioRecorderWrap.js",
-                "/js/classes/ContentRecorder.js",
-				"/js/classes/BackgroundRecorder.js",
-                "/js/classes/BackgroundUploader.js",
-				"/js/classes/EventHub.js",
-				"/js/classes/Uploader.js",
-				
-				"/js/classes/PopupController.js",
-
-				"/js/background.js"
-
-			],
-
-			"persistent": true
-
-		},
-        
-		"options_ui": {
-			"page": "options/options.html",
-			"chrome_style": true
-		},
-
 
 		"content_security_policy": "script-src 'self' 'unsafe-eval' https://*.google.com https://api.keen.io; object-src 'self'",
 

@@ -1,5 +1,5 @@
 	
-	function PepLinkAddon ( $, template, element, long_url, transcription, link ) {
+	function PepLinkAddon ( $, event_hub, template, element, long_url, transcription, link ) {
 		
 		var state = {
 

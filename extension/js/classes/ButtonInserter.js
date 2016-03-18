@@ -1,18 +1,7 @@
 	
-	function ButtonInserter ( chrome, $, insert_reply_button, template, element, img_url, event_hub, utilities ) {
+	function ButtonInserter ( chrome, $, event_hub, template, element, insert_reply_button ) {
 
 		var private = {
-
-            add_metric: function ( metric, log_result ){
-                
-                if(!utilities)
-                    utilities = new Utilities( chrome, $, 'ButtonInserter' );
-                    
-                utilities.add_metric( metric, function ( result ) {
-                    if(log_result)
-                        console.log({ metric, result });
-                });
-            },
 
 			insert_compose_button: function () {
 				setInterval( function () {
@@ -120,7 +109,7 @@
                         else
                             urls.cloudfront_ssl = urls.long.replace('http://go.peppermint.com/','https://duw3fm6pm35xc.cloudfront.net/');
                         
-                        $.get(chrome.extension.getURL('/templates/audio-player.html'), function(template_html) {
+                        $.get(chrome.extension.getURL('/html/templates/audio-player.html'), function(template_html) {
                             
                             $( mock_player ).after(
                                 template_html
@@ -140,12 +129,12 @@
                                 {
                                     Raven.captureMessage("invalid audio URL");
                                     
-                                    $.get(chrome.extension.getURL('/templates/audio-player-error.html')
+                                    $.get(chrome.extension.getURL('/html/templates/audio-player-error.html')
                                         , function(template_html) {
                                         
                                         $( mock_player ).next().html(
                                             template_html
-                                            .replace( "{{IMG_URL}}", img_url )
+                                            .replace( "{{EXTENSION_ROOT}}", chrome.extension.geteURL("/") )
                                         );
                                         
                                     });
@@ -167,7 +156,6 @@
 
 		( function constructor () {
 
-			template.innerHTML = template.innerHTML.replace( /{{IMG_URL}}/g, img_url );
 			element.createShadowRoot().appendChild( document.importNode( template.content, true ) );
 
 			$.extend( element, public );
@@ -177,8 +165,6 @@
 			private.replace_mock_player();
 			if ( insert_reply_button ) private.insert_reply_button();
             
-            private.add_metric({ name: 'class-load', val: { class: 'ButtonInserter' } });
-
 		} () );
 
 		return element;

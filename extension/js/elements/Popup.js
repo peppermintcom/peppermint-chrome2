@@ -1,5 +1,5 @@
 	
-	function Popup ( $, template, element, img_url, event_hub, utilities ) {
+	function Popup ( $, event_hub, template, element ) {
 		
 		//draggable plugin
 			(function($){
@@ -28,18 +28,7 @@
 				element.shadowRoot.getElementById( id ).addEventListener( "click", function () {
 					event_hub.fire( "popup_" + id + "_click" );
 				});
-			},
-            
-            add_metric: function ( metric, log_result ){
-                
-                if(!utilities)
-                    utilities = new Utilities( chrome, $, 'Popup' );
-                    
-                utilities.add_metric( metric, function ( result ) {
-                    if(log_result)
-                        console.log({ metric, result });
-                });
-            }
+			}
 
 		};
 
@@ -111,7 +100,6 @@
 
 		( function constructor () {
 
-			template.innerHTML = template.innerHTML.replace( /{{IMG_URL}}/g, img_url );
 			element.createShadowRoot().appendChild( document.importNode( template.content, true ) );
 			
 			$.extend( element, public );
@@ -157,8 +145,6 @@
 			$( document ).on( "upload_progress", function ( event ) {
 				$( "#progress", element.shadowRoot ).html( event.originalEvent.detail.progress + "%" );
 			});
-            
-            private.add_metric({ name: 'class-load', val: { class: 'Popup' } });
 		
 		} () )
 		

@@ -13,26 +13,31 @@
 
 			urls_to_templates: function ( extension_root, urls ) {
 			
-				return new Promise ( function ( resolve ) {
+				return new Promise ( function ( resolve, reject ) {
 
-					$.get( urls.pop(), function ( html ) {
+					var url = urls.pop();
+
+					$.get( extension_root + url[ 1 ], function ( html ) {
 
 						var template = document.createElement( "template" );
 						template.innerHTML = html.replace( /{{EXTENSION_ROOT}}/g, extension_root );
 
 						if ( urls.length === 0 ) {
 							
-							resolve([ template ]);
+							var templates = {};
+							templates[ url[ 0 ] ] = template;
+							resolve( templates );
 
 						} else {
 
-							urls_to_templates( urls )
+							public.urls_to_templates( extension_root, urls )
 							.then( function ( templates ) {
 
-								templates.push( template );
+								templates[ url[ 0 ] ] = template;
 								resolve( templates );
 
 							})
+							.catch( reject );
 
 						}
 

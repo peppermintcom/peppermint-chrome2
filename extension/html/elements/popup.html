@@ -1,6 +1,4 @@
 	
-	<template>
-	
 		<style>
 
 			:host {
@@ -62,19 +60,19 @@
 			
 			}
 			.popup_button.medium_green {
-				background-image: url({{IMG_URL}}/green_empty.png);
+				background-image: url({{EXTENSION_ROOT}}img/green_empty.png);
 				background-size: 172px 44px;
 				width: 172px;
 				height: 44px;
 			}
 			.popup_button.medium_grey {
-				background-image: url({{IMG_URL}}/grey_empty.png);
+				background-image: url({{EXTENSION_ROOT}}img/grey_empty.png);
 				background-size: 172px 44px;
 				width: 172px;
 				height: 44px;
 			}
 			.popup_button.wide_green {
-				background-image: url({{IMG_URL}}/wide_green_empty.png);
+				background-image: url({{EXTENSION_ROOT}}img/wide_green_empty.png);
 				background-size: 356px 44px;
 				width: 356px;
 				height: 44px;
@@ -312,7 +310,7 @@
 		</div>
 
 		<div class = 'page' id = 'popup_welcome' >
-			<img class = 'popup_logo' src = '{{IMG_URL}}/logo.png' >
+			<img class = 'popup_logo' src = '{{EXTENSION_ROOT}}img/logo.png' >
 			<div style = 'height: 20px;' ></div>
 			<div class = 'popup_status' >Record a message and get a link <br> you can share anywhere!</div>
 			<div class = 'popup_button wide_green left' id = 'welcome_start_recording' >
@@ -336,7 +334,7 @@
 		</div>
 
 		<div class = 'page' id = 'microphone_error_page' >
-			<img class = 'popup_logo' src = '{{IMG_URL}}/mic_off.png' >
+			<img class = 'popup_logo' src = '{{EXTENSION_ROOT}}img/mic_off.png' >
 			<div style = 'height: 20px;' ></div>
 			<div class = 'popup_status' >
 				Your microphone is not working. Please check your audio settings and try again
@@ -346,14 +344,14 @@
 			</div>
 			<div class = 'popup_button medium_green right' id = 'error_try_again_button' >
 				<img
-					src = "{{IMG_URL}}/icon_refresh.png"
+					src = "{{EXTENSION_ROOT}}img/icon_refresh.png"
 				>
 				Try Again
 			</div>
 		</div>
 
 		<div class = 'page' id = 'uploading_failed_page' >
-			<img class = 'popup_logo' src = '{{IMG_URL}}/uploading_failed.png' >
+			<img class = 'popup_logo' src = '{{EXTENSION_ROOT}}img/uploading_failed.png' >
 			<div style = 'height: 20px;' ></div>
 			<div class = 'popup_status' >There was an error uploading the file <br> Please click here to try again</div>
 			<div class = 'popup_button wide_green left' id = 'restart_upload' >
@@ -372,13 +370,13 @@
 				<div id = 'cancel_uploading' >Cancel</div>
 			</div>
 
-			<img class = 'popup_logo' id = 'uploaded_logo' src = '{{IMG_URL}}/mic.png' >
+			<img class = 'popup_logo' id = 'uploaded_logo' src = '{{EXTENSION_ROOT}}img/mic.png' >
 
 			<div id = 'uploading_player_container' >
 				<content select = ".player" id = "player_content" ></content>
 			</div>
 			
-			<img src = '{{IMG_URL}}/dude.gif' >
+			<img src = '{{EXTENSION_ROOT}}img/dude.gif' >
 
 		</div>
 
@@ -422,12 +420,12 @@
 
 		<div class = 'page' id = 'uploading_page_old' >
 			<div class = 'popup_status uploading' >Uploading...</div>
-			<img class = 'popup_logo' id = 'uploading_logo' src = '{{IMG_URL}}/uploading.gif' >
-			<img class = 'popup_logo' id = 'uploaded_logo' src = '{{IMG_URL}}/mic.png' >
+			<img class = 'popup_logo' id = 'uploading_logo' src = '{{EXTENSION_ROOT}}img/uploading.gif' >
+			<img class = 'popup_logo' id = 'uploaded_logo' src = '{{EXTENSION_ROOT}}img/mic.png' >
 			<div id = 'player_container' >
 			</div>
 			<div class = 'popup_button medium_green left' id = 'uploading_re_record_button' >
-				<img src = "{{IMG_URL}}/icon_refresh.png" >
+				<img src = "{{EXTENSION_ROOT}}img/icon_refresh.png" >
 				Re-Record
 			</div>
 			<div class = 'popup_button medium_green right' id = 'uploading_done_button' >
@@ -435,4 +433,3 @@
 			</div>
 		</div>
 
-	</template>

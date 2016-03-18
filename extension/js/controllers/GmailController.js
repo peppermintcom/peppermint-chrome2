@@ -1,5 +1,5 @@
 
-	function GmailController ( recorder, uploader, event_hub, chrome, letter_manager, $, tooltip, immediate_insert, utilities ) {
+	function GmailController ( chrome, $, event_hub, recorder, uploader, letter_manager, tooltip, immediate_insert, utilities ) {
 
 		var transcription_time_start = 0;
 		var transcription_time_stop = 0;

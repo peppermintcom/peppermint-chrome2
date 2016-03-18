@@ -13,31 +13,15 @@
 	
 		<div id = "popup" >
 			<div id = 'audio_visualizer' ></div>
-			<div class = 'player'	id = 'player'	></div>
-			<div class = 'timer'	id = 'timer'	></div>
+			<div class = 'player' id = 'player' ></div>
+			<div class = 'timer' id = 'timer' ></div>
 		</div>
-
-		<link
-			rel = 'import'
-			id = 'v-player-import' 
-			href = "/templates/player.html"
-		>
-		<link
-			rel = 'import'
-			id = 'v-popup-import' 
-			href = "/templates/popup.html"
-		>
-		<link
-			rel = 'import'
-			id = 'v-timer-import' 
-			href = "/templates/timer.html"
-		>
 
 		<link href="popup.css" rel="stylesheet" type="text/css">
 		<link href="/css/audio_visualizer.css" rel="stylesheet" type="text/css">
 
 		<script src =	"/js/lib/jQuery/jquery-2.1.4.min.js"		></script>
-		<script src =	"/js/shims.js"								></script>
+		<script src =	"/js/misc/shims.js"							></script>
 		
 		<script src =	"/js/elements/Popup.js"						></script>
 		<script src =	"/js/elements/Timer.js"						></script>
@@ -45,10 +29,10 @@
 		<script src =	"/js/elements/AudioVisualizer.js"			></script>
 
 		<script src =	"/js/classes/EventHub.js"					></script>
+        <script src =	"/js/classes/Utilities.js"					></script>
+		<script src =	"/js/classes/LauncherHelper.js"				></script>
 
 		<script src =	"popup.js"									></script>
-        
-        <script src = '/js/classes/Utilities.js' ></script>
 
 	</body>
 

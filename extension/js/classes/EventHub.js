@@ -5,17 +5,6 @@
 			
 			events: {},            
 
-            add_metric: function ( metric, log_result ){
-                
-                if(!utilities)
-                    utilities = new Utilities( chrome, $, 'EventHub' );
-                    
-                utilities.add_metric( metric, function ( result ) {
-                    if(log_result)
-                        console.log({ metric, result });
-                });
-            },
-	
 			add_one: function ( name, observer ) {
 			
 				if ( typeof private.events[ name ] === 'undefined' ) {
@@ -60,22 +49,10 @@
 				
 				};
 				
-			},
-
-			stop: function () {
-
-				public.fire = function () {}
-
 			}
-			
+
 		};
 
-        ( function constructor () {
-            
-            private.add_metric({ name: 'class-load', val: { class: 'EventHub' } });
-
-		} () );
-        
 		return public;
 		
 	};

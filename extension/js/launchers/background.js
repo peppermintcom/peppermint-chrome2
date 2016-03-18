@@ -24,7 +24,7 @@
 		if ( details.reason === "install" ) {
 			
 		    chrome.tabs.create({
-		        url: chrome.extension.getURL("welcome_page/welcome.html"),
+		        url: chrome.extension.getURL("/pages/welcome_page/welcome.html"),
 		        active: true
 		    });
 		    
