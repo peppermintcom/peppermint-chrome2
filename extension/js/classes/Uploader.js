@@ -118,6 +118,16 @@
 		};
 		
 		var public = {
+
+			upload_recording_data: function ( recording_data ) {
+
+				return new Promise ( function ( resolve, reject ) {
+
+
+
+				});
+
+			},
 			
 			get_token_promise: function () {
 
@@ -149,7 +159,7 @@
 
 			},
 			
-			get_urls_promise: function ( token_promise, sender_data ) {
+			get_urls_promise: function ( token_promise ) {
 
 				return new Promise( function ( resolve ) {
 
@@ -181,44 +191,6 @@
 
 			},
 			
-            get_token_urls: function () {
-
-				return new Promise( function ( resolve, reject ) {
-
-					var data = {};
-
-					g_state.token_promise
-					.then( function ( token ) {
-
-						data.token = token;
-                        
-                        g_state.urls_promise = g_state.token_promise.then( function ( token ) {
-                            g_state.urls_promise = private.token_to_urls_promise( token, sender_data );
-                            return private.token_to_urls_promise( token, sender_data );
-                        });
-
-						return g_state.urls_promise;
-					})
-                    .then( function ( urls ) {
-                        
-                        data.urls = urls;
-                        
-                        urls.cloudfront_ssl_url = urls.canonical_url.replace('http://go.peppermint.com/','https://duw3fm6pm35xc.cloudfront.net/');
-                        
-                        resolve ( data );
-                    })
-					.catch( function () {
-                        
-                        Raven.captureMessage("error in get_token_urls");
-
-						reject();
-
-					})
-
-				});
-
-			},
-            
 			upload_buffer: function ( token, urls, buffer, transcription_data ) {
 
 				return new Promise( function ( resolve, reject ) {
@@ -270,60 +242,8 @@
 				})
 
 			},
-			
-			upload_buffer_immediately: function ( token, urls, buffer, transcription_data ) {
 
-				return new Promise( function ( resolve, reject ) {
-
-					var state = {};
-
-					state.token = token;
-                    state.signed_url = urls.signed_url;
-                    state.short_url = urls.short_url;
-                    state.canonical_url = urls.canonical_url;
-                                        
-                    if(!transcription_data){
-                        
-                        console.log('no transcription data found');
-                        
-                    } else {
-                        
-                        transcription_data.audio_url = urls.canonical_url;
-                        
-                        private.upload_transcription( state.token, transcription_data )
-                        .then( function ( response ) {
-                            console.log( response );
-                            g_state.last_transcription_url = response.transcription_url;
-                        })
-                        .catch( function ( error ) {
-                            
-                            Raven.captureException(error);
-
-                            console.log(error);
-
-                        });
-                        
-                    }
-					
-					private.upload_until_success( urls.signed_url, buffer )
-                    .then( function () {
-                      
-						resolve( true );
-
-					})
-					.catch( function () {
-                        
-                        Raven.captureMessage("error in upload_buffer_immediately");
-
-						reject();
-
-					});
-
-				});
-
-			},
-
-			delete_transcription: function () {
+			delete_transcription: function ( recording_data ) {
 				
 				g_state.token_promise.then( function ( token ) {
 
@@ -344,33 +264,12 @@
 
 				});
 
-			},
-
-			upload_recording_data: function () {
-
-				return new Promise ( function ( resolve, reject ) {
-
-				});
-
 			}
 
 		};
 
 		( function constructor () {
 
-			g_state.token_promise = private.get_token();
-			
-			setInterval( function () {
-
-				
-				
-			}, 2 * 60 * 1000 );
-
-			g_state.urls_promise = g_state.token_promise.then( function ( token ) {
-				g_state.urls_promise = private.token_to_urls_promise( token, sender_data );
-				return private.token_to_urls_promise( token, sender_data );
-			});
-            
             event_hub.fire( 'class_load', { name: 'Uploader' } );
 
 		} () )

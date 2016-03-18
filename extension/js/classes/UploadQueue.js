@@ -30,18 +30,24 @@
 
 				if ( state.queue.length > 0 ) {
 
-					uploader.upload_recording_data( state.queue[ 0 ] )
-					.then( function () {
+					state.queue.urls_promise.then( function ( urls ) {
 
-						state.queue.splice( 0, 1 );
-						this.hub.fire( "upload_queue_success" );
-						private.launch_queue_uploading();
+						state.queue[ 0 ].urls = urls;
 
-					})
-					.catch( function () {
+						uploader.upload_recording_data( state.queue[ 0 ], urls )
+						.then( function () {
 
-						state.queue_is_active = true;
-						hub.fire( "upload_queue_failed" );
+							state.queue.splice( 0, 1 );
+							this.hub.fire( "upload_queue_success" );
+							private.launch_queue_uploading();
+
+						})
+						.catch( function () {
+
+							state.queue_is_active = true;
+							hub.fire( "upload_queue_failed" );
+
+						});
 
 					});
 
@@ -60,7 +66,8 @@
 			push: function ( recording_data ) {
 
 				var urls_promise = state.urls_promise;
-				state.queue.push( recording_data, urls_promise );
+				recording_data.urls_promise = urls_promise;
+				state.queue.push( recording_data );
 
 				state.urls_promise = uploader.get_urls_promise( state.token_promise );
 

@@ -17,13 +17,8 @@
 		};
 
 		var private = {
-<<<<<<< HEAD
-
-			copy_to_clipboard: function ( text ) {
-=======
-            
+			
             copy_to_clipboard: function ( text ) {
->>>>>>> origin/analytics
 
 			    var doc = document,
 			        temp = doc.createElement("textarea"),
@@ -456,11 +451,7 @@
 
         ( function constructor () {
             
-<<<<<<< HEAD
-            event_hub( 'class_load', { name: 'PopupController' } });
-=======
             event_hub.fire( 'class_load', { name: 'PopupController' } );
->>>>>>> origin/analytics
 
 		} () );
 
