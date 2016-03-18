@@ -11,7 +11,8 @@
                         
                     chrome.runtime.sendMessage({name: "page_alert"}, function( data ){
                         
-                        public.show_alert( data );
+                        // disabling the alerts for now
+                        // public.show_alert( data );
                         
                     });
                             
