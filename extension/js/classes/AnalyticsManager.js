@@ -49,6 +49,24 @@
                         },
                         page_load: function( data ){
                             private.handle_event( 'page_load' , data );
+                        },
+                        peppermint_compose_button_click: function( data ){
+                            private.handle_event( 'peppermint_compose_button_click' , data );
+                        },
+                        peppermint_reply_button_click: function( data ){
+                            private.handle_event( 'peppermint_reply_button_click' , data );
+                        },
+                        user_click: function( data ){
+                            private.handle_event( 'user_click' , data );
+                        },
+                        tooltip_close_button_click: function( data ){
+                            private.handle_event( 'tooltip_close_button_click' , data );
+                        },
+                        timeout: function( data ){
+                            // private.handle_event( 'timeout' , data );
+                        },
+                        tick: function( data ){
+                            // private.handle_event( 'tick' , data );
                         }
                     });
                 }
