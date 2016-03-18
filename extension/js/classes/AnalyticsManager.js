@@ -42,7 +42,9 @@
                     console.error("event_hub not available to AnalyticsManager");
                 } else {
                     event_hub.add({
-                        class_load: function( data ){
+                        setup: function( data ){
+                            private.handle_event( 'setup' , data );
+                        },class_load: function( data ){
                             private.handle_event( 'class_load' , data );
                         },
                         page_load: function( data ){
@@ -75,7 +77,7 @@
                     }
                     else{
                         
-                        chrome.runtime.sendMessage({ name: 'add_analytic', val: analytic }, function(result) {
+                        chrome.runtime.sendMessage({ name: 'track_analytic', val: analytic }, function(result) {
                             if ( callback ) callback( result );
                         });
                         
