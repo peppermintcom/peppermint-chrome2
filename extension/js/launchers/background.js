@@ -114,6 +114,12 @@
 		chrome.identity.getProfileUserInfo( function ( info ) {
 			chrome.storage.local.get( null, function ( items ) {
 
+				var event_hub = new EventHub();
+
+				new ErrorReporter( event_hub );
+
+				new AnalyticsManager( event_hub );
+
 				window.popup_controller = new PopupController(
                     chrome,
 					web_audio_recorder_wrap,
@@ -122,7 +128,7 @@
 						sender_email: info.email
 					}, utilities),
 					jQuery,
-					new EventHub( null, utilities ),
+					event_hub,
 					new TranscriptionManager( jQuery, items.options_data.transcription_language, utilities ),
                     utilities
 				);

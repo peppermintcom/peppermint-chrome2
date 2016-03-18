@@ -50,62 +50,14 @@
 		};
 
 		var g_state = {
-			token_promise: null
+
+			token_promise: null,
+			endpoint: "https://qdkkavugcd.execute-api.us-west-2.amazonaws.com/prod/v1/",
+			api_key: "kLOtvTZkwzDISbKBVYGbkwLErE1VJPRyyWvnIXi1qhniGLar9Kr5mQ"
+
 		}
 
 		var private = {
-			
-			get_token: function () {
-				return new Promise( function ( resolve, reject ) {
-					ajax(
-						"https://qdkkavugcd.execute-api.us-west-2.amazonaws.com/prod/v1/recorder",
-						{
-							type: 'POST',
-							data: JSON.stringify({
-								"api_key": "kLOtvTZkwzDISbKBVYGbkwLErE1VJPRyyWvnIXi1qhniGLar9Kr5mQ",
-								"recorder": {
-									"description": "Chrome Extension",
-									"recorder_client_id": "chrome_extension" + Date.now()
-								}
-							}),
-							success: function ( response ) {
-								resolve( response.at );
-							},
-							error: function () {
-								setTimeout( function () {
-									private.get_token().then( resolve );
-								}, 1000 );
-							}
-						}
-					);
-				});
-			},
-			
-			token_to_urls: function ( token, sender_data ) {
-				return new Promise( function ( resolve, reject ) {
-					ajax(
-						"https://qdkkavugcd.execute-api.us-west-2.amazonaws.com/prod/v1/uploads",
-						{
-							type: 'POST',
-							data: JSON.stringify({
-							  content_type: "audio/mpeg",
-							  sender_name: sender_data ? sender_data.sender_name : '',
-							  sender_email: sender_data ? sender_data.sender_email : ''
-							}),
-							headers: {
-								'Authorization': 'Bearer ' + token,
-								'Content-Type': 'application/json'
-							},
-							success: function ( response ) {
-								resolve( response );
-							},
-							error: function () {
-								reject();
-							}
-						}
-					);
-				});
-			},
 			
 			upload_transcription: function ( token, transcription_data ) {
 				return new Promise( function ( resolve, reject ) {
@@ -178,6 +130,68 @@
 		
 		var public = {
 			
+			get_token_promise: function () {
+
+				return new Promise( function ( resolve ) {
+
+					ajax(
+						g_state.endpoint + "recorder",
+						{
+							type: 'POST',
+							data: JSON.stringify({
+								"api_key": g_state.api_key,
+								"recorder": {
+									"description": "Chrome Extension",
+									"recorder_client_id": "chrome_extension_" + Date.now()
+								}
+							}),
+							success: function ( response ) {
+								resolve( response.at );
+							},
+							error: function () {
+								setTimeout( function () {
+									public.get_token_promise().then( resolve );
+								}, 1000 );
+							}
+						}
+					);
+
+				});
+
+			},
+			
+			get_urls_promise: function ( token_promise, sender_data ) {
+
+				return new Promise( function ( resolve ) {
+
+					ajax(
+						"https://qdkkavugcd.execute-api.us-west-2.amazonaws.com/prod/v1/uploads",
+						{
+							type: 'POST',
+							data: JSON.stringify({
+							  content_type: "audio/mpeg",
+							  sender_name: sender_data ? sender_data.sender_name : '',
+							  sender_email: sender_data ? sender_data.sender_email : ''
+							}),
+							headers: {
+								'Authorization': 'Bearer ' + token,
+								'Content-Type': 'application/json'
+							},
+							success: function ( response ) {
+								resolve( response );
+							},
+							error: function () {
+								setTimeout( function () {
+									public.get_urls_promise( token_promise, sender_data ).then( resolve );
+								}, 1000 );
+							}
+						}
+					);
+
+				});
+
+			},
+			
             get_token_urls: function () {
 
 				return new Promise( function ( resolve, reject ) {
@@ -248,7 +262,7 @@
 
                         });
                         
-                    }              
+                    }
 												
 					private.upload_until_success( urls.signed_url, buffer )
                     .then( function () {
@@ -341,6 +355,14 @@
 
 				});
 
+			},
+
+			upload_recording_data: function () {
+
+				return new Promise ( function ( resolve, reject ) {
+
+				});
+
 			}
 
 		};
@@ -351,10 +373,7 @@
 			
 			setInterval( function () {
 
-				g_state.urls_promise = g_state.token_promise.then( function ( token ) {
-					g_state.urls_promise = private.token_to_urls_promise( token, sender_data );
-					return private.token_to_urls_promise( token, sender_data );
-				});
+				
 				
 			}, 2 * 60 * 1000 );
 

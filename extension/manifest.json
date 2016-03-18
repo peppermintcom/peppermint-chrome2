@@ -58,7 +58,7 @@
 				"run_at": "document_end"
 			},
 			{
-				"matches": [ 
+				"matches": [
 
 					"https://*/*",
 					"http://*/*"
@@ -130,6 +130,9 @@
                 "/js/classes/ContentRecorder.js",
 				"/js/classes/BackgroundRecorder.js",
                 "/js/classes/BackgroundUploader.js",
+				"/js/classes/ErrorReporter.js",
+                "/js/classes/AnalyticsManager.js",
+
 				"/js/classes/EventHub.js",
 				"/js/classes/Uploader.js",
 				
@@ -154,6 +157,7 @@
 			"storage",
 			"geolocation",
 			"identity",
+			"alarms",
 			"identity.email",
 			
 			"clipboardWrite",

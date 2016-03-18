@@ -37,7 +37,7 @@
 							var button = $( "#v_dropdown_button", element.shadowRoot ).clone();
 
 							button.on( "click", function () {
-								event_hub.fire( "peppermint_reply_button_click" );
+								event_hub.fire( "peppermint_reply_button_click", { type: "dropdown_button" } );
 							});
 
 							$( container ).children('div:eq(2)').after( button );
@@ -56,7 +56,7 @@
 							var button = $( "#v_reply_button", element.shadowRoot ).clone();
 
 							button.on( "click", function () {
-								event_hub.fire( "peppermint_reply_button_click" );
+								event_hub.fire( "peppermint_reply_button_click", { type: "button" } );
 							});
 
 							$( container ).prepend( button );
@@ -74,7 +74,7 @@
 	
 									link.on( "click", function () {
 										event.preventDefault();
-										event_hub.fire( "peppermint_reply_button_click" );
+										event_hub.fire( "peppermint_reply_button_click", { type: "button" } );
 									})
 
 								};
