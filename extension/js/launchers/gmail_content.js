@@ -21,13 +21,14 @@
 				
 					try {
 
-						// sender_data.sender_name = $(".gb_ab.gb_ea .gb_jb").text() || $(".gb_b.gb_2a.gb_R")[0].title.match( /\:([\s\S]+?)\(/ )[ 1 ].trim();
-
 						var utilities = new Utilities( chrome, $, 'inceptor' );
 						var gmail_elements = document.importNode( t["gmail_elements"].content, true );
 						var el =  function ( id ) { return gmail_elements.getElementById( id ) };
 						var event_hub = new EventHub( null, utilities );
 						var tooltip = el("peppermint_tooltip");
+
+						new AnalyticsManager( event_hub );
+						new ErrorReporter( event_hub );
 
 						new Tooltip( $, event_hub, t["tooltip"], el("peppermint_tooltip") );
 						new AudioVisualizer( chrome, $, event_hub, el("audio_visualizer"), utilities );
@@ -42,7 +43,7 @@
 						var content_recorder = new ContentRecorder( chrome.runtime, event_hub );
 						var uploader = new Uploader( jQuery.ajax, sender_data, utilities );
 						var letter_manager = new LetterManager( $, document, chrome, sender_data, utilities );
-						
+
 						$( document.body ).append( gmail_elements );
 
 						new GmailController(
@@ -71,4 +72,3 @@
 		});
 
 	} () );
-
