@@ -127,8 +127,6 @@
 
 				new ErrorReporter( event_hub );
 
-				new AnalyticsManager( event_hub );
-
 				window.popup_controller = new PopupController(
                     chrome,
 					web_audio_recorder_wrap,
