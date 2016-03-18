@@ -21,13 +21,13 @@
 				
 					try {
 
-						var utilities = new Utilities( chrome, $, 'inceptor' );
+						var utilities = new Utilities( chrome, $, 'gmail_content' );
 						var gmail_elements = document.importNode( t["gmail_elements"].content, true );
 						var el =  function ( id ) { return gmail_elements.getElementById( id ) };
 						var event_hub = new EventHub( null, utilities );
 						var tooltip = el("peppermint_tooltip");
 
-						new AnalyticsManager( event_hub );
+						new AnalyticsManager( 'gmail_content', event_hub, utilities );
 						new ErrorReporter( event_hub );
 
 						new Tooltip( $, event_hub, t["tooltip"], el("peppermint_tooltip") );
@@ -39,10 +39,10 @@
 						new MiniPopup( $, event_hub, t["mini_popup"], el("peppermint_mini_popup") );
 						new ButtonInserter( chrome, $, event_hub, t["button_inserter"], el("peppermint_button_inserter"), !items["options_data"]["disable_reply_button"] );
 
-						var alerts = new PageAlerts( chrome, $, utilities );
-						var content_recorder = new ContentRecorder( chrome.runtime, event_hub );
-						var uploader = new Uploader( jQuery.ajax, sender_data, utilities );
-						var letter_manager = new LetterManager( $, document, chrome, sender_data, utilities );
+						var alerts = new PageAlerts( chrome, $, utilities, event_hub );
+						var content_recorder = new ContentRecorder( chrome.runtime, event_hub, utilities );
+						var uploader = new Uploader( jQuery.ajax, sender_data, utilities, event_hub );
+						var letter_manager = new LetterManager( $, document, chrome, sender_data, utilities, event_hub );
 
 						$( document.body ).append( gmail_elements );
 

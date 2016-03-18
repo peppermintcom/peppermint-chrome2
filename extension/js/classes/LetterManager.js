@@ -1,20 +1,9 @@
 
-	function LetterManager ( $, document, chrome, sender_data, utilities ) {
+	function LetterManager ( $, document, chrome, sender_data, utilities, event_hub ) {
 		
 		var private = {
 				
 				last_selections: {},
-
-                add_metric: function ( metric, log_result ){
-                    
-                    if(!utilities)
-                        utilities = new Utilities( chrome, $, 'LetterManager' );
-                        
-                    utilities.add_metric( metric, function ( result ) {
-                        if(log_result)
-                            console.log({ metric, result });
-                    });
-                },
 
 				zeroPad: function ( originalNumber ) {
 					
@@ -193,7 +182,7 @@
 
 			});
             
-            private.add_metric({ name: 'class-load', val: { class: 'LetterManager' } });
+            event_hub.fire( 'class_load', { name: 'LetterManager' } );
 
 		} () )
 

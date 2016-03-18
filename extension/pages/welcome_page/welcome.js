@@ -1,20 +1,18 @@
-( function () {
+
+( function ( $, chrome, utilities, event_hub ) {
 
     'use strict';
 
 	window.addEventListener("load", initAudio);
-
-    function add_metric ( metric, log_result ){
-        
-        if(!utilities)
-            utilities = new Utilities( chrome, $, 'welcome' );
-            
-        utilities.add_metric( metric, function ( result ) {
-            if(log_result)
-                console.log({ metric, result });
-        });
-    }
     
+    function init(){
+        
+        utilities = new Utilities( chrome, $, 'welcome_page' );
+        
+        event_hub = new EventHub( null, utilities );
+        
+    }
+
 	function initAudio() {
 	    if ( !navigator.getUserMedia ) { navigator.getUserMedia = navigator.webkitGetUserMedia; }
 	    navigator.getUserMedia(
@@ -39,9 +37,11 @@
 	}
     
     ( function constructor () {
-            
-        add_metric({ name: 'class-load', val: { class: 'welcome' } });
+        
+        init();
+        
+        event_hub.fire( 'class_load', { name: 'welcome_page' } );
 
 	} () );
         
-})();
+} ( jQuery, chrome ) );

@@ -17,17 +17,6 @@
 
 		var private = {
 
-            add_metric: function ( metric, log_result ){
-                
-                if(!utilities)
-                    utilities = new Utilities( chrome, $, 'GmailController' );
-                    
-                utilities.add_metric( metric, function ( result ) {
-                    if(log_result)
-                        console.log({ metric, result });
-                });
-            },
-            
 			start_timer: function () {
 
 				clearTimeout( state.timer );
@@ -380,7 +369,7 @@
 			
 			});
             
-            private.add_metric({ name: 'class-load', val: { class: 'GmailController' } });
+            event_hub.fire( 'class_load', { name: 'GmailController' } );
 
 		} () );
 

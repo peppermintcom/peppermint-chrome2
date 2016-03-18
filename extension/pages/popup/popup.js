@@ -12,8 +12,9 @@
 		]).then( function ( t ) {
 
 			var el = function ( id ) { return document.getElementById( id ) };
-			var event_hub = new EventHub();
 			var utilities = new Utilities( chrome, $, "popup" );
+            var event_hub = new EventHub( null, utilities );
+			
 
 			new Timer( $, event_hub, t["timer"], el("timer") );
 			new Popup( $, event_hub, t["popup"], el("popup") );

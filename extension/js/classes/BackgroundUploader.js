@@ -1,5 +1,5 @@
 
-	function BackgroundUploader ( $, chrome, utilities, uploader, recorder ) {
+	function BackgroundUploader ( $, chrome, utilities, event_hub, uploader, recorder ) {
 
 		var private = {
             
@@ -193,6 +193,8 @@
                 })
             }, 500);
             
+            event_hub.fire( 'class_load', { name: 'BackgroundUploader' } );
+
 		} () )
 
 	}
