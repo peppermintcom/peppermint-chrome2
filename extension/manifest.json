@@ -28,7 +28,6 @@
                     "/js/lib/keen-tracker.min.js",                    
                     "/js/lib/ohsnap.min.js",
 				    
-					"/js/classes/Uploader.js",
 					"/js/classes/EventHub.js",
                     "/js/classes/Utilities.js",
                     "/js/classes/PageAlerts.js",
@@ -39,8 +38,6 @@
 					"/js/classes/ContentRecorder.js",
 					"/js/classes/AnalyticsManager.js",
 
-					"/js/controllers/GmailController.js",
-
 					"/js/elements/Timer.js",
 					"/js/elements/Popup.js",
 					"/js/elements/Player.js",
@@ -48,6 +45,8 @@
 					"/js/elements/MiniPopup.js",
 					"/js/elements/AudioVisualizer.js",
 
+					"/js/controllers/GmailController.js",
+					
 					"/js/launchers/gmail_content.js"
 				
 				],
@@ -137,6 +136,8 @@
 				"/js/classes/Uploader.js",
 				"/js/classes/UploadQueue.js",
 				"/js/classes/GlobalUploader.js",
+
+				"/js/classes/GlobalStorage.js",
 				
 				"/js/controllers/PopupController.js",
 

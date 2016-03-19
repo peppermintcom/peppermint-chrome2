@@ -62,7 +62,7 @@
 	});
 
 	// set up options defaults
-    chrome.storage.local.set({ options_data: options_defaults, popup_state: {} });
+    chrome.storage.local.set({ options_data: options_defaults, popup_state: {}, recording_data_arr: [] });
 
     event_hub.fire( 'setup', { name : 'options_defaults', options_defaults } );
     
@@ -176,4 +176,16 @@
 			upload_queue
 		);	
 
-	} () );   
+	} () );
+
+	( function set_up_global_storage () {
+
+		var event_hub = new EventHub();
+
+		new GlobalStorage(
+			chrome,
+			jQuery,
+			event_hub
+		);
+
+	} () );

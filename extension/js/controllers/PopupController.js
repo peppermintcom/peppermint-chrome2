@@ -1,20 +1,6 @@
 
 	function PopupController ( chrome, $, event_hub ) {
 
-		var popup_state = {
-
-			page: null,
-			page_status: null,
-			recording_thread_id: null,
-			audio_data_url: null,
-			timestamp: null,
-			last_recording_blob: null,
-			transcript_promise: null,
-			transcript: {text : ''},
-			recording_url: null
-
-		};
-
 		var private = {
 
 			begin_recording: function () {
@@ -23,15 +9,14 @@
 
 					if ( response.started ) {
 
-						private.start_timer();
-						
-						$( "#timer" )[0].reset();
-						$( "#timer" )[0].start();
 						$( "#popup" ).show();
 						$( "#popup" )[0].set_page("recording_page");
 						$( "#popup" )[0].set_page_status("recording");
-						popup_state.page = "recording_page";
-						popup_state.page_status = "recording";
+						
+						private.update_popup_state({
+							page: "recording_page",
+							page_status: "recording"
+						});
 
 					} else {
 
@@ -48,7 +33,10 @@
 
 							$( "#popup" ).show();
 							$( "#popup" )[0].set_page("microphone_error_page");
-							popup_state.page = "microphone_error_page";
+						
+							private.update_popup_state({
+								page: "microphone_error_page"
+							});
 
 						}
 
@@ -64,8 +52,12 @@
 				chrome.runtime.sendMessage( { receiver: "GlobalRecorder", name: "cancel" }, function ( response ) {
 
 					$( "#popup" )[0].set_page("popup_welcome");
-					popup_state.page = "popup_welcome";
-					popup_state.recording_thread_id = Date.now();
+					
+					private.update_popup_state({
+
+						page: "popup_welcome"
+
+					});
 
 				});
 
@@ -75,18 +67,31 @@
 
 				return new Promise( function ( resolve ) {
 
-					private.stop_timer();
-					current_recording_thread_id = popup_state.recording_thread_id;
-
-					private.show_uploading_screen();
-
 					chrome.runtime.sendMessage( { receiver: "GlobalUploader", name: "get_urls" }, function ( urls ) {
 
 						console.log( "urls", urls );
+							
+						$( "#popup" )[0].set_transcript( "" );
+						$( "#player" )[0].disable();
 
-						chrome.runtime.sendMessage( { receiver: "GlobalRecorder", name: "finish", recording_data: { urls } }, function ( recording_data ) {
+						$( "#popup" )[0].set_url( urls.short_url );
+						$( "#popup" )[0].set_page("popup_finish");
+						$( "#popup" )[0].set_page_status("finished");
+
+						private.update_popup_state({
+
+							page: "popup_finish",
+							page_status: "finished",
+
+						});
+
+						chrome.runtime.sendMessage( { receiver: "GlobalRecorder", name: "finish", recording_data: { urls, source: "popup" } }, function ( recording_data ) {
 
 							console.log( "recording_data", recording_data );
+
+							$( "#popup" )[0].set_transcript( recording_data.transcription_data.text );
+							$( "#player" )[0].set_url( recording_data.data_url );
+							$( "#player" )[0].enable();
 
 						});
 
@@ -96,98 +101,51 @@
 
 			},
 
-			start_timer: function () {
-				
-				popup_state.timer = setTimeout( function () {
-
-					event_hub.fire( "timeout" );
-
-				}, 5 * 60 * 1000 );
-
-			},
-
-			stop_timer: function () {
-				
-				clearTimeout( popup_state.timer );
-
-			},
-
-			show_uploading_screen: function () {
-
-				$( "#player" )[0].reset();
-				$( "#player" )[0].disable();
-				$( "#popup" )[0].set_page_status("uploading");
-				$( "#popup" )[0].set_page("uploading_page");
-				
-				popup_state.page_status = "uploading";
-				popup_state.page = "uploading_page";
-
-			},
-
 			init_popup_state: function ( popup_state ) {
 
 				$( "#popup" ).css({ display: "block" }).show();
+
 				$( "#popup" )[0].set_page( popup_state.page || "popup_welcome" );
+				
 				if ( popup_state.page_status ) $( "#popup" )[0].set_page_status( popup_state.page_status );
 
-				if ( popup_state.audio_data_url ) {
-					$( "#player" )[0].disable();
-					setTimeout( function () {
-						console.log( "audio_data_url", popup_state.audio_data_url );
-						$( "#player" )[0].set_url( popup_state.audio_data_url );
+				if ( popup_state.last_recording_data ) {
+
+					$( "#popup" )[0].set_url( popup_state.last_recording_data.urls.short_url );
+
+					if ( popup_state.last_recording_data.transcription_data ) {
+
+						$( "#popup" )[0].set_transcript( popup_state.last_recording_data.transcription_data.text );
+
+					}
+
+					if ( popup_state.last_recording_data.data_url ) {
+
+						$( "#player" )[0].set_url( popup_state.last_recording_data.data_url );
 						$( "#player" )[0].enable();
-					}, 100 );
-				} else {
-					$( "#player" )[0].disable();
-				}
 
-				if ( popup_state.recording_url ) {
+					} else {
 
-					private.copy_to_clipboard( popup_state.recording_url );
-					$( "#popup" )[0].set_url( popup_state.recording_url );
+						$( "#player" )[0].disable();
+
+					}
 
 				}
 
-				if ( popup_state.timestamp ) {
+			},
 
-					$( "#timer" )[0].set_time( Date.now() - popup_state.timestamp );
-					$( "#timer" )[0].continue();
+			update_popup_state: function ( popup_state ) {
 
-				}
+				chrome.storage.local.get( [ "popup_state" ], function ( items ) {
 
-				if ( popup_state.progress ) {
-					document.dispatchEvent( new CustomEvent( "upload_progress", {
-						detail: {
-							progress: popup_state.progress
-						}
-					}));
-				}
-
-				$( "#popup" )[0].set_transcript( popup_state.transcript.text );
-
-			}
-
-		};
-
-		chrome.runtime.onMessage.addListener( function ( data ) {
-
-			if ( data.name === "recording_data_uploaded" ) {
-
-				console.log( data );
-
-				$.extend( popup_state, {
-
-					page: "popup_finish",
-					page_status: "finished",
-					audio_data_url: data.recording_data.urls.long,
-					transcript: data.recording_data.transcription_data,
-					recording_url: data.recording_data.urls.short_url
+					$.extend( true, items.popup_state, popup_state );
+					chrome.storage.local.set({ popup_state: items.popup_state });
 
 				});
 
 			}
 
-		});
+		};
 
 		event_hub.add({
 
@@ -209,50 +167,16 @@
 
 			},
 
-			timeout: function () {
-
-				current_recording_thread_id = popup_state.recording_thread_id;
-
-				private.show_uploading_screen();
-
-				popup_state.transcript_promise =  transcription_manager.finish();
-
-				recorder.finish()
-				.then( function ( blob ) {
-					
-					private.process_recording_blob( blob, current_recording_thread_id );
-
-				});
-
-				alert("You have reached the maximum recording length of 5 minutes");
-
-			},
-
-			tick: function () {
-
-				popup_state.timestamp = $( "#timer" )[0].get_timestamp();
-
-			},
-
 			popup_error_cancel_button_click: function () {
-				$( "#popup" )[0].set_page("popup_welcome");
-				popup_state.page = "popup_welcome";
-				popup_state.recording_thread_id = Date.now();
+
+				$( "#popup" )[0].set_page( "popup_welcome" );
+				private.update_popup_state({ page: "popup_welcome" });
+
 			},
 
 			popup_error_try_again_button_click: function () {
 
 				private.begin_recording();
-
-			},
-
-			popup_restart_upload_click: function () {
-
-				current_recording_thread_id = popup_state.recording_thread_id;
-
-				private.show_uploading_screen();
-
-				private.process_recording_blob( popup_state.last_recording_blob, current_recording_thread_id );
 
 			},
 
@@ -262,20 +186,11 @@
 
 			},
 
-			popup_cancel_uploading_click: function () {
-
-				$( "#player" )[0].reset();
-				$( "#popup" )[0].set_page("popup_welcome");
-				popup_state.page = "popup_welcome";
-				popup_state.recording_thread_id = Date.now();
-			
-			},
-
 			popup_delete_transcription_button_click: function () {
 
-				$( "#popup" )[ 0 ].set_transcript( false );
-				popup_state.transcript = { text: "" };
-				uploader.delete_transcription();
+				// $( "#popup" )[ 0 ].set_transcript( false );
+				// popup_state.transcript = { text: "" };
+				// uploader.delete_transcription();
 
 			}
 
@@ -284,6 +199,19 @@
 		( function constructor () {
 
 			chrome.storage.local.get( null, function ( items ) {
+
+				var recording_data_arr = items["recording_data_arr"];
+
+				for ( var i = recording_data_arr.length; i-- ; ) {
+
+					if ( recording_data_arr[ i ].source === "popup" ) {
+
+						items.popup_state.last_recording_data = recording_data_arr[ i ];
+						break;
+
+					};
+
+				};
 
 				private.init_popup_state( items.popup_state );
 
@@ -301,10 +229,19 @@
 
 				});
 
+				chrome.runtime.sendMessage( { receiver: "GlobalRecorder", name: "get_time" }, function ( time ) {
+
+					if ( time ) {
+
+						$( "#timer" )[0].set_time( time * 1000 );
+						
+					}
+
+				});
+
 				requestAnimationFrame( tick );
 
 			} () )
-
 
 		} () );
 

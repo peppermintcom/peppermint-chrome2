@@ -12,6 +12,7 @@
 		var private = {
 			
 			upload_transcription: function ( token, transcription_data ) {
+				
 				return new Promise( function ( resolve, reject ) {
 					
 					if (transcription_data.text === undefined || transcription_data.text !== undefined && transcription_data.text.length < 1) {
@@ -20,7 +21,7 @@
 					}
 					
 					$.ajax(
-						"https://qdkkavugcd.execute-api.us-west-2.amazonaws.com/prod/v1/transcriptions",
+						g_state.endpoint + "transcriptions",
 						{
 							type: 'POST',
 							data: JSON.stringify({
@@ -32,7 +33,7 @@
 							headers: {
 								'Authorization': 'Bearer ' + token,
 								'Content-Type': 'application/json',
-								'X-Api-Key' : 'kLOtvTZkwzDISbKBVYGbkwLErE1VJPRyyWvnIXi1qhniGLar9Kr5mQ'
+								'X-Api-Key' : g_state.api_key
 							},
 							success: function ( response ) {
 								resolve( response );
@@ -43,25 +44,9 @@
 						}
 					);
 				});
+				
 			},
 			
-			upload: function ( signed_url, buffer ) {
-				return new Promise( function ( resolve, reject ) {
-					lib.upload( signed_url, buffer, resolve, reject );
-				});
-			},
-			
-			upload_until_success: function ( signed_url, buffer ) {
-				return new Promise( function ( resolve, reject ) {
-					lib.upload( signed_url, buffer, resolve, function () {
-						console.log( "failed to upload buffer" );
-						setTimeout( function () {
-							private.upload_until_success( signed_url, buffer ).then( resolve );
-						}, 1000 );
-					});
-				});
-			},
-
 			data_url_to_buffer: function ( data_url ) {
 
 				return new Promise ( function ( resolve ) {

@@ -36,7 +36,7 @@
 				})
 				.catch( function () {
 
-					state.queue_is_active = true;
+					state.queue_is_active = false;
 					hub.fire( "upload_queue_failed" );
 
 				});
@@ -110,7 +110,7 @@
 
 				if ( state.queue_is_active === false ) {
 
-					private.launch_queue_uploading.call( this );
+					private.launch_queue_uploading();
 				
 				}
 

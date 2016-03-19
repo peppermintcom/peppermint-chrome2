@@ -134,6 +134,20 @@
 				
 				}
 
+			},
+
+			get_time: function () {
+
+				if ( private.recorder ) {
+
+					return private.recorder.recordingTime();
+					
+				} else {
+
+					return false;
+					
+				}
+
 			}
 
 		};

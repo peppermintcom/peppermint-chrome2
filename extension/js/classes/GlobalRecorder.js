@@ -1,4 +1,4 @@
-	
+
 	function GlobalRecorder ( chrome, $, hub, web_audio_recorder_wrap, transcription_manager ) {
 		
 		var state = {
@@ -90,14 +90,27 @@
 					private.finish( function ( recording_data ) {
 
 						$.extend( recording_data, message.recording_data );
-						callback( recording_data );
+
 						chrome.runtime.sendMessage({ receiver: "GlobalUploader", name: "upload_recording_data", recording_data });
+
+						chrome.storage.local.get( [ "recording_data_arr" ], function ( items ) {
+
+							items.recording_data_arr.push( recording_data );
+							chrome.storage.local.set({ recording_data_arr: items.recording_data_arr });
+
+						});
+
+						try { callback( recording_data ); } catch ( e ) {};
 
 					});
 
 				} else if ( message.name === "get_frequency_data" ) {
 
 					callback( web_audio_recorder_wrap.get_frequency_data() );					
+
+				} else if ( message.name === "get_time" ) {
+
+					callback( web_audio_recorder_wrap.get_time() );
 
 				}
 
