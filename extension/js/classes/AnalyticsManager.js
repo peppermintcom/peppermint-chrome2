@@ -136,7 +136,7 @@
                     
                     if(callback) callback(response);
                     else{
-                        console.log("Analytic Send Result (no callback): ", response);
+                        utilities.log(["Analytic Send Result (no callback) > " + response._result, response]);
                     }
                         
                 });
