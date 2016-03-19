@@ -216,6 +216,8 @@
 
 		( function constructor () {
 
+			chrome.storage.local.set({ "browser_action_popup_has_been_opened": true });
+			
 			chrome.storage.local.get( null, function ( items ) {
 
 				var recording_data_arr = items["recording_data_arr"];

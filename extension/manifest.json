@@ -45,6 +45,7 @@
 				"/js/classes/GlobalUploader.js",
 
 				"/js/classes/BackgroundHelper.js",
+				"/js/classes/TooltipManager.js",
 				
 				"/js/controllers/PopupController.js",
 
@@ -93,29 +94,6 @@
 				"run_at": "document_end"
 			},
 			{
-				"matches": [
-
-					"https://*/*",
-					"http://*/*"
-				],
-				"js": [
-
-					"/js/lib/jQuery/jquery-2.1.4.min.js",
-					
-					"/js/lib/raven.min.js",
-					
-					"/js/lib/keen-tracker.min.js",
-					
-					"/js/classes/EventHub.js",
-					"/js/classes/LauncherHelper.js",
-
-					"/js/elements/Tooltip.js",
-
-					"/js/launchers/tooltip_content.js"
-
-				]
-			},
-			{
 				"matches": [ 
 
 					"https://*/*",
@@ -126,13 +104,15 @@
 
 					"/js/lib/jQuery/jquery-2.1.4.min.js",
 
+					"/js/classes/EventHub.js",
 					"/js/classes/BackendManager.js",
 					"/js/classes/LauncherHelper.js",
 					"/js/classes/PepLinkAddonFactory.js",
 					
+					"/js/elements/PepLinkAddon.js",
+					
 					"/js/controllers/AllLinksController.js",
 
-					"/js/elements/PepLinkAddon.js",
 
 					"/js/launchers/all_links_content.js"
 
@@ -157,14 +137,12 @@
 			"tabs",
 			"storage",
 			"geolocation",
-			"identity",
 			"alarms",
+			"identity",
 			"identity.email",
 			
 			"clipboardWrite",
 			"clipboardRead",
-
-			"https://mail.google.com/*",
 
 			"https://*/*",
 			"http://*/*"

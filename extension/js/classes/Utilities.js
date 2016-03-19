@@ -29,20 +29,20 @@
             
             send_page_alert_controller: function(  ) {
                 
-                // chrome.runtime.onMessage.addListener( function ( req, sender, callback ) {
+                chrome.runtime.onMessage.addListener( function ( req, sender, callback ) {
                 
-                //     if ( req.name === "page_alert" ) {
+                    if ( req.name === "page_alert" ) {
                         
-                //         if (private.last_alert !== null){
+                        if (private.last_alert !== null){
                             
-                //             callback( private.last_alert );
-                //             private.last_alert = null;
+                            callback( private.last_alert );
+                            private.last_alert = null;
                                 
-                //         }
+                        }
 
-                //     }                
+                    }                
                     
-                // });	
+                });	
                 
             },
             

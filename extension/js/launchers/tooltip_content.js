@@ -19,59 +19,51 @@
 
 			};
 
-			chrome.storage.local.get( null, function ( items ) {
+			chrome.storage.local.set({ browser_action_tooltip_has_been_shown: true });
 
-				if ( !items["browser_action_tooltip_has_been_shown"] ) {
+			add_elements();
 
-					chrome.storage.local.set({ browser_action_tooltip_has_been_shown: true });
+			var event_hub = new EventHub();
 
-					add_elements();
+			var tooltip = new Tooltip( jQuery, event_hub, t["tooltip"], $( "#peppermint_tooltip_top" )[0] );
+			$( tooltip ).show();
 
-					var event_hub = new EventHub();
+			if ( window.innerWidth > document.body.clientWidth ) {
+				tooltip.classList.add( "shifted_pointer" );
+			};
 
-					var tooltip = new Tooltip( jQuery, event_hub, t["tooltip"], $( "#peppermint_tooltip_top" )[0] );
-					$( tooltip ).show();
+			setTimeout( function timeout () {
+				
+				chrome.storage.local.get( [ "browser_action_popup_has_been_opened" ], function ( items ) {
+				
+					if ( items[ "browser_action_popup_has_been_opened" ] ) {
+					
+						$( tooltip ).hide();
+					
+					} else {
 
-					if ( window.innerWidth > document.body.clientWidth ) {
-						tooltip.classList.add( "shifted_pointer" );
-					};
+						setTimeout( timeout, 100 );
 
-					setTimeout( function timeout () {
-						
-						chrome.storage.local.get( [ "browser_action_popup_has_been_opened" ], function ( items ) {
-						
-							if ( items[ "browser_action_popup_has_been_opened" ] ) {
-							
-								$( tooltip ).hide();
-							
-							} else {
+					}
 
-								setTimeout( timeout, 100 );
+				});
 
-							}
+			}, 100 );
 
-						});
+			chrome.runtime.onMessage.addListener( function listener ( message ) {
 
-					}, 100 );
+				if ( message === "browser_action_popup_opened" ) {
+					$( tooltip ).hide();
+					chrome.runtime.onMessage.removeListener( listener );							
+				}
 
-					// chrome.runtime.onMessage.addListener( function listener ( message ) {
+			});
 
-					// 	if ( message === "browser_action_popup_opened" ) {
-					// 		$( tooltip ).hide();
-					// 		chrome.runtime.onMessage.removeListener( listener );							
-					// 	}
+			event_hub.add({
 
-					// });
+				"tooltip_close_button_click": function () {
 
-					event_hub.add({
-
-						"tooltip_close_button_click": function () {
-
-							$( tooltip ).hide();
-
-						}
-
-					});
+					$( tooltip ).hide();
 
 				}
 

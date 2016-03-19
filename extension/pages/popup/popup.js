@@ -26,10 +26,6 @@
 				event_hub
 			);
 
-			chrome.storage.local.set({
-				"browser_action_popup_has_been_opened": true
-			});
-
 		})
 		.catch( function ( e ) {
 

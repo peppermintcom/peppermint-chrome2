@@ -49,7 +49,7 @@
 
 		// set up defaults
 		chrome.storage.local.set( reload_storage_defaults );
-		
+
 		// reload all instances of Gmail
 		chrome.tabs.query({ url: "https://mail.google.com/*" }, function ( tabs ) {
 			tabs.forEach( function ( tab ) {
@@ -135,6 +135,16 @@
 		( function set_up_background_helper () {
 
 			new BackgroundHelper(
+				chrome,
+				jQuery,
+				event_hub
+			);
+
+		} () );
+
+		( function set_up_tooltip_manager () {
+
+			new TooltipManager(
 				chrome,
 				jQuery,
 				event_hub
