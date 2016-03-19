@@ -2,10 +2,12 @@
     var utilities, event_hub, analytics;
     
     var storage_defaults = {
+
         compose_button_has_been_used: false,
         browser_action_tooltip_has_been_shown: false,
         browser_action_popup_has_been_opened: false,
         log_level: 'error'
+    
     };
         
     var options_defaults = {
@@ -60,7 +62,8 @@
 	});
 
 	// set up options defaults
-    chrome.storage.local.set({ options_data: options_defaults });
+    chrome.storage.local.set({ options_data: options_defaults, popup_state: {} });
+
     event_hub.fire( 'setup', { name : 'options_defaults', options_defaults } );
     
     // reload all instances of Gmail
@@ -106,6 +109,7 @@
     var known_messages = ['open_welcome_page','get_sender_data','WebAudioRecorderWrap.get_frequency_data','page_alert','peppermint-messaging-test','track_analytic'];
     
     // log all unhandled messages
+/* commented out for debugging
     chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
 
         if ( $.inArray(message, known_messages) < 0 && $.inArray(message.name, known_messages) < 0 )
@@ -116,63 +120,60 @@
         }
         
 	});
+*/
 
-	var web_audio_recorder_wrap = new WebAudioRecorderWrap( chrome, window.navigator, WebAudioRecorder, AudioContext, "/js/lib/WebAudioRecorder/", utilities, event_hub );
+	( function set_up_global_recorder () {
 
-	( function set_up_popup_controller ( window, chrome, jQuery ) {
-		chrome.identity.getProfileUserInfo( function ( info ) {
-			chrome.storage.local.get( null, function ( items ) {
+		var event_hub = new EventHub();
 
-				var event_hub = new EventHub();
+		var web_audio_recorder_wrap = new WebAudioRecorderWrap(
+			chrome,
+			event_hub,
+			window.navigator,
+			WebAudioRecorder,
+			AudioContext,
+			"/js/lib/WebAudioRecorder/"
+		);
 
-				new ErrorReporter( event_hub );
+		var transcription_manager = new TranscriptionManager(
+			chrome,
+			jQuery,
+			event_hub,
+			"en-US"
+		);
 
-				new AnalyticsManager( event_hub );
+		new GlobalRecorder(
+			chrome,
+			jQuery,
+			event_hub,
+			web_audio_recorder_wrap,
+			transcription_manager
+		);
 
-				window.popup_controller = new PopupController(
-                    chrome,
-					web_audio_recorder_wrap,
-					new Uploader( jQuery.ajax, {
-						sender_name: "",
-						sender_email: info.email
-					}, utilities, event_hub),
-					jQuery,
-					event_hub,
-					new TranscriptionManager( jQuery, items.options_data.transcription_language, utilities, event_hub ),
-                    utilities
-				);
+	} () );
 
-			});
-		});
-	} ( window, chrome, jQuery ) );
+	( function set_up_global_uploader () {
 
-	( function set_up_gmail_recorder ( chrome ) {
-		chrome.storage.local.get( null, function ( items ) {
-		
-			window.background_recorder = new BackgroundRecorder(
-				chrome.runtime,
-				web_audio_recorder_wrap,
-				new TranscriptionManager( jQuery, items.options_data.transcription_language, utilities, event_hub ),
-                utilities,
-                event_hub
-			);
+		var event_hub = new EventHub();
 
-		});
-	} ( chrome) );
-    	
-    ( function set_up_background_uploader ( jQuery, chrome ) {
-		chrome.identity.getProfileUserInfo( function ( info ) {            
-			window.background_uploader = new BackgroundUploader(
-				jQuery,
-                chrome,
-                utilities,
-                event_hub,
-				new Uploader( jQuery.ajax, {
-					sender_name: "",
-					sender_email: info.email
-				}, utilities, event_hub ),
-                new ContentRecorder( chrome.runtime, event_hub, utilities )
-			);
-		});
-	} ( jQuery, chrome ) );
-    
+		var uploader = new Uploader(
+			chrome,
+			jQuery,
+			event_hub
+		);
+
+		var upload_queue = new UploadQueue(
+			chrome,
+			jQuery,
+			event_hub,
+			uploader
+		);
+
+		new GlobalUploader(
+			chrome,
+			jQuery,
+			event_hub,
+			upload_queue
+		);	
+
+	} () );   

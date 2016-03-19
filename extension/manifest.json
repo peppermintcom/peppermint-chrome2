@@ -125,17 +125,18 @@
                 "/js/lib/ohsnap.min.js",
 				
                 "/js/classes/Utilities.js",
+				"/js/classes/EventHub.js",
                 "/js/classes/AnalyticsManager.js",
-				"/js/classes/TranscriptionManager.js",
-				"/js/classes/WebAudioRecorderWrap.js",
-                "/js/classes/ContentRecorder.js",
-				"/js/classes/BackgroundRecorder.js",
-                "/js/classes/BackgroundUploader.js",
 				"/js/classes/ErrorReporter.js",
                 "/js/classes/AnalyticsManager.js",
 
-				"/js/classes/EventHub.js",
+				"/js/classes/WebAudioRecorderWrap.js",
+				"/js/classes/TranscriptionManager.js",
+				"/js/classes/GlobalRecorder.js",
+
 				"/js/classes/Uploader.js",
+				"/js/classes/UploadQueue.js",
+				"/js/classes/GlobalUploader.js",
 				
 				"/js/controllers/PopupController.js",
 

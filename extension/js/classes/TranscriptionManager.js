@@ -1,5 +1,5 @@
 
-	function TranscriptionManager ( $, lang, utilities, event_hub ) {
+	function TranscriptionManager ( chrome, $, event_hub, lang ) {
 
 		var event_handlers = {
 

@@ -1,5 +1,5 @@
 	
-	function EventHub ( hub_name, utilities ) {
+	function EventHub () {
 		
 		var private = {
 			

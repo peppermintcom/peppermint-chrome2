@@ -1,42 +1,5 @@
 	
-	Uploader = function ( ajax, sender_data, utilities, event_hub ) {
-		
-		var lib = {
-
-			upload: function ( url, buffer, success_callback, failure_callback ) {
-
-				var xhr = new XMLHttpRequest();
-				xhr.open( 'PUT', url, true );
-
-				xhr.onload = success_callback;
-				xhr.onerror = failure_callback;
-				xhr.setRequestHeader( "Content-Type", "audio/mpeg" );
-
-				xhr.upload.onprogress = function( e ) {
-
-					if ( e.lengthComputable ) {
-
-						document.dispatchEvent( new CustomEvent( "upload_progress", {
-							detail: {
-								progress: parseInt( ( e.loaded / e.total ) * 100 )
-							}
-						}));
-
-					}
-
-				};
-
-				xhr.send( buffer );
-
-				document.dispatchEvent( new CustomEvent( "upload_progress", {
-					detail: {
-						progress: 0
-					}
-				}));
-
-			}
-
-		};
+	Uploader = function ( chrome, $, event_hub, sender_data ) {
 
 		var g_state = {
 
@@ -56,7 +19,7 @@
 						return;
 					}
 					
-					ajax(
+					$.ajax(
 						"https://qdkkavugcd.execute-api.us-west-2.amazonaws.com/prod/v1/transcriptions",
 						{
 							type: 'POST',
@@ -99,20 +62,24 @@
 				});
 			},
 
-			token_to_urls_promise: function ( token, sender_data ) {
-				return new Promise( function ( resolve, reject ) {
-					private.token_to_urls( token, sender_data )
-					.then( function( urls ) {
-						resolve( urls );
-					})
-					.catch( function () {
-                        Raven.captureMessage("failed to get urls");
-						console.log( "failed to get urls" );
-						setTimeout( function () {
-							private.token_to_urls_promise( token, sender_data ).then( resolve );
-						}, 1000 );
-					});
+			data_url_to_buffer: function ( data_url ) {
+
+				return new Promise ( function ( resolve ) {
+
+					var xhr = new XMLHttpRequest();
+					xhr.open( "GET", data_url, true );
+					xhr.responseType = "arraybuffer";
+
+					xhr.onload = function ( e ) {
+
+						resolve( xhr.response );
+
+					};
+
+					xhr.send();
+
 				});
+
 			}
 
 		};
@@ -123,7 +90,24 @@
 
 				return new Promise ( function ( resolve, reject ) {
 
+					var xhr = new XMLHttpRequest();
+					xhr.open( 'PUT', recording_data.urls.signed_url, true );
+					xhr.setRequestHeader( "Content-Type", "audio/mpeg" );
 
+					xhr.onload = function () {
+
+						resolve( xhr.respose );
+
+					};
+
+					xhr.onerror = reject;
+
+					private.data_url_to_buffer( recording_data.data_url )
+					.then( function ( buffer ) {
+
+						xhr.send( buffer );
+						
+					});
 
 				});
 
@@ -133,7 +117,7 @@
 
 				return new Promise( function ( resolve ) {
 
-					ajax(
+					$.ajax(
 						g_state.endpoint + "recorder",
 						{
 							type: 'POST',
@@ -163,29 +147,33 @@
 
 				return new Promise( function ( resolve ) {
 
-					ajax(
-						"https://qdkkavugcd.execute-api.us-west-2.amazonaws.com/prod/v1/uploads",
-						{
-							type: 'POST',
-							data: JSON.stringify({
-							  content_type: "audio/mpeg",
-							  sender_name: sender_data ? sender_data.sender_name : '',
-							  sender_email: sender_data ? sender_data.sender_email : ''
-							}),
-							headers: {
-								'Authorization': 'Bearer ' + token,
-								'Content-Type': 'application/json'
-							},
-							success: function ( response ) {
-								resolve( response );
-							},
-							error: function () {
-								setTimeout( function () {
-									public.get_urls_promise( token_promise, sender_data ).then( resolve );
-								}, 1000 );
+					token_promise.then( function ( token ) {
+
+						$.ajax(
+							"https://qdkkavugcd.execute-api.us-west-2.amazonaws.com/prod/v1/uploads",
+							{
+								type: 'POST',
+								data: JSON.stringify({
+								  content_type: "audio/mpeg",
+								  sender_name: sender_data ? sender_data.sender_name : '',
+								  sender_email: sender_data ? sender_data.sender_email : ''
+								}),
+								headers: {
+									'Authorization': 'Bearer ' + token,
+									'Content-Type': 'application/json'
+								},
+								success: function ( response ) {
+									resolve( response );
+								},
+								error: function () {
+									setTimeout( function () {
+										public.get_urls_promise( token_promise, sender_data ).then( resolve );
+									}, 1000 );
+								}
 							}
-						}
-					);
+						);
+
+					});
 
 				});
 
@@ -247,7 +235,7 @@
 				
 				g_state.token_promise.then( function ( token ) {
 
-					ajax({
+					$.ajax({
 
 						type: "DELETE",
 						headers: {

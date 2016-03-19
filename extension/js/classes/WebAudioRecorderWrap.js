@@ -1,5 +1,5 @@
 
-	function WebAudioRecorderWrap ( chrome, navigator, WebAudioRecorder, AudioContext, worker_dir, utilities, event_hub ) {
+	function WebAudioRecorderWrap ( chrome, event_hub, navigator, WebAudioRecorder, AudioContext, worker_dir ) {
 
 		var private = {
 			
@@ -140,18 +140,6 @@
 
 		( function () {
 
-			chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
-
-				if ( message.name === "WebAudioRecorderWrap.get_frequency_data" ) {
-
-					var frequency_data = public.get_frequency_data();
-					
-					callback( frequency_data );
-
-				}
-
-			});
-            
             event_hub.fire( 'class_load', { name: 'WebAudioRecorderWrap' } );
 
 		} () )
