@@ -1,5 +1,5 @@
 	
-	function EventHub ( hub_name, utilities ) {
+	function EventHub ( ) {
 		
 		var private = {
 			
@@ -52,6 +52,12 @@
 			}
 
 		};
+        
+        ( function constructor () {
+            
+            event_hub.fire( 'class_load', { name: 'EventHub' } );
+
+		} () );
 
 		return public;
 		
