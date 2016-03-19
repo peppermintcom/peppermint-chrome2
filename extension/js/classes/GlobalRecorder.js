@@ -91,7 +91,7 @@
 
 						$.extend( recording_data, message.recording_data );
 
-						chrome.runtime.sendMessage({ receiver: "GlobalUploader", name: "upload_recording_data", recording_data });
+						hub.fire( "global_recorder_event", { receiver: "GlobalUploader", name: "upload_recording_data", recording_data } );
 
 						chrome.storage.local.get( [ "recording_data_arr" ], function ( items ) {
 

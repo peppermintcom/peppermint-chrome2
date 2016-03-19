@@ -76,37 +76,37 @@
     });
 
 	// set up the open welcome page listener. and get sender data
-	chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
+	// chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
 
-		if ( message === 'open_welcome_page' ) {
-		    chrome.tabs.create({
-		        url: chrome.extension.getURL("welcome_page/welcome.html"),
-		        active: true
-		    });
+	// 	if ( message === 'open_welcome_page' ) {
+	// 	    chrome.tabs.create({
+	// 	        url: chrome.extension.getURL("welcome_page/welcome.html"),
+	// 	        active: true
+	// 	    });
             
-            event_hub.fire( 'page_load', { name: 'welcome' } );
+ //            event_hub.fire( 'page_load', { name: 'welcome' } );
                         
-		} else if ( message === 'get_sender_data' ) {
-			chrome.identity.getProfileUserInfo( function ( info ) {
-				callback({
-					sender_name: "",
-					sender_email: info.email
-				});
-			});
-        }
+	// 	} else if ( message === 'get_sender_data' ) {
+	// 		chrome.identity.getProfileUserInfo( function ( info ) {
+	// 			callback({
+	// 				sender_name: "",
+	// 				sender_email: info.email
+	// 			});
+	// 		});
+ //        }
         
-	});
+	// });
     
     // send any analytics logged from content scripts
-    chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
+ //    chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
 
-		if ( message.name === 'track_analytic' ) {            
-		    analytics.track( message.val, false, callback );
-		}
+	// 	if ( message.name === 'track_analytic' ) {            
+	// 	    analytics.track( message.val, false, callback );
+	// 	}
         
-	});
+	// });
     
-    var known_messages = ['open_welcome_page','get_sender_data','WebAudioRecorderWrap.get_frequency_data','page_alert','peppermint-messaging-test','track_analytic'];
+    // var known_messages = ['open_welcome_page','get_sender_data','WebAudioRecorderWrap.get_frequency_data','page_alert','peppermint-messaging-test','track_analytic'];
     
     // log all unhandled messages
 /* commented out for debugging
@@ -122,9 +122,9 @@
 	});
 */
 
-	( function set_up_global_recorder () {
+	var event_hub = new EventHub();
 
-		var event_hub = new EventHub();
+	( function set_up_global_recorder () {
 
 		var web_audio_recorder_wrap = new WebAudioRecorderWrap(
 			chrome,
@@ -154,8 +154,6 @@
 
 	( function set_up_global_uploader () {
 
-		var event_hub = new EventHub();
-
 		var uploader = new Uploader(
 			chrome,
 			jQuery,
@@ -179,8 +177,6 @@
 	} () );
 
 	( function set_up_global_storage () {
-
-		var event_hub = new EventHub();
 
 		new GlobalStorage(
 			chrome,

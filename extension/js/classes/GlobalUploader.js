@@ -17,7 +17,7 @@
 					transcription_manager.start();
 				})
 				.catch( function ( error ) {
-                    Raven.captureException(error);
+					Raven.captureException(error);
 					callback({
 						started: false,
 						error: {
@@ -72,16 +72,30 @@
 
 		};
 
+		hub.add({
+
+			"global_recorder_event": function ( message ) {
+
+				if ( message.receiver === "GlobalUploader" ) {
+
+					if ( message.name === "upload_recording_data" ) {
+
+						upload_queue.push( message.recording_data );
+						upload_queue.kickstart();
+
+					}
+
+				}
+
+			}
+
+		});
+
 		chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
 
 			if ( message.receiver === "GlobalUploader" ) {
 
-				if ( message.name === "upload_recording_data" ) {
-
-					upload_queue.push( message.recording_data );
-					upload_queue.kickstart();
-
-				} else if ( message.name === "get_urls" ) {
+				if ( message.name === "get_urls" ) {
 
 					upload_queue.get_urls_promise()
 					.then( callback );

@@ -54,14 +54,14 @@
 
 					}, 100 );
 
-					chrome.runtime.onMessage.addListener( function listener ( message ) {
+					// chrome.runtime.onMessage.addListener( function listener ( message ) {
 
-						if ( message === "browser_action_popup_opened" ) {
-							$( tooltip ).hide();
-							chrome.runtime.onMessage.removeListener( listener );							
-						}
+					// 	if ( message === "browser_action_popup_opened" ) {
+					// 		$( tooltip ).hide();
+					// 		chrome.runtime.onMessage.removeListener( listener );							
+					// 	}
 
-					});
+					// });
 
 					event_hub.add({
 

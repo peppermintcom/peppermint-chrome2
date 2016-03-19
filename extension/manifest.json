@@ -30,12 +30,10 @@
 				    
 					"/js/classes/EventHub.js",
                     "/js/classes/Utilities.js",
-                    "/js/classes/PageAlerts.js",
 					"/js/classes/LetterManager.js",
 					"/js/classes/ErrorReporter.js",
 					"/js/classes/LauncherHelper.js",
 					"/js/classes/ButtonInserter.js",
-					"/js/classes/ContentRecorder.js",
 					"/js/classes/AnalyticsManager.js",
 
 					"/js/elements/Timer.js",

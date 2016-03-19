@@ -29,20 +29,20 @@
             
             send_page_alert_controller: function(  ) {
                 
-                chrome.runtime.onMessage.addListener( function ( req, sender, callback ) {
+                // chrome.runtime.onMessage.addListener( function ( req, sender, callback ) {
                 
-                    if ( req.name === "page_alert" ) {
+                //     if ( req.name === "page_alert" ) {
                         
-                        if (private.last_alert !== null){
+                //         if (private.last_alert !== null){
                             
-                            callback( private.last_alert );
-                            private.last_alert = null;
+                //             callback( private.last_alert );
+                //             private.last_alert = null;
                                 
-                        }
+                //         }
 
-                    }                
+                //     }                
                     
-                });	
+                // });	
                 
             },
             
@@ -100,7 +100,7 @@
             valid_messaging_state: function(){
                 
                 try {
-                    chrome.runtime.sendMessage("peppermint-messaging-test");
+                    // chrome.runtime.sendMessage("peppermint-messaging-test");
                 } catch (error) {
                     // fail silently, messaging is temporarily unavailable
                     // generally, this only happens when manually refreshing the local extension

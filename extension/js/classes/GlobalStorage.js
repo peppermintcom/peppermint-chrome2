@@ -13,20 +13,20 @@
 
 		};
 
-		chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
+		// chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
 
-			if ( message.receiver === "GlobalStorage" ) {
+		// 	if ( message.receiver === "GlobalStorage" ) {
 
-				if ( message.name === "get_last_popup_recording_data" ) {
+		// 		if ( message.name === "get_last_popup_recording_data" ) {
 
 
-				}
+		// 		}
 
-				return true;
+		// 		return true;
 
-			}
+		// 	}
 
-		});
+		// });
 
 		( function () {
 

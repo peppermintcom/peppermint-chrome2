@@ -96,9 +96,9 @@
                     }
                     else{
                         
-                        chrome.runtime.sendMessage({ name: 'track_analytic', val: analytic }, function(result) {
-                            if ( callback ) callback( result );
-                        });
+                        // chrome.runtime.sendMessage({ name: 'track_analytic', val: analytic }, function(result) {
+                        //     if ( callback ) callback( result );
+                        // });
                         
                     }
                 }
