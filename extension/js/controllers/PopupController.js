@@ -27,15 +27,27 @@
 							chrome.tabs.create({
 								url: chrome.extension.getURL("/welcome_page/welcome.html")
 							});
-							console.log("permission denied");
+
+						} else if ( response.error.name === "already_recording" ) {
+
+							$( "#popup" )[0].set_error_message( "You are already recording!" );
+							$( "#popup" )[0].set_page("microphone_error_page");
+							$( "#popup" ).show();
+
+							private.update_popup_state({
+								page: "microphone_error_page",
+								error_message: "You are already recording!"
+							});
 
 						} else {
 
-							$( "#popup" ).show();
+							$( "#popup" )[0].set_error_message( "Your microphone is not working. Please check your audio settings and try again." );
 							$( "#popup" )[0].set_page("microphone_error_page");
+							$( "#popup" ).show();
 						
 							private.update_popup_state({
-								page: "microphone_error_page"
+								page: "microphone_error_page",
+								error_message: "Your microphone is not working. Please check your audio settings and try again."
 							});
 
 						}
@@ -78,6 +90,8 @@
 						$( "#popup" )[0].set_page("popup_finish");
 						$( "#popup" )[0].set_page_status("finished");
 
+						chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "copy_to_clipboard", text: urls.short_url });
+
 						private.update_popup_state({
 
 							page: "popup_finish",
@@ -109,9 +123,13 @@
 				
 				if ( popup_state.page_status ) $( "#popup" )[0].set_page_status( popup_state.page_status );
 
+				if ( popup_state.error_message ) $( "#popup" )[0].set_error_message( popup_state.error_message );
+
 				if ( popup_state.last_recording_data ) {
 
 					$( "#popup" )[0].set_url( popup_state.last_recording_data.urls.short_url );
+
+					chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "copy_to_clipboard", text: popup_state.last_recording_data.urls.short_url });
 
 					if ( popup_state.last_recording_data.transcription_data ) {
 

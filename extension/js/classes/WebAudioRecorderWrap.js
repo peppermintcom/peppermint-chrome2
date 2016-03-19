@@ -32,43 +32,51 @@
 
 				return new Promise( function ( resolve, reject ) {
 
-					private.get_stream()
-					.then( function ( stream ) {
+					if ( ! private.recorder ) {
 
-						private.stream = stream;
-						private.context = new AudioContext();
-						private.media_source = private.context.createMediaStreamSource( stream );
-						private.analyser = private.context.createAnalyser();
+						private.get_stream()
+						.then( function ( stream ) {
 
-						private.media_source.connect( private.analyser );
-						// private.media_source.connect( private.context.destination );
+							private.stream = stream;
+							private.context = new AudioContext();
+							private.media_source = private.context.createMediaStreamSource( stream );
+							private.analyser = private.context.createAnalyser();
 
-						private.recorder = new WebAudioRecorder(
-							private.media_source,
-							{
-								workerDir: worker_dir,
-								numChannels: 2,
-								encoding: 'mp3',
-								options: {
-									timeLimit: 60 * 10,
-									encodeAfterRecord: true,
-									mp3: {
-										bitRate: 32
+							private.media_source.connect( private.analyser );
+							// private.media_source.connect( private.context.destination );
+
+							private.recorder = new WebAudioRecorder(
+								private.media_source,
+								{
+									workerDir: worker_dir,
+									numChannels: 2,
+									encoding: 'mp3',
+									options: {
+										timeLimit: 10 * 60,
+										encodeAfterRecord: true,
+										mp3: {
+											bitRate: 32
+										}
 									}
 								}
-							}
-						);
+							);
 
-						private.recorder.startRecording();
+							private.recorder.startRecording();
 
-						resolve();
+							resolve();
 
-					})
-					.catch( function ( error ) {
-                        Raven.captureException(error);
-						console.log( error );
-						reject( error );
-					});
+						})
+						.catch( function ( error ) {
+	                        Raven.captureException(error);
+							console.log( error );
+							reject( error );
+						});
+
+					} else {
+
+						reject({ name: "already_recording" });
+
+					}
 
 				});
 
@@ -79,6 +87,9 @@
 				private.context.close();
 				private.recorder.cancelRecording();
 				private.stream.getAudioTracks()[0].stop();
+
+				private.recorder = null;
+				private.stream = null;
 
 			},
 

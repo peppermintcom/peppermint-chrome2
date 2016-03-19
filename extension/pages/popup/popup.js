@@ -20,17 +20,11 @@
 			new Player( $, event_hub, t["player"], el("player") );
 			new AudioVisualizer( chrome, $, event_hub, el("audio_visualizer") );
 
-				chrome.identity.getProfileUserInfo( function ( info ) {
-					chrome.storage.local.get( null, function ( items ) {
-
-						new PopupController(
-			                chrome,
-							jQuery,
-							event_hub
-						);
-
-					});
-				});
+			new PopupController(
+				chrome,
+				jQuery,
+				event_hub
+			);
 
 			chrome.storage.local.set({
 				"browser_action_popup_has_been_opened": true

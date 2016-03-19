@@ -24,18 +24,23 @@
 
 					} else {
 						
-						console.error( "Failed to begin recording", error );
+						console.error( "Failed to begin recording", response.error );
 
-						if ( error.name === "PermissionDeniedError" ) {
+						if ( response.error.name === "PermissionDeniedError" ) {
 							
-							console.log("permission denied");
-							chrome.runtime.sendMessage( "open_welcome_page" );
+							chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "open_welcome_page" });
 							
-						} else {
-							
-							console.log( error );
-							$('#peppermint_popup').show();
+						} else if ( response.error.name === "already_recording" ) {
+
+							$('#peppermint_popup')[0].set_error_message( "You are already recording!" );
 							$('#peppermint_popup')[0].set_page("microphone_error_page");
+							$('#peppermint_popup').show();
+
+						} else {
+
+							$('#peppermint_popup')[0].set_error_message( "Your microphone is not working. Please check your audio settings and try again." );
+							$('#peppermint_popup')[0].set_page("microphone_error_page");
+							$('#peppermint_popup').show();
 							
 						}
 
@@ -65,6 +70,8 @@
 						var recording_data = { urls, source: "gmail", id: Date.now(), duration: $( "#peppermint_timer" )[0].get_time() };
 							
 						$( "#peppermint_popup" ).hide();
+
+						chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "copy_to_clipboard", text: urls.short_url });
 
 						private.add_to_compose( recording_data );
 
@@ -155,6 +162,12 @@
 		});
 
 		( function constructor () {
+
+			$( window ).unload( function () {
+
+				private.cancel_recording();
+
+			});
 
 			( function tick () {
 

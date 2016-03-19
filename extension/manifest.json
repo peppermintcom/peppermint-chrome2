@@ -8,14 +8,52 @@
 		"description": "Peppermint allows users to send and reply to gmail messages using voice. It also includes automatic transcription.",
 		"version": "1.2.5",
 
-        "browser_action": {
-          "default_icon": "/img/mic.png",
-          "default_title": "Peppermint",
-          "default_popup": "/pages/popup/popup.html"
-        },
+		"browser_action": {
+		  "default_icon": "/img/mic.png",
+		  "default_title": "Peppermint",
+		  "default_popup": "/pages/popup/popup.html"
+		},
 
 		"icons": {
 			"128": "/img/logo.png"
+		},
+
+		"background": {
+
+			"scripts": [
+
+				"/js/misc/shims.js",
+
+				"/js/lib/jQuery/jquery-2.1.4.min.js",				
+				"/js/lib/WebAudioRecorder/WebAudioRecorder.js",
+				"/js/lib/raven.min.js",
+				"/js/lib/keen-tracker.min.js",
+				"/js/lib/ohsnap.min.js",
+				
+				"/js/classes/Utilities.js",
+				"/js/classes/EventHub.js",
+				"/js/classes/AnalyticsManager.js",
+				"/js/classes/ErrorReporter.js",
+				"/js/classes/AnalyticsManager.js",
+
+				"/js/classes/WebAudioRecorderWrap.js",
+				"/js/classes/TranscriptionManager.js",
+				"/js/classes/GlobalRecorder.js",
+
+				"/js/classes/Uploader.js",
+				"/js/classes/UploadQueue.js",
+				"/js/classes/GlobalUploader.js",
+
+				"/js/classes/BackgroundHelper.js",
+				
+				"/js/controllers/PopupController.js",
+
+				"/js/launchers/background.js"
+
+			],
+
+			"persistent": true
+
 		},
 
 		"content_scripts": [
@@ -24,12 +62,12 @@
 				"js": [
 
 					"/js/lib/jQuery/jquery-2.1.4.min.js",
-                    "/js/lib/raven.min.js",
-                    "/js/lib/keen-tracker.min.js",                    
-                    "/js/lib/ohsnap.min.js",
-				    
+					"/js/lib/raven.min.js",
+					"/js/lib/keen-tracker.min.js",					
+					"/js/lib/ohsnap.min.js",
+					
 					"/js/classes/EventHub.js",
-                    "/js/classes/Utilities.js",
+					"/js/classes/Utilities.js",
 					"/js/classes/LetterManager.js",
 					"/js/classes/ErrorReporter.js",
 					"/js/classes/LauncherHelper.js",
@@ -44,7 +82,7 @@
 					"/js/elements/AudioVisualizer.js",
 
 					"/js/controllers/GmailController.js",
-					
+
 					"/js/launchers/gmail_content.js"
 				
 				],
@@ -64,10 +102,10 @@
 
 					"/js/lib/jQuery/jquery-2.1.4.min.js",
 					
-                    "/js/lib/raven.min.js",
-                    
-                    "/js/lib/keen-tracker.min.js",
-                    
+					"/js/lib/raven.min.js",
+					
+					"/js/lib/keen-tracker.min.js",
+					
 					"/js/classes/EventHub.js",
 					"/js/classes/LauncherHelper.js",
 
@@ -108,45 +146,7 @@
 		"web_accessible_resources": [
 			"/*"
 		],
-
-		"background": {
-
-			"scripts": [
-
-				"/js/misc/shims.js",
-
-				"/js/lib/jQuery/jquery-2.1.4.min.js",                
-				"/js/lib/WebAudioRecorder/WebAudioRecorder.js",
-                "/js/lib/raven.min.js",
-                "/js/lib/keen-tracker.min.js",
-                "/js/lib/ohsnap.min.js",
-				
-                "/js/classes/Utilities.js",
-				"/js/classes/EventHub.js",
-                "/js/classes/AnalyticsManager.js",
-				"/js/classes/ErrorReporter.js",
-                "/js/classes/AnalyticsManager.js",
-
-				"/js/classes/WebAudioRecorderWrap.js",
-				"/js/classes/TranscriptionManager.js",
-				"/js/classes/GlobalRecorder.js",
-
-				"/js/classes/Uploader.js",
-				"/js/classes/UploadQueue.js",
-				"/js/classes/GlobalUploader.js",
-
-				"/js/classes/GlobalStorage.js",
-				
-				"/js/controllers/PopupController.js",
-
-				"/js/launchers/background.js"
-
-			],
-
-			"persistent": true
-
-		},
-        
+		
 		"options_ui": {
 			"page": "/pages/options/options.html",
 			"chrome_style": true

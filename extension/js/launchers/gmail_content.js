@@ -13,10 +13,10 @@
 
 		]).then( function ( t ) {
 		
-		chrome.storage.local.get( null, function ( items ) {
+			chrome.storage.local.get( null, function ( items ) {
 
-				chrome.runtime.sendMessage( "get_sender_data", function ( sender_data ) {
-				
+				chrome.runtime.sendMessage( { receiver: "BackgroundHelper", name: "get_sender_data" }, function ( sender_data ) {
+
 					try {
 
 						var utilities = new Utilities( chrome, $, 'gmail_content' );
@@ -33,7 +33,7 @@
 						new Player( $, event_hub, t["player"], el("peppermint_popup_player") );
 						new ButtonInserter( chrome, $, event_hub, t["button_inserter"], el("peppermint_button_inserter"), !items["options_data"]["disable_reply_button"] );
 
-						var letter_manager = new LetterManager( chrome, jQuery, event_hub, { } );
+						var letter_manager = new LetterManager( chrome, jQuery, event_hub, sender_data );
 
 						$( document.body ).append( gmail_elements );
 
