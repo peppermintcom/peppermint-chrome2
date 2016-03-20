@@ -30,8 +30,12 @@
 				.then( function () {
 
 					state.queue.splice( 0, 1 );
-					this.hub.fire( "upload_queue_success" );
+					hub.fire( "upload_queue_success" );
 					private.launch_queue_uploading();
+
+					item.uploaded = true;
+					item.data_url = false;
+					hub.fire( "background_message", { receiver: "GlobalStorage", name: "update_recording_data", recording_data: item });
 
 				})
 				.catch( function () {

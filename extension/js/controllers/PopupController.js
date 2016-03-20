@@ -87,7 +87,7 @@
 
 					chrome.runtime.sendMessage( { receiver: "GlobalUploader", name: "get_urls" }, function ( urls ) {
 
-						var recording_data = state.current_recording_data = { urls, source: "popup", id: Date.now() };
+						var recording_data = state.current_recording_data = { urls, source: "popup", id: Date.now(), uploaded: false };
 						chrome.runtime.sendMessage({ receiver: "GlobalStorage", name: "save_recording_data", recording_data });
 
 						$( "#popup" )[0].set_transcript( "" );
@@ -112,7 +112,7 @@
 							chrome.runtime.sendMessage({ reciver: "GlobalStorage", name: "update_recording_data", recording_data });
 
 							$( "#popup" )[0].set_transcript( recording_data.transcription_data.text );
-							$( "#player" )[0].set_url( recording_data.data_url );
+							$( "#player" )[0].set_url( recording_data.uploaded ? recording_data.urls.canonical_url : recording_data.data_url );
 							$( "#player" )[0].enable();
 
 						});
@@ -145,9 +145,9 @@
 
 					}
 
-					if ( popup_state.last_recording_data.data_url ) {
+					if ( popup_state.last_recording_data.data_url || popup_state.last_recording_data.urls.canonical_url ) {
 
-						$( "#player" )[0].set_url( popup_state.last_recording_data.data_url );
+						$( "#player" )[0].set_url( popup_state.last_recording_data.uploaded ? popup_state.last_recording_data.urls.canonical_url : popup_state.last_recording_data.data_url );
 						$( "#player" )[0].enable();
 
 					} else {
@@ -216,6 +216,7 @@
 
 				$( "#popup" )[ 0 ].set_transcript( false );
 				chrome.runtime.sendMessage({ receiver: "GlobalUploader", name: "delete_transcription", recording_data: state.current_recording_data });
+				chrome.runtime.sendMessage({ receiver: "GlobalStorage", name: "delete_transcription", recording_data: state.current_recording_data });
 
 			}
 

@@ -89,7 +89,6 @@
 					.then( function ( response ) {
 
 						recording_data.transcription_url = response.transcription_url;
-						recording_data.audio_url = response.audio_url;
 
 						chrome.runtime.sendMessage({ receiver: "GlobalStorage", name: "update_recording_data", recording_data });
 

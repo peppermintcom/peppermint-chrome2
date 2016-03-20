@@ -74,7 +74,7 @@
 
 		hub.add({
 
-			"global_recorder_event": function ( message ) {
+			background_message: function ( message ) {
 
 				if ( message.receiver === "GlobalUploader" ) {
 

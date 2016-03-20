@@ -3,6 +3,8 @@
 		
 		var state = {
 
+			MAX_RECORDING_TIME: 2 * 1000 
+
 		};
 
 		var private = {
@@ -91,9 +93,9 @@
 
 						$.extend( recording_data, message.recording_data );
 
-						hub.fire( "global_recorder_event", { receiver: "GlobalUploader", name: "upload_recording_data", recording_data } );
+						hub.fire( "background_message", { receiver: "GlobalUploader", name: "upload_recording_data", recording_data } );
 
-						chrome.runtime.sendMessage({ receiver: "GlobalStorage", name: "update_recording_data", recording_data });
+						hub.fire( "background_message", { receiver: "GlobalStorage", name: "update_recording_data", recording_data });
 
 						try { callback( recording_data ); } catch ( e ) {};
 

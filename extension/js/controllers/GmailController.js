@@ -67,8 +67,9 @@
 
 					chrome.runtime.sendMessage( { receiver: "GlobalUploader", name: "get_urls" }, function ( urls ) {
 
-						var recording_data = { urls, source: "gmail", id: Date.now(), duration: $( "#peppermint_timer" )[0].get_time() };
-							
+						var recording_data = { urls, uploaded: false, source: "gmail", id: Date.now(), duration: $( "#peppermint_timer" )[0].get_time() };
+						chrome.runtime.sendMessage({ receiver: "GlobalStorage", name: "save_recording_data", recording_data });
+
 						$( "#peppermint_popup" ).hide();
 
 						chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "copy_to_clipboard", text: urls.short_url });
@@ -76,6 +77,8 @@
 						private.add_to_compose( recording_data );
 
 						chrome.runtime.sendMessage( { receiver: "GlobalRecorder", name: "finish", recording_data }, function ( recording_data ) {
+
+							chrome.runtime.sendMessage({ receiver: "GlobalStorage", name: "update_recording_data", recording_data });
 
 							state.recording = false;
 							console.log( "recording_data", recording_data );
