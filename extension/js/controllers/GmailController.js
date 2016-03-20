@@ -1,5 +1,5 @@
 
-	function GmailController ( chrome, $, event_hub, letter_manager, utilities ) {
+	function GmailController ( chrome, $, event_hub, letter_manager ) {
 
 		var state = {
 

@@ -1,5 +1,5 @@
 
-	function LetterManager ( chrome, $, event_hub, sender_data, utilities ) {
+	function LetterManager ( chrome, $, event_hub, sender_data ) {
 		
 		var state = {
 

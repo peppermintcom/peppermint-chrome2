@@ -111,7 +111,7 @@
 			valid_messaging_state: function(){
 				
 				try {
-					// chrome.runtime.sendMessage("peppermint-messaging-test");
+					chrome.runtime.sendMessage("peppermint-messaging-test");
 				} catch (error) {
 					// fail silently, messaging is temporarily unavailable
 					// generally, this only happens when manually refreshing the local extension

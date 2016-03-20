@@ -22,12 +22,12 @@
 						var utilities = new Utilities( chrome, $, 'gmail_content' );
 						var gmail_elements = document.importNode( t["gmail_elements"].content, true );
 						var el =  function ( id ) { return gmail_elements.getElementById( id ) };
-						var event_hub = new EventHub( null, utilities );
+						var event_hub = new EventHub();
 
 						new AnalyticsManager( 'gmail_content', event_hub, utilities );
 						new ErrorReporter( event_hub );
 
-						new AudioVisualizer( chrome, $, event_hub, el("audio_visualizer"), utilities );
+						new AudioVisualizer( chrome, $, event_hub, el("audio_visualizer") );
 						new Popup( $, event_hub, t["popup"], el("peppermint_popup") );
 						new Timer( $, event_hub, t["timer"], el("peppermint_timer") );
 						new Player( $, event_hub, t["player"], el("peppermint_popup_player") );
@@ -41,8 +41,7 @@
 							chrome,
 							jQuery,
 							event_hub,
-							letter_manager,
-							utilities
+							letter_manager
 						);
 						
 					} catch ( error ) {
