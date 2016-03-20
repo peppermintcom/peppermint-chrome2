@@ -15,34 +15,39 @@
 				
 				return new Promise( function ( resolve, reject ) {
 					
-					if ( recording_data.transcription_data.text === undefined ) {
+					if ( recording_data.transcription_data.text ) {
+
+						$.ajax(
+							g_state.endpoint + "transcriptions",
+							{
+								type: 'POST',
+								data: JSON.stringify({
+								  audio_url: recording_data.urls.canonical_url,
+								  language: recording_data.transcription_data.language,
+								  confidence : recording_data.transcription_data.confidence_estimate,
+								  text : recording_data.transcription_data.text
+								}),
+								headers: {
+									'Authorization': 'Bearer ' + recording_data.urls.token,
+									'Content-Type': 'application/json',
+									'X-Api-Key' : g_state.api_key
+								},
+								success: function ( response ) {
+									resolve( response );
+								},
+								error: function ( error ) {
+									reject( error );
+								}
+							}
+						);
+
+					} else {
+
                         reject( "No transcription to upload" ); 				
 						return;
+
 					}
-					
-					$.ajax(
-						g_state.endpoint + "transcriptions",
-						{
-							type: 'POST',
-							data: JSON.stringify({
-							  audio_url: recording_data.urls.canonical_url,
-							  language: recording_data.transcription_data.language,
-							  confidence : recording_data.transcription_data.confidence_estimate,
-							  text : recording_data.transcription_data.text
-							}),
-							headers: {
-								'Authorization': 'Bearer ' + recording_data.urls.token,
-								'Content-Type': 'application/json',
-								'X-Api-Key' : g_state.api_key
-							},
-							success: function ( response ) {
-								resolve( response );
-							},
-							error: function () {
-								reject();
-							}
-						}
-					);
+
 				});
 				
 			},
@@ -92,7 +97,12 @@
 
 						chrome.runtime.sendMessage({ receiver: "GlobalStorage", name: "update_recording_data", recording_data });
 
-					});
+					})
+					.catch( function ( error ) {
+
+						console.log( "Failed to upload transcription", error );
+
+					});	
 
 					xhr.onerror = reject;
 

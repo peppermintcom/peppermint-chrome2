@@ -16,7 +16,7 @@
 						var flag_1 = items[ "browser_action_popup_has_been_opened" ];
 						var flag_2 = items[ "browser_action_tooltip_has_been_shown" ];
 
-						if ( !flag_1 && !flag_2 && change_info.status === "complete" && tab.url.indexOf( "chrome://" ) !== 0  ) {
+						if ( !flag_1 && !flag_2 && change_info.status === "complete" && tab.url.indexOf( "chrome://" ) !== 0 && tab.url.indexOf( "chrome-extension" ) !== 0 ) {
 
 							resolve( true );
 
@@ -40,7 +40,7 @@
 
 						var flag_1 = items[ "compose_button_has_been_used" ];
 
-						if ( !flag_1 && change_info.status === "complete" && tab.url.indexOf( "mail.google.com" ) >= -1  ) {
+						if ( !flag_1 && change_info.status === "complete" && tab.url.indexOf( "mail.google.com" ) > -1  ) {
 
 							resolve( true );
 

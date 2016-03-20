@@ -1,4 +1,6 @@
 
+	console.log( "BG loaded" );
+
 	( function general_setup () {
 
 		var install_storage_defaults = {
@@ -29,7 +31,7 @@
 		var analytics = new AnalyticsManager( 'background', event_hub, utilities );
 			
 		// Open the welcome page on install
-		chrome.runtime.onInstalled.addListener(function (details) {
+		chrome.runtime.onInstalled.addListener( function ( details ) {
 			
 			if ( details.reason === "install" ) {
 				

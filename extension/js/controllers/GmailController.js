@@ -3,8 +3,9 @@
 
 		var state = {
 
+			timeout_has_been_reported: false,
 			compose_button_id: undefined,
-			recording: false
+			recording: false,
 
 		};
 
@@ -20,6 +21,7 @@
 						$('#peppermint_popup')[0].set_page("recording_page");
 						$('#peppermint_popup')[0].set_page_status("recording");
 
+						state.timeout_has_been_reported = false;
 						state.recording = true;
 
 					} else {
@@ -190,6 +192,18 @@
 
 						$( "#peppermint_timer" )[0].set_time( time * 1000 );
 						
+					}
+
+				});
+
+				chrome.runtime.sendMessage( { receiver: "GlobalRecorder", name: "get_timeout" }, function ( timeout ) {
+
+					if ( timeout && !state.timeout_has_been_reported && state.recording ) {
+
+						private.finish_recording();
+						state.timeout_has_been_reported = true;
+						alert( "Peppermint recording timeout!" );
+
 					}
 
 				});

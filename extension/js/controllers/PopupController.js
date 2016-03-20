@@ -3,7 +3,8 @@
 
 		var state = {
 
-			current_recording_data: null
+			current_recording_data: null,
+			recording: false
 			
 		};
 
@@ -23,6 +24,9 @@
 							page: "recording_page",
 							page_status: "recording"
 						});
+
+						state.timeout_has_been_reported = false;
+						state.recording = true;
 
 					} else {
 
@@ -70,6 +74,7 @@
 				chrome.runtime.sendMessage( { receiver: "GlobalRecorder", name: "cancel" }, function ( response ) {
 
 					$( "#popup" )[0].set_page("popup_welcome");
+					state.recording = false; 
 					
 					private.update_popup_state({
 
@@ -108,6 +113,7 @@
 
 						chrome.runtime.sendMessage( { receiver: "GlobalRecorder", name: "finish", recording_data }, function ( recording_data ) {
 
+							state.recording = false;
 							state.current_recording_data = recording_data;
 							chrome.runtime.sendMessage({ reciver: "GlobalStorage", name: "update_recording_data", recording_data });
 
@@ -133,6 +139,13 @@
 
 				if ( popup_state.error_message ) $( "#popup" )[0].set_error_message( popup_state.error_message );
 
+				if ( popup_state.page === "recording_page" ) {
+
+					state.recording = true;
+					state.timeout_has_been_reported = false;
+
+				};
+
 				if ( popup_state.last_recording_data ) {
 
 					$( "#popup" )[0].set_url( popup_state.last_recording_data.urls.short_url );
@@ -156,7 +169,7 @@
 
 					}
 
-				}
+				};
 
 			},
 
@@ -258,6 +271,18 @@
 					if ( time ) {
 
 						$( "#timer" )[0].set_time( time * 1000 );
+						
+					}
+
+				});
+
+				chrome.runtime.sendMessage( { receiver: "GlobalRecorder", name: "get_timeout" }, function ( timeout ) {
+
+					if ( timeout && !state.timeout_has_been_reported && state.recording ) {
+
+						private.finish_recording();
+						state.timeout_has_been_reported = true;
+						alert( "Peppermint recording timeout!" );
 						
 					}
 

@@ -109,6 +109,10 @@
 
 					callback( web_audio_recorder_wrap.get_time() );
 
+				} else if ( message.name === "get_timeout" ) {
+
+					callback( web_audio_recorder_wrap.get_timeout() );
+
 				}
 
 				return true;

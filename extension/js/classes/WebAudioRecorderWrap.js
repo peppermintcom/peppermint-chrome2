@@ -1,6 +1,12 @@
 
 	function WebAudioRecorderWrap ( chrome, event_hub, navigator, WebAudioRecorder, AudioContext, worker_dir ) {
 
+		var state = {
+
+			MAX_RECORDING_TIME: 2
+
+		};
+
 		var private = {
 			
 			recorder: null,
@@ -49,10 +55,10 @@
 								private.media_source,
 								{
 									workerDir: worker_dir,
-									numChannels: 2,
+									numChannels: state.MAX_RECORDING_TIME,
 									encoding: 'mp3',
 									options: {
-										timeLimit: 10 * 60,
+										timeLimit: 2,
 										encodeAfterRecord: true,
 										mp3: {
 											bitRate: 32
@@ -98,6 +104,7 @@
 			},
 
 			finish: function () {
+
 				return new Promise( function ( resolve ) {
 
 					private.recorder.onComplete = function ( recorder, blob ) {
@@ -109,9 +116,11 @@
 					public.cancel();
 
 				});
+
 			},
 
 			blob_to_buffer: function ( blob ) {
+				
 				return new Promise( function ( resolve ) {
 
 					var reader = new FileReader();
@@ -121,9 +130,11 @@
 					};
 
 				});
+
 			},
 
 			blob_to_data_url: function ( blob ) {
+				
 				return new Promise ( function ( resolve ) {
 
 					var reader = new FileReader();
@@ -133,6 +144,7 @@
 					reader.readAsDataURL( blob );
 					
 				});
+
 			},
 
 			get_frequency_data: function () {
@@ -163,15 +175,50 @@
 					
 				}
 
+			},
+
+			get_timeout: function () {
+
+				if ( private.recorder ) {
+
+					return private.recorder.recordingTime() > state.MAX_RECORDING_TIME;
+
+				}
+
 			}
 
 		};
 
 		( function () {
 
+			// ( function tick () {
+
+			// 	if ( private.recorder $$ private.recorder.recordingTime() > state.MAX_RECORDING_TIME ) {
+
+			// 		private.finish()
+			// 		.then( function ( blob ) {
+
+			// 			state.timeout = true;						
+			// 			requestAnimationFrame( tick );
+
+			// 		})
+			// 		.catch( function () {
+						
+			// 			requestAnimationFrame( tick );
+
+			// 		})
+
+			// 	} else {
+
+			// 		requestAnimationFrame( tick );
+
+			// 	}
+
+			// } () );
+
             event_hub.fire( 'class_load', { name: 'WebAudioRecorderWrap' } );
 
-		} () )
+		} () );
 
 		return public;
 
