@@ -7,7 +7,7 @@
 	
 		var private = {
 
-			tooltip_should_be_inserted: function () {
+			browser_action_tooltip_should_be_inserted: function ( change_info, tab ) {
 
 				return new Promise( function ( resolve ) {
 
@@ -16,7 +16,31 @@
 						var flag_1 = items[ "browser_action_popup_has_been_opened" ];
 						var flag_2 = items[ "browser_action_tooltip_has_been_shown" ];
 
-						if ( !flag_1 && !flag_2 ) {
+						if ( !flag_1 && !flag_2 && change_info.status === "complete" && tab.url.indexOf( "chrome://" ) !== 0  ) {
+
+							resolve( true );
+
+						} else {
+
+							resolve( false );
+
+						}
+
+					});
+
+				});
+
+			},
+
+			compose_button_tooltip_should_be_inserted: function ( change_info, tab ) {
+
+				return new Promise( function ( resolve ) {
+
+					chrome.storage.local.get( null, function ( items ) {
+
+						var flag_1 = items[ "compose_button_has_been_used" ];
+
+						if ( !flag_1 && change_info.status === "complete" && tab.url.indexOf( "mail.google.com" ) >= -1  ) {
 
 							resolve( true );
 
@@ -41,6 +65,8 @@
 				chrome.tabs.executeScript( tab_id, { file: "/js/classes/EventHub.js" });
 				chrome.tabs.executeScript( tab_id, { file: "/js/classes/LauncherHelper.js" });
 				chrome.tabs.executeScript( tab_id, { file: "/js/elements/Tooltip.js" });
+				chrome.tabs.executeScript( tab_id, { file: "/js/controllers/TooltipController.js" });
+				
 				chrome.tabs.executeScript( tab_id, { file: "/js/launchers/tooltip_content.js" });
 
 				// chrome.tabs.insertCSS( tab_id, { file: "/css/content.css" });
@@ -49,21 +75,27 @@
 
 			update_handler: function ( tab_id, change_info, tab ) {
 
-				if ( change_info.status === "complete" && tab.url.indexOf( "chrome://" ) !== 0 ) {
+				private.browser_action_tooltip_should_be_inserted( change_info, tab )
+				.then( function ( flag ) {
 
-					private.tooltip_should_be_inserted()
-					.then( function ( flag ) {
+					if ( flag ) {
 
-						if ( flag ) {
+						private.insert_a_tooltip( tab_id );
 
-							private.insert_a_tooltip( tab_id );
-							chrome.storage.local.set({ browser_action_tooltip_has_been_shown: true });
+					}
 
-						}
+				});
 
-					})
+				private.compose_button_tooltip_should_be_inserted( change_info, tab )
+				.then( function ( flag ) {
 
-				}
+					if ( flag ) {
+
+						private.insert_a_tooltip( tab_id );
+
+					}
+
+				});
 
 			}
 

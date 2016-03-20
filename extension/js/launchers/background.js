@@ -49,7 +49,7 @@
 
 		// set up defaults
 		chrome.storage.local.set( reload_storage_defaults );
-
+		
 		// reload all instances of Gmail
 		chrome.tabs.query({ url: "https://mail.google.com/*" }, function ( tabs ) {
 			tabs.forEach( function ( tab ) {
