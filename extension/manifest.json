@@ -34,20 +34,18 @@
 				"/js/classes/EventHub.js",
 				"/js/classes/AnalyticsManager.js",
 				"/js/classes/ErrorReporter.js",
-				"/js/classes/AnalyticsManager.js",
 
 				"/js/classes/WebAudioRecorderWrap.js",
 				"/js/classes/TranscriptionManager.js",
-				"/js/classes/GlobalRecorder.js",
 
 				"/js/classes/Uploader.js",
 				"/js/classes/UploadQueue.js",
-				"/js/classes/GlobalUploader.js",
 
-				"/js/classes/GlobalStorage.js",
-				"/js/classes/BackgroundHelper.js",
-				"/js/classes/TooltipManager.js",
-				
+				"/js/controllers/GlobalStorage.js",
+				"/js/controllers/BackgroundHelper.js",
+				"/js/controllers/GlobalRecorder.js",
+				"/js/controllers/TooltipManager.js",
+				"/js/controllers/GlobalUploader.js",
 				"/js/controllers/PopupController.js",
 
 				"/js/launchers/background.js"

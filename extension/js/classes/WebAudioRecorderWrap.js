@@ -3,7 +3,7 @@
 
 		var state = {
 
-			MAX_RECORDING_TIME: 2
+			MAX_RECORDING_TIME: 5 * 60
 
 		};
 
@@ -55,10 +55,10 @@
 								private.media_source,
 								{
 									workerDir: worker_dir,
-									numChannels: state.MAX_RECORDING_TIME,
+									numChannels: 2,
 									encoding: 'mp3',
 									options: {
-										timeLimit: 2,
+										timeLimit: state.MAX_RECORDING_TIME,
 										encodeAfterRecord: true,
 										mp3: {
 											bitRate: 32
