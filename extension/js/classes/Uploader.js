@@ -11,12 +11,12 @@
 
 		var private = {
 			
-			upload_transcription: function ( token, transcription_data ) {
+			upload_transcription: function ( recording_data ) {
 				
 				return new Promise( function ( resolve, reject ) {
 					
-					if (transcription_data.text === undefined || transcription_data.text !== undefined && transcription_data.text.length < 1) {
-                        reject("no data found for transcription"); 				
+					if ( recording_data.transcription_data.text === undefined ) {
+                        reject( "No transcription to upload" ); 				
 						return;
 					}
 					
@@ -25,13 +25,13 @@
 						{
 							type: 'POST',
 							data: JSON.stringify({
-							  audio_url: transcription_data.audio_url,
-							  language: transcription_data.language,
-							  confidence : transcription_data.confidence_estimate,
-							  text : transcription_data.text
+							  audio_url: recording_data.urls.canonical_url,
+							  language: recording_data.transcription_data.language,
+							  confidence : recording_data.transcription_data.confidence_estimate,
+							  text : recording_data.transcription_data.text
 							}),
 							headers: {
-								'Authorization': 'Bearer ' + token,
+								'Authorization': 'Bearer ' + recording_data.urls.token,
 								'Content-Type': 'application/json',
 								'X-Api-Key' : g_state.api_key
 							},
@@ -84,6 +84,16 @@
 						resolve( xhr.respose );
 
 					};
+
+					private.upload_transcription( recording_data )
+					.then( function ( response ) {
+
+						recording_data.transcription_url = response.transcription_url;
+						recording_data.audio_url = response.audio_url;
+
+						chrome.runtime.sendMessage({ receiver: "GlobalStorage", name: "update_recording_data", recording_data });
+
+					});
 
 					xhr.onerror = reject;
 
@@ -148,6 +158,7 @@
 									'Content-Type': 'application/json'
 								},
 								success: function ( response ) {
+									response.token = token;
 									resolve( response );
 								},
 								error: function () {
@@ -163,79 +174,23 @@
 				});
 
 			},
-			
-			upload_buffer: function ( token, urls, buffer, transcription_data ) {
-
-				return new Promise( function ( resolve, reject ) {
-
-					var state = {};
-                    
-                    state.token = token;
-                    state.signed_url = urls.signed_url;
-                    state.short_url = urls.short_url;
-                    state.canonical_url = urls.canonical_url;
-
-                    if(!transcription_data){
-                        
-                        console.log('no transcription data found');
-                        
-                    } else {
-                        
-                        transcription_data.audio_url = urls.canonical_url;
-                        
-                        private.upload_transcription( state.token, transcription_data )
-                        .then( function ( response ) {
-                            console.log( response );
-                            g_state.last_transcription_url = response.transcription_url;
-                        })
-                        .catch( function ( error ) {
-                            
-                            Raven.captureException(error);
-
-                            console.log(error);
-
-                        });
-                        
-                    }
-												
-					private.upload_until_success( urls.signed_url, buffer )
-                    .then( function () {
-                      
-						resolve( true );
-
-					})
-					.catch( function () {
-                        
-                        Raven.captureMessage("error in upload_buffer");
-
-						reject();
-
-					});
-
-				})
-
-			},
 
 			delete_transcription: function ( recording_data ) {
-				
-				g_state.token_promise.then( function ( token ) {
 
 					$.ajax({
 
+						url: recording_data.transcription_url,
 						type: "DELETE",
 						headers: {
-							'Authorization': 'Bearer ' + token,
+							'Authorization': 'Bearer ' + recording_data.urls.token,
 							'Content-Type': 'application/json',
-							'X-Api-Key' : 'kLOtvTZkwzDISbKBVYGbkwLErE1VJPRyyWvnIXi1qhniGLar9Kr5mQ'
+							'X-Api-Key' : g_state.api_key
 						},
-						url: g_state.last_transcription_url,
 						success: function () {
-							console.log( "transcription deleted" );
+							console.log( "Transcription deleted" );
 						}
 
 					});
-
-				});
 
 			}
 

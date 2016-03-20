@@ -165,7 +165,7 @@
 
 			$( window ).unload( function () {
 
-				private.cancel_recording();
+				if ( state.recording ) private.cancel_recording();
 
 			});
 

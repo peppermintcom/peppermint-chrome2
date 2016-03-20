@@ -1,5 +1,5 @@
 	
-	function GlobalUploader ( chrome, $, hub, upload_queue ) {
+	function GlobalUploader ( chrome, $, hub, upload_queue, uploader ) {
 		
 		var state = {
 
@@ -99,6 +99,10 @@
 
 					upload_queue.get_urls_promise()
 					.then( callback );
+
+				} else if ( message.name === "delete_transcription" ) {
+
+					uploader.delete_transcription( message.recording_data );
 
 				}
 

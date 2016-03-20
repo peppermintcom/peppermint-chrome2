@@ -44,6 +44,7 @@
 				"/js/classes/UploadQueue.js",
 				"/js/classes/GlobalUploader.js",
 
+				"/js/classes/GlobalStorage.js",
 				"/js/classes/BackgroundHelper.js",
 				"/js/classes/TooltipManager.js",
 				

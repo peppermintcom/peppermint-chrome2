@@ -84,12 +84,16 @@
 
 			cancel: function () {
 			
-				private.context.close();
-				private.recorder.cancelRecording();
-				private.stream.getAudioTracks()[0].stop();
+				if ( private.recorder ) {
 
-				private.recorder = null;
-				private.stream = null;
+					private.context.close();
+					private.recorder.cancelRecording();
+					private.stream.getAudioTracks()[0].stop();
+
+					private.recorder = null;
+					private.stream = null;
+
+				}
 
 			},
 

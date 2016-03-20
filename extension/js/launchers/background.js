@@ -127,7 +127,8 @@
 					chrome,
 					jQuery,
 					event_hub,
-					upload_queue
+					upload_queue,
+					uploader
 				);
 
 			});
@@ -137,6 +138,16 @@
 		( function set_up_background_helper () {
 
 			new BackgroundHelper(
+				chrome,
+				jQuery,
+				event_hub
+			);
+
+		} () );
+
+		( function set_up_global_storage () {
+
+			new GlobalStorage(
 				chrome,
 				jQuery,
 				event_hub

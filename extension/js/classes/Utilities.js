@@ -55,7 +55,7 @@
 			
 			load_error_logger: function( ) {
 				
-				setTimeout(function(){
+				setTimeout( function () {
 					
 					chrome.storage.local.get( [ "prod_id", "current_id" ], function ( items ) {
 

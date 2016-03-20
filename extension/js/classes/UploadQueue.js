@@ -26,7 +26,7 @@
 
 			try_to_upload_queue_item: function ( item ) {
 
-				uploader.upload_recording_data( item, item.urls )
+				uploader.upload_recording_data( item )
 				.then( function () {
 
 					state.queue.splice( 0, 1 );

@@ -1,6 +1,12 @@
 
 	function PopupController ( chrome, $, event_hub ) {
 
+		var state = {
+
+			current_recording_data: null
+			
+		};
+
 		var private = {
 
 			begin_recording: function () {
@@ -81,8 +87,9 @@
 
 					chrome.runtime.sendMessage( { receiver: "GlobalUploader", name: "get_urls" }, function ( urls ) {
 
-						console.log( "urls", urls );
-							
+						var recording_data = state.current_recording_data = { urls, source: "popup", id: Date.now() };
+						chrome.runtime.sendMessage({ receiver: "GlobalStorage", name: "save_recording_data", recording_data });
+
 						$( "#popup" )[0].set_transcript( "" );
 						$( "#player" )[0].disable();
 
@@ -99,9 +106,10 @@
 
 						});
 
-						chrome.runtime.sendMessage( { receiver: "GlobalRecorder", name: "finish", recording_data: { urls, source: "popup" } }, function ( recording_data ) {
+						chrome.runtime.sendMessage( { receiver: "GlobalRecorder", name: "finish", recording_data }, function ( recording_data ) {
 
-							console.log( "recording_data", recording_data );
+							state.current_recording_data = recording_data;
+							chrome.runtime.sendMessage({ reciver: "GlobalStorage", name: "update_recording_data", recording_data });
 
 							$( "#popup" )[0].set_transcript( recording_data.transcription_data.text );
 							$( "#player" )[0].set_url( recording_data.data_url );
@@ -206,9 +214,8 @@
 
 			popup_delete_transcription_button_click: function () {
 
-				// $( "#popup" )[ 0 ].set_transcript( false );
-				// popup_state.transcript = { text: "" };
-				// uploader.delete_transcription();
+				$( "#popup" )[ 0 ].set_transcript( false );
+				chrome.runtime.sendMessage({ receiver: "GlobalUploader", name: "delete_transcription", recording_data: state.current_recording_data });
 
 			}
 
@@ -217,23 +224,19 @@
 		( function constructor () {
 
 			chrome.storage.local.set({ "browser_action_popup_has_been_opened": true });
-			
-			chrome.storage.local.get( null, function ( items ) {
+
+			chrome.storage.local.get( [ "popup_state" ], function ( items ) {
 
 				var recording_data_arr = items["recording_data_arr"];
+			
+				chrome.runtime.sendMessage( { receiver: "GlobalStorage", name: "get_last_recording_data_by_source", source: "popup" }, function ( recording_data ) {
 
-				for ( var i = recording_data_arr.length; i-- ; ) {
+					state.current_recording_data = recording_data;
+					items.popup_state.last_recording_data = recording_data;
+				
+					private.init_popup_state( items.popup_state );
 
-					if ( recording_data_arr[ i ].source === "popup" ) {
-
-						items.popup_state.last_recording_data = recording_data_arr[ i ];
-						break;
-
-					};
-
-				};
-
-				private.init_popup_state( items.popup_state );
+				});
 
 			});
 

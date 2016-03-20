@@ -93,12 +93,7 @@
 
 						hub.fire( "global_recorder_event", { receiver: "GlobalUploader", name: "upload_recording_data", recording_data } );
 
-						chrome.storage.local.get( [ "recording_data_arr" ], function ( items ) {
-
-							items.recording_data_arr.push( recording_data );
-							chrome.storage.local.set({ recording_data_arr: items.recording_data_arr });
-
-						});
+						chrome.runtime.sendMessage({ receiver: "GlobalStorage", name: "update_recording_data", recording_data });
 
 						try { callback( recording_data ); } catch ( e ) {};
 
