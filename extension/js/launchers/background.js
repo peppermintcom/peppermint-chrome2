@@ -6,8 +6,10 @@
 			compose_button_has_been_used: false,
 			browser_action_tooltip_has_been_shown: false,
 			browser_action_popup_has_been_opened: false,
-			log_level: 'error'
-		
+			log_level: 'error',
+			prod_id: "mphcafiedeanpmilmmlcjhkcgddphicp",
+			current_id: chrome.i18n.getMessage( '@@extension_id' )
+
 		};
 
 		var reload_storage_defaults = {
