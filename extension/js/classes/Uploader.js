@@ -2,7 +2,11 @@
 	Uploader = function ( chrome, $, event_hub, sender_data ) {
 
 		var g_state = {
-			token_promise: null
+
+			token_promise: null,
+			endpoint: "https://qdkkavugcd.execute-api.us-west-2.amazonaws.com/prod/v1/",
+			api_key: "kLOtvTZkwzDISbKBVYGbkwLErE1VJPRyyWvnIXi1qhniGLar9Kr5mQ"
+
 		}
 
 		var private = {
@@ -71,12 +75,10 @@
 		};
 		
 		var public = {
-			
-            get_token_urls: function () {
 
-				return new Promise( function ( resolve, reject ) {
+			upload_recording_data: function ( recording_data ) {
 
-					var data = {};
+				return new Promise ( function ( resolve, reject ) {
 
 					var xhr = new XMLHttpRequest();
 					xhr.open( 'PUT', recording_data.urls.signed_url, true );
@@ -114,10 +116,10 @@
 				});
 
 			},
-            
-			upload_buffer: function ( token, urls, buffer, transcription_data ) {
+			
+			get_token_promise: function () {
 
-				return new Promise( function ( resolve, reject ) {
+				return new Promise( function ( resolve ) {
 
 					$.ajax(
 						g_state.endpoint + "recorder",
@@ -141,33 +143,13 @@
 						}
 					);
 
-                    if(!transcription_data){
-                        
-                        console.log('no transcription data found');
-                        
-                    } else {
-                        
-                        transcription_data.audio_url = urls.canonical_url;
-                        
-                        private.upload_transcription( state.token, transcription_data )
-                        .then( function ( response ) {
-                            console.log( response );
-                            g_state.last_transcription_url = response.transcription_url;
-                        })
-                        .catch( function ( error ) {
-                            
-                            Raven.captureException(error);
+				});
 
-                            console.log(error);
+			},
+			
+			get_urls_promise: function ( token_promise ) {
 
-                        });
-                        
-                    }              
-												
-					private.upload_until_success( urls.signed_url, buffer )
-                    .then( function () {
-                      
-						resolve( true );
+				return new Promise( function ( resolve ) {
 
 					token_promise.then( function ( token ) {
 
@@ -225,22 +207,6 @@
 
 		( function constructor () {
 
-			g_state.token_promise = private.get_token();
-			
-			setInterval( function () {
-
-				g_state.urls_promise = g_state.token_promise.then( function ( token ) {
-					g_state.urls_promise = private.token_to_urls_promise( token, sender_data );
-					return private.token_to_urls_promise( token, sender_data );
-				});
-				
-			}, 2 * 60 * 1000 );
-
-			g_state.urls_promise = g_state.token_promise.then( function ( token ) {
-				g_state.urls_promise = private.token_to_urls_promise( token, sender_data );
-				return private.token_to_urls_promise( token, sender_data );
-			});
-            
             event_hub.fire( 'class_load', { name: 'Uploader' } );
 
 		} () )
