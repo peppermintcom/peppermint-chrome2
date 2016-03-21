@@ -27,6 +27,7 @@
 
 						state.timeout_has_been_reported = false;
 						state.recording = true;
+						chrome.storage.local.set({ recording_in_popup: true });
 
 					} else {
 
@@ -73,6 +74,7 @@
 
 					$( "#popup" )[0].set_page("popup_welcome");
 					state.recording = false; 
+					chrome.storage.local.set({ recording_in_popup: false });
 					
 					private.update_popup_state({
 
@@ -111,6 +113,7 @@
 
 						chrome.runtime.sendMessage( { receiver: "GlobalRecorder", name: "finish", recording_data }, function ( recording_data ) {
 
+							chrome.storage.local.set({ recording_in_popup: false });
 							state.recording = false;
 							state.current_recording_data = recording_data;
 							chrome.runtime.sendMessage({ reciver: "GlobalStorage", name: "update_recording_data", recording_data });
