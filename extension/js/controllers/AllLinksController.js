@@ -11,7 +11,7 @@
 
 			link_to_short_link_id: function ( link ) {
 
-				if ( link.href.indexOf( "https://peppermint.com/" ) > -1 ) {
+				if ( link.href.indexOf( "https://peppermint.com/" ) > -1 && link.href.indexOf( "reply" ) === -1 ) {
 
 					return link.href.replace( "https://peppermint.com/", "" ).replace( "/", "" );
 	
@@ -41,6 +41,8 @@
 						document.body.appendChild( pep_link_addon );
 
 					}).catch( function ( error ) {
+
+						console.log( "Peppermint link is not valid" );
 
 					});
 

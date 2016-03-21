@@ -94,6 +94,12 @@
 
 				}
 
+			},
+
+			set_error_message: function ( message ) {
+
+				$( "#error_message", element.shadowRoot ).text( message );
+
 			}
 
 		};

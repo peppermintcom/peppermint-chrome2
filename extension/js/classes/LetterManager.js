@@ -1,20 +1,15 @@
 
-	function LetterManager ( $, document, chrome, sender_data, utilities, event_hub ) {
+	function LetterManager ( chrome, $, event_hub, sender_data ) {
 		
-		var private = {
-				
-				last_selections: {},
+		var state = {
 
-				zeroPad: function ( originalNumber ) {
-					
-					numberValue = parseInt(originalNumber);
-					
-					if (numberValue < 10) {
-						return '0' + numberValue;
-					}
-					
-					return '' + numberValue;
-				},
+			last_selections: {}
+			
+		};
+
+		var private = {
+
+				pad: function ( n ) { return n < 10 ? "0" + n : n },
 
 				format_duration: function ( duration ) {
 				
@@ -23,37 +18,26 @@
 					var displayMinutes = parseInt(durationSeconds / 60);
 					var displaySeconds = durationSeconds % 60;
 					
-					returnValue =  private.zeroPad( displayMinutes ) + ':' + private.zeroPad( displaySeconds );
+					returnValue =  private.pad( displayMinutes ) + ':' + private.pad( displaySeconds );
 					
-					console.log("Return Value for duration is: " + returnValue);
+					console.log( "Return Value for duration is: " + returnValue);
 					
 					return returnValue.split( "" ).join( "<span>&#8203;</span>" );
 
 				},
 
-				formatEmailMessage: function ( audioUrls, transcript, audioDurationDisplay, emailTemplate, recording_id ) {
+				format_email_message: function ( template, recording_data ) {
 
-					var emailMessage = emailTemplate
-					.replace( /{{SHORT_URL}}/g, audioUrls.short_url )
-                    .replace( "{{LONG_URL}}", audioUrls.cloudfront_ssl_url )
-                    .replace( "{{OBJECT_URL}}", audioUrls.object_url )
-					.replace( "{{TRANSCRIPT}}", transcript )
-					.replace( /{{SENDER_NAME}}/g, sender_data.sender_name )					
-					.replace( /{{SENDER_EMAIL}}/g, sender_data.sender_email )					
-					.replace( "{{RECORDING_ID}}", recording_id )
-					.replace( "{{DURATION}}", audioDurationDisplay );
+					var message = template
+					.replace( /{{SHORT_URL}}/g, recording_data.urls.short_url )
+					.replace( "{{LONG_URL}}", recording_data.urls.canonical_url )
+					.replace( /{{SENDER_NAME}}/g, sender_data.sender_name )
+					.replace( /{{SENDER_EMAIL}}/g, sender_data.sender_email )
+					.replace( "{{RECORDING_ID}}", recording_data.id )
+					.replace( "{{DURATION}}", private.format_duration( recording_data.duration ) )
+					.replace( "{{TRANSCRIPT_HEADER}}", "" );
 
-					if ( transcript ) {
-
-						emailMessage = emailMessage.replace( "{{TRANSCRIPT_HEADER}}", "MESSAGE TRANSCRIPTION" );
-					
-					} else {
-
-						emailMessage = emailMessage.replace( "{{TRANSCRIPT_HEADER}}", "" );
-
-					} 
-					
-					return emailMessage;
+					return message;
 
 				},
 
@@ -91,7 +75,7 @@
 						var to_box = $( element ).find(".wO.nr")[0];
 						
 						if ( editable && editable.contains( anchor_node ) && anchor_node !== editable ) {
-							private.last_selections[ element.dataset.id ] = {
+							state.last_selections[ element.dataset.id ] = {
 								anchorNode: selection.anchorNode,
 								anchorOffset: selection.anchorOffset
 							};
@@ -99,7 +83,7 @@
 							( subject && subject.contains( anchor_node ) ) ||
 							( to_box && to_box.contains( anchor_node ) ) 
 						) {
-							private.last_selections[ element.dataset.id ] = undefined;
+							state.last_selections[ element.dataset.id ] = undefined;
 						}
 
 					});
@@ -110,63 +94,90 @@
 
 		var public = {
 
-				add_link: function ( urls, id, transcript, duration, recording_id ) {
-					 
-					try {
-						
-						var letter = $(".I5[data-id='"+id+"']")[0];
-						var editable = $( letter ).find('.Am.Al.editable.LW-avf')[0];
-						var selection = private.last_selections[ letter.dataset.id ];
-						duration = private.format_duration( duration );
-						
-						// if element is a child of a dialog - it is a compose message
-						if ( $(".I5[data-id='"+id+"']").closest(".nH.Hd").length === 0 ) {
+			add_link: function ( id, recording_data ) {
+				 
+				try {
+					
+					var letter = $(".I5[data-id='"+id+"']")[0];
+					var editable = $( letter ).find('.Am.Al.editable.LW-avf')[0];
+					var selection = state.last_selections[ letter.dataset.id ];
+					duration = private.format_duration( recording_data.duration );
+					
+					// if element is a child of a dialog - it is a compose message
+					if ( $(".I5[data-id='"+id+"']").closest(".nH.Hd").length === 0 ) {
 
-							if ( selection && editable.contains( selection.anchorNode ) ) {
-								private.html_before_selection( 
-									private.formatEmailMessage( urls, transcript, duration, private.reply_template, recording_id ),
-									selection
-								);
-							} else {
-								$( editable ).prepend(
-									private.formatEmailMessage( urls, transcript, duration, private.reply_template, recording_id )
-								);
-							}
-
+						if ( selection && editable.contains( selection.anchorNode ) ) {
+							private.html_before_selection( 
+								private.format_email_message( private.reply_template, recording_data ),
+								selection
+							);
 						} else {
-
-							if ( selection && editable.contains( selection.anchorNode ) ) {
-								private.html_before_selection(
-									private.formatEmailMessage( urls, transcript, duration, private.compose_template, recording_id ),
-									selection
-								);
-							} else {
-								$( editable ).prepend(
-									private.formatEmailMessage( urls, transcript, duration, private.compose_template, recording_id )
-								)
-							};
-
-							if ( $(".I5[data-id='"+id+"'] input[name='subjectbox']").val() === '' ) {
-								$(".I5[data-id='"+id+"'] input[name='subjectbox']").val("I sent you an audio message");
-							}
-
+							$( editable ).prepend(
+								private.format_email_message( private.reply_template, recording_data )
+							);
 						}
-                        
-                        $('table.row.player').hide();
 
-					} catch ( error ) {
-                        
-                        Raven.captureException( error );
+					} else {
 
-						console.error( error );
+						if ( selection && editable.contains( selection.anchorNode ) ) {
+							private.html_before_selection(
+								private.format_email_message( private.compose_template, recording_data ),
+								selection
+							);
+						} else {
+							$( editable ).prepend(
+								private.format_email_message( private.compose_template, recording_data )
+							)
+						};
+
+						if ( $(".I5[data-id='"+id+"'] input[name='subjectbox']").val() === '' ) {
+							$(".I5[data-id='"+id+"'] input[name='subjectbox']").val("I sent you an audio message");
+						}
 
 					}
+					
+					$('table.row.player').hide();
+
+				} catch ( error ) {
+					
+					Raven.captureException( error );
+
+					console.error( error );
 
 				}
 
+			},
+
+			add_recording_data_to_a_letter: function ( recording_data ) {
+
+				var letter = $( "#peppermint_template_" + recording_data.id );
+
+				if ( letter.length > 0 ) {
+
+					if ( recording_data.transcription_data.text ) {
+
+						letter.find( ".transcription_header" ).show();
+						letter.find( ".transcription" ).text( recording_data.transcription_data.text );
+
+					} else {
+
+						letter.find( ".transcription_header" ).remove();
+						letter.find( ".transcription" ).remove();
+
+					}
+
+					var audio_element = $( "<audio controls ></audio>" )[ 0 ];
+					audio_element.src = recording_data.data_url;
+
+					letter.find( ".fake_audio_container" ).append( audio_element );
+
+				}
+
+			}
+
 		};
 
-		( function constructor () {
+		( function () {
 
 			$( document ).on( "selectionchange", private.selectionchange_handler );
 
@@ -181,8 +192,8 @@
 				private.reply_template = response;
 
 			});
-            
-            event_hub.fire( 'class_load', { name: 'LetterManager' } );
+			
+			event_hub.fire( 'class_load', { name: 'LetterManager' } );
 
 		} () )
 

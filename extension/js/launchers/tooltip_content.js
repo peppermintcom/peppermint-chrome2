@@ -9,73 +9,21 @@
 
 		]).then( function ( t ) {
 
-			function add_elements () {
+			var event_hub = new EventHub();
+			
+			$( "<div id = 'peppermint_browser_action_tooltip' class = 'top' ></div>" ).appendTo( document.body );
+			$( "<div id = 'peppermint_compose_button_tooltip' class = 'button' ></div>" ).appendTo( document.body );
 
-				var container = document.createElement( "div" );
+			var browser_action_tooltip = new Tooltip( jQuery, event_hub, t["tooltip"], $( "#peppermint_browser_action_tooltip" )[0] );
+			var compose_button_tooltip = new Tooltip( jQuery, event_hub, t["tooltip"], $( "#peppermint_compose_button_tooltip" )[0] );
 
-				container.innerHTML = "<div id = 'peppermint_tooltip_top' class = 'top' ></div>";
-
-				document.body.appendChild( container );
-
-			};
-
-			chrome.storage.local.get( null, function ( items ) {
-
-				if ( !items["browser_action_tooltip_has_been_shown"] ) {
-
-					chrome.storage.local.set({ browser_action_tooltip_has_been_shown: true });
-
-					add_elements();
-
-					var event_hub = new EventHub();
-
-					var tooltip = new Tooltip( jQuery, event_hub, t["tooltip"], $( "#peppermint_tooltip_top" )[0] );
-					$( tooltip ).show();
-
-					if ( window.innerWidth > document.body.clientWidth ) {
-						tooltip.classList.add( "shifted_pointer" );
-					};
-
-					setTimeout( function timeout () {
-						
-						chrome.storage.local.get( [ "browser_action_popup_has_been_opened" ], function ( items ) {
-						
-							if ( items[ "browser_action_popup_has_been_opened" ] ) {
-							
-								$( tooltip ).hide();
-							
-							} else {
-
-								setTimeout( timeout, 100 );
-
-							}
-
-						});
-
-					}, 100 );
-
-					chrome.runtime.onMessage.addListener( function listener ( message ) {
-
-						if ( message === "browser_action_popup_opened" ) {
-							$( tooltip ).hide();
-							chrome.runtime.onMessage.removeListener( listener );							
-						}
-
-					});
-
-					event_hub.add({
-
-						"tooltip_close_button_click": function () {
-
-							$( tooltip ).hide();
-
-						}
-
-					});
-
-				}
-
-			});
+			new TooltipController(
+				chrome,
+				jQuery,
+				event_hub,
+				browser_action_tooltip,
+				compose_button_tooltip
+			);
 
 		});
 

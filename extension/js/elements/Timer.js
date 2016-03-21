@@ -70,6 +70,12 @@
 
 			},
 
+			get_time: function () {
+
+				return private.time;
+
+			},
+
 			continue: function () {
 
 				private.start_timestamp = Date.now() - private.time;
