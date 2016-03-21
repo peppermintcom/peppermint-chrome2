@@ -32,11 +32,9 @@
 
 						console.error( "Failed to begin recording", response.error );
 
-						if ( response.error.name === "PermissionDeniedError" ) {
-
-							chrome.tabs.create({
-								url: chrome.extension.getURL("/welcome_page/welcome.html")
-							});
+						if ( response.error.name === "PermissionDeniedError" || response.error.name === "NavigatorUserMediaError" ) {
+						
+							chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "open_welcome_page" });
 
 						} else if ( response.error.name === "already_recording" ) {
 

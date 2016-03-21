@@ -9,7 +9,7 @@
 		    display: table;
 			color: #333;
 			font-size: 1.05em;
-			background-image: url(../img/welcome-bg.png);
+			background-image: url(/img/welcome-bg.png);
 			font-family: 'Lato', sans-serif;
 		}
 		.outer {

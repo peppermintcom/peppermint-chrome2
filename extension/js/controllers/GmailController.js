@@ -28,7 +28,7 @@
 						
 						console.error( "Failed to begin recording", response.error );
 
-						if ( response.error.name === "PermissionDeniedError" ) {
+						if ( response.error.name === "PermissionDeniedError" || response.error.name === "NavigatorUserMediaError" ) {
 							
 							chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "open_welcome_page" });
 							
