@@ -134,7 +134,7 @@
                                         
                                         $( mock_player ).next().html(
                                             template_html
-                                            .replace( "{{EXTENSION_ROOT}}", chrome.extension.geteURL("/") )
+                                            .replace( "{{EXTENSION_ROOT}}", chrome.extension.getURL("/") )
                                         );
                                         
                                     });
