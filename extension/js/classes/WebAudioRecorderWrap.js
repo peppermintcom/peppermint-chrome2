@@ -73,8 +73,7 @@
 
 						})
 						.catch( function ( error ) {
-	                        Raven.captureException(error);
-							console.log( error );
+							Raven.log( 'WebAudioRecorderWrap', 'start', 'Failed to get audio stream', error );
 							reject( error );
 						});
 
