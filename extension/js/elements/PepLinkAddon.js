@@ -14,7 +14,7 @@
 
 				function tick () {
 
-					var rect = link.getBoundingClientRect();
+					var rect = link.getClientRects()[0];
 					var element_at_point = document.elementFromPoint( rect.left + 2, rect.top + 2 );
 
 					// element.style.top = rect.top + "px";

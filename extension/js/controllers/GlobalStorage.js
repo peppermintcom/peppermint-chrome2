@@ -85,6 +85,25 @@
 
 						});
 
+					} else if ( message.name === "delete_recording_data" ) {
+
+						chrome.storage.local.get( [ "recording_data_arr" ], function ( items ) {
+
+							for ( var i = items.recording_data_arr.length; i--; ) {
+
+								if ( items.recording_data_arr[ i ].id === message.recording_data.id ) {
+
+									items.recording_data_arr.splice( i, 1 );
+
+									chrome.storage.local.set({ recording_data_arr: items.recording_data_arr });
+									break;
+
+								}
+
+							}
+
+						});
+
 					}
 
 					return true;
