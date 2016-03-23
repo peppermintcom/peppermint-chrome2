@@ -1,10 +1,10 @@
 
-	var Player = function ( $, template, element, img_url ) {
+	var Player = function ( $, event_hub, template, element ) {
 		
 		var private = {
 			
 			audio: new Audio(),
-			
+
 			set_control_icon: function ( state ) {
 				if ( state === 'play' ) {
 					element.shadowRoot.querySelector("#play").style.display = 'block';
@@ -76,7 +76,6 @@
 
 		( function constructor () {
 
-			template.innerHTML = template.innerHTML.replace( /{{IMG_URL}}/g, img_url );
 			element.createShadowRoot().appendChild( document.importNode( template.content, true ) );
 
 			$.extend( element, public );
@@ -87,6 +86,8 @@
 			$( "#play", element.shadowRoot ).on( 'click', private.handle_play_click );
 			$( "#pause", element.shadowRoot ).on( 'click', private.handle_pause_click );
 			$( ".stripe_container", element.shadowRoot ).on( 'click', private.handle_stripe_click );
+
+			event_hub.fire( "class_load", { name : "Player" } );
 
 		} () )
 

@@ -1,5 +1,5 @@
 
-	function Timer ( $, template, element, event_hub ) {
+	function Timer ( $, event_hub, template, element ) {
 
 		var private = {
 
@@ -70,6 +70,12 @@
 
 			},
 
+			get_time: function () {
+
+				return private.time;
+
+			},
+
 			continue: function () {
 
 				private.start_timestamp = Date.now() - private.time;
@@ -99,6 +105,8 @@
 			element.createShadowRoot().appendChild( document.importNode( template.content, true ) );
 
 			$.extend( element, public );
+
+			event_hub.fire( "class_load", { name : "Timer" } );
 
 		} () )
 

@@ -1,10 +1,10 @@
 	
-	function EventHub ( hub_name ) {
+	function EventHub () {
 		
 		var private = {
 			
-			events: {},
-	
+			events: {},            
+
 			add_one: function ( name, observer ) {
 			
 				if ( typeof private.events[ name ] === 'undefined' ) {
@@ -49,15 +49,15 @@
 				
 				};
 				
-			},
-
-			stop: function () {
-
-				public.fire = function () {}
-
 			}
-			
+
 		};
+        
+        ( function constructor () {
+            
+            public.fire( 'class_load', { name: 'EventHub' } );
+
+		} () );
 
 		return public;
 		

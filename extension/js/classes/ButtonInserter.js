@@ -1,5 +1,5 @@
 	
-	function ButtonInserter ( $, insert_reply_button, template, element, img_url, event_hub ) {
+	function ButtonInserter ( chrome, $, event_hub, template, element, insert_reply_button ) {
 
 		var private = {
 
@@ -29,7 +29,7 @@
 				}, 50 );
 			},
 
-			insert_dwopdown_button: function () {
+			insert_dropdown_button: function () {
 				setInterval( function () {
 					$(".b7.J-M").each( function ( index, container ) {
 						if ( $( "#v_dropdown_button", container ).length === 0 ) {
@@ -37,7 +37,7 @@
 							var button = $( "#v_dropdown_button", element.shadowRoot ).clone();
 
 							button.on( "click", function () {
-								event_hub.fire( "peppermint_reply_button_click" );
+								event_hub.fire( "peppermint_reply_button_click", { type: "dropdown_button" } );
 							});
 
 							$( container ).children('div:eq(2)').after( button );
@@ -56,7 +56,7 @@
 							var button = $( "#v_reply_button", element.shadowRoot ).clone();
 
 							button.on( "click", function () {
-								event_hub.fire( "peppermint_reply_button_click" );
+								event_hub.fire( "peppermint_reply_button_click", { type: "button" } );
 							});
 
 							$( container ).prepend( button );
@@ -74,7 +74,7 @@
 	
 									link.on( "click", function () {
 										event.preventDefault();
-										event_hub.fire( "peppermint_reply_button_click" );
+										event_hub.fire( "peppermint_reply_button_click", { type: "button" } );
 									})
 
 								};
@@ -85,32 +85,61 @@
 				}, 50 );
 			},
 
-			replace_moock_player: function () {
+			replace_mock_player: function () {
 
 				setInterval( function () {
 
 					var mock_player = $( ".a3s table[bgcolor='#6fd5b9']:not(.hidden)" )[0];
 
-					if ( mock_player ) {
+					if ( mock_player && mock_player.parentElement.querySelector( "span[alt='long_url']" ) ) {
 
 						mock_player.classList.add( "hidden" );
 					
 						mock_player.style.display = "none";
                         
-                        var urls = { 
-                            long: mock_player.querySelector( "a[alt='hidden_long_url']" ).href,
-                            short: mock_player.querySelector( "a[alt='hidden_short_url']" ).href
+                        var urls = {
+                            long: mock_player.parentElement.querySelector( "span[alt='long_url']" ).getAttribute( "title" ),
+                            short: mock_player.parentElement.querySelector( "span[alt='short_url']" ).getAttribute( "title" )
                         };
-                                                
-                        $.get(chrome.extension.getURL('/templates/audio-player.html')
-                            , function(template_html) {
+                        
+                        urls.long_no_protocol = urls.long.replace('http:','');
+                        
+                        if ( urls.long.indexOf( 'cloudfront.net' ) > 0 )
+                            urls.cloudfront_ssl = urls.long;
+                        else
+                            urls.cloudfront_ssl = urls.long.replace('http://go.peppermint.com/','https://duw3fm6pm35xc.cloudfront.net/');
+                        
+                        $.get(chrome.extension.getURL('/html/templates/audio-player.html'), function(template_html) {
                             
                             $( mock_player ).after(
                                 template_html
-                                .replace( "{{LONG_URL}}", urls.long )
+                                .replace( "{{LONG_URL}}", urls.cloudfront_ssl )
                                 .replace( "{{SHORT_URL}}", urls.short )
                             );
                             
+                        });
+                        
+                        // if audio can't be reached, swap to an error message/icon
+                        $.ajax({
+                            type: 'HEAD',
+                            url: urls.cloudfront_ssl,
+                            complete: function(xhr, textStatus) {
+                                
+                                if( xhr.status == 403 || xhr.status == 404 )
+                                {
+                                    Raven.captureMessage("invalid audio URL");
+                                    
+                                    $.get(chrome.extension.getURL('/html/templates/audio-player-error.html')
+                                        , function(template_html) {
+                                        
+                                        $( mock_player ).next().html(
+                                            template_html
+                                            .replace( "{{EXTENSION_ROOT}}", chrome.extension.getURL("/") )
+                                        );
+                                        
+                                    });
+                                }
+                            }
                         });
 
 					}
@@ -120,23 +149,22 @@
 			}
 
 		};
-                                
+
 		var public = {
 
 		};
 
 		( function constructor () {
 
-			template.innerHTML = template.innerHTML.replace( /{{IMG_URL}}/g, img_url );
 			element.createShadowRoot().appendChild( document.importNode( template.content, true ) );
 
 			$.extend( element, public );
 
 			private.insert_compose_button();
-			private.insert_dwopdown_button();
-			private.replace_moock_player();
+			private.insert_dropdown_button();
+			private.replace_mock_player();
 			if ( insert_reply_button ) private.insert_reply_button();
-
+            
 		} () );
 
 		return element;

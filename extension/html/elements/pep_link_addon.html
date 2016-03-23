@@ -1,0 +1,116 @@
+
+	<style>
+
+		:host {
+		
+			position: fixed;
+			backface-visibility: hidden;
+			z-index: 2147483647;
+
+			top: 0px;
+			left: 0px;
+
+			margin-top: 0px;
+			margin-left: -24px;
+		
+		}
+
+		/* icons */
+
+			#play_icon, #pause_icon {
+
+				position: absolute;
+
+				top: 0px;
+				left: 0px;
+
+				width: 20px;
+				height: 20px;
+
+				border-radius: 3px;
+				background-color: rgba( 0, 0, 0, 0.73 );
+
+				cursor: pointer;
+
+			}
+
+			#play_icon>div, #pause_icon>div {
+
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				width: 100%;
+				height: 100%;
+
+			}
+
+			#play_icon>div>img, #pause_icon>div>img {
+
+				width: 50%;
+				height: 50%;
+
+			}
+
+			#pause_icon {
+
+				display: none;
+
+			}
+
+		/**/
+
+		#audio_element {
+
+			width: 0px;
+
+			margin-top: 0px;
+			margin-left: 24px;
+
+		}
+
+		#transcription {
+
+			display: none;
+
+			width: 300px;
+			padding: 12px;
+			
+			opacity: 0;
+			border-radius: 2px;
+			background-color: white;
+			box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+			
+			line-height: 16px;
+			text-align: left;
+			font-family: sans-serif;
+			font-size: 14px;
+
+		}
+
+	</style>
+
+	<div id = "wrap" >
+
+		<div id = "icons" >
+
+			<div id = "play_icon" >
+				<div>
+					<img src = "{{EXTENSION_ROOT}}img/play-white.png" >
+				</div>
+			</div>
+
+			<div id = "pause_icon" >
+				<div>
+					<img src = "{{EXTENSION_ROOT}}img/delete-white.png" >
+				</div>
+			</div>
+
+		</div>
+
+		<audio id = "audio_element" controls ></audio>
+
+		<div id = "transcription" ></div>
+
+	</div>
+

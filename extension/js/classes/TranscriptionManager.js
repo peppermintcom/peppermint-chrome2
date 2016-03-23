@@ -1,5 +1,5 @@
 
-	function TranscriptionManager ( $, lang ) {
+	function TranscriptionManager ( chrome, $, event_hub, lang ) {
 
 		var event_handlers = {
 
@@ -65,7 +65,7 @@
 					} else {
 
 						private.is_final = false;
-						//console.log( private.transcript + event.results[i][0].transcript );
+						console.log( private.transcript + event.results[i][0].transcript );
 
 					}
 
@@ -101,14 +101,18 @@
 		var public = {
 
 			start: function () {
+				chrome.storage.local.get( null, function ( items ) {
 
-				private.transcript = "";
-				private.error = false;
-				private.ended = false;
-				private.speech_recognition.lang = lang;
+					lang = items.options_data.transcription_language;
 
-				private.speech_recognition.start();
-			
+					private.transcript = "";
+					private.error = false;
+					private.ended = false;
+					private.speech_recognition.lang = lang;
+
+					private.speech_recognition.start();
+
+				});
 			},
 
 			cancel: function () {
@@ -121,11 +125,19 @@
 			finish: function () {
 				return new Promise( function ( resolve ) {
 
+					/* debugging */
+				
+						// resolve({ text: "test test test", language: lang, confidence_estimate: 1 });
+					
+					/**/
+
 					private.speech_recognition.stop();
 
 					var interval = setInterval( function () {
 
 						if ( private.is_final || private.error === true || private.ended === true ) {
+
+							console.log( "TRANSCRIPT:", private.transcript );
 
 							clearInterval( interval );
 							resolve({ text: private.transcript, language: lang, confidence_estimate: private.confidence });
@@ -166,6 +178,8 @@
 			private.speech_recognition.interimResults = true;
 
 			$.extend( private.speech_recognition, event_handlers );
+            
+            event_hub.fire( 'class_load', { name: 'TranscriptionManager' } );
 
 		} () )
 

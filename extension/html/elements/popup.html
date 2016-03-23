@@ -1,0 +1,433 @@
+	
+		<style>
+
+			:host {
+				
+				/*position: absolute;*/
+				display: none;
+				
+				width: 380px;
+				height: 336px;
+				
+				border-radius: 2px;
+				border: 1px solid #CCC;
+				background-color: white;
+				box-shadow: rgba(0,0,0,0.2) 0 2px 6px;
+				
+				text-align: center;
+			
+			}
+			
+			.page {
+				display: none;
+			}
+			.popup_logo {
+				
+				width: 86px;
+				height: 86px;
+				margin-top: 50px;
+
+			}
+			.popup_status {
+				
+				margin: 0px;
+				padding: 0px 12px;
+				
+				font-family: sans-serif;
+				font-size: 16px;
+				color: rgba(0,0,0,0.75);
+			
+			}
+			.popup_status.uploading {
+				margin-top: 20px;
+			}
+			.popup_status.big {
+				font-size: 20px;
+			}
+			.popup_button {
+				
+				position: absolute;
+				
+				bottom: 12px;
+				
+				font-size: 18px;
+				font-family: arial, sans-serif;
+				line-height: 44px;
+				vertical-align: top;
+				color: white;
+				
+				cursor: pointer;
+			
+			}
+			.popup_button.medium_green {
+				background-image: url({{EXTENSION_ROOT}}img/green_empty.png);
+				background-size: 172px 44px;
+				width: 172px;
+				height: 44px;
+			}
+			.popup_button.medium_grey {
+				background-image: url({{EXTENSION_ROOT}}img/grey_empty.png);
+				background-size: 172px 44px;
+				width: 172px;
+				height: 44px;
+			}
+			.popup_button.wide_green {
+				background-image: url({{EXTENSION_ROOT}}img/wide_green_empty.png);
+				background-size: 356px 44px;
+				width: 356px;
+				height: 44px;
+			}
+			.popup_button.left {
+				
+				left: 12px;
+			
+			}	
+			.popup_button.right {
+				
+				right: 12px;
+
+			}
+			.popup_button img {
+				
+				height: 18px;
+				margin-right: 5px;
+				
+				vertical-align: middle;
+				
+			}
+
+			
+			#uploading_logo {
+				margin-top: 12px;
+			}
+			#uploading_player_container {
+				
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				
+				height: 30px;
+				
+			}
+			#finish_player_container {
+				
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				
+				height: 40px;
+				
+			}
+			#timer_container {
+				
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				
+				height: 40px;
+				
+			}
+			
+			#phrase_container {
+				
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				height: 80px;
+				
+			}
+			
+			#player_container {
+				
+				display: flex;
+				justify-content: center;
+				align-items: center;
+
+				height: 10px;
+				
+			}
+
+			#divider {
+
+				width: 15px;
+
+			}
+
+			#uploading {
+				font-family: sans-serif;
+				font-size: 16px;
+				color: rgba(0,0,0,0.75);
+			}
+
+			#cancel_uploading {
+
+				font-family: sans-serif;
+				font-size: 16px;
+			    text-decoration: underline;
+			    color: blue;
+
+			    cursor: pointer;
+
+			}
+
+			a {
+
+				color: #0066FF;
+				text-decoration: none;
+				font-size: 16px;
+
+			}
+
+			#popup_finish {
+				padding: 16px;
+			}
+
+			#popup_finish .popup_button {
+				position: static;
+			}
+
+			#popup_finish .popup_status {
+				padding: 0px;
+				text-align: left;
+			}
+
+			.flex-row {
+
+			    display: flex;
+			    align-items: center;
+			    justify-content: space-between;
+
+			}
+
+			.flex-row.left {
+				justify-content: flex-start;
+			}
+
+			.headline_text {
+			    text-transform: uppercase;
+			    font-size: 18px;
+			    font-family: sans-serif;
+			    opacity: 0.5;
+			    text-align: left;
+			}
+
+			#delete_transcription {
+				font-size: 16px;
+				color: rgba( 0, 0, 0, 0.5 );
+			}
+
+			#delete_transcription_button {
+				color: red;
+				cursor: pointer;
+			}
+
+			.article_text {
+				font-style: italic;
+				font-size: 14px;
+				text-align: left;
+			}
+
+			#header {
+
+
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+
+				overflow: hidden;
+				box-sizing: border-box;
+
+				height: 36px;
+				width: 100%;
+				padding-right: 6px;
+				padding-left: 16px;
+
+				background-color: #404040;
+
+				cursor: move;
+			
+			}
+
+			#header span {
+
+				font-family: arial,sans-serif;
+				font-size: 12.8px;
+				color: white;
+
+			}
+
+			.header_button {
+
+				opacity: 0.6;
+
+				cursor: pointer;
+
+			}
+
+			.header_button:hover {
+
+				opacity: 1;
+				background-color: #737373;
+
+			}
+
+			#hide_button {
+			
+    			width: 24px;
+    			height: 24px;
+
+				background: no-repeat url(https://ssl.gstatic.com/mail/sprites/general-ea1c329fa1beb8a15b1137ebf03f930b.png) 0 -364px;
+			
+			}
+ 
+			#show_button {
+
+				display: none;
+			
+    			width: 24px;
+    			height: 24px;
+
+				background: no-repeat url(https://ssl.gstatic.com/mail/sprites/general-ea1c329fa1beb8a15b1137ebf03f930b.png) 0 -735px;
+			
+			}
+
+			#transcription_header {
+				text-align: left;
+				margin: 20px 0px 10px;
+			}
+
+			#transcript {
+				white-space: pre-line;
+			}
+
+		</style>
+
+		<div id = 'header' >
+			<span>Recording</span>
+			<div id = 'hide_button' class = 'header_button' ></div>
+			<div id = 'show_button' class = 'header_button' ></div>
+		</div>
+
+		<div class = 'page' id = 'popup_welcome' >
+			<img class = 'popup_logo' src = '{{EXTENSION_ROOT}}img/logo.png' >
+			<div style = 'height: 20px;' ></div>
+			<div class = 'popup_status' >Record a message and get a link <br> you can share anywhere!</div>
+			<div class = 'popup_button wide_green left' id = 'welcome_start_recording' >
+				Start Recording
+			</div>
+		</div>
+
+		<div class = 'page' id = 'recording_page' >
+			<div style = 'height: 35px;' ></div>
+			<content select = "#audio_visualizer" ></content>
+			<div id = 'timer_container' >
+				<content select = ".timer" ></content>
+			</div>
+			<div class = 'popup_status' >Recording Your Message...</div>
+			<div class = 'popup_button medium_grey left' id = 'recording_cancel_button' >
+				Cancel
+			</div>
+			<div class = 'popup_button medium_green right' id = 'recording_done_button' >
+				Upload
+			</div>
+		</div>
+
+		<div class = 'page' id = 'microphone_error_page' >
+			<img class = 'popup_logo' src = '{{EXTENSION_ROOT}}img/mic_off.png' >
+			<div style = 'height: 20px;' ></div>
+			<div class = 'popup_status' id = 'error_message' ></div>
+			<div class = 'popup_button medium_grey left' id = 'error_cancel_button' >
+				Cancel
+			</div>
+			<div class = 'popup_button medium_green right' id = 'error_try_again_button' >
+				<img
+					src = "{{EXTENSION_ROOT}}img/icon_refresh.png"
+				>
+				Try Again
+			</div>
+		</div>
+
+		<div class = 'page' id = 'uploading_failed_page' >
+			<img class = 'popup_logo' src = '{{EXTENSION_ROOT}}img/uploading_failed.png' >
+			<div style = 'height: 20px;' ></div>
+			<div class = 'popup_status' >There was an error uploading the file <br> Please click here to try again</div>
+			<div class = 'popup_button wide_green left' id = 'restart_upload' >
+				Restart Upload
+			</div>
+		</div>
+
+		<div class = 'page' id = 'uploading_page' >
+
+			<div id = "phrase_container" >
+				<div id = 'uploading' >
+					Uploading...
+					<span id="progress" ></span>
+				</div>
+				<div id = 'divider' ></div>
+				<div id = 'cancel_uploading' >Cancel</div>
+			</div>
+
+			<img class = 'popup_logo' id = 'uploaded_logo' src = '{{EXTENSION_ROOT}}img/mic.png' >
+
+			<div id = 'uploading_player_container' >
+				<content select = ".player" id = "player_content" ></content>
+			</div>
+			
+			<img src = '{{EXTENSION_ROOT}}img/dude.gif' >
+
+		</div>
+
+		<div class = 'page' id = 'popup_finish' >
+			<div style = 'height: 10px;' ></div>
+			<div class = 'flex-row left' >
+				<div class = 'popup_status big' >You have finished recording</div>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<div id = "finish_player_container" ></div>
+			</div>
+			<div id = 'transcription_header' >
+				<span class = 'headline_text' >Transcription</span>
+				<span id = 'delete_transcription' >
+					[<span id = 'delete_transcription_button' >Delete</span>]
+				</span>
+			</div>
+
+			<div id = 'transcript' class = 'article_text' ></div>
+			<div style = 'height: 20px;' ></div>
+
+			<div class = 'flex-row left' >
+				<div class = 'popup_status' >This is the link to the recording: </div>
+				&nbsp;
+				<a id = "popup_finish_url" target = "_blank" ></a>
+			</div>
+		
+			<br>
+
+			<div class = 'popup_status' >
+				The link is copied to your clipboard so you can paste it anywhere
+			</div>
+
+			<div style = 'height: 20px;' ></div>
+
+			<div class = 'popup_button wide_green left' id = 'finish_start_new_button' >
+				Start New Recording
+			</div>
+
+		</div>
+
+		<div class = 'page' id = 'uploading_page_old' >
+			<div class = 'popup_status uploading' >Uploading...</div>
+			<img class = 'popup_logo' id = 'uploading_logo' src = '{{EXTENSION_ROOT}}img/uploading.gif' >
+			<img class = 'popup_logo' id = 'uploaded_logo' src = '{{EXTENSION_ROOT}}img/mic.png' >
+			<div id = 'player_container' >
+			</div>
+			<div class = 'popup_button medium_green left' id = 'uploading_re_record_button' >
+				<img src = "{{EXTENSION_ROOT}}img/icon_refresh.png" >
+				Re-Record
+			</div>
+			<div class = 'popup_button medium_green right' id = 'uploading_done_button' >
+				Done
+			</div>
+		</div>
+

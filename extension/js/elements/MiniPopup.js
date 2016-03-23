@@ -1,5 +1,5 @@
 	
-	function MiniPopup ( $, template, element ) {
+	function MiniPopup ( $, event_hub, template, element ) {
 		
 		var private = {
 			
@@ -53,6 +53,8 @@
 			$( "#try_again", element.shadowRoot ).click( private.get_dispatcher( 'try_again_click' ) );
 
 			$.extend( element, public );
+
+			event_hub.fire( "class_load", { name : "MiniPopup" } );
 
 		} () )
 

@@ -6,16 +6,54 @@
 		"name": "Peppermint",
 		"short_name" : "Peppermint",
 		"description": "Peppermint allows users to send and reply to gmail messages using voice. It also includes automatic transcription.",
-		"version": "1.2.6",
+		"version": "1.3.0",
 
-        "browser_action": {
-          "default_icon": "/img/mic.png",
-          "default_title": "Peppermint",
-          "default_popup": "/popup/popup.html"
-        },
+		"browser_action": {
+		  "default_icon": "/img/mic.png",
+		  "default_title": "Peppermint",
+		  "default_popup": "/pages/popup/popup.html"
+		},
 
 		"icons": {
 			"128": "/img/logo.png"
+		},
+
+		"background": {
+
+			"scripts": [
+
+				"/js/misc/shims.js",
+
+				"/js/lib/jQuery/jquery-2.1.4.min.js",				
+				"/js/lib/WebAudioRecorder/WebAudioRecorder.js",
+				"/js/lib/raven.min.js",
+				"/js/lib/keen-tracker.min.js",
+				"/js/lib/ohsnap.min.js",
+				
+				"/js/classes/Utilities.js",
+				"/js/classes/EventHub.js",
+				"/js/classes/AnalyticsManager.js",
+				"/js/classes/ErrorReporter.js",
+
+				"/js/classes/WebAudioRecorderWrap.js",
+				"/js/classes/TranscriptionManager.js",
+
+				"/js/classes/Uploader.js",
+				"/js/classes/UploadQueue.js",
+
+				"/js/controllers/GlobalStorage.js",
+				"/js/controllers/BackgroundHelper.js",
+				"/js/controllers/GlobalRecorder.js",
+				"/js/controllers/TooltipManager.js",
+				"/js/controllers/GlobalUploader.js",
+				"/js/controllers/PopupController.js",
+
+				"/js/launchers/background.js"
+
+			],
+
+			"persistent": true
+
 		},
 
 		"content_scripts": [
@@ -24,13 +62,17 @@
 				"js": [
 
 					"/js/lib/jQuery/jquery-2.1.4.min.js",
-				
-					"/js/classes/Uploader.js",
+					"/js/lib/raven.min.js",
+					"/js/lib/keen-tracker.min.js",					
+					"/js/lib/ohsnap.min.js",
+					
 					"/js/classes/EventHub.js",
+					"/js/classes/Utilities.js",
 					"/js/classes/LetterManager.js",
+					"/js/classes/ErrorReporter.js",
+					"/js/classes/LauncherHelper.js",
 					"/js/classes/ButtonInserter.js",
-					"/js/classes/ContentRecorder.js",
-					"/js/classes/GmailController.js",
+					"/js/classes/AnalyticsManager.js",
 
 					"/js/elements/Timer.js",
 					"/js/elements/Popup.js",
@@ -39,7 +81,9 @@
 					"/js/elements/MiniPopup.js",
 					"/js/elements/AudioVisualizer.js",
 
-					"/js/inceptor.js"
+					"/js/controllers/GmailController.js",
+
+					"/js/launchers/gmail_content.js"
 				
 				],
 				"css": [
@@ -53,44 +97,27 @@
 
 					"https://*/*",
 					"http://*/*"
+
 				],
 				"js": [
 
 					"/js/lib/jQuery/jquery-2.1.4.min.js",
+
+					"/js/classes/EventHub.js",
+					"/js/classes/BackendManager.js",
+					"/js/classes/LauncherHelper.js",
+					"/js/classes/PepLinkAddonFactory.js",
 					
-					"/js/classes/EventHub.js",
+					"/js/elements/PepLinkAddon.js",
+					
+					"/js/controllers/AllLinksController.js",
 
-					"/js/elements/Tooltip.js",
 
-					"/js/tooltip_inserter.js"
+					"/js/launchers/all_links_content.js"
 
-				]
-			},
-			{
-				"matches": ["http://localhost/prj/chrome_extensions/peppermint/designer/designer_2.html"],
-				"js": [
-
-					"/js/lib/jQuery/jquery-2.1.4.min.js",
-				
-					"/js/classes/Uploader.js",
-					"/js/classes/EventHub.js",
-					"/js/classes/LetterManager.js",
-					"/js/classes/ButtonInserter.js",
-					"/js/classes/ContentRecorder.js",
-					"/js/classes/GmailController.js",
-					"/js/classes/TranscriptionManager.js",
-
-					"/js/elements/Timer.js",
-					"/js/elements/Popup.js",
-					"/js/elements/Player.js",
-					"/js/elements/Tooltip.js",
-					"/js/elements/MiniPopup.js",
-
-					"/js/inceptor.js"
-				
 				],
 				"css": [
-					"/css/content.css"
+					"/css/all_links_styles.css"
 				]
 			}
 		],
@@ -98,55 +125,30 @@
 		"web_accessible_resources": [
 			"/*"
 		],
+		
+		"options_ui": {
+			"page": "/pages/options/options.html",
+			"chrome_style": true
+		},
 
 		"permissions": [
 
 			"tabs",
 			"storage",
 			"geolocation",
+			"alarms",
 			"identity",
 			"identity.email",
 			
 			"clipboardWrite",
 			"clipboardRead",
 
-			"https://mail.google.com/*",
-
 			"https://*/*",
 			"http://*/*"
 
 		],
 
-		"background": {
-
-			"scripts": [
-
-				"/js/lib/jQuery/jquery-2.1.4.min.js",
-				"/js/lib/WebAudioRecorder/WebAudioRecorder.js",
-				"/js/shims.js",
-				
-				"/js/classes/TranscriptionManager.js",
-				"/js/classes/WebAudioRecorderWrap.js",
-				"/js/classes/BackgroundRecorder.js",
-				"/js/classes/EventHub.js",
-				"/js/classes/Uploader.js",
-				"/js/classes/PopupController.js",
-
-				"/js/background.js"
-
-			],
-
-			"persistent": true
-
-		},
-
-		"options_ui": {
-			"page": "options/options.html",
-			"chrome_style": false
-		},
-
-
-		"content_security_policy": "script-src 'self' 'unsafe-eval' https://*.google.com; object-src 'self'",
+		"content_security_policy": "script-src 'self' 'unsafe-eval' https://*.google.com https://api.keen.io; object-src 'self'",
 
 		"homepage_url": "http://peppermint.com"
 

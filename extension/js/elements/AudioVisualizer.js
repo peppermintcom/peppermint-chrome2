@@ -1,5 +1,5 @@
 
-	function AudioVisualizer ( $, element, chrome ) {
+	function AudioVisualizer ( chrome, $, event_hub, element ) {
 		
 		var private = {
 			
@@ -48,15 +48,11 @@
 
 		( function constructor () {
 
-			setInterval( function () {
-				chrome.runtime.sendMessage( { name: "WebAudioRecorderWrap.get_frequency_data" }, function ( frequency_data ) {
-						
-					public.set_frequency_data( frequency_data );
-						
-				});
-			}, 20 );
-
 			$( element ).append( private.get_table_string( 20, 50 ) );
+
+			event_hub.fire( "class_load", { name : "AudioVisualizer" } );
+
+			$.extend( element, public );
 
 		} () )
 

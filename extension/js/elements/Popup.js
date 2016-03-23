@@ -1,5 +1,5 @@
 	
-	function Popup ( $, template, element, img_url, event_hub ) {
+	function Popup ( $, event_hub, template, element ) {
 		
 		//draggable plugin
 			(function($){
@@ -94,28 +94,34 @@
 
 				}
 
+			},
+
+			set_error_message: function ( message ) {
+
+				$( "#error_message", element.shadowRoot ).text( message );
+
 			}
 
 		};
 
 		( function constructor () {
 
-			template.innerHTML = template.innerHTML.replace( /{{IMG_URL}}/g, img_url );
 			element.createShadowRoot().appendChild( document.importNode( template.content, true ) );
 			
 			$.extend( element, public );
 
 			[
+				"delete_transcription_button",
+				"uploading_re_record_button",
 				"recording_cancel_button",
+				"welcome_start_recording",
+				"finish_start_new_button",
+				"error_try_again_button",
+				"uploading_done_button",
 				"recording_done_button",
 				"error_cancel_button",
-				"error_try_again_button",
-				"uploading_re_record_button",
-				"finish_start_new_button",
-				"uploading_done_button",
-				"welcome_start_recording",
-				"restart_upload",
-				"cancel_uploading"
+				"cancel_uploading",
+				"restart_upload"
 			].forEach( private.create_click_dispatcher );
 
 			$( element ).tinyDraggable({
@@ -145,7 +151,9 @@
 			$( document ).on( "upload_progress", function ( event ) {
 				$( "#progress", element.shadowRoot ).html( event.originalEvent.detail.progress + "%" );
 			});
-		
+
+			event_hub.fire( "class_load", { name : "Popup" } );
+
 		} () )
 		
 		return element;

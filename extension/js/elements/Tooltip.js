@@ -1,9 +1,9 @@
 
-	function Tooltip ( $, template, element, img_url, event_hub ) {
+	function Tooltip ( $, event_hub, template, element ) {
 
 		var private = {
 
-			stopped: false
+			removed: false
 
 		};
 
@@ -11,34 +11,36 @@
 
 			stick_to: function ( target_selector ) {
 
-				setInterval( function () {
+				( function tick () {
 
-					if ( $( target_selector ).length > 0 && private.stopped === false ) {
-					
+					if ( $( target_selector ).length ) {
+							
 						$( element ).css( $( target_selector ).offset() );
 						$( element ).show();
 
 					} else {
-
+						
 						$( element ).hide();
 
 					}
 
-				}, 50 );
+					if ( !private.removed ) requestAnimationFrame( tick );
+
+				} () );
 
 			},
 
-			stop: function () {
+			remove: function () {
 
-				private.stopped = true;
+				private.removed = true;
+				$( element ).remove()
 
 			}
 
 		};
 
-		( function constructor () {
+		( function () {
 
-			template.innerHTML = template.innerHTML.replace( /{{IMG_URL}}/g, img_url );
 			element.createShadowRoot().appendChild( document.importNode( template.content, true ) );
 
 			$( element ).on( "click", function ( event ) {
@@ -49,10 +51,13 @@
 
 			$( "#cross", element.shadowRoot ).on( "click", function () {
 
-				$( element ).hide();
-				event_hub.fire( "tooltip_close_button_click" )
+				public.remove();
 
 			});
+
+			if ( window.innerWidth > document.body.clientWidth ) {
+				element.classList.add( "shifted_pointer" );
+			};
 
 			$.extend( element, public );
 
