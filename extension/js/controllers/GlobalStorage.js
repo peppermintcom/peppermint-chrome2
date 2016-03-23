@@ -77,6 +77,14 @@
 
 						});
 
+					} else if ( message.name === "get_recording_data_arr" ) {
+
+						chrome.storage.local.get( [ "recording_data_arr" ], function ( items ) {
+
+							callback( items.recording_data_arr );
+
+						});
+
 					}
 
 					return true;

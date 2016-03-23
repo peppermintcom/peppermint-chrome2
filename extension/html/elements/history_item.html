@@ -1,0 +1,93 @@
+
+	<style>
+
+		:host {
+
+		}
+
+		#data_row {
+
+			position: relative;
+
+			display: flex;
+			align-items: center;
+			justify-content: space-around;
+
+			height: 50px;
+
+		}
+
+		#player_container {
+
+
+
+		}
+
+		#copy_to_clipboard {
+
+			cursor: pointer;
+			color: lightblue;
+
+		}
+
+		#transcription_container {
+
+
+		}
+
+		#transcription {
+
+			overflow: hidden;
+
+			display: block;
+			display: -webkit-box;
+
+			margin: 12px;
+			height: 40px;
+			margin: 12px;
+			font-size: 15px;
+			line-height: 20px;
+		
+			text-overflow: ellipsis;
+			font-style: italic;
+			font-size: 14px;
+			text-align: left;
+			
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+
+		}
+
+		#delete img {
+
+			display: block;
+
+			width: 16px;
+			height: 16px;
+
+			opacity: 0.2;
+
+			cursor: pointer;
+
+		}
+
+	</style>
+
+	<div id = "wrap" >
+
+		<div id = "data_row" >
+
+			<div id = "player_container" ></div>
+			<div id = "time" ></div>
+			<div id = "copy_to_clipboard" >Copy to clipboard</div>
+			<div id = "delete" ><img src = '{{EXTENSION_ROOT}}img/cross_icon_black.png' ></div>
+
+		</div>
+
+		<div id = "transcription_container" >
+
+			<div id = "transcription" ></div>
+
+		</div>
+
+	</div>

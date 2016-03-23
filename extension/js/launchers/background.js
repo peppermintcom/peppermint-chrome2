@@ -8,7 +8,8 @@
 			browser_action_popup_has_been_opened: false,
 			log_level: 'error',
 			prod_id: "mphcafiedeanpmilmmlcjhkcgddphicp",
-			current_id: chrome.i18n.getMessage( '@@extension_id' )
+			current_id: chrome.i18n.getMessage( '@@extension_id' ),
+			recording_data_arr: []
 
 		};
 
@@ -20,8 +21,7 @@
 				transcription_language : window.navigator.language,
 			},
 			recording_in_popup: false,
-			popup_state: {},
-			recording_data_arr: []
+			popup_state: {}
 
 		};
 			

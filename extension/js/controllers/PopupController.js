@@ -87,7 +87,7 @@
 
 					chrome.runtime.sendMessage( { receiver: "GlobalUploader", name: "get_urls" }, function ( urls ) {
 
-						var recording_data = state.current_recording_data = { urls, source: "popup", id: Date.now(), uploaded: false };
+						var recording_data = state.current_recording_data = { urls, source: "popup", id: Date.now(), uploaded: false, timestamp: Date.now() };
 						chrome.runtime.sendMessage({ receiver: "GlobalStorage", name: "save_recording_data", recording_data });
 
 						$( "#transcript" ).text( "" );
