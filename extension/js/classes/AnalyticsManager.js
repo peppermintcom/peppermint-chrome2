@@ -86,21 +86,10 @@
 					private.send ( analytic, callback );
 					
 				else {
-					
-					if(!utilities.valid_messaging_state()){
-						
-						setTimeout(function() {
-							private.track( analytic, callback );
-						}, 500);
-						
-					}
-					else{
-						
-						chrome.runtime.sendMessage({ name: 'track_analytic', val: analytic }, function(result) {
-							if ( callback ) callback( result );
-						});
-						
-					}
+											
+					chrome.runtime.sendMessage({ name: 'track_analytic', val: analytic }, function(result) {
+						if ( callback ) callback( result );
+					});
 				}
 				
 			},
@@ -136,7 +125,7 @@
                     
                     if(callback) callback(response);
                     else{
-                        utilities.log(["Analytic Send Result (no callback) > " + response._result, response]);
+                        console.log(["Analytic Send Result (no callback) > " + response._result, response]);
                     }
                         
                 });
