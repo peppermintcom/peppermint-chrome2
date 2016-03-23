@@ -3,32 +3,60 @@
 		
 		var state = {
 
+			client: null,
+
+			source: 'unknown',
+
+			platform: 'chrome',
+
+			cur_project_id: '',
+
+			cur_write_key: ''
+
 		};
 
 		var private = {
 			
-			source: 'unknown',
+			dev_project_id: '56f2ac4fd2eaaa65ab2ca95c',
+
+			dev_write_key: '96f74d11402399445d7952888881701758b770918e794cc291f178eadbc2983efeadf44ae452a5c91ddab2eeb8bd8665bd53a89b974d1d7e97a4fd20ca37524d004cc70d271d30d8cdc5e4f9dc9a6973be4d3294ef379cbb4f6bf99448fa3b8e',
+
+			prod_project_id: '56f2ac0296773d6273dbdb98',
+
+			prod_write_key: '8c5bd076e16f5688cf2c15789ca5bcb5002539daf884df90fa2deed78960447d6a5a31278c7b4baed95c141afbd38bed9b30783977d434f79018bbaab90a28b3883d4125f46e17078cece6c7c556a3df426b199326030e88f295ce38c2461590',
 			
-			client: null,
-			
-			project_id: "56e0ac0d46f9a711cd6c91de",
-			
-			write_key: "cc6c23ec2471b22c29a9760a4dea1611d44b5b07fad2a64b5b892c6883d6ce9d415bc2fcd2742d2f9d5a3d72ba3c7b72fdda0632788ed7bd8aeacac3999ad69dc19e175c1a1375b02d136b429379d5dc1b808fb04f985ffb22244073d801ba99",
 			
 			load: function ( source ) {
 				
-				if ( private.client === null ){
-					
-					private.source = source;
-					 
-					private.client = new Keen({
-						projectId: private.project_id,
-						writeKey: private.write_key
-					});
-					
-					private.event_hub_setup();
+				if ( state.client === null ) {
+
+					state.source = source;
+
+					chrome.storage.local.get( [ "prod_id", "current_id" ], function ( items ) {
+
+						if( items[ "prod_id" ] === items[ "current_id" ] ) {
+
+							state.cur_project_id = private.prod_project_id;
+							state.cur_write_key = private.prod_write_key;
+
+						} else {
+
+							state.cur_project_id = private.dev_project_id;
+							state.cur_write_key = private.dev_write_key;
+
+						}
+
+						state.client = new Keen({
+							projectId: state.cur_project_id,
+							writeKey: state.cur_write_key
+						});
+						
+						private.event_hub_setup();
 										
-					console.log("Keen loaded from " + source);
+						console.log("Keen loaded from " + source);
+
+					});
+
 					
 				}
 				
@@ -77,11 +105,22 @@
 			handle_event: function ( name, data ){
 				private.track( { name: name, val: data } );
 			},
+
+			add_common_attr: function ( analytic ) {
+
+				if( analytic && analytic.val ) {
+
+					analytic.val.platform = state.platform;
+
+					// analytic.val.user = { };
+
+				}
+			},
 			
 			// analytic: { name: '', val: { } }
 			track: function ( analytic, callback ) {
 				
-				if( private.source === 'background' )
+				if( state.source === 'background' )
 				
 					private.send ( analytic, callback );
 					
@@ -95,8 +134,10 @@
 			},
 			
 			send: function ( analytic, callback ) {
+
+				private.add_common_attr( analytic );
 				
-				private.client.addEvent( analytic.name, analytic.val, function(err, res){
+				state.client.addEvent( analytic.name, analytic.val, function(err, res){
 					
 					var response = {};
 					
