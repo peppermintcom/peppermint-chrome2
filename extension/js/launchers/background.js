@@ -26,8 +26,8 @@
 		};
 			
 		var utilities = new Utilities( chrome, $, 'background' );
-		var event_hub = new EventHub( null, utilities );
-		var analytics = new AnalyticsManager( 'background', event_hub, utilities );
+		var event_hub = new EventHub();
+		var analytics = new AnalyticsManager( 'background', event_hub );
 			
 		// Open the welcome page on install
 		chrome.runtime.onInstalled.addListener( function ( details ) {
@@ -61,13 +61,13 @@
 		});
 
 		// send any analytics logged from content scripts
-	 	chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
+	 // 	chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
 
-			if ( message.name === 'track_analytic' ) {			
-				analytics.track( message.val, false, callback );
-			}
+		// 	if ( message.name === 'track_analytic' ) {			
+		// 		analytics.track( message.val, false, callback );
+		// 	}
 			
-		});
+		// });
 	
  	} () );
 

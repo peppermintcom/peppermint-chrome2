@@ -1,5 +1,5 @@
 	
-	function AnalyticsManager ( source, event_hub, utilities ) {
+	function AnalyticsManager ( source, event_hub ) {
 		
 		var state = {
 
@@ -11,7 +11,11 @@
 
 			cur_project_id: '',
 
-			cur_write_key: ''
+			cur_write_key: '',
+
+			queue: [],
+
+			processing_queue: false
 
 		};
 
@@ -51,7 +55,7 @@
 							writeKey: state.cur_write_key
 						});
 						
-						private.event_hub_setup();
+						// private.event_hub_setup();
 										
 						console.log("Keen loaded from " + source);
 
@@ -117,20 +121,28 @@
 				}
 			},
 			
-			// analytic: { name: '', val: { } }
-			track: function ( analytic, callback ) {
-				
-				if( state.source === 'background' )
-				
-					private.send ( analytic, callback );
-					
-				else {
-											
-					chrome.runtime.sendMessage({ name: 'track_analytic', val: analytic }, function(result) {
-						if ( callback ) callback( result );
-					});
-				}
-				
+			run: function ( ) {
+
+				setInterval(function(){
+
+					if(!state.processing_queue && state.queue.length > 0) {
+
+						state.processing_queue = true;
+
+						var analytic = state.queue.pop();
+
+						private.send(analytic, function(response){
+
+							state.processing_queue = false;
+							
+		                    console.log(["Analytic Send Result > " + response._result, response]);		                    
+
+						});
+
+					};
+
+				}, 50);
+
 			},
 			
 			send: function ( analytic, callback ) {
@@ -164,33 +176,50 @@
 
                     }
                     
-                    if(callback) callback(response);
-                    else{
-                        console.log(["Analytic Send Result (no callback) > " + response._result, response]);
-                    }
+                    callback(response);                    
                         
                 });
-            }          
+            },
+
+            message_handler: function ( message, sender, callback ) {
+
+				if ( message.receiver === 'AnalyticsManager' ) {
+
+					if ( message.name === 'track_analytic' ) {
+						
+						public.add_to_send_queue( message.analytic );
+
+					}	
+
+				}
+				
+			}
 
 
 		};
 
 		var public = {
 			
-			// analytic: { name: '', val: { } }
-			track: function ( analytic, callback ) {
+			add_to_send_queue: function ( analytic ) {
 				
-				private.track ( analytic, callback );
+				state.queue.push( analytic );
 				
 			}
 
 		};
 
 		( function constructor () {
+
+			chrome.runtime.onMessage.addListener( private.message_handler );
 			
 			private.load( source );
+			private.run();
+
+			chrome.runtime.sendMessage( { 
+				receiver: 'AnalyticsManager', name: 'track_analytic', 
+				analytic: { name: 'class_load', val: { name : 'AnalyticsManager' } } 
+			});
 			
-			event_hub.fire( 'class_load', { name : 'AnalyticsManager' } );
 
 		} () )
 
