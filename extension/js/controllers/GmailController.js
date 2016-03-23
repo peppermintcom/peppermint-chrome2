@@ -26,7 +26,7 @@
 
 					} else {
 						
-						console.error( "Failed to begin recording", response.error );
+						Raven.log( 'GmailController	', 'begin_recording', 'Failed to begin recording', response.error );
 
 						if ( response.error.name === "PermissionDeniedError" || response.error.name === "NavigatorUserMediaError" ) {
 							

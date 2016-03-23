@@ -62,11 +62,33 @@
 						Raven.config( items[ "prod_id" ] === items[ "current_id" ] ? state.prod_raven_key : state.dev_raven_key )
 						.install();  
 						
-						console.log('Raven loaded from ' + source);
-						Raven.captureMessage('Raven loaded from ' + source);
+						Raven.log = function( source_class, source_method, message, error ){
 
-					})
-					
+							var attr = { logger: 'chrome.utilities', tags: {
+								'source': source,
+								'class': source_class, 
+								'method': source_method,
+								'message': message,
+								'error_name': ( ( error && error.name ) ? error.name : '')
+							}};
+
+							if( error ) {
+
+								Raven.captureException( error, attr);
+
+							} else {
+
+								Raven.captureMessage( message, attr);
+
+							}
+
+							console.log('Logged to Raven - ' + attr.tags.message, attr, error);
+						};
+
+						Raven.log( 'utilities', 'load_error_logger', 'Raven loaded' );
+
+					});
+
 				}, 50);
 				
 			} 
