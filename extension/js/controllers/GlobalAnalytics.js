@@ -17,7 +17,9 @@
 
 			queue: [],
 
-			processing_queue: false
+			processing_queue: false,
+
+			log_results_to_console: false
 
 		};
 
@@ -45,6 +47,15 @@
 
 						return true;
 
+					}
+
+					else if ( message.name === 'log_to_console' ) {
+
+						state.log_results_to_console = message.enabled;
+
+						console.log('GlobalAnalytics.log_results_to_console:', state.log_results_to_console);
+
+						return true;
 					}	
 
 				}
@@ -99,7 +110,8 @@
 
 							state.processing_queue = false;
 							
-		                    console.log(["Analytic Send Result > " + response._result, response]);		                    
+							if (state.log_results_to_console)
+		                    	console.log(["Analytic Send Result > " + response._result, response]);		                    
 
 						});
 
@@ -188,7 +200,8 @@
 				receiver: 'GlobalAnalytics', name: 'track_analytic', 
 				analytic: { name: 'class_load', val: { name : 'GlobalAnalytics' } } 
 			});
-			
+
+			// chrome.runtime.sendMessage( { receiver: 'GlobalAnalytics', name: 'log_to_console', enabled: true } );
 
 		} () )
 
