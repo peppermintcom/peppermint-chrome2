@@ -1,5 +1,5 @@
 	
-	function Popup ( $, event_hub, template, element ) {
+	function Popup ( $, template, element ) {
 		
 		//draggable plugin
 			(function($){
@@ -151,8 +151,6 @@
 			$( document ).on( "upload_progress", function ( event ) {
 				$( "#progress", element.shadowRoot ).html( event.originalEvent.detail.progress + "%" );
 			});
-
-			event_hub.fire( "class_load", { name : "Popup" } );
 
 		} () )
 		

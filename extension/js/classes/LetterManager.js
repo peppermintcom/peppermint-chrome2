@@ -1,5 +1,5 @@
 
-	function LetterManager ( chrome, $, event_hub, sender_data ) {
+	function LetterManager ( chrome, $, sender_data ) {
 		
 		var state = {
 
@@ -192,8 +192,6 @@
 				private.reply_template = response;
 
 			});
-			
-			event_hub.fire( 'class_load', { name: 'LetterManager' } );
 
 		} () )
 

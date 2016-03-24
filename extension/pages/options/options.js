@@ -80,8 +80,6 @@
         ( function constructor () {
             
             private.init();
-            
-            event_hub.fire( 'class_load', { name: 'options_page' } );
 
         } () );
 

@@ -26,13 +26,13 @@
 
 						new ErrorReporter( event_hub );
 
-						new AudioVisualizer( chrome, $, event_hub, el("audio_visualizer") );
-						new Popup( $, event_hub, t["popup"], el("peppermint_popup") );
+						new AudioVisualizer( chrome, $, el("audio_visualizer") );
+						new Popup( $, t["popup"], el("peppermint_popup") );
 						new Timer( $, event_hub, t["timer"], el("peppermint_timer") );
-						new Player( $, event_hub, t["player"], el("peppermint_popup_player") );
+						new Player( $, t["player"], el("peppermint_popup_player") );
 						new ButtonInserter( chrome, $, event_hub, t["button_inserter"], el("peppermint_button_inserter"), !items["options_data"]["disable_reply_button"] );
 
-						var letter_manager = new LetterManager( chrome, jQuery, event_hub, sender_data );
+						var letter_manager = new LetterManager( chrome, jQuery, sender_data );
 
 						$( document.body ).append( gmail_elements );
 

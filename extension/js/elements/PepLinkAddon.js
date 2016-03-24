@@ -1,5 +1,5 @@
 	
-	function PepLinkAddon ( $, event_hub, template, element, long_url, transcription, link ) {
+	function PepLinkAddon ( $, template, element, long_url, transcription, link ) {
 		
 		var state = {
 
@@ -130,8 +130,6 @@
 			$( "#transcription", wrap ).html( transcription );
 
 			$.extend( element, public );
-
-			event_hub.fire( "class_load", { name : "PepLinkAddon" } );
 
 		} () )
 

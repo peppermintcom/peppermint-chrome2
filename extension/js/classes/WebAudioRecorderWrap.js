@@ -1,5 +1,5 @@
 
-	function WebAudioRecorderWrap ( chrome, event_hub, navigator, WebAudioRecorder, AudioContext, worker_dir ) {
+	function WebAudioRecorderWrap ( chrome, navigator, WebAudioRecorder, AudioContext, worker_dir ) {
 
 		var state = {
 
@@ -214,8 +214,6 @@
 			// 	}
 
 			// } () );
-
-            event_hub.fire( 'class_load', { name: 'WebAudioRecorderWrap' } );
 
 		} () );
 

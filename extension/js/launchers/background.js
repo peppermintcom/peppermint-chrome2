@@ -69,8 +69,7 @@
 		( function set_up_global_recorder () {
 
 			var web_audio_recorder_wrap = new WebAudioRecorderWrap(
-				chrome,
-				event_hub,
+				chrome,				
 				window.navigator,
 				WebAudioRecorder,
 				AudioContext,
@@ -79,8 +78,7 @@
 
 			var transcription_manager = new TranscriptionManager(
 				chrome,
-				jQuery,
-				event_hub,
+				jQuery,				
 				"en-US"
 			);
 
@@ -100,8 +98,7 @@
 
 				var uploader = new Uploader(
 					chrome,
-					jQuery,
-					event_hub,
+					jQuery,					
 					{
 						sender_name: "",
 						sender_email: info.email

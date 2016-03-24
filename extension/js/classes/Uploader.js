@@ -1,5 +1,5 @@
 	
-	Uploader = function ( chrome, $, event_hub, sender_data ) {
+	Uploader = function ( chrome, $, sender_data ) {
 
 		var g_state = {
 
@@ -206,8 +206,6 @@
 		};
 
 		( function constructor () {
-
-            event_hub.fire( 'class_load', { name: 'Uploader' } );
 
 		} () )
 		

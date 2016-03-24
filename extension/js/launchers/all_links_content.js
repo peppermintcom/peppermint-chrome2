@@ -11,7 +11,7 @@
 		.then( function ( t ) {
 
 			var event_hub = new EventHub();
-			var pep_link_addon_factory = new PepLinkAddonFactory( jQuery, event_hub, PepLinkAddon, t["addon"] );
+			var pep_link_addon_factory = new PepLinkAddonFactory( jQuery, PepLinkAddon, t["addon"] );
 
 			new AllLinksController(
 				jQuery,
