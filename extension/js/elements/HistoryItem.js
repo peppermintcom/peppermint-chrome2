@@ -72,7 +72,7 @@
 
 						$( "#show_more", state.wrap ).show();
 						$( "#show_less", state.wrap ).hide();
-						$( "#transcription_container", state.wrap ).css({ "max-height": "40px" });
+						$( "#transcription_container", state.wrap ).css({ "max-height": "20px" });
 
 					});
 
@@ -88,7 +88,7 @@
 
 						$( "#transcription_container", state.wrap ).hide()
 
-					} else if ( $( "#transcription", state.wrap ).height() > 40 ) {
+					} else if ( $( "#transcription", state.wrap ).height() > 20 ) {
 
 						$( "#transcription_container", state.wrap ).show()
 						$( "#show_more", state.wrap ).show();

@@ -85,3 +85,24 @@
 		});
 
 	} () );
+
+	( function set_up_options () {
+
+		chrome.storage.local.get( [ "options_data" ], function ( items ) {
+
+			$( "#transcription_language" ).val( items.options_data.transcription_language );
+
+		});
+
+		$( '#transcription_language' ).change( function ( event ) {
+
+			chrome.storage.local.get( [ "options_data" ], function ( items ) {
+				
+				items.options_data.transcription_language = $( "#transcription_language" ).val();
+				chrome.storage.local.set({ options_data: items.options_data });
+							
+			});
+
+		});
+
+	} () );

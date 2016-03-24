@@ -28,7 +28,9 @@
 		#copy_to_clipboard {
 
 			cursor: pointer;
-			color: lightblue;
+			text-decoration: underline;
+
+			color: #136EFF;
 
 		}
 
@@ -39,13 +41,13 @@
 			position: relative;
 
 			margin: 0px 24px 8px;
-			max-height: 40px;
+			max-height: 20px;
 
 		}
 
 		#transcription {
 
-			display: block;
+			display: inline;
 			font-size: 15px;
 			line-height: 20px;
 		
@@ -59,8 +61,8 @@
 
 			display: block;
 
-			width: 16px;
-			height: 16px;
+			width: 13px;
+			height: 13px;
 
 			opacity: 0.2;
 
@@ -70,7 +72,7 @@
 
 		#show_more, #show_less {
 
-			position: absolute;
+			float: right;
 		
 			right: 0px;
 			bottom: 0px;
@@ -79,8 +81,10 @@
 			background-color: white;
 		
 			font-size: 12px;
-			color: lightblue;
+			color: #136EFF;
 			line-height: 20px;
+			text-decoration: underline;
+
 			cursor: pointer;
 
 		}
@@ -100,8 +104,8 @@
 
 		<div id = "transcription_container" >
 
-			<div id = "transcription" ></div>
 			<div id = "show_more" >Show more</div>
+			<div id = "transcription" ></div>
 			<div id = "show_less" >Show less</div>
 
 		</div>
