@@ -28,10 +28,11 @@
 				"/js/lib/raven.min.js",
 				"/js/lib/keen-tracker.min.js",
 				"/js/lib/ohsnap.min.js",
+
+				"/js/controllers/GlobalAnalytics.js",
 				
 				"/js/classes/Utilities.js",
 				"/js/classes/EventHub.js",
-				"/js/classes/AnalyticsManager.js",
 				"/js/classes/ErrorReporter.js",
 
 				"/js/classes/WebAudioRecorderWrap.js",
@@ -39,7 +40,7 @@
 
 				"/js/classes/Uploader.js",
 				"/js/classes/UploadQueue.js",
-
+				
 				"/js/controllers/GlobalStorage.js",
 				"/js/controllers/BackgroundHelper.js",
 				"/js/controllers/GlobalRecorder.js",
@@ -71,7 +72,6 @@
 					"/js/classes/ErrorReporter.js",
 					"/js/classes/LauncherHelper.js",
 					"/js/classes/ButtonInserter.js",
-					"/js/classes/AnalyticsManager.js",
 
 					"/js/elements/Timer.js",
 					"/js/elements/Popup.js",
