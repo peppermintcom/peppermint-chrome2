@@ -10,19 +10,19 @@
 
 		var private = {
 
-			fire: function ( message ) {
+			fire: function ( message, source ) {
 
-				chrome.runtime.sendMessage( message );
+				if ( source.tab_id ) {
 
-				chrome.tabs.query( {}, function ( tabs ) {
+					message.target = source;
+					chrome.tabs.sendMessage( source.tab_id, message );
 
-					for ( var i = tabs.length; i--; ) {
-
-						chrome.tabs.sendMessage( tabs[ i ].id, message );
-
-					}
-
-				});
+				} else if ( source.tab_id === 0 ) { 
+				
+					message.target = source;
+					chrome.runtime.sendMessage( message );
+				
+				}
 
 			},
 
@@ -36,11 +36,11 @@
 						state.recording_data = { id: Date.now(), state: "recording", source };
 
 						storage.save_recording_data( state.recording_data );
-						private.fire({ receiver: "Content", name: "recording_started", recording_data: state.recording_data });
+						private.fire( { receiver: "Content", name: "recording_started", recording_data: state.recording_data }, state.recording_data.source );
 
 					} else {
 
-						private.fire({ receiver: "Content", name: "recording_not_started", source, error: response.error });
+						private.fire( { receiver: "Content", name: "recording_not_started", source, error: response.error }, source );
 
 					}
 
@@ -52,7 +52,7 @@
 
 				recorder.cancel();
 				storage.delete_recording_data( state.recording_data );
-				private.fire({ receiver: "Content", name: "recording_canceled", recording_data: state.recording_data });
+				private.fire( { receiver: "Content", name: "recording_canceled", recording_data: state.recording_data }, state.recording_data.source );
 
 			},
 
@@ -62,7 +62,7 @@
 				.then( function ( urls ) {
 
 					state.recording_data.urls = urls;
-					private.fire({ receiver: "Content", name: "got_urls", recording_data: state.recording_data });
+					private.fire( { receiver: "Content", name: "got_urls", recording_data: state.recording_data }, state.recording_data.source );
 
 					chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "copy_to_clipboard", text: urls.short_url });
 
@@ -75,12 +75,12 @@
 					state.recording_data.transcription_data = data.transcription_data;
 					state.recording_data.state = "uploading";
 
-					storage.save_recording_data( state.recording_data );
+					storage.update_recording_data( state.recording_data );
 
 					upload_queue.push( state.recording_data );
 					upload_queue.kickstart();
 
-					private.fire({ receiver: "Content", name: "got_audio_data", recording_data: state.recording_data });
+					private.fire( { receiver: "Content", name: "got_audio_data", recording_data: state.recording_data }, state.recording_data.source );
 						
 				});
 
@@ -94,8 +94,10 @@
 
 				recording_data_uploaded: function ( data ) {
 
+					console.log( "recording_data_uploaded" );
+
 					data.recording_data.state = "uploaded";
-					data.recording_data.audio_url = "";
+					data.recording_data.data_url = "";
 
 					storage.update_recording_data( data.recording_data );					
 
@@ -105,8 +107,9 @@
 
 			var runtime_event_handler = {
 
-				start_recording: function ( message ) {
+				start_recording: function ( message, sender ) {
 
+					message.source.tab_id = sender.tab ? sender.tab.id : 0;
 					private.start_recording( message.source );
 
 				},
@@ -123,10 +126,30 @@
 
 				},
 
-				get_last_popup_recording: function ( message, callback ) {
+				get_last_popup_recording: function ( message, sender, callback ) {
 
-					storage.get_last_recording_data_by_source( "popup" )
+					storage.get_last_recording_data_by_source_name( "popup" )
 					.then( callback );
+
+				},
+
+				get_last_popup_feedback_recording: function ( message, sender, callback ) {
+
+					storage.get_last_recording_data_by_source_name( "popup_feedback" )
+					.then( callback );
+
+				},
+
+				delete_transcription: function ( message ) {
+
+					uploader.delete_transcription( message.recording_data );
+					storage.delete_transcription( message.recording_data );
+
+				},
+
+				get_recording_data_arr: function ( message, sender, callback ) {
+
+					storage.get_recording_data_arr().then( callback );
 
 				}
 
@@ -138,7 +161,7 @@
 
 					if ( runtime_event_handler[ message.name ] ) {
 
-						runtime_event_handler[ message.name ]( message, callback );
+						runtime_event_handler[ message.name ]( message, sender, callback );
 						return true;
 
 					}
@@ -165,7 +188,7 @@
 							frequency_data,
 							time
 						}
-					});
+					}, state.recording_data.source );
 
 				}
 

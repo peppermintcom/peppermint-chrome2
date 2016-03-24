@@ -15,8 +15,8 @@
 		<nav>
 
 			<ul>
-				<li data-id = 'current' class = 'active' >Current</li>
-				<li data-id = 'history' >History</li>
+				<li data-id = 'current' >Current</li>
+				<li data-id = 'history' class = 'active' >History</li>
 				<li data-id = 'options' >Options</li>
 				<li data-id = 'feedback' >Feedback</li>
 			</ul>
@@ -25,7 +25,7 @@
 
 		<main>
 
-			<section data-id = "current" id = 'current_section' class = 'active' >
+			<section data-id = "current" id = 'current_section' >
 
 				<div class = 'screen' id = "start_screen" >
 
@@ -81,7 +81,7 @@
 
 			</section>
 
-			<section data-id = "history" id = "history_section" >
+			<section data-id = "history" id = "history_section" class = 'active' >
 
 				<div id = "history_items_container" >
 
@@ -188,8 +188,20 @@
 
 				<p class = 'message' >Click the button to record feedback and we will get <br> the audio recording with your feedback on the software.</p>
 				
-				<div id = "feedback_audio_visualizer" class = 'audio_visualizer' ></div>
-				<div class = 'popup_button wide_green left' id = 'feedback_button' >Record Audio Feedback</div>
+				<div id = "feedback_recording_container" >
+
+					<div id = "feedback_audio_visualizer" class = 'audio_visualizer' ></div>
+					<div id = "feedback_timer" ></div>
+
+					<div class = 'popup_button wide_green left' id = 'feedback_start' >Record Audio Feedback</div>
+					<div id = 'feedback_buttons'>
+						<div class = 'popup_button medium_grey left' id = 'feedback_cancel' >Cancel</div>
+						<div class = 'popup_button medium_green right' id = 'feedback_finish' >Upload</div>
+					</div>
+
+				</div>
+
+				<div id = "feedback_thank_you" >Thank you for your feedback!</div>
 
 				<p class = 'notes' >
 					If this doesn't work for some reason <br> or you want to send text, email us at <br>

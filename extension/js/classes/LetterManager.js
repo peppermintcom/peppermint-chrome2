@@ -140,8 +140,6 @@
 
 				} catch ( error ) {
 					
-					Raven.captureException( error );
-
 					console.error( error );
 
 				}
@@ -156,13 +154,13 @@
 
 					if ( recording_data.transcription_data.text ) {
 
-						letter.find( ".transcription_header" ).show();
-						letter.find( ".transcription" ).text( recording_data.transcription_data.text );
+						letter.find( ".transcript-header" ).show();
+						letter.find( ".transcript" ).text( recording_data.transcription_data.text );
 
 					} else {
 
-						letter.find( ".transcription_header" ).remove();
-						letter.find( ".transcription" ).remove();
+						letter.find( ".transcript-header" ).remove();
+						letter.find( ".transcript" ).remove();
 
 					}
 
@@ -195,7 +193,7 @@
 			
 			event_hub.fire( 'class_load', { name: 'LetterManager' } );
 
-		} () )
+		} () );
 
 		return public;
 	

@@ -89,58 +89,44 @@
 
 				setInterval( function () {
 
-					var mock_player = $( ".a3s table[bgcolor='#6fd5b9']:not(.hidden)" )[0];
+					var pep_email = $( ".a3s table[alt='peppermint_email']" )[0];
 
-					if ( mock_player && mock_player.parentElement.querySelector( "span[alt='long_url']" ) ) {
+					if ( pep_email && pep_email.querySelector( "span[alt='long_url']" ) ) {
 
-						mock_player.classList.add( "hidden" );
-					
-						mock_player.style.display = "none";
-                        
                         var urls = {
-                            long: mock_player.parentElement.querySelector( "span[alt='long_url']" ).getAttribute( "title" ),
-                            short: mock_player.parentElement.querySelector( "span[alt='short_url']" ).getAttribute( "title" )
+                            long: pep_email.querySelector( "span[alt='long_url']" ).getAttribute( "title" ),
+                            short: pep_email.querySelector( "span[alt='short_url']" ).getAttribute( "title" )
                         };
                         
-                        urls.long_no_protocol = urls.long.replace('http:','');
-                        
-                        if ( urls.long.indexOf( 'cloudfront.net' ) > 0 )
-                            urls.cloudfront_ssl = urls.long;
-                        else
-                            urls.cloudfront_ssl = urls.long.replace('http://go.peppermint.com/','https://duw3fm6pm35xc.cloudfront.net/');
-                        
-                        $.get(chrome.extension.getURL('/html/templates/audio-player.html'), function(template_html) {
-                            
-                            $( mock_player ).after(
-                                template_html
-                                .replace( "{{LONG_URL}}", urls.cloudfront_ssl )
-                                .replace( "{{SHORT_URL}}", urls.short )
-                            );
-                            
-                        });
-                        
+						var audio_element = $( "<audio controls ></audio>" )[ 0 ];
+						audio_element.src = urls.long;
+
+						$( pep_email ).find( "td[alt='fake_audio_container']" ).append( audio_element );
+						$( pep_email ).find( "table[alt='controls']" ).remove();
+						$( pep_email ).attr( "alt", "" );
+
                         // if audio can't be reached, swap to an error message/icon
-                        $.ajax({
-                            type: 'HEAD',
-                            url: urls.cloudfront_ssl,
-                            complete: function(xhr, textStatus) {
+                        // $.ajax({
+                        //     type: 'HEAD',
+                        //     url: urls.cloudfront_ssl,
+                        //     complete: function(xhr, textStatus) {
                                 
-                                if( xhr.status == 403 || xhr.status == 404 )
-                                {
-                                    Raven.captureMessage("invalid audio URL");
+                        //         if( xhr.status == 403 || xhr.status == 404 )
+                        //         {
+                        //             Raven.captureMessage("invalid audio URL");
                                     
-                                    $.get(chrome.extension.getURL('/html/templates/audio-player-error.html')
-                                        , function(template_html) {
+                        //             $.get(chrome.extension.getURL('/html/templates/audio-player-error.html')
+                        //                 , function(template_html) {
                                         
-                                        $( mock_player ).next().html(
-                                            template_html
-                                            .replace( "{{EXTENSION_ROOT}}", chrome.extension.geteURL("/") )
-                                        );
+                        //                 $( mock_player ).next().html(
+                        //                     template_html
+                        //                     .replace( "{{EXTENSION_ROOT}}", chrome.extension.geteURL("/") )
+                        //                 );
                                         
-                                    });
-                                }
-                            }
-                        });
+                        //             });
+                        //         }
+                        //     }
+                        // });
 
 					}
 

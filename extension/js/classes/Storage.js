@@ -21,7 +21,7 @@
 
 		var public = {
 
-			get_last_recording_data_by_source: function ( source ) {
+			get_last_recording_data_by_source_name: function ( source_name ) {
 		
 				return new Promise( function ( resolve ) {
 
@@ -31,7 +31,7 @@
 
 						for ( var i = items.recording_data_arr.length; i-- ; ) {
 
-							if ( items.recording_data_arr[ i ].source === source ) {
+							if ( items.recording_data_arr[ i ].source.name === source_name ) {
 
 								recording_data = items.recording_data_arr[ i ];
 								break;
@@ -63,8 +63,8 @@
 
 				chrome.storage.local.get( [ "recording_data_arr" ], function ( items ) {
 
-					var index = private.id_and_arr_to_index( id, items.recording_data_arr );
-					$.extend( true, items.recording_data_arr[ i ], recording_data );
+					var index = private.id_and_arr_to_index( recording_data.id, items.recording_data_arr );
+					$.extend( true, items.recording_data_arr[ index ], recording_data );
 					chrome.storage.local.set({ recording_data_arr: items.recording_data_arr });
 
 				});
@@ -85,11 +85,11 @@
 
 			},
 
-			delete_recording_data: function ( id ) {
+			delete_recording_data: function ( recording_data) {
 
 				chrome.storage.local.get( [ "recording_data_arr" ], function ( items ) {
 
-					var index = private.id_and_arr_to_index( id, items.recording_data_arr );
+					var index = private.id_and_arr_to_index( recording_data.id, items.recording_data_arr );
 					items.recording_data_arr.splice( index, 1 );
 					chrome.storage.local.set( items );
 
@@ -97,11 +97,11 @@
 
 			},
 
-			delete_transcription: function ( id ) {
+			delete_transcription: function (recording_data ) {
 
 				chrome.storage.local.get( [ "recording_data_arr" ], function ( items ) {
 
-					var index = private.id_and_arr_to_index( id, items.recording_data_arr );
+					var index = private.id_and_arr_to_index( recording_data.id, items.recording_data_arr );
 					items.recording_data_arr[ index ].transcription_data.text = "";
 					chrome.storage.local.set( items );
 

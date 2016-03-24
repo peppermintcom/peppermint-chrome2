@@ -45,7 +45,7 @@
 		
 	}
 
-	/* Do not display hidden mock players in letters */
+	/* display hidden mock players in letters */
 	.I5 audio {
 		display: block;
 	}
@@ -53,11 +53,6 @@
 	.a3s audio {
 		display: block;
 	}
-
-	.I5 td>.row:nth-child( 3 ) {
-		display: none !important;
-	}
-    
     
     /* oh-snap alerts */
     

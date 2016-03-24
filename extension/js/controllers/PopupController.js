@@ -1,6 +1,12 @@
 
 	function PopupController ( chrome, $, event_hub ) {
 
+		var state = {
+
+			recording_data: null
+
+		}
+
 		var private = {
 
 		};
@@ -11,19 +17,19 @@
 
 				welcome_start_recording_click: function () {
 
-					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: "popup" })
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "popup" } })
 
 				},
 
 				recording_cancel_button_click: function () {
 
-					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "cancel_recording", source: "popup" })
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "cancel_recording", source: { name: "popup" } })
 
 				},
 
 				recording_done_button_click: function () {
 					
-					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "finish_recording", source: "popup" })
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "finish_recording", source: { name: "popup" } })
 
 				},
 
@@ -36,13 +42,13 @@
 
 				error_try_again_button_click: function () {
 
-					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: "popup" })
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "popup" } })
 
 				},
 
 				finish_start_new_button_click: function () {
 
-					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: "popup" })
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "popup" } })
 
 				},
 
@@ -50,6 +56,7 @@
 
 					$( "#transcript" ).text( "" );
 					$( "#transcription_header" ).hide();
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "delete_transcription", recording_data: state.recording_data })
 
 				}
 
@@ -81,12 +88,13 @@
 
 					$( ".screen" ).hide();
 					$( "#recording_screen" ).show();
+					$( "#transcription_header" ).hide();
 
 				},
 
 				recording_not_started: function ( message ) {
 
-					console.error( "Failed to begin recording", message.error );
+					console.log( "Failed to begin recording", message.error );
 
 					if ( message.error.name === "PermissionDeniedError" || message.error.name === "NavigatorUserMediaError" ) {
 					
@@ -124,6 +132,8 @@
 
 				got_urls: function ( message ) {
 
+					state.recording_data = message.recording_data;
+
 					$( "#transcript" ).text( "" );
 					$( "#player" )[0].disable();
 
@@ -135,6 +145,8 @@
 				},
 
 				got_audio_data: function ( message ) {
+
+					state.recording_data = message.recording_data;
 						
 					$( "#transcript" ).text( message.recording_data.transcription_data.text );
 					if ( message.recording_data.transcription_data.text ) $( "#transcription_header" ).show();
@@ -147,7 +159,7 @@
 
 			chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
 
-				if ( message.receiver === "Content" ) {
+				if ( message.receiver === "Content" && message.target && message.target.name === "popup" ) {
 
 					if ( message_handlers[ message.name ] ) {
 
@@ -166,6 +178,8 @@
 			chrome.runtime.sendMessage( { receiver: "GlobalController", name: "get_last_popup_recording" }, function ( data ) {
 
 				if ( data ) {
+
+					state.recording_data = data;
 
 					if ( data.state === "recording" ) {
 

@@ -186,20 +186,20 @@
 
 			delete_transcription: function ( recording_data ) {
 
-					$.ajax({
+				$.ajax({
 
-						url: recording_data.transcription_url,
-						type: "DELETE",
-						headers: {
-							'Authorization': 'Bearer ' + recording_data.urls.token,
-							'Content-Type': 'application/json',
-							'X-Api-Key' : g_state.api_key
-						},
-						success: function () {
-							console.log( "Transcription deleted" );
-						}
+					url: recording_data.transcription_url,
+					type: "DELETE",
+					headers: {
+						'Authorization': 'Bearer ' + recording_data.urls.token,
+						'Content-Type': 'application/json',
+						'X-Api-Key' : g_state.api_key
+					},
+					success: function () {
+						console.log( "Transcription deleted" );
+					}
 
-					});
+				});
 
 			}
 

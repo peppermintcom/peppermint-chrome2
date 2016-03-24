@@ -11,7 +11,7 @@
 
 		( function () {
 
-			chrome.runtime.sendMessage( { receiver: "GlobalStorage", name: "get_recording_data_arr" }, function ( recording_data_arr ) {
+			chrome.runtime.sendMessage( { receiver: "GlobalController", name: "get_recording_data_arr" }, function ( recording_data_arr ) {
 
 				for ( var i = 0; i < recording_data_arr.length; i++ ) {
 
