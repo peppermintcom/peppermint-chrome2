@@ -37,6 +37,12 @@
 
 						$( document.body ).append( gmail_elements );
 
+						setTimeout( function () {
+
+							$( "#peppermint_elements_container" ).css( "display", "block" );
+
+						}, 3000 );
+
 						new GmailController(
 							chrome,
 							jQuery,

@@ -13,7 +13,8 @@
 	
 				body {
 
-					width: 650px;
+					width: 550px;
+					height: 350px;
 					margin: 0px;
 
 					font-family: sans-serif;
@@ -31,8 +32,23 @@
 
 				}
 
+				main {
+
+					position: absolute;
+					overflow: auto;
+					z-index: 9;
+
+					top: 0px;
+					height: 100%;
+					width: 100%;
+
+					padding-top: 40px;
+
+				}
+
 				main section {
 
+					position: relative;
 					display: none;
 
 				}
@@ -49,8 +65,15 @@
 				
 				nav {
 
+					position: absolute;
+					z-index: 10;
+
+					top: 0px;
+					left: 0px;
 					width: 100%;
 					height: 40px;
+
+					background-color: #FFF;
 
 				}
 
@@ -78,8 +101,8 @@
 
 					text-transform: uppercase;
 					color: rgba( 0, 0, 0, 0.4 );
-					font-weight: 500;
-					font-size: 17px;
+					font-weight: 600;
+					font-size: 15px;
 
 					cursor: pointer;
 					transition: all 0.2s ease;
@@ -274,6 +297,12 @@
 
 					}
 
+					#finish_screen #player {
+
+						margin-right: 65px;
+
+					}
+
 					#finish_screen h3 {
 
 						font-size: 15px;
@@ -349,6 +378,40 @@
 
 			/**/
 
+			/* feedback_section */
+
+				#feedback_section {
+
+					height: 100%;
+					padding: 12px;
+
+				}
+
+				#feedback_section .message {
+
+					margin: 0px;
+					font-size: 15px;
+
+				}
+
+				#feedback_button {
+
+					margin-top: 12px;
+
+				}
+
+				#feedback_section .notes {
+
+					position: absolute;
+
+					bottom: 12px;
+					left: 12px;
+					margin: 0px;
+
+				}
+
+			/**/
+
 		</style>
 
 	</head>
@@ -359,9 +422,9 @@
 
 			<ul>
 				<li data-id = 'current' >Current</li>
-				<li data-id = 'history' class = 'active' >History</li>
+				<li data-id = 'history' >History</li>
 				<li data-id = 'options' >Options</li>
-				<li data-id = 'feedback' >Feedback</li>
+				<li data-id = 'feedback' class = 'active' >Feedback</li>
 			</ul>
 
 		</nav>
@@ -424,7 +487,7 @@
 
 			</section>
 
-			<section data-id = "history" id = "options_section" class = 'active' >
+			<section data-id = "history" id = "history_section" >
 
 				<div id = "history_items_container" >
 
@@ -434,11 +497,19 @@
 
 			<section data-id = "options" id = "options_section" >
 
-				<div style = 'height: 200px' ></div>
 
 			</section>
 
-			<section data-id = "feedback" id = "options_section" >
+			<section data-id = "feedback" id = "feedback_section" class = 'active' >
+
+				<p class = 'message' >Click the button to record feedback and we will get <br> the audio recording with your feedback on the software.</p>
+
+				<div class = 'popup_button wide_green left' id = 'feedback_button' >Record Audio Feedback</div>
+
+				<p class = 'notes' >
+					If this doesn't work for some reason <br> or you want to send text, email us at <br>
+					<a href = 'mailto:support@peppermint.com' >support@peppermint.com</a>
+				</p>
 
 			</section>
 
