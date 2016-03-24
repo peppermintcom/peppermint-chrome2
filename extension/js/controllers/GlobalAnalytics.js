@@ -181,30 +181,6 @@
 			private.load();
 
 			chrome.runtime.sendMessage( { 
-				receiver: 'AnalyticsManager', name: 'track_analytic', 
-				analytic: { name: 'class_load', val: { name : 'AnalyticsManager' } } 
-			});
-			
-
-		} () )
-
-		return public;
-
-	}
-
-	
-	function AnalyticsManager ( source, event_hub ) {
-		
-		
-
-		( function constructor () {
-
-			chrome.runtime.onMessage.addListener( private.message_handler );
-			
-			private.load( source );
-			private.run();
-
-			chrome.runtime.sendMessage( { 
 				receiver: 'GlobalAnalytics', name: 'track_analytic', 
 				analytic: { name: 'class_load', val: { name : 'GlobalAnalytics' } } 
 			});
