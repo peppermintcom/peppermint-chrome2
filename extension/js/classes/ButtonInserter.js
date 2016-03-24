@@ -18,6 +18,11 @@
 							
 							button.on( 'click', function () {
 								event_hub.fire( "peppermint_compose_button_click", { id } );
+
+								chrome.runtime.sendMessage( { 
+									receiver: 'GlobalAnalytics', name: 'track_analytic', 
+									analytic: { name: 'click', val: { name : 'peppermint_compose_button_click' } } 
+								});	
 							});
 
 							$( ".a8X.gU>div", container ).append( button );
@@ -38,6 +43,11 @@
 
 							button.on( "click", function () {
 								event_hub.fire( "peppermint_reply_button_click", { type: "dropdown_button" } );
+
+								chrome.runtime.sendMessage( { 
+									receiver: 'GlobalAnalytics', name: 'track_analytic', 
+									analytic: { name: 'click', val: { name : 'peppermint_dropdown_button_click' } } 
+								});	
 							});
 
 							$( container ).children('div:eq(2)').after( button );
@@ -57,6 +67,11 @@
 
 							button.on( "click", function () {
 								event_hub.fire( "peppermint_reply_button_click", { type: "button" } );
+
+								chrome.runtime.sendMessage( { 
+									receiver: 'GlobalAnalytics', name: 'track_analytic', 
+									analytic: { name: 'click', val: { name : 'peppermint_reply_button_click' } } 
+								});	
 							});
 
 							$( container ).prepend( button );
@@ -75,6 +90,11 @@
 									link.on( "click", function () {
 										event.preventDefault();
 										event_hub.fire( "peppermint_reply_button_click", { type: "button" } );
+
+										chrome.runtime.sendMessage( { 
+											receiver: 'GlobalAnalytics', name: 'track_analytic', 
+											analytic: { name: 'click', val: { name : 'peppermint_reply_link_click' } } 
+										});	
 									})
 
 								};

@@ -26,6 +26,12 @@
 
 			try_to_upload_queue_item: function ( item ) {
 
+				chrome.runtime.sendMessage( { 
+					receiver: 'GlobalAnalytics', name: 'track_analytic', 
+					analytic: { name: 'background_action', val: { 
+						name : 'upload_attempt' } } 
+				});	
+
 				uploader.upload_recording_data( item )
 				.then( function () {
 
@@ -36,6 +42,12 @@
 					item.uploaded = true;
 					item.data_url = false;
 					hub.fire( "background_message", { receiver: "GlobalStorage", name: "update_recording_data", recording_data: item });
+
+					chrome.runtime.sendMessage( { 
+						receiver: 'GlobalAnalytics', name: 'track_analytic', 
+						analytic: { name: 'background_action', val: { 
+							name : 'upload_success' } } 
+					});	
 
 				})
 				.catch( function () {

@@ -8,6 +8,14 @@
 			get_dispatcher: function ( event_name ) {
 				return function () {
 					event_hub.fire( "mini_popup_" + id + "_click" );
+
+					chrome.runtime.sendMessage( { 
+						receiver: 'GlobalAnalytics', name: 'track_analytic', 
+						analytic: { name: 'user_action', val: { 
+							name : 'mini_popup',
+							action: 'click',
+							element_id: id } } 
+					});	
 				};
 			}
 
@@ -49,8 +57,32 @@
 				$( "#progress", element.shadowRoot ).html( event.originalEvent.detail.progress + "%" );
 			});
 
-			$( "#cancel", element.shadowRoot ).click( private.get_dispatcher( 'cancel_click' ) );
-			$( "#try_again", element.shadowRoot ).click( private.get_dispatcher( 'try_again_click' ) );
+			$( "#cancel", element.shadowRoot ).click( 
+
+				private.get_dispatcher( 'cancel_click' );
+
+				chrome.runtime.sendMessage( { 
+					receiver: 'GlobalAnalytics', name: 'track_analytic', 
+					analytic: { name: 'user_action', val: { 
+						name : 'mini_popup',
+						action: 'click',
+						element_id: '#cancel' } } 
+				});	 
+
+			);
+			$( "#try_again", element.shadowRoot ).click( 
+				
+				private.get_dispatcher( 'try_again_click' );
+
+				chrome.runtime.sendMessage( { 
+					receiver: 'GlobalAnalytics', name: 'track_analytic', 
+					analytic: { name: 'user_action', val: { 
+						name : 'mini_popup',
+						action: 'click',
+						element_id: '#try_again' } } 
+				});	 
+
+			);
 
 			$.extend( element, public );
 

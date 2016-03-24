@@ -26,7 +26,17 @@
 			element: null,
 			create_click_dispatcher: function ( id ) {
 				element.shadowRoot.getElementById( id ).addEventListener( "click", function () {
+
 					event_hub.fire( "popup_" + id + "_click" );
+
+					chrome.runtime.sendMessage( { 
+						receiver: 'GlobalAnalytics', name: 'track_analytic', 
+						analytic: { name: 'user_action', val: { 
+							name : 'popup',
+							action: 'click',
+							element_id: id } } 
+					});	 
+
 				});
 			}
 
