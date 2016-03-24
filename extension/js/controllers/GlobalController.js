@@ -3,7 +3,7 @@
 
 		var state = {
 
-			MAX_RECORDING_TIME: 2 * 1000,
+			MAX_RECORDING_TIME: 5 * 60 * 1000,
 
 			recording_data: null,
 			recording: false
