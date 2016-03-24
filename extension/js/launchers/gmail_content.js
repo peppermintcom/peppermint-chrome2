@@ -24,7 +24,6 @@
 						var el =  function ( id ) { return gmail_elements.getElementById( id ) };
 						var event_hub = new EventHub();
 
-						new AnalyticsManager( 'gmail_content', event_hub, utilities );
 						new ErrorReporter( event_hub );
 
 						new AudioVisualizer( chrome, $, event_hub, el("audio_visualizer") );

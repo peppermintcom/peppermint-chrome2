@@ -27,7 +27,7 @@
 			
 		var utilities = new Utilities( chrome, $, 'background' );
 		var event_hub = new EventHub();
-		var analytics = new AnalyticsManager( 'background', event_hub );
+		var analytics = new GlobalAnalytics( chrome, $, event_hub );
 			
 		// Open the welcome page on install
 		chrome.runtime.onInstalled.addListener( function ( details ) {
@@ -39,14 +39,14 @@
 					active: true
 				});
 				
-				event_hub.fire( 'setup', { name : 'install' } );
+			  	analytics.add_to_send_queue( { name: 'setup', val: { source: 'background', name : 'install' } } );
 				
 			}
 
 			// set up storage defaults
 			chrome.storage.local.set( install_storage_defaults );
 			
-			event_hub.fire( 'setup', { name : 'storage_defaults', install_storage_defaults } );
+			analytics.add_to_send_queue( { name: 'setup', val: { source: 'background', name : 'storage_defaults', install_storage_defaults } } );
 			
 		});
 
@@ -59,15 +59,6 @@
 				chrome.tabs.reload( tab.id );
 			});
 		});
-
-		// send any analytics logged from content scripts
-	 // 	chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
-
-		// 	if ( message.name === 'track_analytic' ) {			
-		// 		analytics.track( message.val, false, callback );
-		// 	}
-			
-		// });
 	
  	} () );
 

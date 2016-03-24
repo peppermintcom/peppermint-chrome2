@@ -7,9 +7,13 @@
 
 			platform: 'chrome',
 
-			cur_project_id: '',
+			keys: {
+				
+				cur_project_id: '',
 
-			cur_write_key: '',
+				cur_write_key: ''
+
+			},
 
 			queue: [],
 
@@ -19,7 +23,7 @@
 
 		var private = {
 
-			keen_ids: {
+			keys: {
 
 				dev_project_id: '56f2ac4fd2eaaa65ab2ca95c',
 
@@ -55,19 +59,19 @@
 
 						if( items[ "prod_id" ] === items[ "current_id" ] ) {
 
-							state.cur_project_id = private.prod_project_id;
-							state.cur_write_key = private.prod_write_key;
+							state.keys.cur_project_id = private.keys.prod_project_id;
+							state.keys.cur_write_key = private.keys.prod_write_key;
 
 						} else {
 
-							state.cur_project_id = private.dev_project_id;
-							state.cur_write_key = private.dev_write_key;
+							state.keys.cur_project_id = private.keys.dev_project_id;
+							state.keys.cur_write_key = private.keys.dev_write_key;
 
 						}
 
 						state.client = new Keen({
-							projectId: state.cur_project_id,
-							writeKey: state.cur_write_key
+							projectId: state.keys.cur_project_id,
+							writeKey: state.keys.cur_write_key
 						});
 
 						private.run();
