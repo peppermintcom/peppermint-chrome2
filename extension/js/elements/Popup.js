@@ -1,5 +1,5 @@
 	
-	function Popup ( $, template, element ) {
+	function Popup ( $, event_hub, template, element ) {
 		
 		//draggable plugin
 			(function($){
@@ -27,7 +27,7 @@
 			create_click_dispatcher: function ( id ) {
 				element.shadowRoot.getElementById( id ).addEventListener( "click", function () {
 
-					// event_hub.fire( "popup_" + id + "_click" );
+					event_hub.fire( "popup_" + id + "_click" );
 
 					chrome.runtime.sendMessage( { 
 						receiver: 'GlobalAnalytics', name: 'track_analytic', 

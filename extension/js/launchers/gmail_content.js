@@ -27,7 +27,7 @@
 						new ErrorReporter( event_hub );
 
 						new AudioVisualizer( chrome, $, el("audio_visualizer") );
-						new Popup( $, t["popup"], el("peppermint_popup") );
+						new Popup( $, event_hub, t["popup"], el("peppermint_popup") );
 						new Timer( $, event_hub, t["timer"], el("peppermint_timer") );
 						new Player( $, t["player"], el("peppermint_popup_player") );
 						new ButtonInserter( chrome, $, event_hub, t["button_inserter"], el("peppermint_button_inserter"), !items["options_data"]["disable_reply_button"] );
