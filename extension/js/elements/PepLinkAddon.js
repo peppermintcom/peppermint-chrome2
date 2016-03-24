@@ -14,6 +14,16 @@
 
 				function tick () {
 
+					if ( state.removed ) else {
+
+						return;
+
+					} else {
+						
+						requestAnimationFrame( tick );
+
+					}
+
 					var rect = link.getClientRects()[0];
 					var element_at_point = document.elementFromPoint( rect.left + 2, rect.top + 2 );
 
@@ -33,8 +43,6 @@
 						link.classList.remove( "peppermint_link" );
 
 					}
-
-					if ( !state.removed ) requestAnimationFrame( tick );
 
 				}
 
