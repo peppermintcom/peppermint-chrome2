@@ -144,7 +144,7 @@
 							name: 'lettermanager',
 							action: 'add_link',
 							id: recording_data.id } } 
-					);
+					});
 
 				} catch ( error ) {
 					
@@ -185,7 +185,7 @@
 							name: 'lettermanager',
 							action: 'add_recording_data',
 							id: recording_data.id } } 
-					);
+					});
 
 				}
 

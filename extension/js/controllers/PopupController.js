@@ -199,7 +199,7 @@
 						name: 'popupcontroller',
 						action: 'click',
 						element: 'popup_welcome_start_recording' } } 
-				);
+				});
 
 			},
 
@@ -213,7 +213,7 @@
 						name: 'popupcontroller',
 						action: 'click',
 						element: 'popup_recording_cancel_button' } } 
-				);
+				});
 
 			},
 
@@ -227,7 +227,7 @@
 						name: 'popupcontroller',
 						action: 'click',
 						element: 'popup_recording_done_button' } } 
-				);
+				});
 
 			},
 
@@ -242,7 +242,7 @@
 						name: 'popupcontroller',
 						action: 'click',
 						element: 'popup_error_cancel_button' } } 
-				);
+				});
 
 			},
 
@@ -256,7 +256,7 @@
 						name: 'popupcontroller',
 						action: 'click',
 						element: 'popup_error_try_again_button' } } 
-				);
+				});
 
 			},
 
@@ -270,7 +270,7 @@
 						name: 'popupcontroller',
 						action: 'click',
 						element: 'popup_finish_start_new_button' } } 
-				);
+				});
 
 			},
 
@@ -286,7 +286,7 @@
 						name: 'popupcontroller',
 						action: 'click',
 						element: 'popup_delete_transcription_button' } } 
-				);
+				});
 
 			}
 

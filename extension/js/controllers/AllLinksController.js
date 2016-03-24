@@ -46,7 +46,7 @@
 								name: 'link_controller',
 								action: 'link_added',
 								url: link.href } } 
-						);
+						});
 
 					}).catch( function ( error ) {
 

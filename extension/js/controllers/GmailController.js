@@ -123,7 +123,7 @@
 							action: 'click',
 							element: 'peppermint_compose_button',
 							id: state.compose_button_id } } 
-					);
+					});
 
 				}
 
@@ -140,7 +140,7 @@
 						name: 'gmailcontroller',
 						action: 'click',
 						element: 'popup_recording_cancel_button' } } 
-				);
+				});
 
 			},
 
@@ -154,7 +154,7 @@
 						name: 'gmailcontroller',
 						action: 'click',
 						element: 'popup_recording_done_button' } } 
-				);
+				});
 
 			},
 
@@ -172,7 +172,7 @@
 						name: 'gmailcontroller',
 						action: 'click',
 						element: 'popup_error_try_again_button' } } 
-				);
+				});
 			
 			},
 
@@ -186,7 +186,7 @@
 						name: 'gmailcontroller',
 						action: 'click',
 						element: 'popup_error_cancel_button' } } 
-				);
+				});
 
 			},
 
@@ -206,7 +206,7 @@
 								name: 'gmailcontroller',
 								action: 'click',
 								element: 'peppermint_reply_button' } } 
-						);
+						});
 
 					}
 				}, 20 );

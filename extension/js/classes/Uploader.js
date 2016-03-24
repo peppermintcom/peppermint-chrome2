@@ -119,7 +119,7 @@
 							name: 'uploader',
 							action: 'upload_recording_data',
 							id: recording_data.id } } 
-					);
+					});
 
 				});
 
@@ -211,7 +211,7 @@
 									name: 'uploader',
 									action: 'delete_transcription',
 									id: recording_data.id } } 
-							);
+							});
 
 							console.log( "Transcription deleted" );
 						}
