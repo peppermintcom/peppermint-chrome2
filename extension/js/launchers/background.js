@@ -71,100 +71,84 @@
 	
  	} () );
 
-	( function set_up_global_modules () {
+	( function set_up_background_helper () {
+
+		new BackgroundHelper(
+			chrome,
+			jQuery
+		);
+
+	} () );
+
+	( function set_up_tooltip_manager () {
+
+		new TooltipManager(
+			chrome,
+			jQuery
+		);
+
+	} () );
+
+	( function set_up_global_controller () {
 
 		var event_hub = new EventHub();
 
-		( function set_up_global_recorder () {
+		var web_audio_recorder_wrap = new WebAudioRecorderWrap(
+			chrome,
+			event_hub,
+			window.navigator,
+			WebAudioRecorder,
+			AudioContext,
+			"/js/lib/WebAudioRecorder/"
+		);
 
-			var web_audio_recorder_wrap = new WebAudioRecorderWrap(
-				chrome,
-				event_hub,
-				window.navigator,
-				WebAudioRecorder,
-				AudioContext,
-				"/js/lib/WebAudioRecorder/"
-			);
+		var transcription_manager = new TranscriptionManager(
+			chrome,
+			jQuery,
+			event_hub,
+			"en-US"
+		);
 
-			var transcription_manager = new TranscriptionManager(
-				chrome,
-				jQuery,
-				event_hub,
-				"en-US"
-			);
+		var recorder = new Recorder(
+			chrome,
+			jQuery,
+			event_hub,
+			web_audio_recorder_wrap,
+			transcription_manager
+		);
 
-			new GlobalRecorder(
-				chrome,
-				jQuery,
-				event_hub,
-				web_audio_recorder_wrap,
-				transcription_manager
-			);
+		var uploader = new Uploader(
+			chrome,
+			jQuery,
+			event_hub,
+			{
+				sender_name: "",
+				sender_email: ""
+			}
+		);
 
-		} () );
+		var upload_queue = new UploadQueue(
+			chrome,
+			jQuery,
+			event_hub,
+			uploader
+		);
 
-		( function set_up_global_uploader () {
-			
-			chrome.identity.getProfileUserInfo( function ( info ) {
+		var storage = new Storage(
+			chrome,
+			jQuery,
+			event_hub
+		);
 
-				var uploader = new Uploader(
-					chrome,
-					jQuery,
-					event_hub,
-					{
-						sender_name: "",
-						sender_email: info.email
-					}
-				);
-
-				var upload_queue = new UploadQueue(
-					chrome,
-					jQuery,
-					event_hub,
-					uploader
-				);
-
-				new GlobalUploader(
-					chrome,
-					jQuery,
-					event_hub,
-					upload_queue,
-					uploader
-				);
-
-			});
-
-		} () );
-
-		( function set_up_background_helper () {
-
-			new BackgroundHelper(
-				chrome,
-				jQuery,
-				event_hub
-			);
-
-		} () );
-
-		( function set_up_global_storage () {
-
-			new GlobalStorage(
-				chrome,
-				jQuery,
-				event_hub
-			);
-
-		} () );
-
-		( function set_up_tooltip_manager () {
-
-			new TooltipManager(
-				chrome,
-				jQuery,
-				event_hub
-			);
-
-		} () );
+		new GlobalController(
+			chrome,
+			jQuery,
+			event_hub,
+			recorder,
+			uploader,
+			upload_queue,
+			storage
+		);
 
 	} () );
 

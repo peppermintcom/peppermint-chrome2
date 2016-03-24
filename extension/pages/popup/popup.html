@@ -15,8 +15,8 @@
 		<nav>
 
 			<ul>
-				<li data-id = 'current' >Current</li>
-				<li data-id = 'history' class = 'active' >History</li>
+				<li data-id = 'current' class = 'active' >Current</li>
+				<li data-id = 'history' >History</li>
 				<li data-id = 'options' >Options</li>
 				<li data-id = 'feedback' >Feedback</li>
 			</ul>
@@ -25,7 +25,7 @@
 
 		<main>
 
-			<section data-id = "current" id = 'current_section' >
+			<section data-id = "current" id = 'current_section' class = 'active' >
 
 				<div class = 'screen' id = "start_screen" >
 
@@ -37,7 +37,7 @@
 
 				<div class = 'screen' id = "recording_screen" >
 			
-					<div id = "audio_visualizer" ></div>
+					<div id = "audio_visualizer" class = 'audio_visualizer' ></div>
 					<div id = 'timer' ></div>
 					<div class = 'message' >Recording Your Message...</div>
 					<div class = 'popup_button medium_grey left' id = 'recording_cancel_button' >Cancel</div>
@@ -81,7 +81,7 @@
 
 			</section>
 
-			<section data-id = "history" id = "history_section" class = 'active' >
+			<section data-id = "history" id = "history_section" >
 
 				<div id = "history_items_container" >
 
@@ -187,7 +187,8 @@
 			<section data-id = "feedback" id = "feedback_section" >
 
 				<p class = 'message' >Click the button to record feedback and we will get <br> the audio recording with your feedback on the software.</p>
-
+				
+				<div id = "feedback_audio_visualizer" class = 'audio_visualizer' ></div>
 				<div class = 'popup_button wide_green left' id = 'feedback_button' >Record Audio Feedback</div>
 
 				<p class = 'notes' >
@@ -221,6 +222,7 @@
 
 		<script src =	"/js/controllers/PopupController.js"		></script>
 		<script src =	"/js/controllers/HistoryController.js"		></script>
+		<script src =	"/js/controllers/FeedbackController.js"		></script>
 
 		<script src =	"popup.js"									></script>
 

@@ -37,16 +37,16 @@
 
 				"/js/classes/WebAudioRecorderWrap.js",
 				"/js/classes/TranscriptionManager.js",
+				"/js/classes/Recorder.js",
 
 				"/js/classes/Uploader.js",
 				"/js/classes/UploadQueue.js",
 
-				"/js/controllers/GlobalStorage.js",
+				"/js/classes/Storage.js",
+
 				"/js/controllers/BackgroundHelper.js",
-				"/js/controllers/GlobalRecorder.js",
 				"/js/controllers/TooltipManager.js",
-				"/js/controllers/GlobalUploader.js",
-				"/js/controllers/PopupController.js",
+				"/js/controllers/GlobalController.js",
 
 				"/js/launchers/background.js"
 

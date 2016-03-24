@@ -1,5 +1,5 @@
 
-	function GlobalRecorder ( chrome, $, hub, web_audio_recorder_wrap, transcription_manager ) {
+	function Recorder ( chrome, $, hub, web_audio_recorder_wrap, transcription_manager ) {
 		
 		var state = {
 

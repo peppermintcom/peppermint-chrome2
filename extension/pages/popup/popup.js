@@ -84,7 +84,7 @@
 
 		});
 
-	} () );
+	}  );
 
 	( function set_up_options () {
 
@@ -105,4 +105,33 @@
 
 		});
 
-	} () );
+	}  );
+
+	( function set_up_feedback () {
+
+		var launcher_helper = new LauncherHelper( jQuery );
+
+		launcher_helper.urls_to_templates( chrome.extension.getURL( "/" ), [
+
+
+		]).then( function ( t ) {
+
+			var el = function ( id ) { return document.getElementById( id ) };
+			var event_hub = new EventHub();
+
+			new AudioVisualizer( chrome, $, event_hub, el("feedback_audio_visualizer") );
+
+			new FeedbackController(
+				chrome,
+				jQuery,
+				event_hub
+			);
+
+		})
+		.catch( function ( e ) {
+
+			console.error( e );
+
+		});
+
+	}  )
