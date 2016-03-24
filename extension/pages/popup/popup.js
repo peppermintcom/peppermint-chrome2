@@ -15,7 +15,7 @@
             var event_hub = new EventHub();
 
 			new Timer( $, event_hub, t["timer"], el("timer") );
-			new Popup( $, t["popup"], el("popup") );
+			new Popup( $, event_hub, t["popup"], el("popup") );
 			new Player( $, t["player"], el("player") );
 			new AudioVisualizer( chrome, $, el("audio_visualizer") );
 
