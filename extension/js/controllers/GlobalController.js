@@ -3,6 +3,8 @@
 
 		var state = {
 
+			MAX_RECORDING_TIME: 2 * 1000,
+
 			recording_data: null,
 			recording: false
 			
@@ -101,6 +103,13 @@
 
 					storage.update_recording_data( data.recording_data );					
 
+				},
+
+				recording_timeout: function () {
+
+					private.finish_recording();
+					alert( "Peppermint recording timeout!" );
+
 				}
 
 			});
@@ -189,6 +198,12 @@
 							time
 						}
 					}, state.recording_data.source );
+
+					if ( time * 1000 > state.MAX_RECORDING_TIME ) {
+
+						hub.fire( "recording_timeout" );
+
+					}
 
 				}
 

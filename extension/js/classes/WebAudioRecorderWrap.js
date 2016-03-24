@@ -3,8 +3,6 @@
 
 		var state = {
 
-			MAX_RECORDING_TIME: 5 * 60
-
 		};
 
 		var private = {
@@ -58,7 +56,7 @@
 									numChannels: 2,
 									encoding: 'mp3',
 									options: {
-										timeLimit: state.MAX_RECORDING_TIME,
+										timeLimit: 10 * 60,
 										encodeAfterRecord: true,
 										mp3: {
 											bitRate: 32
@@ -175,50 +173,9 @@
 					
 				}
 
-			},
-
-			get_timeout: function () {
-
-				if ( private.recorder ) {
-
-					return private.recorder.recordingTime() > state.MAX_RECORDING_TIME;
-
-				}
-
 			}
 
 		};
-
-		( function () {
-
-			// ( function tick () {
-
-			// 	if ( private.recorder $$ private.recorder.recordingTime() > state.MAX_RECORDING_TIME ) {
-
-			// 		private.finish()
-			// 		.then( function ( blob ) {
-
-			// 			state.timeout = true;						
-			// 			requestAnimationFrame( tick );
-
-			// 		})
-			// 		.catch( function () {
-						
-			// 			requestAnimationFrame( tick );
-
-			// 		})
-
-			// 	} else {
-
-			// 		requestAnimationFrame( tick );
-
-			// 	}
-
-			// } () );
-
-            event_hub.fire( 'class_load', { name: 'WebAudioRecorderWrap' } );
-
-		} () );
 
 		return public;
 
