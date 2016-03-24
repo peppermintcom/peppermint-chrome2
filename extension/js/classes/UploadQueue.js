@@ -33,9 +33,7 @@
 					hub.fire( "upload_queue_success" );
 					private.launch_queue_uploading();
 
-					item.uploaded = true;
-					item.data_url = false;
-					hub.fire( "background_message", { receiver: "GlobalStorage", name: "update_recording_data", recording_data: item });
+					hub.fiire( "recording_data_uploaded", { recording_data: item } );
 
 				})
 				.catch( function () {

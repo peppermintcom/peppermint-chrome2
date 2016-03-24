@@ -62,17 +62,11 @@
 				"js": [
 
 					"/js/lib/jQuery/jquery-2.1.4.min.js",
-					"/js/lib/raven.min.js",
-					"/js/lib/keen-tracker.min.js",					
-					"/js/lib/ohsnap.min.js",
 					
 					"/js/classes/EventHub.js",
-					"/js/classes/Utilities.js",
 					"/js/classes/LetterManager.js",
-					"/js/classes/ErrorReporter.js",
 					"/js/classes/LauncherHelper.js",
 					"/js/classes/ButtonInserter.js",
-					"/js/classes/AnalyticsManager.js",
 
 					"/js/elements/Timer.js",
 					"/js/elements/Popup.js",

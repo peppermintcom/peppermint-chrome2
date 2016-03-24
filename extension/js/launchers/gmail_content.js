@@ -19,13 +19,9 @@
 
 					try {
 
-						var utilities = new Utilities( chrome, $, 'gmail_content' );
 						var gmail_elements = document.importNode( t["gmail_elements"].content, true );
 						var el =  function ( id ) { return gmail_elements.getElementById( id ) };
 						var event_hub = new EventHub();
-
-						new AnalyticsManager( 'gmail_content', event_hub, utilities );
-						new ErrorReporter( event_hub );
 
 						new AudioVisualizer( chrome, $, event_hub, el("audio_visualizer") );
 						new Popup( $, event_hub, t["popup"], el("peppermint_popup") );
@@ -52,7 +48,6 @@
 						
 					} catch ( error ) {
 
-						Raven.captureException( error ); 
 						throw error;
 
 					}

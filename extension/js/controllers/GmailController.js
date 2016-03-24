@@ -114,7 +114,7 @@
 
 					state.compose_button_id = data.id;
 
-					private.begin_recording();
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: "popup" })
 
 				}
 
@@ -123,13 +123,13 @@
 			popup_recording_cancel_button_click: function () {
 
 				$('#peppermint_popup').hide();
-				private.cancel_recording();
+				chrome.runtime.sendMessage({ receiver: "GlobalController", name: "cancel_recording", source: "popup" })
 
 			},
 
 			popup_recording_done_button_click: function () {
 
-				private.finish_recording();
+				chrome.runtime.sendMessage({ receiver: "GlobalController", name: "finish_recording", source: "popup" })
 
 			},
 
@@ -137,7 +137,7 @@
 
 				if ( !state.recording ) {
 
-					private.begin_recording();
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: "popup" })
 
 				}
 			
@@ -174,44 +174,6 @@
 
 			});
 
-			( function tick () {
-
-				chrome.runtime.sendMessage( { receiver: "GlobalRecorder", name: "get_frequency_data" }, function ( frequency_data ) {
-
-					if ( frequency_data ) {
-
-						$( "#audio_visualizer" )[0].set_frequency_data( frequency_data );
-						
-					}
-
-				});
-
-				chrome.runtime.sendMessage( { receiver: "GlobalRecorder", name: "get_time" }, function ( time ) {
-
-					if ( time ) {
-
-						$( "#peppermint_timer" )[0].set_time( time * 1000 );
-						
-					}
-
-				});
-
-				chrome.runtime.sendMessage( { receiver: "GlobalRecorder", name: "get_timeout" }, function ( timeout ) {
-
-					if ( timeout && !state.timeout_has_been_reported && state.recording ) {
-
-						private.finish_recording();
-						state.timeout_has_been_reported = true;
-						alert( "Peppermint recording timeout!" );
-
-					}
-
-				});
-
-				requestAnimationFrame( tick );
-
-			} () )
-			
 		} () );
 
 	}

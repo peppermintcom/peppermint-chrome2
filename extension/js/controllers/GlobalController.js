@@ -73,7 +73,10 @@
 					
 					state.recording_data.data_url = data.data_url;
 					state.recording_data.transcription_data = data.transcription_data;
-					
+					state.recording_data.state = "uploading";
+
+					storage.save_recording_data( state.recording_data );
+
 					upload_queue.push( state.recording_data );
 					upload_queue.kickstart();
 
@@ -86,6 +89,19 @@
 		};
 
 		( function handle_incoming_messages () {
+
+			hub.add({
+
+				recording_data_uploaded: function ( data ) {
+
+					data.recording_data.state = "uploaded";
+					data.recording_data.audio_url = "";
+
+					storage.update_recording_data( data.recording_data );					
+
+				}
+
+			});
 
 			var runtime_event_handler = {
 
@@ -123,6 +139,7 @@
 					if ( runtime_event_handler[ message.name ] ) {
 
 						runtime_event_handler[ message.name ]( message, callback );
+						return true;
 
 					}
 

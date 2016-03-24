@@ -172,16 +172,35 @@
 						$( ".screen" ).hide();
 						$( "#recording_screen" ).show();
 
-					} else if ( data.state === "uploading" ) {
+					} else {
 
 						$( ".screen" ).hide();
 						$( "#finish_screen" ).show();
 
+						$( "#popup_finish_url" )[0].href = data.urls.short_url;
+						$( "#popup_finish_url" ).text( data.urls.short_url );
 
-					} else if ( data.state === "uploaded" ) {
+						if ( data.transcription_data.text ) {
 
-						$( ".screen" ).hide();
-						$( "#finish_screen" ).show();
+							$( "#transcription_header" ).show();
+							$( "#transcript" ).html( data.transcription_data.text );
+
+						} else {
+
+							$( "#transcription_header" ).hide();
+
+						}
+
+						if ( data.data_url || data.urls.canonical_url ) {
+
+							$( "#player" )[0].set_url( data.state === "uploaded" ? data.urls.canonical_url : data.data_url );
+							$( "#player" )[0].enable();
+
+						} else {
+
+							$( "#player" )[0].disable();
+
+						}
 
 					}
 
