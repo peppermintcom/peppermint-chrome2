@@ -47,11 +47,21 @@
 
 				event.stopPropagation();
 
+				chrome.runtime.sendMessage( { 
+					receiver: 'GlobalAnalytics', name: 'track_analytic', 
+					analytic: { name: 'user_action', val: { type: 'click', name : 'tooltip', element_id: element.id } } 
+				});
+
 			});
 
 			$( "#cross", element.shadowRoot ).on( "click", function () {
 
 				public.remove();
+
+				chrome.runtime.sendMessage( { 
+					receiver: 'GlobalAnalytics', name: 'track_analytic', 
+					analytic: { name: 'user_action', val: { type: 'click', name : 'tooltip', element_id: '#cross' } } 
+				});
 
 			});
 

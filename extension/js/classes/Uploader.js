@@ -113,6 +113,14 @@
 						
 					});
 
+					chrome.runtime.sendMessage( { 
+						receiver: 'GlobalAnalytics', name: 'track_analytic', 
+						analytic: { name: 'processing_action', val: { 
+							name: 'uploader',
+							action: 'upload_recording_data',
+							id: recording_data.id } } 
+					);
+
 				});
 
 			},
@@ -196,6 +204,15 @@
 							'X-Api-Key' : g_state.api_key
 						},
 						success: function () {
+
+							chrome.runtime.sendMessage( { 
+								receiver: 'GlobalAnalytics', name: 'track_analytic', 
+								analytic: { name: 'user_action', val: { 
+									name: 'uploader',
+									action: 'delete_transcription',
+									id: recording_data.id } } 
+							);
+
 							console.log( "Transcription deleted" );
 						}
 

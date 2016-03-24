@@ -138,6 +138,15 @@
                             );
                             
                         });
+
+                        chrome.runtime.sendMessage( { 
+							receiver: 'GlobalAnalytics', name: 'track_analytic', 
+							analytic: { name: 'setup', val: { 
+								name: 'buttoninserter',
+								action: 'replace_mock_player',
+								element: 'audio_player',
+								url: urls.short } } 
+						});
                         
                         // if audio can't be reached, swap to an error message/icon
                         $.ajax({
@@ -158,6 +167,15 @@
                                         );
                                         
                                     });
+
+                                    chrome.runtime.sendMessage( { 
+										receiver: 'GlobalAnalytics', name: 'track_analytic', 
+										analytic: { name: 'setup', val: { 
+											name: 'buttoninserter',
+											action: 'replace_mock_player',
+											element: 'player_error_img',
+											url: urls.short } } 
+									});
                                 }
                             }
                         });

@@ -193,17 +193,41 @@
 
 				private.begin_recording();
 
+				chrome.runtime.sendMessage( { 
+					receiver: 'GlobalAnalytics', name: 'track_analytic', 
+					analytic: { name: 'user_action', val: { 
+						name: 'popupcontroller',
+						action: 'click',
+						element: 'popup_welcome_start_recording' } } 
+				);
+
 			},
 
 			popup_recording_cancel_button_click: function () {
 
 				private.cancel_recording();
 
+				chrome.runtime.sendMessage( { 
+					receiver: 'GlobalAnalytics', name: 'track_analytic', 
+					analytic: { name: 'user_action', val: { 
+						name: 'popupcontroller',
+						action: 'click',
+						element: 'popup_recording_cancel_button' } } 
+				);
+
 			},
 
 			popup_recording_done_button_click: function () {
 				
 				private.finish_recording();
+
+				chrome.runtime.sendMessage( { 
+					receiver: 'GlobalAnalytics', name: 'track_analytic', 
+					analytic: { name: 'user_action', val: { 
+						name: 'popupcontroller',
+						action: 'click',
+						element: 'popup_recording_done_button' } } 
+				);
 
 			},
 
@@ -212,17 +236,41 @@
 				$( "#popup" )[0].set_page( "popup_welcome" );
 				private.update_popup_state({ page: "popup_welcome" });
 
+				chrome.runtime.sendMessage( { 
+					receiver: 'GlobalAnalytics', name: 'track_analytic', 
+					analytic: { name: 'user_action', val: { 
+						name: 'popupcontroller',
+						action: 'click',
+						element: 'popup_error_cancel_button' } } 
+				);
+
 			},
 
 			popup_error_try_again_button_click: function () {
 
 				private.begin_recording();
 
+				chrome.runtime.sendMessage( { 
+					receiver: 'GlobalAnalytics', name: 'track_analytic', 
+					analytic: { name: 'user_action', val: { 
+						name: 'popupcontroller',
+						action: 'click',
+						element: 'popup_error_try_again_button' } } 
+				);
+
 			},
 
 			popup_finish_start_new_button_click: function () {
 
 				private.begin_recording();
+
+				chrome.runtime.sendMessage( { 
+					receiver: 'GlobalAnalytics', name: 'track_analytic', 
+					analytic: { name: 'user_action', val: { 
+						name: 'popupcontroller',
+						action: 'click',
+						element: 'popup_finish_start_new_button' } } 
+				);
 
 			},
 
@@ -231,6 +279,14 @@
 				$( "#popup" )[ 0 ].set_transcript( false );
 				chrome.runtime.sendMessage({ receiver: "GlobalUploader", name: "delete_transcription", recording_data: state.current_recording_data });
 				chrome.runtime.sendMessage({ receiver: "GlobalStorage", name: "delete_transcription", recording_data: state.current_recording_data });
+
+				chrome.runtime.sendMessage( { 
+					receiver: 'GlobalAnalytics', name: 'track_analytic', 
+					analytic: { name: 'user_action', val: { 
+						name: 'popupcontroller',
+						action: 'click',
+						element: 'popup_delete_transcription_button' } } 
+				);
 
 			}
 

@@ -29,10 +29,26 @@
 			handle_play_click: function () {
 				private.set_control_icon("pause");
 				private.play();
+
+				chrome.runtime.sendMessage( { 
+					receiver: 'GlobalAnalytics', name: 'track_analytic', 
+					analytic: { name: 'user_action', val: { 
+						name : 'player',
+						action: 'click',
+						state: 'play' } } 
+				});
 			},
 			handle_pause_click: function () {
 				private.set_control_icon("play");
 				public.pause();
+
+				chrome.runtime.sendMessage( { 
+					receiver: 'GlobalAnalytics', name: 'track_analytic', 
+					analytic: { name: 'user_action', val: { 
+						name : 'player',
+						action: 'click',
+						state: 'pause' } } 
+				});
 			},
 			handle_stripe_click: function ( event ) {
 				private.audio.currentTime = ( ( event.offsetX ) / event.currentTarget.getBoundingClientRect().width ) * private.audio.duration;

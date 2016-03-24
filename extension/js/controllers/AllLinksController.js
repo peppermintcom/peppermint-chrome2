@@ -40,6 +40,14 @@
 
 						document.body.appendChild( pep_link_addon );
 
+						chrome.runtime.sendMessage( { 
+							receiver: 'GlobalAnalytics', name: 'track_analytic', 
+							analytic: { name: 'setup', val: { 
+								name: 'link_controller',
+								action: 'link_added',
+								url: link.href } } 
+						);
+
 					}).catch( function ( error ) {
 
 						console.log( "Peppermint link is not valid" );

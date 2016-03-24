@@ -50,6 +50,15 @@
 				$( "#audio_element", state.wrap ).animate({ width: "300px" });
 				$( "#audio_element", state.wrap )[ 0 ].play();
 
+				chrome.runtime.sendMessage( { 
+					receiver: 'GlobalAnalytics', name: 'track_analytic', 
+					analytic: { name: 'user_action', val: { 
+						name : 'link_player',
+						element: 'play_icon',
+						action: 'click',
+						state: 'play' } } 
+				});
+
 			},
 
 			pause_click_handler: function () {
@@ -59,6 +68,15 @@
 
 				$( "#audio_element", state.wrap ).animate({ width: "0px" });
 				$( "#audio_element", state.wrap )[ 0 ].pause();
+
+				chrome.runtime.sendMessage( { 
+					receiver: 'GlobalAnalytics', name: 'track_analytic', 
+					analytic: { name: 'user_action', val: { 
+						name : 'link_player',
+						element: 'play_icon',
+						action: 'click',
+						state: 'pause' } } 
+				});
 
 			},
 
@@ -80,6 +98,14 @@
 
 				}
 
+				chrome.runtime.sendMessage( { 
+					receiver: 'GlobalAnalytics', name: 'track_analytic', 
+					analytic: { name: 'user_action', val: { 
+						name : 'link_player',
+						element: 'play_icon',
+						action: 'hover_over' } } 
+				});
+
 			},
 
 			icons_mouseleave_handler: function () {
@@ -91,6 +117,14 @@
 					});
 					
 				}
+
+				chrome.runtime.sendMessage( { 
+					receiver: 'GlobalAnalytics', name: 'track_analytic', 
+					analytic: { name: 'user_action', val: { 
+						name : 'link_player',
+						element: 'play_icon',
+						action: 'hover_out' } } 
+				});
 
 			}
 

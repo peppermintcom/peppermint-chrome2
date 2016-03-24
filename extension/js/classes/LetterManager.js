@@ -138,6 +138,14 @@
 					
 					$('table.row.player').hide();
 
+					chrome.runtime.sendMessage( { 
+						receiver: 'GlobalAnalytics', name: 'track_analytic', 
+						analytic: { name: 'setup', val: { 
+							name: 'lettermanager',
+							action: 'add_link',
+							id: recording_data.id } } 
+					);
+
 				} catch ( error ) {
 					
 					Raven.captureException( error );
@@ -170,6 +178,14 @@
 					audio_element.src = recording_data.data_url;
 
 					letter.find( ".fake_audio_container" ).append( audio_element );
+
+					chrome.runtime.sendMessage( { 
+						receiver: 'GlobalAnalytics', name: 'track_analytic', 
+						analytic: { name: 'setup', val: { 
+							name: 'lettermanager',
+							action: 'add_recording_data',
+							id: recording_data.id } } 
+					);
 
 				}
 

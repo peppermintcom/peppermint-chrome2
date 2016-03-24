@@ -116,6 +116,15 @@
 
 					private.begin_recording();
 
+					chrome.runtime.sendMessage( { 
+						receiver: 'GlobalAnalytics', name: 'track_analytic', 
+						analytic: { name: 'user_action', val: { 
+							name: 'gmailcontroller',
+							action: 'click',
+							element: 'peppermint_compose_button',
+							id: state.compose_button_id } } 
+					);
+
 				}
 
 			},
@@ -125,11 +134,27 @@
 				$('#peppermint_popup').hide();
 				private.cancel_recording();
 
+				chrome.runtime.sendMessage( { 
+					receiver: 'GlobalAnalytics', name: 'track_analytic', 
+					analytic: { name: 'user_action', val: { 
+						name: 'gmailcontroller',
+						action: 'click',
+						element: 'popup_recording_cancel_button' } } 
+				);
+
 			},
 
 			popup_recording_done_button_click: function () {
 
 				private.finish_recording();
+
+				chrome.runtime.sendMessage( { 
+					receiver: 'GlobalAnalytics', name: 'track_analytic', 
+					analytic: { name: 'user_action', val: { 
+						name: 'gmailcontroller',
+						action: 'click',
+						element: 'popup_recording_done_button' } } 
+				);
 
 			},
 
@@ -140,12 +165,28 @@
 					private.begin_recording();
 
 				}
+
+				chrome.runtime.sendMessage( { 
+					receiver: 'GlobalAnalytics', name: 'track_analytic', 
+					analytic: { name: 'user_action', val: { 
+						name: 'gmailcontroller',
+						action: 'click',
+						element: 'popup_error_try_again_button' } } 
+				);
 			
 			},
 
 			popup_error_cancel_button_click: function () {
 
 				$("#peppermint_popup").hide();
+
+				chrome.runtime.sendMessage( { 
+					receiver: 'GlobalAnalytics', name: 'track_analytic', 
+					analytic: { name: 'user_action', val: { 
+						name: 'gmailcontroller',
+						action: 'click',
+						element: 'popup_error_cancel_button' } } 
+				);
 
 			},
 
@@ -158,6 +199,14 @@
 
 						$( '#peppermint_compose_button' ).click();
 						clearInterval( interval );
+
+						chrome.runtime.sendMessage( { 
+							receiver: 'GlobalAnalytics', name: 'track_analytic', 
+							analytic: { name: 'user_action', val: { 
+								name: 'gmailcontroller',
+								action: 'click',
+								element: 'peppermint_reply_button' } } 
+						);
 
 					}
 				}, 20 );
