@@ -8,7 +8,8 @@
 			browser_action_popup_has_been_opened: false,
 			log_level: 'error',
 			prod_id: "mphcafiedeanpmilmmlcjhkcgddphicp",
-			current_id: chrome.i18n.getMessage( '@@extension_id' )
+			current_id: chrome.runtime.id,
+			recording_data_arr: []
 
 		};
 
@@ -18,10 +19,7 @@
 				disable_reply_button: false,
 				enable_immediate_insert: true,
 				transcription_language : window.navigator.language,
-			},
-			recording_in_popup: false,
-			popup_state: {},
-			recording_data_arr: []
+			}
 
 		};
 			
@@ -62,6 +60,7 @@
 	
  	} () );
 
+<<<<<<< HEAD
 	( function set_up_global_modules () {
 
 		var event_hub = new EventHub();
@@ -119,40 +118,86 @@
 					upload_queue,
 					uploader
 				);
+=======
+	( function set_up_background_helper () {
+>>>>>>> ba_popup_tabs
 
-			});
+		new BackgroundHelper(
+			chrome,
+			jQuery
+		);
 
-		} () );
+	} () );
 
-		( function set_up_background_helper () {
+	( function set_up_tooltip_manager () {
 
-			new BackgroundHelper(
-				chrome,
-				jQuery,
-				event_hub
-			);
+		new TooltipManager(
+			chrome,
+			jQuery
+		);
 
-		} () );
+	} () );
 
-		( function set_up_global_storage () {
+	( function set_up_global_controller () {
 
-			new GlobalStorage(
-				chrome,
-				jQuery,
-				event_hub
-			);
+		var event_hub = new EventHub();
 
-		} () );
+		var web_audio_recorder_wrap = new WebAudioRecorderWrap(
+			chrome,
+			event_hub,
+			window.navigator,
+			WebAudioRecorder,
+			AudioContext,
+			"/js/lib/WebAudioRecorder/"
+		);
 
-		( function set_up_tooltip_manager () {
+		var transcription_manager = new TranscriptionManager(
+			chrome,
+			jQuery,
+			event_hub,
+			"en-US"
+		);
 
-			new TooltipManager(
-				chrome,
-				jQuery,
-				event_hub
-			);
+		var recorder = new Recorder(
+			chrome,
+			jQuery,
+			event_hub,
+			web_audio_recorder_wrap,
+			transcription_manager
+		);
 
-		} () );
+		var uploader = new Uploader(
+			chrome,
+			jQuery,
+			event_hub,
+			{
+				sender_name: "",
+				sender_email: ""
+			}
+		);
+
+		var upload_queue = new UploadQueue(
+			chrome,
+			jQuery,
+			event_hub,
+			uploader
+		);
+
+		var storage = new Storage(
+			chrome,
+			jQuery,
+			event_hub
+		);
+
+		new GlobalController(
+			chrome,
+			jQuery,
+			event_hub,
+			recorder,
+			uploader,
+			upload_queue,
+			storage
+		);
 
 	} () );
 

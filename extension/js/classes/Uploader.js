@@ -194,29 +194,20 @@
 
 			delete_transcription: function ( recording_data ) {
 
-					$.ajax({
+				$.ajax({
 
-						url: recording_data.transcription_url,
-						type: "DELETE",
-						headers: {
-							'Authorization': 'Bearer ' + recording_data.urls.token,
-							'Content-Type': 'application/json',
-							'X-Api-Key' : g_state.api_key
-						},
-						success: function () {
+					url: recording_data.transcription_url,
+					type: "DELETE",
+					headers: {
+						'Authorization': 'Bearer ' + recording_data.urls.token,
+						'Content-Type': 'application/json',
+						'X-Api-Key' : g_state.api_key
+					},
+					success: function () {
+						console.log( "Transcription deleted" );
+					}
 
-							chrome.runtime.sendMessage( { 
-								receiver: 'GlobalAnalytics', name: 'track_analytic', 
-								analytic: { name: 'user_action', val: { 
-									name: 'uploader',
-									action: 'delete_transcription',
-									id: recording_data.id } } 
-							});
-
-							console.log( "Transcription deleted" );
-						}
-
-					});
+				});
 
 			}
 

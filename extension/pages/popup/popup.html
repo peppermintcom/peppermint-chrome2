@@ -6,16 +6,215 @@
 
 		<meta charset="utf-8">
 		<title>Peppermint</title>
+		<link href = 'popup.css' type = 'text/css' rel = 'stylesheet' >
 
 	</head>
 
 	<body>
 	
-		<div id = "popup" >
-			<div id = 'audio_visualizer' ></div>
-			<div class = 'player' id = 'player' ></div>
-			<div class = 'timer' id = 'timer' ></div>
-		</div>
+		<nav>
+
+			<ul>
+				<li data-id = 'current' class = 'active' >Current</li>
+				<li data-id = 'history' >History</li>
+				<li data-id = 'options' >Options</li>
+				<li data-id = 'feedback' >Feedback</li>
+			</ul>
+
+		</nav>
+
+		<main>
+
+			<section data-id = "current" id = 'current_section' class = 'active' >
+
+				<div class = 'screen' id = "start_screen" >
+
+					<img class = 'logo' src = '/img/logo.png' >
+					<div class = 'message' >Record a message and get a link <br> you can share anywhere!</div>
+					<div class = 'popup_button wide_green left' id = 'welcome_start_recording' >Start Recording</div>
+
+				</div>
+
+				<div class = 'screen' id = "recording_screen" >
+			
+					<div id = "audio_visualizer" class = 'audio_visualizer' ></div>
+					<div id = 'timer' ></div>
+					<div class = 'message' >Recording Your Message...</div>
+					<div class = 'popup_button medium_grey left' id = 'recording_cancel_button' >Cancel</div>
+					<div class = 'popup_button medium_green right' id = 'recording_done_button' >Upload</div>
+
+				</div>
+
+				<div class = 'screen' id = "error_screen" >
+
+					<img class = 'logo' src = '/img/mic_off.png' >
+					<div class = 'message' id = 'error_message' ></div>
+					<div class = 'popup_button medium_grey left' id = 'error_cancel_button' >Cancel</div>
+					<div class = 'popup_button medium_green right' id = 'error_try_again_button' ><img src = "/img/icon_refresh.png" >Try Again</div>
+
+				</div>
+
+				<div class = 'screen' id = "finish_screen" >
+
+					<div class = 'header' >
+						<h2>You have finished recording</h2>
+						<div id = "player" ></div>
+					</div>
+
+					<div id = 'transcription_header' >
+						<h3>Transcription</h3>
+						<span id = 'delete_transcription' >
+							[<span id = 'delete_transcription_button' >Delete</span>]
+						</span>
+					</div>
+
+					<div id = 'transcript' class = 'transcription_text' ></div>
+
+					<div class = 'message' >
+						<div class = 'popup_status' >This is the link to the recording: <a href = "#" id = "popup_finish_url" target = "_blank" >http://peppermint.com/j3i2ijfse3i2l</a>
+						<br> The link is copied to your clipboard so you can paste it anywhere
+					</p>
+
+					<div class = 'popup_button wide_green left' id = 'finish_start_new_button' >Start New Recording</div>
+
+				</div>
+
+			</section>
+
+			<section data-id = "history" id = "history_section" >
+
+				<div id = "history_items_container" >
+
+				</div>
+
+			</section>
+
+			<section data-id = "options" id = "options_section" >
+
+				<label>
+					<input type = 'checkbox' id = 'use_shortcut' >
+					Use a shortcut to start a recording <b>Ctrl + F8</b>
+				</label>
+
+
+				<label>
+
+					Select transcription language
+
+					<select id = "transcription_language" >
+						<option value="af-ZA">Afrikaans</option>
+						<option value="id-ID">Bahasa Indonesia</option>
+						<option value="ms-MY">Bahasa Melayu</option>
+						<option value="ca-ES">Català</option>
+						<option value="cs-CZ">Čeština</option>
+						<option value="da-DK">Dansk</option>
+						<option value="de-AT">Deutsch-Österreich</option>
+						<option value="de-DE">Deutsch-Deutschland</option>
+						<option value="de-LI">Deutsch-Liechtenstein</option>
+						<option value="de-CH">Deutsch-Schweiz</option>
+						<option value="en-AU">English-Australia</option>
+						<option value="en-CA">English-Canada</option>
+						<option value="en-IN">English-India</option>
+						<option value="en-NZ">English-New Zealand</option>
+						<option value="en-ZA">English-South Africa</option>
+						<option value="en-GB">English-United Kingdom</option>
+						<option value="en-US">English-United States</option>
+						<option value="es-AR">Español-Argentina</option>
+						<option value="es-BO">Español-Bolivia</option>
+						<option value="es-CL">Español-Chile</option>
+						<option value="es-CO">Español-Colombia</option>
+						<option value="es-CR">Español-Costa Rica</option>
+						<option value="es-EC">Español-Ecuador</option>
+						<option value="es-SV">Español-El Salvador</option>
+						<option value="es-ES">Español-España</option>
+						<option value="es-US">Español-Estados Unidos</option>
+						<option value="es-GT">Español-Guatemala</option>
+						<option value="es-HN">Español-Honduras</option>
+						<option value="es-MX">Español-México</option>
+						<option value="es-NI">Español-Nicaragua</option>
+						<option value="es-PA">Español-Panamá</option>
+						<option value="es-PY">Español-Paraguay</option>
+						<option value="es-PE">Español-Perú</option>
+						<option value="es-PR">Español-Puerto Rico</option>
+						<option value="es-DO">Español-República Dominicana</option>
+						<option value="es-UY">Español-Uruguay</option>
+						<option value="es-VE">Español-Venezuela</option>
+						<option value="eu-ES">Euskara</option>
+						<option value="fil-PH">Filipino</option>
+						<option value="fr-BE">Français-Belgique</option>
+						<option value="fr-CA">Français-Canada</option>
+						<option value="fr-FR">Français-France</option>
+						<option value="fr-CH">Français-Suisse</option>
+						<option value="gl-ES">Galego</option>
+						<option value="hr-HR">Hrvatski</option>
+						<option value="zu-ZA">IsiZulu</option>
+						<option value="is-IS">Íslenska</option>
+						<option value="it-IT">Italiano-Italia</option>
+						<option value="it-CH">Italiano-Svizzera</option>
+						<option value="lt-LT">Lietuvių</option>
+						<option value="hu-HU">Magyar</option>
+						<option value="nl-NL">Nederlands</option>
+						<option value="nb-NO">Norsk bokmål</option>
+						<option value="pl-PL">Polski</option>
+						<option value="pt-BR">Português-Brasil</option>
+						<option value="pt-PT">Português-Portugal</option>
+						<option value="ro-RO">Română</option>
+						<option value="sl-SI">Slovenščina</option>
+						<option value="sk-SK">Slovenčina</option>
+						<option value="fi-FI">Suomi</option>
+						<option value="sv-SE">Svenska</option>
+						<option value="vi-VN">Tiếng Việt</option>
+						<option value="tr-TR">Türkçe</option>
+						<option value="el-GR">Ελληνικά</option>
+						<option value="bg-BG">български</option>
+						<option value="ru-RU">Pусский</option>
+						<option value="sr-RS">Српски</option>
+						<option value="uk-UA">Українська</option>
+						<option value="ko-KR">한국어</option>
+						<option value="cmn-Hans-CN">中文-普通话 (中国大陆)</option>
+						<option value="cmn-Hans-HK">中文-普通话 (香港)</option>
+						<option value="cmn-Hant-TW">中文-中文 (台灣)</option>
+						<option value="yue-Hant-HK">中文-粵語 (香港)</option>
+						<option value="ja-JP">日本語</option>
+						<option value="hi-IN">हिन्दी</option>
+						<option value="th-TH">ภาษาไทย</option>
+					</select>
+
+				</label>
+
+			</section>
+
+			<section data-id = "feedback" id = "feedback_section" >
+
+				<p class = 'message' >Click the button to record feedback and we will get <br> the audio recording with your feedback on the software.</p>
+				
+				<div id = "feedback_recording_container" >
+
+					<div id = "feedback_audio_visualizer" class = 'audio_visualizer' ></div>
+					<div id = "feedback_timer" ></div>
+
+					<div class = 'popup_button wide_green left' id = 'feedback_start' >Record Audio Feedback</div>
+					<div id = 'feedback_buttons'>
+						<div class = 'popup_button medium_grey left' id = 'feedback_cancel' >Cancel</div>
+						<div class = 'popup_button medium_green right' id = 'feedback_finish' >Upload</div>
+					</div>
+
+				</div>
+
+				<div id = "feedback_thank_you" >Thank you for your feedback!</div>
+
+				<p class = 'notes' >
+					If this doesn't work for some reason <br> or you want to send text, email us at <br>
+					<a href = 'mailto:support@peppermint.com' >support@peppermint.com</a>
+				</p>
+
+			</section>
+
+		</main>
+
+		<footer>
+
+		</footer>
 
 		<link href="popup.css" rel="stylesheet" type="text/css">
 		<link href="/css/audio_visualizer.css" rel="stylesheet" type="text/css">
@@ -26,12 +225,16 @@
 		<script src =	"/js/elements/Popup.js"						></script>
 		<script src =	"/js/elements/Timer.js"						></script>
 		<script src =	"/js/elements/Player.js"					></script>
+		<script src =	"/js/elements/HistoryItem.js"				></script>
 		<script src =	"/js/elements/AudioVisualizer.js"			></script>
 
 		<script src =	"/js/classes/EventHub.js"					></script>
 		<script src =	"/js/classes/LauncherHelper.js"				></script>
+		<script src =	"/js/classes/HistoryItemFactory.js"			></script>
 
 		<script src =	"/js/controllers/PopupController.js"		></script>
+		<script src =	"/js/controllers/HistoryController.js"		></script>
+		<script src =	"/js/controllers/FeedbackController.js"		></script>
 
 		<script src =	"popup.js"									></script>
 

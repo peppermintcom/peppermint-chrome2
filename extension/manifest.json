@@ -37,16 +37,21 @@
 
 				"/js/classes/WebAudioRecorderWrap.js",
 				"/js/classes/TranscriptionManager.js",
+				"/js/classes/Recorder.js",
 
 				"/js/classes/Uploader.js",
 				"/js/classes/UploadQueue.js",
+<<<<<<< HEAD
 				
 				"/js/controllers/GlobalStorage.js",
+=======
+
+				"/js/classes/Storage.js",
+
+>>>>>>> ba_popup_tabs
 				"/js/controllers/BackgroundHelper.js",
-				"/js/controllers/GlobalRecorder.js",
 				"/js/controllers/TooltipManager.js",
-				"/js/controllers/GlobalUploader.js",
-				"/js/controllers/PopupController.js",
+				"/js/controllers/GlobalController.js",
 
 				"/js/launchers/background.js"
 
@@ -62,14 +67,9 @@
 				"js": [
 
 					"/js/lib/jQuery/jquery-2.1.4.min.js",
-					"/js/lib/raven.min.js",
-					"/js/lib/keen-tracker.min.js",					
-					"/js/lib/ohsnap.min.js",
 					
 					"/js/classes/EventHub.js",
-					"/js/classes/Utilities.js",
 					"/js/classes/LetterManager.js",
-					"/js/classes/ErrorReporter.js",
 					"/js/classes/LauncherHelper.js",
 					"/js/classes/ButtonInserter.js",
 
@@ -118,7 +118,8 @@
 				],
 				"css": [
 					"/css/all_links_styles.css"
-				]
+				],
+				"all_frames": true
 			}
 		],
 
@@ -126,11 +127,6 @@
 			"/*"
 		],
 		
-		"options_ui": {
-			"page": "/pages/options/options.html",
-			"chrome_style": true
-		},
-
 		"permissions": [
 
 			"tabs",

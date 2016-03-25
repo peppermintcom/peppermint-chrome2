@@ -19,14 +19,17 @@
 
 					try {
 
-						var utilities = new Utilities( chrome, $, 'gmail_content' );
 						var gmail_elements = document.importNode( t["gmail_elements"].content, true );
 						var el =  function ( id ) { return gmail_elements.getElementById( id ) };
 						var event_hub = new EventHub();
 
+<<<<<<< HEAD
 						new ErrorReporter( event_hub );
 
 						new AudioVisualizer( chrome, $, el("audio_visualizer") );
+=======
+						new AudioVisualizer( chrome, $, event_hub, el("audio_visualizer") );
+>>>>>>> ba_popup_tabs
 						new Popup( $, event_hub, t["popup"], el("peppermint_popup") );
 						new Timer( $, event_hub, t["timer"], el("peppermint_timer") );
 						new Player( $, t["player"], el("peppermint_popup_player") );
@@ -35,6 +38,12 @@
 						var letter_manager = new LetterManager( chrome, jQuery, sender_data );
 
 						$( document.body ).append( gmail_elements );
+
+						setTimeout( function () {
+
+							$( "#peppermint_elements_container" ).css( "display", "block" );
+
+						}, 3000 );
 
 						new GmailController(
 							chrome,
@@ -45,7 +54,6 @@
 						
 					} catch ( error ) {
 
-						Raven.captureException( error ); 
 						throw error;
 
 					}

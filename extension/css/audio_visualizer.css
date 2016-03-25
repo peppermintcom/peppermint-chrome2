@@ -1,25 +1,25 @@
 
-	#audio_visualizer {
+	.audio_visualizer {
 
 	
 
 	}
 
-	#audio_visualizer table {
+	.audio_visualizer table {
 
 		margin: auto;
 		transform: rotateZ( 180deg ) rotateY( 180deg );
 
 	}
 
-	#audio_visualizer td {
+	.audio_visualizer td {
 
 		width: 1px;
 		height: 1px;
 
 	}
 
-	#audio_visualizer td.active {
+	.audio_visualizer td.active {
 
 		background-color: green;
 

@@ -16,7 +16,7 @@
 						var flag_1 = items[ "browser_action_popup_has_been_opened" ];
 						var flag_2 = items[ "browser_action_tooltip_has_been_shown" ];
 
-						if ( !flag_1 && !flag_2 ) {
+						if ( !flag_1 && !flag_2 && $( "#peppermint_browser_action_tooltip").length === 0 ) {
 
 							resolve( true );
 
@@ -40,7 +40,7 @@
 
 						var flag_1 = items[ "compose_button_has_been_used" ];
 
-						if ( !flag_1 && location.host.indexOf( "mail.google.com" ) >= -1  ) {
+						if ( !flag_1 && $( "#peppermint_compose_button_tooltip").length === 0 && location.host.indexOf( "mail.google.com" ) >= -1  ) {
 
 							resolve( true );
 
@@ -69,7 +69,9 @@
 
 				if ( flag ) {
 
+					$( browser_action_tooltip ).appendTo( document.body );
 					$( browser_action_tooltip ).show();
+					
 					chrome.storage.local.set({ browser_action_tooltip_has_been_shown: true });
 
 					( function timeout () {
@@ -103,7 +105,9 @@
 
 				if ( flag ) {
 
+					$( compose_button_tooltip ).appendTo( document.body );
 					$( compose_button_tooltip ).show();
+					
 					compose_button_tooltip.stick_to( "#peppermint_compose_button" );
 					chrome.storage.local.set({ compose_button_tooltip_has_been_shown: true });
 

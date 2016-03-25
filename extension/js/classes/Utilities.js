@@ -34,7 +34,7 @@
 				}, 500);
 			},
 			
-			send_page_alert_controller: function(  ) {
+			send_page_alert_controller: function (  ) {
 				
 				chrome.runtime.onMessage.addListener( function ( req, sender, callback ) {
 				
