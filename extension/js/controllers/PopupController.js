@@ -3,7 +3,7 @@
 
 		var state = {
 
-			recording_data: null
+			recording_data_id: 0
 
 		}
 
@@ -17,19 +17,20 @@
 
 				welcome_start_recording_click: function () {
 
-					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "popup" } })
+					state.recording_data_id = Date.now();
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "popup", recording_data_id: state.recording_data_id } })
 
 				},
 
 				recording_cancel_button_click: function () {
 
-					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "cancel_recording", source: { name: "popup" } })
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "cancel_recording", source: { name: "popup", recording_data_id: state.recording_data_id } })
 
 				},
 
 				recording_done_button_click: function () {
 					
-					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "finish_recording", source: { name: "popup" } })
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "finish_recording", source: { name: "popup", recording_data_id: state.recording_data_id } })
 
 				},
 
@@ -42,13 +43,15 @@
 
 				error_try_again_button_click: function () {
 
-					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "popup" } })
+					state.recording_data_id = Date.now();
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "popup", recording_data_id: state.recording_data_id } })
 
 				},
 
 				finish_start_new_button_click: function () {
 
-					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "popup" } })
+					state.recording_data_id = Date.now();
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "popup", recording_data_id: state.recording_data_id } })
 
 				},
 
@@ -56,7 +59,7 @@
 
 					$( "#transcript" ).text( "" );
 					$( "#transcription_header" ).hide();
-					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "delete_transcription", recording_data: state.recording_data })
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "delete_transcription", source: { name: "popup", recording_data_id: state.recording_data_id } })
 
 				}
 
@@ -132,8 +135,6 @@
 
 				got_urls: function ( message ) {
 
-					state.recording_data = message.recording_data;
-
 					chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "copy_to_clipboard", text: message.recording_data.urls.short_url });
 
 					$( "#transcript" ).text( "" );
@@ -148,8 +149,6 @@
 
 				got_audio_data: function ( message ) {
 
-					state.recording_data = message.recording_data;
-						
 					$( "#transcript" ).text( message.recording_data.transcription_data.text );
 					if ( message.recording_data.transcription_data.text ) $( "#transcription_header" ).show();
 					$( "#player" )[0].set_url( message.recording_data.uploaded ? message.recording_data.urls.canonical_url : message.recording_data.data_url );
@@ -161,11 +160,15 @@
 
 			chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
 
-				if ( message.receiver === "Content" && message.target && message.target.name === "popup" ) {
+				if ( message.receiver === "Content" ) {
 
-					if ( message_handlers[ message.name ] ) {
+					if ( message_handlers[ message.name ] && message.recording_data && message.recording_data.source.name === "popup" ) {
 
-						message_handlers[ message.name ]( message );
+						message_handlers[ message.name ]( message, sender, callback );
+
+					} else if ( message_handlers[ message.name ] && message.name === "recording_details" ) {
+
+						message_handlers[ message.name ]( message, sender, callback );
 
 					}
 
@@ -177,11 +180,11 @@
 
 		( function init () {
 
-			chrome.runtime.sendMessage( { receiver: "GlobalController", name: "get_last_popup_recording" }, function ( data ) {
+			chrome.runtime.sendMessage({ receiver: "GlobalController", name: "get_last_popup_recording" }, function ( data ) {
 
 				if ( data ) {
 
-					state.recording_data = data;
+					state.recording_data_id = data.id;
 
 					if ( data.state === "recording" ) {
 
@@ -193,7 +196,7 @@
 						$( ".screen" ).hide();
 						$( "#finish_screen" ).show();
 
-						chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "copy_to_clipboard", text: message.recording_data.urls.short_url });
+						chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "copy_to_clipboard", text: data.urls.short_url });
 						$( "#popup_finish_url" )[0].href = data.urls.short_url;
 						$( "#popup_finish_url" ).text( data.urls.short_url );
 

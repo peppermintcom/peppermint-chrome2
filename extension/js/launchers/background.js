@@ -7,9 +7,9 @@
 			browser_action_tooltip_has_been_shown: false,
 			browser_action_popup_has_been_opened: false,
 			log_level: 'error',
+			recording_data_arr: [],
 			prod_id: "mphcafiedeanpmilmmlcjhkcgddphicp",
-			current_id: chrome.runtime.id,
-			recording_data_arr: []
+			current_id: chrome.runtime.id
 
 		};
 
@@ -36,15 +36,11 @@
 					url: chrome.extension.getURL("/pages/welcome_page/welcome.html"),
 					active: true
 				});
-				
-				event_hub.fire( 'setup', { name : 'install' } );
+
+				// set up storage defaults
+				chrome.storage.local.set( install_storage_defaults );
 				
 			}
-
-			// set up storage defaults
-			chrome.storage.local.set( install_storage_defaults );
-			
-			event_hub.fire( 'setup', { name : 'storage_defaults', install_storage_defaults } );
 			
 		});
 

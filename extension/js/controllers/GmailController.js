@@ -4,7 +4,9 @@
 		var state = {
 
 			compose_button_id: undefined,
+			recording_data_id: 0,
 			recording: false,
+			tab_id: 0
 
 		};
 
@@ -23,8 +25,9 @@
 						chrome.storage.local.set({ compose_button_has_been_used: true });
 
 						state.compose_button_id = data.id;
+						state.recording_data_id = Date.now();
 
-						chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "gmail" } })
+						chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "gmail", recording_data_id: state.recording_data_id } })
 
 					}
 
@@ -32,13 +35,13 @@
 
 				popup_recording_cancel_button_click: function () {
 
-					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "cancel_recording", source: { name: "gmail" } })
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "cancel_recording", source: { name: "gmail", recording_data_id: state.recording_data_id } })
 
 				},
 
 				popup_recording_done_button_click: function () {
 
-					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "finish_recording", source: { name: "gmail" } })
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "finish_recording", source: { name: "gmail", recording_data_id: state.recording_data_id } })
 
 				},
 
@@ -46,7 +49,8 @@
 
 					if ( !state.recording ) {
 
-						chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "gmail" } })
+						state.recording_data_id = Date.now();
+						chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "gmail", recording_data_id: state.recording_data_id } })
 
 					}
 				
@@ -156,13 +160,27 @@
 
 				if ( message.receiver === "Content" ) {
 
-					if ( message_handlers[ message.name ] ) {
+					if ( message_handlers[ message.name ] && message.recording_data && message.recording_data.source.tab_id === state.tab_id ) {
+
+						message_handlers[ message.name ]( message, sender, callback );
+
+					} else if ( message_handlers[ message.name ] && message.name === "recording_details" ) {
 
 						message_handlers[ message.name ]( message, sender, callback );
 
 					}
 
 				}
+
+			});
+
+		} () );
+
+		( function init () {
+
+			chrome.runtime.sendMessage({ receiver: "GlobalController", name: "get_tab_id" }, function ( tab_id ) {
+
+				state.tab_id = tab_id;
 
 			});
 

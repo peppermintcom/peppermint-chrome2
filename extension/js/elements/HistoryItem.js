@@ -29,7 +29,19 @@
 
 		var public = {
 
+			set_state: function ( state_text ) {
 
+				if ( state_text === "uploading" ) {
+
+					$( "#status", state.wrap ).text( "Uploading..." );
+
+				} else if ( state_text === "uploaded" ) {
+
+					$( "#status", state.wrap ).text( private.format_time( recording_data.timestamp || Date.now() ) );
+
+				}
+
+			}
 
 		};
 
@@ -38,14 +50,24 @@
 			element.createShadowRoot().appendChild( document.importNode( template.content, true ) );
 
 			state.wrap = element.shadowRoot.querySelector( "#wrap" );
+			element.dataset.id = recording_data.id;
 
-			$( "#time", state.wrap ).text( private.format_time( recording_data.timestamp || Date.now() ) );
+			public.set_state( recording_data.state );;
 			
 			/* set up the player */
 
 				$( "#player_container", state.wrap ).append( player );
-				player.enable()
-				player.set_url( recording_data.urls.canonical_url );
+				player.enable();
+				
+				if ( recording_data.data_url ) {
+
+					player.set_url( recording_data.data_url );
+				
+				} else {
+
+					player.set_url( recording_data.urls.canonical_url );
+
+				}
 
 			/**/
 
@@ -53,7 +75,7 @@
 
 				$( "#delete", state.wrap ).on( "click", function () {
 
-					chrome.runtime.sendMessage({ receiver: "GlobalStorage", name: "delete_recording_data", recording_data });
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "delete_recording_data", recording_data });
 					$( element ).remove();
 
 				});

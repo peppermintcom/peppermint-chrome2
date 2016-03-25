@@ -93,9 +93,7 @@
 					private.upload_transcription( recording_data )
 					.then( function ( response ) {
 
-						recording_data.transcription_url = response.transcription_url;
-
-						chrome.runtime.sendMessage({ receiver: "GlobalStorage", name: "update_recording_data", recording_data });
+						event_hub.fire( "transcription_uploaded", { recording_data_id: recording_data.id, transcription_url: response.transcription_url } );
 
 					})
 					.catch( function ( error ) {

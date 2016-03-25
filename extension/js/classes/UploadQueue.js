@@ -33,7 +33,7 @@
 					hub.fire( "upload_queue_success" );
 					private.launch_queue_uploading();
 
-					hub.fire( "recording_data_uploaded", { recording_data: item } );
+					hub.fire( "recording_data_uploaded", { id: item.id } );
 
 				})
 				.catch( function () {

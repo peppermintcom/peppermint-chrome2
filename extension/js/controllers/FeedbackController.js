@@ -1,6 +1,12 @@
 
 	function FeedbackController ( chrome, $, event_hub ) {
 
+		var state = {
+
+			recording_data_id: 0
+
+		};
+
 		var private = {
 
 		};
@@ -11,19 +17,20 @@
 
 				feedback_start_click: function () {
 
-					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "popup_feedback" } })
+					state.recording_data_id = Date.now();
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "popup_feedback", recording_data: state.recording_data_id } })
 
 				},
 
 				feedback_cancel_click: function () {
 
-					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "cancel_recording", source: { name: "popup_feedback" } })
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "cancel_recording", source: { name: "popup_feedback", recording_data: state.recording_data_id } })
 
 				},
 
 				feedback_finish_click: function () {
 					
-					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "finish_recording", source: { name: "popup_feedback" } })
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "finish_recording", source: { name: "popup_feedback", recording_data: state.recording_data_id } })
 
 				}
 
@@ -119,11 +126,15 @@
 
 			chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
 
-				if ( message.receiver === "Content" && message.target && message.target.name === "popup_feedback" ) {
+				if ( message.receiver === "Content" ) {
 
-					if ( message_handlers[ message.name ] ) {
+					if ( message_handlers[ message.name ] && message.recording_data && message.recording_data.source.name === "popup_feedback" ) {
 
-						message_handlers[ message.name ]( message );
+						message_handlers[ message.name ]( message, sender, callback );
+
+					} else if ( message_handlers[ message.name ] && message.name === "recording_details" ) {
+
+						message_handlers[ message.name ]( message, sender, callback );
 
 					}
 
@@ -136,6 +147,12 @@
 		( function init () {
 
 			chrome.runtime.sendMessage( { receiver: "GlobalController", name: "get_last_popup_feedback_recording" }, function ( data ) {
+
+				if ( data ) {
+
+					state.recording_data_id = data.id;
+
+				}
 
 				if ( data && data.state === "recording" ) {
 					

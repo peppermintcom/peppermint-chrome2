@@ -1,30 +1,23 @@
 
 	function GlobalController ( chrome, $, hub, recorder, uploader, upload_queue, storage ) {
 
-		var state = {
-
-			MAX_RECORDING_TIME: 5 * 60 * 1000,
-
-			recording_data: null,
-			recording: false
-			
-		};
+		var MAX_RECORDING_TIME = 5 * 60 * 1000;
 
 		var private = {
 
-			fire: function ( message, source ) {
+			fire: function ( message ) {
 
-				if ( source.tab_id ) {
+				chrome.tabs.query( {}, function ( tabs ) {
 
-					message.target = source;
-					chrome.tabs.sendMessage( source.tab_id, message );
+					for ( var i = tabs.length; i--; ) {
 
-				} else if ( source.tab_id === 0 ) { 
-				
-					message.target = source;
-					chrome.runtime.sendMessage( message );
-				
-				}
+						chrome.tabs.sendMessage( tabs[ i ].id, message );
+
+					}
+
+				});
+
+				chrome.runtime.sendMessage( message );
 
 			},
 
@@ -35,14 +28,14 @@
 
 					if ( response.started ) {
 
-						state.recording_data = { id: Date.now(), state: "recording", source };
+						var recording_data = { id: source.recording_data_id, state: "recording", timestamp: Date.now(), source };
 
-						storage.save_recording_data( state.recording_data );
-						private.fire( { receiver: "Content", name: "recording_started", recording_data: state.recording_data }, state.recording_data.source );
+						storage.save_recording_data( recording_data );
+						private.fire({ receiver: "Content", name: "recording_started", recording_data });
 
 					} else {
 
-						private.fire( { receiver: "Content", name: "recording_not_started", source, error: response.error }, source );
+						private.fire({ receiver: "Content", name: "recording_not_started", recording_data: { source }, error: response.error });
 
 					}
 
@@ -50,39 +43,46 @@
 
 			},
 
-			cancel_recording: function () {
+			cancel_recording: function ( source ) {
 
 				recorder.cancel();
-				storage.delete_recording_data( state.recording_data );
-				private.fire( { receiver: "Content", name: "recording_canceled", recording_data: state.recording_data }, state.recording_data.source );
+				storage.delete_recording_data( source.recording_data_id );
+				private.fire({ receiver: "Content", name: "recording_canceled", recording_data: { source } });
 
 			},
 
-			finish_recording: function () {
+			finish_recording: function ( source ) {
 
-				upload_queue.get_urls_promise()
+				var recording_data;
+
+				storage.id_to_recording_data( source.recording_data_id )
+				.then( function ( data ) {
+
+					recording_data = data;
+					return upload_queue.get_urls_promise()
+					
+				})
 				.then( function ( urls ) {
 
-					state.recording_data.urls = urls;
-					private.fire( { receiver: "Content", name: "got_urls", recording_data: state.recording_data }, state.recording_data.source );
+					recording_data.urls = urls;
 
-					chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "copy_to_clipboard", text: urls.short_url });
+					private.fire({ receiver: "Content", name: "got_urls", recording_data });
 
 					return recorder.finish();
 
 				})
 				.then( function ( data ) {
 					
-					state.recording_data.data_url = data.data_url;
-					state.recording_data.transcription_data = data.transcription_data;
-					state.recording_data.state = "uploading";
+					recording_data.data_url = data.data_url;
+					recording_data.transcription_data = data.transcription_data;
+					recording_data.state = "uploading";
 
-					storage.update_recording_data( state.recording_data );
+					storage.update_recording_data( recording_data );
 
-					upload_queue.push( state.recording_data );
+					upload_queue.push( recording_data );
 					upload_queue.kickstart();
 
-					private.fire( { receiver: "Content", name: "got_audio_data", recording_data: state.recording_data }, state.recording_data.source );
+					private.fire({ receiver: "Content", name: "got_audio_data", recording_data });
 						
 				});
 
@@ -96,12 +96,29 @@
 
 				recording_data_uploaded: function ( data ) {
 
-					console.log( "recording_data_uploaded" );
+					storage.id_to_recording_data( data.id )
+					.then( function ( recording_data) {
 
-					data.recording_data.state = "uploaded";
-					data.recording_data.data_url = "";
+						recording_data.state = "uploaded";
+						recording_data.data_url = "";
 
-					storage.update_recording_data( data.recording_data );					
+						storage.update_recording_data( recording_data );
+
+						private.fire({ receiver: "Content", name: "recording_uploaded", recording_data });
+
+					});
+
+				},
+
+				transcription_uploaded: function ( data ) {
+
+					storage.id_to_recording_data( data.recording_data_id )
+					.then( function ( recording_data ) {
+
+						recording_data.transcription_url = data.transcription_url;
+						storage.update_recording_data( recording_data );
+
+					});
 
 				},
 
@@ -116,22 +133,24 @@
 
 			var runtime_event_handler = {
 
-				start_recording: function ( message, sender ) {
+				start_recording: function ( message, sender, callback ) {
 
 					message.source.tab_id = sender.tab ? sender.tab.id : 0;
 					private.start_recording( message.source );
 
 				},
 
-				cancel_recording: function ( message ) {
-
-					private.cancel_recording();
+				cancel_recording: function ( message, sender, callback ) {
+			
+					message.source.tab_id = sender.tab ? sender.tab.id : 0;
+					private.cancel_recording( message.source );
 
 				},
 
-				finish_recording: function ( message ) {
+				finish_recording: function ( message, sender, callback ) {
 
-					private.finish_recording();
+					message.source.tab_id = sender.tab ? sender.tab.id : 0;
+					private.finish_recording( message.source );
 
 				},
 
@@ -149,16 +168,33 @@
 
 				},
 
-				delete_transcription: function ( message ) {
+				delete_transcription: function ( message, sender, callback ) {
 
-					uploader.delete_transcription( message.recording_data );
-					storage.delete_transcription( message.recording_data );
+					storage.id_to_recording_data( message.source.recording_data_id )
+					.then( function ( recording_data ) {
+
+						uploader.delete_transcription( recording_data );
+						storage.delete_transcription( message.source.recording_data_id );
+
+					});
 
 				},
 
 				get_recording_data_arr: function ( message, sender, callback ) {
 
 					storage.get_recording_data_arr().then( callback );
+
+				},
+
+				delete_recording_data: function ( message, sender, callback ) {
+
+					storage.delete_recording_data( message.recording_data.id );
+
+				},
+
+				get_tab_id: function ( message, sender, callback ) {
+
+					callback( sender.tab.id );
 
 				}
 
@@ -197,9 +233,9 @@
 							frequency_data,
 							time
 						}
-					}, state.recording_data.source );
+					});
 
-					if ( time * 1000 > state.MAX_RECORDING_TIME ) {
+					if ( time * 1000 > MAX_RECORDING_TIME ) {
 
 						hub.fire( "recording_timeout" );
 
