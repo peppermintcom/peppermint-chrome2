@@ -46,6 +46,7 @@
 
 				"/js/controllers/BackgroundHelper.js",
 				"/js/controllers/TooltipManager.js",
+				"/js/controllers/BaController.js",
 				"/js/controllers/GlobalController.js",
 
 				"/js/launchers/background.js"

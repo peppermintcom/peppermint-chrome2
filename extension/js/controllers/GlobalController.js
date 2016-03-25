@@ -19,6 +19,8 @@
 
 				chrome.runtime.sendMessage( message );
 
+				hub.fire( "background_message", message );
+
 			},
 
 			start_recording: function ( source ) {
@@ -82,6 +84,7 @@
 					upload_queue.push( recording_data );
 					upload_queue.kickstart();
 
+					private.fire({ receiver: "Content", name: "recording_finished", recording_data });
 					private.fire({ receiver: "Content", name: "got_audio_data", recording_data });
 						
 				});
