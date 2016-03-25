@@ -122,11 +122,6 @@
 			"/*"
 		],
 		
-		"options_ui": {
-			"page": "/pages/options/options.html",
-			"chrome_style": true
-		},
-
 		"permissions": [
 
 			"tabs",
