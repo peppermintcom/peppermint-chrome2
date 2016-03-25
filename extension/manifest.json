@@ -32,6 +32,7 @@
 				
 				"/js/classes/Utilities.js",
 				"/js/classes/EventHub.js",
+				"/js/classes/AnalyticsManager.js",
 				"/js/classes/ErrorReporter.js",
 
 				"/js/classes/WebAudioRecorderWrap.js",

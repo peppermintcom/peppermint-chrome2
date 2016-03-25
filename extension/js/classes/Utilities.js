@@ -62,33 +62,11 @@
 						Raven.config( items[ "prod_id" ] === items[ "current_id" ] ? state.prod_raven_key : state.dev_raven_key )
 						.install();  
 						
-						Raven.log = function( source_class, source_method, message, error ){
+						console.log('Raven loaded from ' + source);
+						Raven.captureMessage('Raven loaded from ' + source);
 
-							var attr = { logger: 'chrome.utilities', tags: {
-								'source': source,
-								'class': source_class, 
-								'method': source_method,
-								'message': message,
-								'error_name': ( ( error && error.name ) ? error.name : '')
-							}};
-
-							if( error ) {
-
-								Raven.captureException( error, attr);
-
-							} else {
-
-								Raven.captureMessage( message, attr);
-
-							}
-
-							console.log('Logged to Raven - ' + attr.tags.message, attr, error);
-						};
-
-						Raven.log( 'utilities', 'load_error_logger', 'Raven loaded' );
-
-					});
-
+					})
+					
 				}, 50);
 				
 			} 
@@ -128,6 +106,20 @@
 				
 				public.log({'page_alert_set': data});
 				
+			},
+			
+			valid_messaging_state: function(){
+				
+				try {
+					chrome.runtime.sendMessage("peppermint-messaging-test");
+				} catch (error) {
+					// fail silently, messaging is temporarily unavailable
+					// generally, this only happens when manually refreshing the local extension
+					return false;
+				}
+				
+				return true;
+
 			}
 						
 		};

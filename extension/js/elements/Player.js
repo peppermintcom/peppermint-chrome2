@@ -1,5 +1,5 @@
 
-	var Player = function ( $, hub, template, element ) {
+	var Player = function ( $, event_hub, template, element ) {
 		
 		var private = {
 			
@@ -29,26 +29,10 @@
 			handle_play_click: function () {
 				private.set_control_icon("pause");
 				private.play();
-
-				chrome.runtime.sendMessage( { 
-					receiver: 'GlobalAnalytics', name: 'track_analytic', 
-					analytic: { name: 'user_action', val: { 
-						name : 'player',
-						action: 'click',
-						state: 'play' } } 
-				});
 			},
 			handle_pause_click: function () {
 				private.set_control_icon("play");
 				public.pause();
-
-				chrome.runtime.sendMessage( { 
-					receiver: 'GlobalAnalytics', name: 'track_analytic', 
-					analytic: { name: 'user_action', val: { 
-						name : 'player',
-						action: 'click',
-						state: 'pause' } } 
-				});
 			},
 			handle_stripe_click: function ( event ) {
 				private.audio.currentTime = ( ( event.offsetX ) / event.currentTarget.getBoundingClientRect().width ) * private.audio.duration;
@@ -102,6 +86,8 @@
 			$( "#play", element.shadowRoot ).on( 'click', private.handle_play_click );
 			$( "#pause", element.shadowRoot ).on( 'click', private.handle_pause_click );
 			$( ".stripe_container", element.shadowRoot ).on( 'click', private.handle_stripe_click );
+
+			event_hub.fire( "class_load", { name : "Player" } );
 
 		} () )
 

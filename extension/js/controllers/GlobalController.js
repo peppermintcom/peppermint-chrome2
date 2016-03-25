@@ -151,14 +151,6 @@
 
 				delete_transcription: function ( message ) {
 
-					hub.fire( "analytic_event", { 
-						receiver: 'GlobalAnalytics', name: 'track_analytic', 
-						analytic: { name: 'user_action', val: { 
-							name: 'uploader',
-							action: 'delete_transcription',
-							id: recording_data.id } } 
-					});
-
 					uploader.delete_transcription( message.recording_data );
 					storage.delete_transcription( message.recording_data );
 

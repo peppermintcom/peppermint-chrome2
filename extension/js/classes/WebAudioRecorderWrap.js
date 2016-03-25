@@ -1,5 +1,5 @@
 
-	function WebAudioRecorderWrap ( chrome, navigator, WebAudioRecorder, AudioContext, worker_dir ) {
+	function WebAudioRecorderWrap ( chrome, event_hub, navigator, WebAudioRecorder, AudioContext, worker_dir ) {
 
 		var state = {
 
@@ -71,7 +71,8 @@
 
 						})
 						.catch( function ( error ) {
-							Raven.log( 'WebAudioRecorderWrap', 'start', 'Failed to get audio stream', error );
+	                        Raven.captureException(error);
+							console.log( error );
 							reject( error );
 						});
 

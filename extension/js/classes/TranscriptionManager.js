@@ -1,5 +1,5 @@
 
-	function TranscriptionManager ( chrome, $, lang ) {
+	function TranscriptionManager ( chrome, $, event_hub, lang ) {
 
 		var event_handlers = {
 
@@ -179,6 +179,8 @@
 
 			$.extend( private.speech_recognition, event_handlers );
             
+            event_hub.fire( 'class_load', { name: 'TranscriptionManager' } );
+
 		} () )
 
 		return public;

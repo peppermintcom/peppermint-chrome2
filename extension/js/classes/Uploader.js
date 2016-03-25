@@ -1,5 +1,5 @@
 	
-	Uploader = function ( chrome, $, sender_data ) {
+	Uploader = function ( chrome, $, event_hub, sender_data ) {
 
 		var g_state = {
 
@@ -113,14 +113,6 @@
 						
 					});
 
-					chrome.runtime.sendMessage( { 
-						receiver: 'GlobalAnalytics', name: 'track_analytic', 
-						analytic: { name: 'processing_action', val: { 
-							name: 'uploader',
-							action: 'upload_recording_data',
-							id: recording_data.id } } 
-					});
-
 				});
 
 			},
@@ -214,6 +206,8 @@
 		};
 
 		( function constructor () {
+
+            event_hub.fire( 'class_load', { name: 'Uploader' } );
 
 		} () )
 		

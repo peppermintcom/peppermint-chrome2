@@ -50,6 +50,8 @@
 
 			$( element ).append( private.get_table_string( 20, 50 ) );
 
+			event_hub.fire( "class_load", { name : "AudioVisualizer" } );
+
 			$.extend( element, public );
 
 		} () )

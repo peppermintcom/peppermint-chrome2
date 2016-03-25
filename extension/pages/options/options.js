@@ -1,6 +1,16 @@
 
-	( function ( $, chrome ) {
-		        
+	( function ( $, chrome, utilities, event_hub ) {
+		
+        var private = {
+            
+            init: function ( ) {
+                
+                utilities = new Utilities( chrome, $, 'options_page' );
+                event_hub = new EventHub( null, utilities );
+            }
+            
+        };
+        
 		chrome.storage.local.get( null, function ( items ) {
 			
 			var extension_transcription_language = null;
@@ -21,6 +31,8 @@
             
             console.log({ 'options_data': options_data });
             
+            event_hub.fire( 'setup', { name: 'options_data', type: 'load', data: options_data } );            
+
 		});
 
 		$("#disable_reply_button").change( function ( event ) {
@@ -31,14 +43,7 @@
 				
                 chrome.storage.local.set({ options_data: items.options_data });
                 
-                chrome.runtime.sendMessage( { 
-					receiver: 'GlobalAnalytics', name: 'track_analytic', 
-					analytic: { name: 'user_action', val: { 
-						name : 'options',
-						action: 'change',
-						element_id: '#disable_reply_button', 
-						enabled: event.target.checked } } 
-				});
+                event_hub.fire( 'options_change', { element: '#disable_reply_button', enabled: event.target.checked } );
 			
 			});
 
@@ -52,14 +57,7 @@
                 
 				chrome.storage.local.set({ options_data: items.options_data });
                 
-                chrome.runtime.sendMessage( { 
-					receiver: 'GlobalAnalytics', name: 'track_analytic', 
-					analytic: { name: 'user_action', val: { 
-						name : 'options',
-						action: 'change',
-						element_id: '#ennable_immediate_insert', 
-						enabled: event.target.checked } } 
-				});
+                event_hub.fire( 'options_change', { element: '#ennable_immediate_insert', enabled: event.target.checked } );
 			
 			});
 
@@ -73,25 +71,17 @@
                 
 				chrome.storage.local.set({ options_data: items.options_data });
                 
-                chrome.runtime.sendMessage( { 
-					receiver: 'GlobalAnalytics', name: 'track_analytic', 
-					analytic: { name: 'user_action', val: { 
-						name : 'options',
-						action: 'change',
-						element_id: '#transcription_language', 
-						value: items.options_data.transcription_language } } 
-				});
+                event_hub.fire( 'options_change', { element: '#transcription_language', value: items.options_data.transcription_language } );
                 			
 			});
 
 		});
         
         ( function constructor () {
-
-			chrome.runtime.sendMessage( { 
-				receiver: 'GlobalAnalytics', name: 'track_analytic', 
-				analytic: { name: 'setup', val: { type: 'page_load', name : 'options.js' } } 
-			});
+            
+            private.init();
+            
+            event_hub.fire( 'class_load', { name: 'options_page' } );
 
         } () );
 

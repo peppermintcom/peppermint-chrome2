@@ -8,14 +8,6 @@
 			get_dispatcher: function ( event_name ) {
 				return function () {
 					event_hub.fire( "mini_popup_" + id + "_click" );
-
-					chrome.runtime.sendMessage( { 
-						receiver: 'GlobalAnalytics', name: 'track_analytic', 
-						analytic: { name: 'user_action', val: { 
-							name : 'mini_popup',
-							action: 'click',
-							element_id: id } } 
-					});	
 				};
 			}
 
@@ -58,10 +50,11 @@
 			});
 
 			$( "#cancel", element.shadowRoot ).click( private.get_dispatcher( 'cancel_click' ) );
-
 			$( "#try_again", element.shadowRoot ).click( private.get_dispatcher( 'try_again_click' ) );
 
 			$.extend( element, public );
+
+			event_hub.fire( "class_load", { name : "MiniPopup" } );
 
 		} () )
 

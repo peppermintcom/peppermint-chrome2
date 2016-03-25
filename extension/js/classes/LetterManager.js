@@ -1,5 +1,5 @@
 
-	function LetterManager ( chrome, $, sender_data ) {
+	function LetterManager ( chrome, $, event_hub, sender_data ) {
 		
 		var state = {
 
@@ -138,14 +138,6 @@
 					
 					$('table.row.player').hide();
 
-					chrome.runtime.sendMessage( { 
-						receiver: 'GlobalAnalytics', name: 'track_analytic', 
-						analytic: { name: 'setup', val: { 
-							name: 'lettermanager',
-							action: 'add_link',
-							id: recording_data.id } } 
-					});
-
 				} catch ( error ) {
 					
 					console.error( error );
@@ -177,14 +169,6 @@
 
 					letter.find( "table[alt='buttons']" ).after( audio_element );
 
-					chrome.runtime.sendMessage( { 
-						receiver: 'GlobalAnalytics', name: 'track_analytic', 
-						analytic: { name: 'setup', val: { 
-							name: 'lettermanager',
-							action: 'add_recording_data',
-							id: recording_data.id } } 
-					});
-
 				}
 
 			}
@@ -206,6 +190,8 @@
 				private.reply_template = response;
 
 			});
+			
+			event_hub.fire( 'class_load', { name: 'LetterManager' } );
 
 		} () );
 

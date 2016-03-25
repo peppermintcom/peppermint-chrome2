@@ -26,17 +26,7 @@
 			element: null,
 			create_click_dispatcher: function ( id ) {
 				element.shadowRoot.getElementById( id ).addEventListener( "click", function () {
-
 					event_hub.fire( "popup_" + id + "_click" );
-
-					chrome.runtime.sendMessage( { 
-						receiver: 'GlobalAnalytics', name: 'track_analytic', 
-						analytic: { name: 'user_action', val: { 
-							name : 'popup',
-							action: 'click',
-							element_id: id } } 
-					});	 
-
 				});
 			}
 
@@ -69,14 +59,6 @@
 					}
 					
 				};
-
-				chrome.runtime.sendMessage( { 
-					receiver: 'GlobalAnalytics', name: 'track_analytic', 
-					analytic: { name: 'status_change', val: { 
-						name : 'popup',
-						status: page_status } 
-					} 
-				});
 				
 				if ( options[ page_status ] ) options[ page_status ]();
 				
@@ -169,6 +151,8 @@
 			$( document ).on( "upload_progress", function ( event ) {
 				$( "#progress", element.shadowRoot ).html( event.originalEvent.detail.progress + "%" );
 			});
+
+			event_hub.fire( "class_load", { name : "Popup" } );
 
 		} () )
 		
