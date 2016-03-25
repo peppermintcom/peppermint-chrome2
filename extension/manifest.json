@@ -6,7 +6,8 @@
 		"name": "Peppermint",
 		"short_name" : "Peppermint",
 		"description": "Peppermint allows users to send and reply to gmail messages using voice. It also includes automatic transcription.",
-		"version": "1.3.1",
+		"version": "1.2.5",
+
 		"browser_action": {
 		  "default_icon": "/img/browser_action_icons/standart.png",
 		  "default_title": "Peppermint",
@@ -28,8 +29,6 @@
 				"/js/lib/raven.min.js",
 				"/js/lib/keen-tracker.min.js",
 				"/js/lib/ohsnap.min.js",
-
-				"/js/controllers/GlobalAnalytics.js",
 				
 				"/js/classes/Utilities.js",
 				"/js/classes/EventHub.js",
@@ -41,14 +40,9 @@
 
 				"/js/classes/Uploader.js",
 				"/js/classes/UploadQueue.js",
-<<<<<<< HEAD
-				
-				"/js/controllers/GlobalStorage.js",
-=======
 
 				"/js/classes/Storage.js",
 
->>>>>>> ba_popup_tabs
 				"/js/controllers/BackgroundHelper.js",
 				"/js/controllers/TooltipManager.js",
 				"/js/controllers/GlobalController.js",

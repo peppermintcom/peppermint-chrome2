@@ -23,19 +23,13 @@
 						var el =  function ( id ) { return gmail_elements.getElementById( id ) };
 						var event_hub = new EventHub();
 
-<<<<<<< HEAD
-						new ErrorReporter( event_hub );
-
-						new AudioVisualizer( chrome, $, el("audio_visualizer") );
-=======
 						new AudioVisualizer( chrome, $, event_hub, el("audio_visualizer") );
->>>>>>> ba_popup_tabs
 						new Popup( $, event_hub, t["popup"], el("peppermint_popup") );
 						new Timer( $, event_hub, t["timer"], el("peppermint_timer") );
-						new Player( $, t["player"], el("peppermint_popup_player") );
+						new Player( $, event_hub, t["player"], el("peppermint_popup_player") );
 						new ButtonInserter( chrome, $, event_hub, t["button_inserter"], el("peppermint_button_inserter"), !items["options_data"]["disable_reply_button"] );
 
-						var letter_manager = new LetterManager( chrome, jQuery, sender_data );
+						var letter_manager = new LetterManager( chrome, jQuery, event_hub, sender_data );
 
 						$( document.body ).append( gmail_elements );
 

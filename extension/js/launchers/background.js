@@ -23,10 +23,6 @@
 
 		};
 			
-		var utilities = new Utilities( chrome, $, 'background' );
-		var event_hub = new EventHub();
-		var analytics = new GlobalAnalytics( chrome, $, event_hub );
-			
 		// Open the welcome page on install
 		chrome.runtime.onInstalled.addListener( function ( details ) {
 			
@@ -37,14 +33,10 @@
 					active: true
 				});
 				
-			  	analytics.add_to_send_queue( { name: 'setup', val: { source: 'background', name : 'install' } } );
-				
 			}
 
 			// set up storage defaults
 			chrome.storage.local.set( install_storage_defaults );
-			
-			analytics.add_to_send_queue( { name: 'setup', val: { source: 'background', name : 'storage_defaults', install_storage_defaults } } );
 			
 		});
 
@@ -57,70 +49,10 @@
 				chrome.tabs.reload( tab.id );
 			});
 		});
-	
+
  	} () );
 
-<<<<<<< HEAD
-	( function set_up_global_modules () {
-
-		var event_hub = new EventHub();
-
-		( function set_up_global_recorder () {
-
-			var web_audio_recorder_wrap = new WebAudioRecorderWrap(
-				chrome,				
-				window.navigator,
-				WebAudioRecorder,
-				AudioContext,
-				"/js/lib/WebAudioRecorder/"
-			);
-
-			var transcription_manager = new TranscriptionManager(
-				chrome,
-				jQuery,				
-				"en-US"
-			);
-
-			new GlobalRecorder(
-				chrome,
-				jQuery,
-				event_hub,
-				web_audio_recorder_wrap,
-				transcription_manager
-			);
-
-		} () );
-
-		( function set_up_global_uploader () {
-			
-			chrome.identity.getProfileUserInfo( function ( info ) {
-
-				var uploader = new Uploader(
-					chrome,
-					jQuery,					
-					{
-						sender_name: "",
-						sender_email: info.email
-					}
-				);
-
-				var upload_queue = new UploadQueue(
-					chrome,
-					jQuery,
-					event_hub,
-					uploader
-				);
-
-				new GlobalUploader(
-					chrome,
-					jQuery,
-					event_hub,
-					upload_queue,
-					uploader
-				);
-=======
 	( function set_up_background_helper () {
->>>>>>> ba_popup_tabs
 
 		new BackgroundHelper(
 			chrome,

@@ -11,11 +11,7 @@
 
 		};
 
-<<<<<<< HEAD
-						Raven.log( 'PopupController', 'begin_recording', 'Failed to begin recording', response.error );
-=======
 		( function set_up_dom_event_handling () {
->>>>>>> ba_popup_tabs
 
 			event_hub.add({
 
@@ -141,133 +137,49 @@
 					$( "#transcript" ).text( "" );
 					$( "#player" )[0].disable();
 
-<<<<<<< HEAD
-				chrome.runtime.sendMessage( { 
-					receiver: 'GlobalAnalytics', name: 'track_analytic', 
-					analytic: { name: 'user_action', val: { 
-						name: 'popupcontroller',
-						action: 'click',
-						element: 'popup_welcome_start_recording' } } 
-				});
-
-			},
-=======
 					$( "#popup_finish_url" )[0].href = message.recording_data.urls.short_url;
 					$( "#popup_finish_url" ).text( message.recording_data.urls.short_url );
 					$( ".screen" ).hide();
 					$( "#finish_screen" ).show();
->>>>>>> ba_popup_tabs
 
 				},
 
 				got_audio_data: function ( message ) {
 
-<<<<<<< HEAD
-				chrome.runtime.sendMessage( { 
-					receiver: 'GlobalAnalytics', name: 'track_analytic', 
-					analytic: { name: 'user_action', val: { 
-						name: 'popupcontroller',
-						action: 'click',
-						element: 'popup_recording_cancel_button' } } 
-				});
-
-			},
-=======
 					state.recording_data = message.recording_data;
 						
 					$( "#transcript" ).text( message.recording_data.transcription_data.text );
 					if ( message.recording_data.transcription_data.text ) $( "#transcription_header" ).show();
 					$( "#player" )[0].set_url( message.recording_data.uploaded ? message.recording_data.urls.canonical_url : message.recording_data.data_url );
 					$( "#player" )[0].enable();
->>>>>>> ba_popup_tabs
 
 				}
 
-<<<<<<< HEAD
-				chrome.runtime.sendMessage( { 
-					receiver: 'GlobalAnalytics', name: 'track_analytic', 
-					analytic: { name: 'user_action', val: { 
-						name: 'popupcontroller',
-						action: 'click',
-						element: 'popup_recording_done_button' } } 
-				});
-
-			},
-=======
 			};
->>>>>>> ba_popup_tabs
 
 			chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
 
 				if ( message.receiver === "Content" && message.target && message.target.name === "popup" ) {
 
-<<<<<<< HEAD
-				chrome.runtime.sendMessage( { 
-					receiver: 'GlobalAnalytics', name: 'track_analytic', 
-					analytic: { name: 'user_action', val: { 
-						name: 'popupcontroller',
-						action: 'click',
-						element: 'popup_error_cancel_button' } } 
-				});
-
-			},
-=======
 					if ( message_handlers[ message.name ] ) {
->>>>>>> ba_popup_tabs
 
 						message_handlers[ message.name ]( message );
 
 					}
 
-<<<<<<< HEAD
-				chrome.runtime.sendMessage( { 
-					receiver: 'GlobalAnalytics', name: 'track_analytic', 
-					analytic: { name: 'user_action', val: { 
-						name: 'popupcontroller',
-						action: 'click',
-						element: 'popup_error_try_again_button' } } 
-				});
-
-			},
-=======
 				}
->>>>>>> ba_popup_tabs
 
 			});
 
 		} () );
 
-<<<<<<< HEAD
-				chrome.runtime.sendMessage( { 
-					receiver: 'GlobalAnalytics', name: 'track_analytic', 
-					analytic: { name: 'user_action', val: { 
-						name: 'popupcontroller',
-						action: 'click',
-						element: 'popup_finish_start_new_button' } } 
-				});
-
-			},
-=======
 		( function init () {
->>>>>>> ba_popup_tabs
 
 			chrome.runtime.sendMessage( { receiver: "GlobalController", name: "get_last_popup_recording" }, function ( data ) {
 
 				if ( data ) {
 
-<<<<<<< HEAD
-				chrome.runtime.sendMessage( { 
-					receiver: 'GlobalAnalytics', name: 'track_analytic', 
-					analytic: { name: 'user_action', val: { 
-						name: 'popupcontroller',
-						action: 'click',
-						element: 'popup_delete_transcription_button' } } 
-				});
-
-			}
-=======
 					state.recording_data = data;
->>>>>>> ba_popup_tabs
 
 					if ( data.state === "recording" ) {
 

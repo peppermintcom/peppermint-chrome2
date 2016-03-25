@@ -1,5 +1,5 @@
 
-	function AudioVisualizer ( chrome, $, element ) {
+	function AudioVisualizer ( chrome, $, event_hub, element ) {
 		
 		var private = {
 			

@@ -16,13 +16,7 @@
 
 			event_hub.add({
 
-<<<<<<< HEAD
-					} else {
-						
-						Raven.log( 'GmailController	', 'begin_recording', 'Failed to begin recording', response.error );
-=======
 				peppermint_compose_button_click: function ( data ) {
->>>>>>> ba_popup_tabs
 
 					if ( !state.recording ) {
 
@@ -77,52 +71,19 @@
 						}
 					}, 20 );
 
-					chrome.runtime.sendMessage( { 
-						receiver: 'GlobalAnalytics', name: 'track_analytic', 
-						analytic: { name: 'user_action', val: { 
-							name: 'gmailcontroller',
-							action: 'click',
-							element: 'peppermint_compose_button',
-							id: state.compose_button_id } } 
-					});
-
 				}
 
 			});
 
 			$( window ).unload( function () {
 
-<<<<<<< HEAD
-				chrome.runtime.sendMessage( { 
-					receiver: 'GlobalAnalytics', name: 'track_analytic', 
-					analytic: { name: 'user_action', val: { 
-						name: 'gmailcontroller',
-						action: 'click',
-						element: 'popup_recording_cancel_button' } } 
-				});
-
-			},
-=======
 				if ( state.recording ) private.cancel_recording();
->>>>>>> ba_popup_tabs
 
 			});
 
 		} () );
 
-<<<<<<< HEAD
-				chrome.runtime.sendMessage( { 
-					receiver: 'GlobalAnalytics', name: 'track_analytic', 
-					analytic: { name: 'user_action', val: { 
-						name: 'gmailcontroller',
-						action: 'click',
-						element: 'popup_recording_done_button' } } 
-				});
-
-			},
-=======
 		( function set_up_runtime_message_handling () {
->>>>>>> ba_popup_tabs
 
 			var message_handlers = {
 
@@ -132,39 +93,13 @@
 					$('#peppermint_popup')[0].set_page("recording_page");
 					$('#peppermint_popup')[0].set_page_status("recording");
 
-<<<<<<< HEAD
-				}
-
-				chrome.runtime.sendMessage( { 
-					receiver: 'GlobalAnalytics', name: 'track_analytic', 
-					analytic: { name: 'user_action', val: { 
-						name: 'gmailcontroller',
-						action: 'click',
-						element: 'popup_error_try_again_button' } } 
-				});
-			
-			},
-=======
 					state.recording = true;
->>>>>>> ba_popup_tabs
 
 				},
 
 				recording_not_started: function ( message ) {
 
-<<<<<<< HEAD
-				chrome.runtime.sendMessage( { 
-					receiver: 'GlobalAnalytics', name: 'track_analytic', 
-					analytic: { name: 'user_action', val: { 
-						name: 'gmailcontroller',
-						action: 'click',
-						element: 'popup_error_cancel_button' } } 
-				});
-
-			},
-=======
 					console.error( "Failed to begin recording", message.error );
->>>>>>> ba_popup_tabs
 
 					if ( message.error.name === "PermissionDeniedError" || message.error.name === "NavigatorUserMediaError" ) {
 						
@@ -178,21 +113,10 @@
 
 					} else {
 
-<<<<<<< HEAD
-						chrome.runtime.sendMessage( { 
-							receiver: 'GlobalAnalytics', name: 'track_analytic', 
-							analytic: { name: 'user_action', val: { 
-								name: 'gmailcontroller',
-								action: 'click',
-								element: 'peppermint_reply_button' } } 
-						});
-
-=======
 						$('#peppermint_popup')[0].set_error_message( "Your microphone is not working. Please check your audio settings and try again." );
 						$('#peppermint_popup')[0].set_page("microphone_error_page");
 						$('#peppermint_popup').show();
 						
->>>>>>> ba_popup_tabs
 					}
 
 				},

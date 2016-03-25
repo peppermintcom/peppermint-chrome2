@@ -1,5 +1,5 @@
 
-	var Player = function ( $, template, element ) {
+	var Player = function ( $, hub, template, element ) {
 		
 		var private = {
 			

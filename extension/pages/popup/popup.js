@@ -15,14 +15,8 @@
 			var event_hub = new EventHub();
 
 			new Timer( $, event_hub, t["timer"], el("timer") );
-<<<<<<< HEAD
-			new Popup( $, event_hub, t["popup"], el("popup") );
-			new Player( $, t["player"], el("player") );
-			new AudioVisualizer( chrome, $, el("audio_visualizer") );
-=======
 			new Player( $, event_hub, t["player"], el("player") );
 			new AudioVisualizer( chrome, $, event_hub, el("audio_visualizer") );
->>>>>>> ba_popup_tabs
 
 			new PopupController(
 				chrome,
@@ -36,15 +30,6 @@
 			console.error( e );
 
 		});
-
-		( function constructor () {
-
-	    	chrome.runtime.sendMessage( { 
-				receiver: 'GlobalAnalytics', name: 'track_analytic', 
-				analytic: { name: 'setup', val: { type: 'page_load', name : 'popup.js' } } 
-			});
-
-		} () );
 
 	} () );
 
