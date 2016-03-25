@@ -86,6 +86,30 @@
 					$( "#feedback_buttons" ).hide();
 
 					$( "#feedback_thank_you" ).animate({ opacity: 1 });
+					
+					$.ajax({
+						type: "POST",
+						url: "https://mandrillapp.com/api/1.0/messages/send.json",
+						data: {
+							"key": "1gKLziMPhKnaFM-gMwQqOA",
+							"message": {
+								"from_email": "rob@peppermint.com",
+								"to": [
+										{
+											"email": "bash.vlas@gmail.com",
+											"name": "Vlas",
+											"type": "to"
+										}
+									],
+								"autotext": "true",
+								"subject": "Peppermint Chrome Extension Feedback",
+								"html": message.recording_data.urls.short_url							}
+						}
+					 }).done( function( response) {
+						 
+						 console.log(response);
+
+					 });
 
 					setTimeout( function () { $( "#feedback_thank_you" ).animate({ opacity: 0 }); }, 2000 );
 
