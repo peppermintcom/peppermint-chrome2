@@ -101,8 +101,8 @@
 						var audio_element = $( "<audio controls ></audio>" )[ 0 ];
 						audio_element.src = urls.long;
 
-						$( pep_email ).find( "td[alt='fake_audio_container']" ).append( audio_element );
-						$( pep_email ).find( "table[alt='controls']" ).remove();
+						$( pep_email ).find( "table[alt='buttons']" ).after( audio_element );
+						$( pep_email ).find( "table[alt='buttons']" ).remove();
 						$( pep_email ).attr( "alt", "" );
 
                         // if audio can't be reached, swap to an error message/icon

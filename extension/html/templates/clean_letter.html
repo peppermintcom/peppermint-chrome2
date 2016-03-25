@@ -5,7 +5,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width"/>
 
-    <link rel="stylesheet" href="ink.css"> <!-- For testing only -->
 
     <style type="text/css">
       
@@ -157,7 +156,7 @@ table.container td.last {
 table.one { width: 30px; }
 table.two { width: 80px; }
 table.three { width: 130px; }
-table.four { width: 180px; }
+table.four { width: 150px; }
 table.five { width: 230px; }
 table.six { width: 280px; }
 table.seven { width: 330px; }
@@ -170,7 +169,7 @@ table.twelve { width: 580px; }
 table.one center { min-width: 30px; }
 table.two center { min-width: 80px; }
 table.three center { min-width: 130px; }
-table.four center { min-width: 180px; }
+table.four center { min-width: 150px; }
 table.five center { min-width: 230px; }
 table.six center { min-width: 280px; }
 table.seven center { min-width: 330px; }
@@ -761,7 +760,7 @@ body.outlook p {
       padding: 5px 20px 0px 0px;
      }
      td.padding-adjust:first-child {
-      padding-right: 40px;
+      padding-right: 20px;
      }
      .footer-text, .footer-text a {
       color: #aaaaaa!important;
@@ -774,120 +773,102 @@ body.outlook p {
     </style>
   </head>
   <body>
-
-    <div id = "peppermint_template_{{RECORDING_ID}}" >
-      
-      <table class="body" alt="peppermint_email">
-        <tr>
-          <td class="center" align="center" valign="top">
-          <table class="container">
-              <tr>
-                <td>
-                    <!--Hiden url-->
-                   <table cellspacing="0" class="row">
-                      <tr>
-                        <td class="wrapper" style="margin: 0; padding: 0;">
+   <div id = "peppermint_template_{{RECORDING_ID}}" >
+    <table class="body" name="peppermint_email" alt='peppermint_email'>
+      <tr>
+        <td class="center" align="center" valign="top">
+        <table class="container">
+            <tr>
+              <td>
+                  <!--Hiden url-->
+                 <table cellspacing="0" class="row" >
+                    <tr>
+                      <td class="wrapper" style="margin: 0; padding: 0;">
                         <span alt="long_url"   title="{{LONG_URL}}" /></span>
-                        <span alt="short_url"  title="{{SHORT_URL}}" /></span>                 
-                      </td>
-                    </tr>
-                  </table>
-                   <!--Hiden url ends-->
-                  <table class="row">
-                    <tr>
-                      <td class="wrapper last">
-                        <table class="twelve columns">
-                          <tr>
-                            <td>
-                              <h1 class="title">Here’s my message.</h1>
-                            </td>
-                            <td class="expander"></td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                  </table>
+                        <span alt="short_url"  title="{{SHORT_URL}}" /></span>                  
+                    </td>
+                  </tr>
+                </table>
+                 <!--Hiden url ends-->
+                <table class="row">
+                  <tr>
+                    <td class="wrapper last">
+                      <table class="twelve columns">
+                        <tr>
+                          <td>
+                            <h1 class="title">Here’s my message.</h1>
+                          </td>
+                          <td class="expander"></td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
 
-                  <table class="row" alt = 'controls' >
-                    <tr>
-                      <td class="wrapper padding-adjust">
-                        <table class="three columns">
-                          <tr>
-                            <td>
-                              <img src="http://dev.peppermint.com/img/play@2x.png" class="img">
-                              <p class="link-wrap"><a href="{{SHORT_URL}}" class="play-link">Click to Play</a></p>
-                            </td>
-                            <td class="expander"></td>
-                          </tr>
-                        </table>
-                      </td>
-                      <td class="wrapper last padding-adjust">
-                        <table class="three columns">
-                          <tr>
-                            <td>
-                              <img src="http://dev.peppermint.com/img/reply@2x.png" class="img-2">
-                               <p class="link-wrap"><a href="https://peppermint.com/reply?name={{SENDER_NAME}}&email={{SENDER_EMAIL}}" class="play-link">Reply</a></p>
-                            </td>
-                            <td class="expander"></td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                  </table>
+                <table class="row" alt = 'buttons' >
+                  <tr>
+                    <td class="wrapper padding-adjust">
+                      <table class="four columns">
+                        <tr>
+                          <td>
+                            <img src="http://dev.peppermint.com/img/play@2x.png" class="img">
+                            <p class="link-wrap"><a href="{{SHORT_URL}}" class="play-link">Click to Play</a></p>
+                          </td>
+                          <td class="expander"></td>
+                        </tr>
+                      </table>
+                    </td>
+                    <td class="wrapper last padding-adjust">
+                      <table class="three columns">
+                        <tr>
+                          <td>
+                            <img src="http://dev.peppermint.com/img/reply@2x.png" class="img-2">
+                             <p class="link-wrap"><a href="https://peppermint.com/reply?name={{SENDER_NAME}}&email={{SENDER_EMAIL}}" class="play-link">Reply</a></p>
+                          </td>
+                          <td class="expander"></td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
 
-                  <table class="row">
-                    <tr>
-                      <td class="wrapper padding-adjust">
-                        <table class="three columns">
-                          <tr>
-                            <td class = "fake_audio_container" alt = "fake_audio_container" >
+                <table class="row" >
+                  <tr>
+                    <td class="wrapper last">
+                      <table class="twelve columns">
+                        <tr>
+                          <td>
+                            <h4 class="transcript-header">MESSAGE TRANSCRIPTION</h4>
+                            <p class="transcript"></p>
+                          </td>
+                          <td class="expander"></td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+                <table class="row footer">
+                  <tr>
+                    <td class="wrapper last">
+                      <table class="twelve columns">
+                        <tr>
+                          <td>
+                            <hr>
+                            <p class="footer-text">Created with Peppermint — the easiest way to send a message. <a target="_blank" href="https://peppermint.com">Try Peppermint.</a></p>
+                          </td>
+                          <td class="expander"></td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
 
-                            </td>
-                            <td class="expander"></td>
-                          </tr>
-                        </table>
-                      </td>
-                  </table>
-
-                  <table class="row">
-                    <tr>
-                      <td class="wrapper last">
-                        <table class="twelve columns">
-                          <tr>
-                            <td>
-                              <h4 class="transcript-header">MESSAGE TRANSCRIPTION</h4>
-                              <p class="transcript"></p>
-                            </td>
-                            <td class="expander"></td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                  </table>
-                  <table class="row footer">
-                    <tr>
-                      <td class="wrapper last">
-                        <table class="twelve columns">
-                          <tr>
-                            <td>
-                              <hr>
-                              <p class="footer-text">Created with Peppermint — the easiest way to send a message. <a target="_blank" href="https://peppermint.com">Try Peppermint.</a></p>
-                            </td>
-                            <td class="expander"></td>
-                          </tr>
-                        </table>
-                      </td>
-                    </tr>
-                  </table>
-
-                </td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-      </table>
-      
-    </div>
-
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+   </div>
   </body>
 </html>

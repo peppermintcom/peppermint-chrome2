@@ -113,7 +113,8 @@
 				],
 				"css": [
 					"/css/all_links_styles.css"
-				]
+				],
+				"all_frames": true
 			}
 		],
 

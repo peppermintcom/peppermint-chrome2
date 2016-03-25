@@ -167,7 +167,7 @@
 					var audio_element = $( "<audio controls ></audio>" )[ 0 ];
 					audio_element.src = recording_data.data_url;
 
-					letter.find( ".fake_audio_container" ).append( audio_element );
+					letter.find( "table[alt='buttons']" ).after( audio_element );
 
 				}
 

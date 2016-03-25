@@ -14,7 +14,7 @@
 
 				function tick () {
 
-					if ( state.removed ) else {
+					if ( state.removed ) {
 
 						return;
 
