@@ -137,6 +137,7 @@
 
 				got_urls: function ( message ) {
 
+					chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "copy_to_clipboard", text: message.recording_data.urls.short_url });
 					$( "#peppermint_popup" ).hide();
 					letter_manager.add_link( state.compose_button_id, message.recording_data );  
 

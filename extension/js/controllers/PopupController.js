@@ -134,6 +134,8 @@
 
 					state.recording_data = message.recording_data;
 
+					chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "copy_to_clipboard", text: message.recording_data.urls.short_url });
+
 					$( "#transcript" ).text( "" );
 					$( "#player" )[0].disable();
 
@@ -191,6 +193,7 @@
 						$( ".screen" ).hide();
 						$( "#finish_screen" ).show();
 
+						chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "copy_to_clipboard", text: message.recording_data.urls.short_url });
 						$( "#popup_finish_url" )[0].href = data.urls.short_url;
 						$( "#popup_finish_url" ).text( data.urls.short_url );
 
