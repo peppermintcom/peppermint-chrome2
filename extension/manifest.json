@@ -109,6 +109,30 @@
 				"run_at": "document_end"
 			},
 			{
+				"matches": ["https://*.slack.com/*"],
+				"js": [
+
+					"/js/lib/jQuery/jquery-2.1.4.min.js",
+					
+					"/js/classes/EventHub.js",
+					"/js/classes/LauncherHelper.js",
+
+					"/js/classes/SlackButtonInserter.js",
+
+					"/js/elements/RecordingButton.js",
+
+					"/js/controllers/SlackController.js",
+
+					"/js/launchers/slack_content.js"
+
+				],
+				"css": [
+					"/css/content.css",
+					"/css/audio_visualizer.css"
+				],
+				"run_at": "document_end"
+			},
+			{
 				"matches": [ 
 
 					"https://*/*",
