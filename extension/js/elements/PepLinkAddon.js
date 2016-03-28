@@ -1,60 +1,21 @@
 	
-	function PepLinkAddon ( $, event_hub, template, element, long_url, transcription, link ) {
+	function PepLinkAddon ( chrome, $, event_hub, template, element, link ) {
 		
 		var state = {
 
 			wrap: null,
-			removed: false
+			transcription: ""
 
 		};
 
 		var private = {
-
-			stick_to_link: function ( link ) {
-
-				function tick () {
-
-					if ( state.removed ) {
-
-						return;
-
-					} else {
-						
-						requestAnimationFrame( tick );
-
-					}
-
-					var rect = link.getClientRects()[0];
-					var element_at_point = document.elementFromPoint( rect.left + 2, rect.top + 2 );
-
-					// element.style.top = rect.top + "px";
-					// element.style.left = rect.left + "px";
-
-					element.style.transform = "translate( Xpx, Ypx )".replace( "X", rect.left ).replace( "Y", rect.top );
-
-					if ( element_at_point === link || element_at_point === element ) {
-
-						element.classList.remove( "peppermint_link_icon_overlayed" );
-						link.classList.add( "peppermint_link" );
-
-					} else {
-
-						element.classList.add( "peppermint_link_icon_overlayed" );
-						link.classList.remove( "peppermint_link" );
-
-					}
-
-				}
-
-				tick();
-
-			},
 
 			play_click_handler: function () {
 
 				$( "#play_icon", state.wrap ).hide();
 				$( "#pause_icon", state.wrap ).css( "display", "flex" );
 
+				$( "#audio_element", state.wrap ).css({ height: "30px" });
 				$( "#audio_element", state.wrap ).animate({ width: "300px" });
 				$( "#audio_element", state.wrap )[ 0 ].play();
 
@@ -65,8 +26,13 @@
 				$( "#play_icon", state.wrap ).css( "display", "flex" );
 				$( "#pause_icon", state.wrap ).hide();
 
-				$( "#audio_element", state.wrap ).animate({ width: "0px" });
+				$( "#audio_element", state.wrap ).animate({ width: "0px" }, 400 );
 				$( "#audio_element", state.wrap )[ 0 ].pause();
+				setTimeout( function () {
+
+					$( "#audio_element", state.wrap ).css({ height: "0px" });
+				
+				}, 400 );
 
 			},
 
@@ -75,14 +41,19 @@
 				$( "#play_icon", state.wrap ).css( "display", "flex" );
 				$( "#pause_icon", state.wrap ).hide();
 
-				$( "#audio_element", state.wrap ).animate({ width: "0px" });
+				$( "#audio_element", state.wrap ).animate({ width: "0px" }, 400 );
 				$( "#audio_element", state.wrap )[ 0 ].pause();
+				setTimeout( function () {
+
+					$( "#audio_element", state.wrap ).css({ height: "0px" });
+				
+				}, 400 );
 
 			},
 
 			icons_mouseenter_handler: function () {
 
-				if ( transcription ) {
+				if ( state.transcription ) {
 
 					$( "#transcription", state.wrap ).show().animate( { opacity: 1 }, 200 );
 
@@ -92,13 +63,64 @@
 
 			icons_mouseleave_handler: function () {
 
-				if ( transcription ) {
+				if ( state.transcription ) {
 
 					$( "#transcription", state.wrap ).animate( { opacity: 0 }, 200, function () {
 						$( "#transcription", state.wrap ).hide();
 					});
 					
 				}
+
+			},
+
+			init_event_handlers: function () {
+
+				$( "#audio_element", state.wrap ).on( "ended", private.audio_ended_handler );
+
+				$( "#pause_icon", state.wrap ).on( "click", private.pause_click_handler );
+				$( "#play_icon", state.wrap ).on( "click", private.play_click_handler );
+
+				$( state.wrap ).on( "mouseenter", private.icons_mouseenter_handler );
+				$( state.wrap ).on( "mouseleave", private.icons_mouseleave_handler );
+
+				$( element ).on( "click", function ( event ) {
+
+					event.preventDefault();
+					event.stopPropagation();
+
+				});
+
+			},
+
+			get_link_data: function () {
+
+				chrome.runtime.sendMessage({ receiver: "GlobalController", name: "short_url_to_recording_data", short_url: link.href }, function ( response ) {
+
+					if ( response ) {
+
+						if ( response.data[0].attributes.is_complete ) {
+
+							$( link ).prepend( element );
+
+							$( "#audio_element", state.wrap )[ 0 ].src = response.data[0].attributes.canonical_url;
+							$( "#transcription", state.wrap ).html( response.data[0].attributes.transcription );
+
+							state.transcription = response.data[0].attributes.transcription;
+
+						} else {
+
+							console.log( "Audio is not yet ready" );
+							setTimeout( private.get_link_data, 1000 );
+
+						}
+
+					} else {
+
+						delete( element );
+
+					}
+
+				});
 
 			}
 
@@ -121,27 +143,16 @@
 		( function () {
 			
 			element.createShadowRoot().appendChild( document.importNode( template.content, true ) );
+			element.classList.add( "pep_link_addon" );
 
-			var wrap = state.wrap = element.shadowRoot.querySelector( "#wrap" );
+			state.wrap = element.shadowRoot.querySelector( "#wrap" );
 
-			private.stick_to_link( link );
-
-			$( "#audio_element", wrap )[ 0 ].src = long_url;
-			$( "#audio_element", wrap ).on( "ended", private.audio_ended_handler );
-
-			$( "#pause_icon", wrap ).on( "click", private.pause_click_handler );
-			$( "#play_icon", wrap ).on( "click", private.play_click_handler );
-
-			$( wrap ).on( "mouseenter", private.icons_mouseenter_handler );
-			$( wrap ).on( "mouseleave", private.icons_mouseleave_handler );
-
-			$( "#transcription", wrap ).html( transcription );
+			private.init_event_handlers();
+			private.get_link_data();
 
 			$.extend( element, public );
 
-			event_hub.fire( "class_load", { name : "PepLinkAddon" } );
-
-		} () )
+		} () );
 
 		return element;
 

@@ -1,5 +1,5 @@
 
-	function GlobalController ( chrome, $, hub, recorder, uploader, upload_queue, storage ) {
+	function GlobalController ( chrome, $, hub, recorder, uploader, upload_queue, storage, backend_manager ) {
 
 		var MAX_RECORDING_TIME = 5 * 60 * 1000;
 
@@ -93,123 +93,135 @@
 
 		};
 
+		var hub_handlers = {
+
+			recording_data_uploaded: function ( data ) {
+
+				storage.id_to_recording_data( data.id )
+				.then( function ( recording_data) {
+
+					recording_data.state = "uploaded";
+					recording_data.data_url = "";
+
+					storage.update_recording_data( recording_data );
+
+					private.fire({ receiver: "Content", name: "recording_uploaded", recording_data });
+
+				});
+
+			},
+
+			transcription_uploaded: function ( data ) {
+
+				storage.id_to_recording_data( data.recording_data_id )
+				.then( function ( recording_data ) {
+
+					recording_data.transcription_url = data.transcription_url;
+					storage.update_recording_data( recording_data );
+
+				});
+
+			},
+
+			recording_timeout: function () {
+
+				private.finish_recording();
+				alert( "Peppermint recording timeout!" );
+
+			}
+
+		};
+
+		var runtime_event_handlers = {
+
+			start_recording: function ( message, sender, callback ) {
+
+				message.source.tab_id = sender.tab ? sender.tab.id : 0;
+				private.start_recording( message.source );
+
+			},
+
+			cancel_recording: function ( message, sender, callback ) {
+		
+				message.source.tab_id = sender.tab ? sender.tab.id : 0;
+				private.cancel_recording( message.source );
+
+			},
+
+			finish_recording: function ( message, sender, callback ) {
+
+				message.source.tab_id = sender.tab ? sender.tab.id : 0;
+				private.finish_recording( message.source );
+
+			},
+
+			get_last_popup_recording: function ( message, sender, callback ) {
+
+				storage.get_last_recording_data_by_source_name( "popup" )
+				.then( callback );
+
+			},
+
+			get_last_popup_feedback_recording: function ( message, sender, callback ) {
+
+				storage.get_last_recording_data_by_source_name( "popup_feedback" )
+				.then( callback );
+
+			},
+
+			delete_transcription: function ( message, sender, callback ) {
+
+				storage.id_to_recording_data( message.source.recording_data_id )
+				.then( function ( recording_data ) {
+
+					uploader.delete_transcription( recording_data );
+					storage.delete_transcription( message.source.recording_data_id );
+
+				});
+
+			},
+
+			get_recording_data_arr: function ( message, sender, callback ) {
+
+				storage.get_recording_data_arr().then( callback );
+
+			},
+
+			delete_recording_data: function ( message, sender, callback ) {
+
+				storage.delete_recording_data( message.recording_data.id );
+
+			},
+
+			get_tab_id: function ( message, sender, callback ) {
+
+				callback( sender.tab.id );
+
+			},
+
+			short_url_to_recording_data: function ( message, sender, callback ) {
+
+				backend_manager.short_url_to_recording_data( message.short_url )
+				.then( callback )
+				.catch( function () {
+					callback( false );
+				});
+
+			}
+
+		};
+		
 		( function handle_incoming_messages () {
 
-			hub.add({
-
-				recording_data_uploaded: function ( data ) {
-
-					storage.id_to_recording_data( data.id )
-					.then( function ( recording_data) {
-
-						recording_data.state = "uploaded";
-						recording_data.data_url = "";
-
-						storage.update_recording_data( recording_data );
-
-						private.fire({ receiver: "Content", name: "recording_uploaded", recording_data });
-
-					});
-
-				},
-
-				transcription_uploaded: function ( data ) {
-
-					storage.id_to_recording_data( data.recording_data_id )
-					.then( function ( recording_data ) {
-
-						recording_data.transcription_url = data.transcription_url;
-						storage.update_recording_data( recording_data );
-
-					});
-
-				},
-
-				recording_timeout: function () {
-
-					private.finish_recording();
-					alert( "Peppermint recording timeout!" );
-
-				}
-
-			});
-
-			var runtime_event_handler = {
-
-				start_recording: function ( message, sender, callback ) {
-
-					message.source.tab_id = sender.tab ? sender.tab.id : 0;
-					private.start_recording( message.source );
-
-				},
-
-				cancel_recording: function ( message, sender, callback ) {
-			
-					message.source.tab_id = sender.tab ? sender.tab.id : 0;
-					private.cancel_recording( message.source );
-
-				},
-
-				finish_recording: function ( message, sender, callback ) {
-
-					message.source.tab_id = sender.tab ? sender.tab.id : 0;
-					private.finish_recording( message.source );
-
-				},
-
-				get_last_popup_recording: function ( message, sender, callback ) {
-
-					storage.get_last_recording_data_by_source_name( "popup" )
-					.then( callback );
-
-				},
-
-				get_last_popup_feedback_recording: function ( message, sender, callback ) {
-
-					storage.get_last_recording_data_by_source_name( "popup_feedback" )
-					.then( callback );
-
-				},
-
-				delete_transcription: function ( message, sender, callback ) {
-
-					storage.id_to_recording_data( message.source.recording_data_id )
-					.then( function ( recording_data ) {
-
-						uploader.delete_transcription( recording_data );
-						storage.delete_transcription( message.source.recording_data_id );
-
-					});
-
-				},
-
-				get_recording_data_arr: function ( message, sender, callback ) {
-
-					storage.get_recording_data_arr().then( callback );
-
-				},
-
-				delete_recording_data: function ( message, sender, callback ) {
-
-					storage.delete_recording_data( message.recording_data.id );
-
-				},
-
-				get_tab_id: function ( message, sender, callback ) {
-
-					callback( sender.tab.id );
-
-				}
-
-			};
+			hub.add( hub_handlers );
 
 			chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
 
 				if ( message.receiver === "GlobalController" ) {
 
-					if ( runtime_event_handler[ message.name ] ) {
+					if ( runtime_event_handlers[ message.name ] ) {
 
-						runtime_event_handler[ message.name ]( message, sender, callback );
+						runtime_event_handlers[ message.name ]( message, sender, callback );
 						return true;
 
 					}

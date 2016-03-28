@@ -76,6 +76,8 @@
 
 			element.createShadowRoot().appendChild( document.importNode( template.content, true ) );
 
+			$( element ).on( "click", function () { hub.fire( "recording_button_click" ) } );
+
 			state.wrap = element.shadowRoot.querySelector( "#wrap" );
 			state.big_black = $( "#big_black", state.wrap )[ 0 ];
 			state.big_transp = $( "#big_transp", state.wrap )[ 0 ];

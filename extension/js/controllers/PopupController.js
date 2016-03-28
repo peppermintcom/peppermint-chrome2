@@ -1,5 +1,5 @@
 
-	function PopupController ( chrome, $, event_hub ) {
+	function PopupController ( chrome, $, event_hub, button ) {
 
 		var state = {
 

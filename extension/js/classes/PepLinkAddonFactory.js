@@ -1,17 +1,16 @@
 	
-	function PepLinkAddonFactory ( jQuery, event_hub, PepLinkAddon, template ) {
+	function PepLinkAddonFactory ( chrome, jQuery, event_hub, PepLinkAddon, template ) {
 		
 		var public = {
 
-			make_addon: function ( link, long_url, transcription ) {
+			make_addon: function ( link, short_link_id ) {
 
 				return new PepLinkAddon(
+					chrome,
 					jQuery,
 					event_hub,
 					template,
 					document.createElement( "div" ),
-					long_url,
-					transcription,
 					link
 				);
 

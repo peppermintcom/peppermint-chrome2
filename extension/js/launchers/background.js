@@ -134,6 +134,10 @@
 			event_hub
 		);
 
+		var backend_manager = new BackendManager(
+			jQuery.ajax
+		);
+
 		new GlobalController(
 			chrome,
 			jQuery,
@@ -141,7 +145,8 @@
 			recorder,
 			uploader,
 			upload_queue,
-			storage
+			storage,
+			backend_manager
 		);
 
 		new BaController(

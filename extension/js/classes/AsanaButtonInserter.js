@@ -9,7 +9,7 @@
 
 			document_to_container: function ( document ) {
 
-				return $( "#details_property_sheet__new_comment_button .new-button-text", document )[ 0 ];
+				return $( ".taskCommentsView-toolbar", document )[ 0 ];
 
 			},
 
@@ -31,29 +31,22 @@
 		( function () {
 
 			$( button ).css({
-				"display": "block",
+				"display": "none",
 				"position": "absolute",
-				"top": "-5px",
-				"left": "-42px",
+				"right": "100px",
 				"width": "24px",
-				"height": "24px"
+				"height": "24px",
+				"margin-top": "2.5px"
 			});
-
-			$( button ).on( "click", button.toggle );
 
 			( function tick () {
 
 				var container = private.document_to_container( document );
 
-				if ( container ) {
+				if ( container && !private.container_has_button( container ) ) {
 
-					var rect = container.getBoundingClientRect();
-					$( button ).css({ transform: "translate( Xpx, Ypx )".replace( "X", rect.left ).replace( "Y", rect.top ) });
+					private.insert_button( container, button );
 					$( button ).show();
-
-				} else {
-
-					$( button ).hide();
 
 				}
 

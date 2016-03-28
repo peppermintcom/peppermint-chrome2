@@ -11,13 +11,18 @@
 		.then( function ( t ) {
 
 			var event_hub = new EventHub();
-			var pep_link_addon_factory = new PepLinkAddonFactory( jQuery, event_hub, PepLinkAddon, t["addon"] );
+			
+			var pep_link_addon_factory = new PepLinkAddonFactory(
+				chrome,
+				jQuery,
+				event_hub,
+				PepLinkAddon, t["addon"]
+			);
 
 			new AllLinksController(
 				jQuery,
 				event_hub,
-				pep_link_addon_factory,
-				new BackendManager( jQuery.ajax )
+				pep_link_addon_factory
 			);
 
 		})

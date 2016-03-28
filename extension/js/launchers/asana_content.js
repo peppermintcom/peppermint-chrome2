@@ -20,6 +20,13 @@
 				button
 			);
 
+			new AsanaController(
+				chrome,
+				jQuery,
+				event_hub,
+				button
+			);
+
 		});
 
 	} () );
