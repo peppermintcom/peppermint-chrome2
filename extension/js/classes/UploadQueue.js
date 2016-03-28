@@ -6,7 +6,7 @@
 			queue: [], // array of recording_data objects
 			queue_is_active: false,
 			token_promise: undefined,
-			urls_promise: undefined
+			urls: false
 		
 		};
 
@@ -16,7 +16,12 @@
 
 				if ( alarm.name = "upload_queue_alarm" ) {
 
-					state.urls_promise = uploader.get_urls_promise( state.token_promise );
+					uploader.get_urls_promise( state.token_promise )
+					.then( function ( urls ) {
+						
+						state.urls = urls;
+
+					});
 
 					private.launch_queue_uploading();
 
@@ -80,31 +85,23 @@
 
 			push: function ( recording_data ) {
 
-				if ( recording_data.urls ) {
-
-					state.queue.push( recording_data );
-					return recording_data.urls;
-
-				} else {
-
-					var urls_promise = state.urls_promise;
-					recording_data.urls_promise = urls_promise;
-					state.queue.push( recording_data );
-
-					state.urls_promise = uploader.get_urls_promise( state.token_promise );
-
-					return urls_promise;
-
-				}
+				state.queue.push( recording_data );
 
 			},
 
-			get_urls_promise: function () {
+			get_urls: function () {
 
-				var urls_promise = state.urls_promise;
-				state.urls_promise = uploader.get_urls_promise( state.token_promise );
+				var urls = state.urls;
+				state.urls = false;
 
-				return urls_promise;
+				uploader.get_urls_promise( state.token_promise )
+				.then( function ( urls ) {
+
+					state.urls = urls;
+
+				});
+
+				return urls;
 
 			},
 

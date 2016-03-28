@@ -84,7 +84,7 @@
 
 			ended: false,
 
-			debugging: true,
+			debugging: false,
 
 			speech_recognition: null,
 

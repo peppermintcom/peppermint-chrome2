@@ -34,9 +34,9 @@
 				"display": "none",
 				"position": "absolute",
 				"right": "100px",
-				"width": "24px",
-				"height": "24px",
-				"margin-top": "2.5px"
+				"width": "19px",
+				"height": "19px",
+				"margin-top": "6px"
 			});
 
 			( function tick () {

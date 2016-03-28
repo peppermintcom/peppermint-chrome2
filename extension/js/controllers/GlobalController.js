@@ -3,6 +3,12 @@
 
 		var MAX_RECORDING_TIME = 5 * 60 * 1000;
 
+		var state = {
+
+			last_recording_ts: 0
+
+		};
+
 		var private = {
 
 			fire: function ( message ) {
@@ -25,23 +31,40 @@
 
 			start_recording: function ( source ) {
 
-				recorder.start()
-				.then( function ( response ) {
+				var urls = upload_queue.get_urls();
 
-					if ( response.started ) {
+				if ( Date.now() - state.last_recording_ts < 2 * 1000 ) {
 
-						var recording_data = { id: source.recording_data_id, state: "recording", timestamp: Date.now(), source };
+					private.fire({ receiver: "Content", name: "recording_not_started", recording_data: { source }, error: { name: 'already_recording' } });
+					return;
 
-						storage.save_recording_data( recording_data );
-						private.fire({ receiver: "Content", name: "recording_started", recording_data });
+				}
 
-					} else {
+				if ( urls ) {
 
-						private.fire({ receiver: "Content", name: "recording_not_started", recording_data: { source }, error: response.error });
+					recorder.start()
+					.then( function ( response ) {
 
-					}
+						if ( response.started ) {
 
-				});
+							var recording_data = { id: source.recording_data_id, state: "recording", timestamp: Date.now(), source, urls };
+
+							storage.save_recording_data( recording_data );
+							private.fire({ receiver: "Content", name: "recording_started", recording_data });
+
+						} else {
+
+							private.fire({ receiver: "Content", name: "recording_not_started", recording_data: { source }, error: response.error });
+
+						}
+
+					});
+
+				} else {
+
+					private.fire({ receiver: "Content", name: "recording_not_started", recording_data: { source }, error: { name: "Internet Problem" } });
+
+				}
 
 			},
 
@@ -60,13 +83,9 @@
 				storage.id_to_recording_data( source.recording_data_id )
 				.then( function ( data ) {
 
-					recording_data = data;
-					return upload_queue.get_urls_promise()
+					state.last_recording_ts = Date.now();
 					
-				})
-				.then( function ( urls ) {
-
-					recording_data.urls = urls;
+					recording_data = data;
 
 					private.fire({ receiver: "Content", name: "got_urls", recording_data });
 
@@ -75,6 +94,8 @@
 				})
 				.then( function ( data ) {
 					
+					state.last_recording_ts = Date.now();
+
 					recording_data.data_url = data.data_url;
 					recording_data.transcription_data = data.transcription_data;
 					recording_data.state = "uploading";
