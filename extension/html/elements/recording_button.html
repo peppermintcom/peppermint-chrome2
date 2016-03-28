@@ -1,0 +1,40 @@
+
+	<style>
+
+		:host {
+
+			backface-visibility: hidden;
+
+			cursor: pointer;
+
+		}
+
+		#big_black, #big_transp {
+
+			display: none;
+
+		}
+
+		#wrap {
+
+			width: 100%;
+			height: 100%;
+
+		}
+
+		#image {
+
+			width: 100%;
+			height: 100%;
+
+		}
+
+	</style>
+
+	<div id = 'wrap' >
+
+		<img crossOrigin = "Anonymous" id = "big_black" src = "{{EXTENSION_ROOT}}img/browser_action_icons/big_black.png" >
+		<img crossOrigin = "Anonymous" id = "big_transp" src = "{{EXTENSION_ROOT}}img/browser_action_icons/big_transp.png" >
+		<img id = "image" src = "{{EXTENSION_ROOT}}img/browser_action_icons/standart.png" >
+
+	</div>

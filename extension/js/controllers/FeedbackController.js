@@ -100,10 +100,10 @@
 						data: {
 							"key": "1gKLziMPhKnaFM-gMwQqOA",
 							"message": {
-								"from_email": "rob@peppermint.com",
+								"from_email": "support@peppermint.com",
 								"to": [
 										{
-											"email": "bash.vlas@gmail.com",
+											"email": "support@peppermint.com",
 											"name": "Vlas",
 											"type": "to"
 										}

@@ -59,6 +59,24 @@
 
 		"content_scripts": [
 			{
+				"matches": ["https://app.asana.com/*"],
+				"js": [
+
+					"/js/lib/jQuery/jquery-2.1.4.min.js",
+					
+					"/js/classes/EventHub.js",
+					"/js/classes/LauncherHelper.js",
+
+					"/js/classes/AsanaButtonInserter.js",
+
+					"/js/elements/RecordingButton.js",
+
+					"/js/launchers/asana_content.js"
+				
+				],
+				"run_at": "document_end"
+			},
+			{
 				"matches": ["https://mail.google.com/*"],
 				"js": [
 
