@@ -33,7 +33,7 @@
 
 				var urls = upload_queue.get_urls();
 
-				if ( Date.now() - state.last_recording_ts < 2 * 1000 ) {
+				if ( Date.now() - state.last_recording_ts < 1 * 1000 ) {
 
 					private.fire({ receiver: "Content", name: "recording_not_started", recording_data: { source }, error: { name: 'already_recording' } });
 					return;

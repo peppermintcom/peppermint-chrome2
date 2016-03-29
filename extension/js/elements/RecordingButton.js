@@ -5,9 +5,10 @@
 
 			big_black: null,
 			big_transp: null,
-			period: 1000,
+			period: 250,
 			active: false,
-			wrap: null
+			wrap: null,
+			color: "hsl( 8, 100%, 42% )"
 
 		};
 
@@ -20,7 +21,7 @@
 				canvas.height = 38;
 				var ctx = canvas.getContext( "2d" );
 				
-				ctx.fillStyle = "hsl( 176, 100%, 38% )";
+				ctx.fillStyle = state.color;
 				ctx.fillRect( 0, 0, 38, 38 );
 				
 				ctx.fillStyle = "rgba( 121, 121, 121, A )".replace( "A", percentage );

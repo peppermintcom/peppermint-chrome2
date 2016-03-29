@@ -33,11 +33,11 @@
 			$( button ).css({
 				"display": "none",
 				"position": "absolute",
-				"right": "35px",
+				"right": "40px",
 				"width": "19px",
 				"height": "19px",
 				"margin-top": "11px",
-				"opacity": "0.5"
+				"opacity": "1"
 			});
 
 			( function tick () {

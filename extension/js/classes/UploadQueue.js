@@ -120,7 +120,11 @@
 		( function () {
 
 			state.token_promise = uploader.get_token_promise();
-			state.urls_promise = uploader.get_urls_promise( state.token_promise );
+			
+			uploader.get_urls_promise( state.token_promise )
+			.then( function ( urls ) {
+				state.urls = urls;
+			});
 
 			chrome.alarms.create( "upload_queue_alarm", { periodInMinutes: 2 } );
 			chrome.alarms.onAlarm.addListener( private.alarm_handler );
