@@ -60,12 +60,12 @@
 
 				if ( state.recording ) {
 
-					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "finish_recording", source: { name: "asana", recording_data_id: state.recording_data_id } });
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "finish_recording", source: { name: "slack", recording_data_id: state.recording_data_id } });
 
 				} else {
 					
 					state.recording_data_id = Date.now();
-					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "asana", recording_data_id: state.recording_data_id } });
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "slack", recording_data_id: state.recording_data_id } });
 				
 				}
 
@@ -81,7 +81,7 @@
 
 				if ( message.receiver === "Content" ) {
 
-					if ( message_handlers[ message.name ] && message.recording_data && message.recording_data.source.name === "asana" ) {
+					if ( message_handlers[ message.name ] && message.recording_data && message.recording_data.source.recording_data_id === state.recording_data_id ) {
 
 						message_handlers[ message.name ]( message, sender, callback );
 

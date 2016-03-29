@@ -82,7 +82,7 @@
 
 				if ( message.receiver === "Content" ) {
 
-					if ( message_handlers[ message.name ] && message.recording_data && message.recording_data.source.name === "asana" ) {
+					if ( message_handlers[ message.name ] && message.recording_data && message.recording_data.source.recording_data_id === state.recording_data_id ) {
 
 						message_handlers[ message.name ]( message, sender, callback );
 
