@@ -8,23 +8,25 @@
 			period: 250,
 			active: false,
 			wrap: null,
-			color: "hsl( 8, 100%, 42% )"
+			color: "hsl( 8, 100%, 42% )",
+			grey_color: "rgba( 121, 121, 121, A )",
+			static_color: "rgba( 121, 121, 121, 1 )"
 
 		};
 
 		var private = {
 
-			get_data_url: function ( big_black, big_transp, percentage ) {
+			get_data_url: function ( big_black, big_transp, percentage, color, grey_color ) {
 
 				var canvas = document.createElement( "canvas" );
 				canvas.width = 38;
 				canvas.height = 38;
 				var ctx = canvas.getContext( "2d" );
 				
-				ctx.fillStyle = state.color;
+				ctx.fillStyle = color;
 				ctx.fillRect( 0, 0, 38, 38 );
 				
-				ctx.fillStyle = "rgba( 121, 121, 121, A )".replace( "A", percentage );
+				ctx.fillStyle = grey_color.replace( "A", percentage );
 				ctx.fillRect( 0, 0, 38, 38 );
 				
 				ctx.globalCompositeOperation = "destination-out";
@@ -36,6 +38,20 @@
 				ctx.drawImage( big_transp, 0, 0 );
 
 				return canvas.toDataURL();
+
+			},
+
+			set_static_icon: function () {
+
+				$( "#image", state.wrap ).attr( "src",
+					private.get_data_url(
+						state.big_black,
+						state.big_transp,
+						1,
+						state.color,
+						state.static_color
+					)
+				);
 
 			}
 
@@ -52,7 +68,14 @@
 			stop: function () {
 
 				state.active = false;
-				$( "#image", state.wrap ).attr( "src", chrome.extension.getURL( "/img/browser_action_icons/standart.png" ) );
+				private.set_static_icon()
+
+			},
+
+			set_static_color: function ( color ) {
+
+				state.static_color = color;
+				public.stop();
 
 			},
 
@@ -61,7 +84,7 @@
 				if ( state.active ) {
 
 					state.active = false;
-					$( "#image", state.wrap ).attr( "src", chrome.extension.getURL( "/img/browser_action_icons/standart.png" ) );
+					private.set_static_icon()
 
 				} else {
 
@@ -77,6 +100,8 @@
 
 			element.createShadowRoot().appendChild( document.importNode( template.content, true ) );
 
+			element.classList.add( "pep_recording_button" );
+
 			$( element ).on( "click", function () { hub.fire( "recording_button_click" ) } );
 
 			state.wrap = element.shadowRoot.querySelector( "#wrap" );
@@ -90,11 +115,17 @@
 					var data_url = private.get_data_url(
 						state.big_black,
 						state.big_transp,
-						( 1 + Math.cos( Math.PI * Date.now() / state.period ) ) / 2
+						( 1 + Math.cos( Math.PI * Date.now() / state.period ) ) / 2,
+						state.color,
+						state.grey_color
 					);
 
 					$( "#image", state.wrap ).attr( "src", data_url );
 				
+				} else {
+
+					private.set_static_icon();
+
 				}
 				
 				setTimeout( tick, 20 );

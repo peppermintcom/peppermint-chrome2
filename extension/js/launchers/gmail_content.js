@@ -9,7 +9,8 @@
 			[ 'timer', 'html/elements/timer.html' ],
 			[ 'player', 'html/elements/player.html' ],
 			[ 'gmail_elements', 'html/templates/gmail_elements.html' ],
-			[ 'button_inserter', 'html/elements/button_inserter.html' ]
+			[ 'button_inserter', 'html/elements/button_inserter.html' ],
+			[ 'recording_button', 'html/elements/recording_button.html' ]
 
 		]).then( function ( t ) {
 		
@@ -27,7 +28,7 @@
 						new Popup( $, event_hub, t["popup"], el("peppermint_popup") );
 						new Timer( $, event_hub, t["timer"], el("peppermint_timer") );
 						new Player( $, event_hub, t["player"], el("peppermint_popup_player") );
-						new ButtonInserter( chrome, $, event_hub, t["button_inserter"], el("peppermint_button_inserter"), !items["options_data"]["disable_reply_button"] );
+						new ButtonInserter( chrome, $, event_hub, t["button_inserter"], el("peppermint_button_inserter"), !items["options_data"]["disable_reply_button"], RecordingButton, t["recording_button"] );
 
 						var letter_manager = new LetterManager( chrome, jQuery, event_hub, sender_data );
 

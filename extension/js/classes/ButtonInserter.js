@@ -1,5 +1,5 @@
 	
-	function ButtonInserter ( chrome, $, event_hub, template, element, insert_reply_button ) {
+	function ButtonInserter ( chrome, $, event_hub, template, element, insert_reply_button, RecordingButton, recording_button_template ) {
 
 		var private = {
 
@@ -21,6 +21,25 @@
 							});
 
 							$( ".a8X.gU>div", container ).append( button );
+	
+							var recording_button = document.createElement( "div" );
+
+							$( recording_button ).css({
+								width: "19px",
+								height: "19px"
+							});
+
+							$( ".v_compose_button_icon", button ).append(
+								new RecordingButton(
+									chrome,
+									$,
+									event_hub,
+									recording_button_template,
+									recording_button
+								)
+							);
+
+							recording_button.set_static_color( "rgba( 0, 0, 0, 1 )" );
 
 						}
 

@@ -96,6 +96,7 @@
 					"/js/elements/Tooltip.js",
 					"/js/elements/MiniPopup.js",
 					"/js/elements/AudioVisualizer.js",
+					"/js/elements/RecordingButton.js",
 
 					"/js/controllers/GmailController.js",
 
