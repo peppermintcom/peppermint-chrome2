@@ -5,7 +5,11 @@
 
 			link_to_short_link_id: function ( link ) {
 
-				if ( link.href.indexOf( "https://peppermint.com/" ) > -1 && link.href.indexOf( "reply" ) === -1 ) {
+				if ( link.getAttribute( "alt" ) === "mail_link" ) {
+
+					return false;
+
+				} else if ( link.href.indexOf( "https://peppermint.com/" ) > -1 && link.href.indexOf( "reply" ) === -1 ) {
 
 					return link.href.replace( "https://peppermint.com/", "" ).replace( "/", "" );
 	
