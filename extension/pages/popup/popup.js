@@ -27,7 +27,7 @@
 		})
 		.catch( function ( e ) {
 
-			console.error( e );
+			Raven.log( 'popup', 'set_up_current_section', '', e );
 
 		});
 
@@ -80,7 +80,7 @@
 		})
 		.catch( function ( e ) {
 
-			console.error( e );
+			Raven.log( 'popup', 'set_up_history', '', e );
 
 		});
 
@@ -132,7 +132,7 @@
 		})
 		.catch( function ( e ) {
 
-			console.error( e );
+			Raven.log( 'popup', 'set_up_feedback', '', e );
 
 		});
 
