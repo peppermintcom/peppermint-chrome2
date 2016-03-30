@@ -1,5 +1,5 @@
 	
-	function GlobalAnalytics ( chrome, $, hub ) {
+	function GlobalAnalytics ( chrome, $ ) {
 		
 		var state = {
 
@@ -183,16 +183,6 @@
 		( function constructor () {
 
 			chrome.runtime.onMessage.addListener( private.message_handler );
-
-			hub.add({
-
-				background_message: function ( message ) {
-
-					private.message_handler( message );
-
-				}
-
-			});
 			
 			private.load();
 

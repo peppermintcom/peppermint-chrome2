@@ -24,7 +24,7 @@
 		};
 			
 		var utilities = new Utilities( chrome, $, 'background' );		
-		var analytics = new GlobalAnalytics( chrome, $, event_hub );
+		var analytics = new GlobalAnalytics( chrome, $ );
 			
 		// Open the welcome page on install
 		chrome.runtime.onInstalled.addListener( function ( details ) {
@@ -55,15 +55,6 @@
 			tabs.forEach( function ( tab ) {
 				chrome.tabs.reload( tab.id );
 			});
-		});
-
-		// send any analytics logged from content scripts
-	 	chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
-
-			if ( message.name === 'track_analytic' ) {			
-				analytics.track( message.val, false, callback );
-			}
-			
 		});
 	
  	} () );
