@@ -125,6 +125,29 @@
 
 				});
 
+			},
+
+			delete_unfinished_recordings: function () {
+
+				chrome.storage.local.get( [ "recording_data_arr" ], function ( items ) {
+
+					var recording_data_arr = items.recording_data_arr;
+
+					for ( var i = recording_data_arr.length; i--; ) {
+
+						if ( recording_data_arr[ i ].state === "recording" ) {
+
+							recording_data_arr[ i ] = false;
+
+						}
+
+					}
+
+					recording_data_arr = recording_data_arr.filter( function ( a ) { return a } );
+					chrome.storage.local.set({ recording_data_arr });
+
+				});
+
 			}
 
 		};

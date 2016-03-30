@@ -8,7 +8,7 @@
 			period: 250,
 			active: false,
 			wrap: null,
-			color: "hsl( 8, 100%, 42% )",
+			color: "hsl( 176, 100%, 38% )",
 			grey_color: "rgba( 121, 121, 121, A )",
 			static_color: "rgba( 121, 121, 121, 1 )"
 

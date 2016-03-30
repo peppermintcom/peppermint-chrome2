@@ -5,7 +5,8 @@
 
 		var state = {
 
-			last_recording_ts: 0
+			last_recording_ts: 0,
+			last_recording_source: null
 
 		};
 
@@ -49,6 +50,7 @@
 
 							var recording_data = { id: source.recording_data_id, state: "recording", timestamp: Date.now(), source, urls };
 
+							state.last_recording_source = source;
 							storage.save_recording_data( recording_data );
 							private.fire({ receiver: "Content", name: "recording_started", recording_data });
 
@@ -62,7 +64,7 @@
 
 				} else {
 
-					private.fire({ receiver: "Content", name: "recording_not_started", recording_data: { source }, error: { name: "Internet Problem" } });
+					private.fire({ receiver: "Content", name: "recording_not_started", recording_data: { source }, error: { name: "internet_problem" } });
 
 				}
 
@@ -146,7 +148,7 @@
 
 			recording_timeout: function () {
 
-				private.finish_recording();
+				private.finish_recording( state.last_recording_source );
 				alert( "Peppermint recording timeout!" );
 
 			}
@@ -282,6 +284,12 @@
 				setTimeout( tick, 20 );
 
 			} () )
+
+		} () );
+
+		( function init () {
+
+			storage.delete_unfinished_recordings()
 
 		} () );
 
