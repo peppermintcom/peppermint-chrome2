@@ -30,11 +30,12 @@
 				"/js/lib/keen-tracker.min.js",
 				"/js/lib/ohsnap.min.js",
 
+				"/js/classes/ErrorReporter.js",
 				"/js/controllers/GlobalAnalytics.js",
 				
+				
 				"/js/classes/Utilities.js",
-				"/js/classes/EventHub.js",				
-				"/js/classes/ErrorReporter.js",
+				"/js/classes/EventHub.js",								
 				"/js/classes/BackendManager.js",
 
 				"/js/classes/WebAudioRecorderWrap.js",
@@ -65,6 +66,9 @@
 				"js": [
 
 					"/js/lib/jQuery/jquery-2.1.4.min.js",
+					"/js/lib/raven.min.js",
+
+					"/js/classes/ErrorReporter.js",
 					
 					"/js/classes/EventHub.js",
 					"/js/classes/LauncherHelper.js",
@@ -85,6 +89,9 @@
 				"js": [
 
 					"/js/lib/jQuery/jquery-2.1.4.min.js",
+					"/js/lib/raven.min.js",
+
+					"/js/classes/ErrorReporter.js",
 
 					"/js/classes/EventHub.js",
 					"/js/classes/LetterManager.js",
@@ -115,6 +122,9 @@
 				"js": [
 
 					"/js/lib/jQuery/jquery-2.1.4.min.js",
+					"/js/lib/raven.min.js",
+
+					"/js/classes/ErrorReporter.js",
 					
 					"/js/classes/EventHub.js",
 					"/js/classes/LauncherHelper.js",
@@ -144,6 +154,9 @@
 				"js": [
 
 					"/js/lib/jQuery/jquery-2.1.4.min.js",
+					"/js/lib/raven.min.js",
+
+					"/js/classes/ErrorReporter.js",
 
 					"/js/classes/EventHub.js",
 					"/js/classes/LauncherHelper.js",

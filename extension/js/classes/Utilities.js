@@ -1,12 +1,6 @@
 
 	function Utilities ( chrome, $, source ) {
 
-		state = {
-
-			prod_raven_key: "https://a4270cba18b548faa1edb82032392705@app.getsentry.com/70977",
-			dev_raven_key: "https://53153404d9bf49e1893fe34d56a180d1@app.getsentry.com/69131"
-
-		};
 
 		var private = {
 			
@@ -51,25 +45,7 @@
 					
 				});	
 				
-			},
-			
-			load_error_logger: function( ) {
-				
-				setTimeout( function () {
-					
-					chrome.storage.local.get( [ "prod_id", "current_id" ], function ( items ) {
-
-						Raven.config( items[ "prod_id" ] === items[ "current_id" ] ? state.prod_raven_key : state.dev_raven_key )
-						.install();  
-						
-						console.log('Raven loaded from ' + source);
-						Raven.captureMessage('Raven loaded from ' + source);
-
-					})
-					
-				}, 50);
-				
-			} 
+			}
 			
 		};
 				
@@ -129,8 +105,6 @@
 			console.log('Utilities instantiated from ' + source);
 			
 			if ( source === 'gmail_content' || source === 'background' ){
-			
-				private.load_error_logger();
 				
 				private.send_page_alert_controller();
 				

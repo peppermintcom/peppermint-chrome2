@@ -1,6 +1,8 @@
 
 	( function () {
 		
+		var error_reporter = new ErrorReporter( chrome, $, 'gmail' );
+
 		var launcher_helper = new LauncherHelper( jQuery );
 
 		launcher_helper.urls_to_templates( chrome.extension.getURL( "/" ), [

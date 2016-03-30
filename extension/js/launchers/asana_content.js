@@ -1,5 +1,7 @@
 
 	( function () {
+
+		var error_reporter = new ErrorReporter( chrome, $, 'asana' );
 		
 		var launcher_helper = new LauncherHelper( jQuery );
 
