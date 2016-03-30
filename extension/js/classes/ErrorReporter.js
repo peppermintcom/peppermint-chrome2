@@ -37,20 +37,16 @@
 
 			load: function () {
 
-				setTimeout( function () {
-					
-					private.set_key()
-					.then( function ( key ) {
+				private.set_key()
+				.then( function ( key ) {
 
-						Raven.config(key).install();
+					Raven.config(key).install();
 
-						Raven.log = private.log;						
+					Raven.log = private.log;						
 
-						// Raven.log( 'ErrorReporter', 'load_error_logger', 'Raven loaded' );
+					Raven.log( 'ErrorReporter', 'load_error_logger', 'Raven loaded' );
 
-					});
-										
-				}, 50);
+				});
 
 			},
 

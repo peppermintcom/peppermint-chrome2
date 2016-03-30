@@ -1,6 +1,8 @@
 
 	( function () {
 
+		new ErrorReporter( chrome, $, 'tooltip' );
+
 		var launcher_helper = new LauncherHelper( jQuery );
 
 		launcher_helper.urls_to_templates( chrome.extension.getURL( "/" ), [

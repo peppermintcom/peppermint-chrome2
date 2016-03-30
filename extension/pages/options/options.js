@@ -1,6 +1,17 @@
 
 	( function ( $, chrome ) {
-		
+
+        ( function constructor () {
+
+        	new ErrorReporter( chrome, $, 'options' );
+
+            chrome.runtime.sendMessage( { 
+				receiver: 'GlobalAnalytics', name: 'track_analytic', 
+				analytic: { name: 'setup', val: { type: 'page_load', name : 'options.js' } } 
+			});
+
+        } () );
+
 		chrome.storage.local.get( null, function ( items ) {
 			
 			var extension_transcription_language = null;
@@ -86,13 +97,4 @@
 
 		});
         
-        ( function constructor () {
-            
-            chrome.runtime.sendMessage( { 
-				receiver: 'GlobalAnalytics', name: 'track_analytic', 
-				analytic: { name: 'setup', val: { type: 'page_load', name : 'options.js' } } 
-			});
-
-        } () );
-
 	} ( jQuery, chrome ) );

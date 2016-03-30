@@ -1,7 +1,7 @@
 
 	( function () {
 		
-		var error_reporter = new ErrorReporter( chrome, $, 'slack' );
+		new ErrorReporter( chrome, $, 'slack' );
 
 		var launcher_helper = new LauncherHelper( jQuery );
 

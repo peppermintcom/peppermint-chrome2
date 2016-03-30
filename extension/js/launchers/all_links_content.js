@@ -1,7 +1,7 @@
 
 	( function () {
 
-		var error_reporter = new ErrorReporter( chrome, $, 'all_links' );
+		new ErrorReporter( chrome, $, 'all_links' );
 
 		var launcher_helper = new LauncherHelper( jQuery );
 

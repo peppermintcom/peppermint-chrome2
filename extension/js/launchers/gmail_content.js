@@ -1,7 +1,7 @@
 
 	( function () {
 		
-		var error_reporter = new ErrorReporter( chrome, $, 'gmail' );
+		new ErrorReporter( chrome, $, 'gmail' );
 
 		var launcher_helper = new LauncherHelper( jQuery );
 

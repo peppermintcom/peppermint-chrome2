@@ -1,4 +1,15 @@
 
+	( function constructor () {
+
+		new ErrorReporter( chrome, $, 'popup' );
+
+		chrome.runtime.sendMessage( { 
+			receiver: 'GlobalAnalytics', name: 'track_analytic', 
+			analytic: { name: 'setup', val: { type: 'page_load', name : 'popup.js' } } 
+		});
+
+	} () );
+	
 	( function set_up_current_section () {
 
 		var launcher_helper = new LauncherHelper( jQuery );
@@ -138,11 +149,3 @@
 
 	} () );
 
-	( function constructor () {
-
-		chrome.runtime.sendMessage( { 
-			receiver: 'GlobalAnalytics', name: 'track_analytic', 
-			analytic: { name: 'setup', val: { type: 'page_load', name : 'popup.js' } } 
-		});
-
-	} () );
