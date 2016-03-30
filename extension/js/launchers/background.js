@@ -22,8 +22,9 @@
 			}
 
 		};
-			
-		var utilities = new Utilities( chrome, $, 'background' );		
+
+		var error_reporter = new ErrorReporter( chrome, $, 'background' );
+
 		var analytics = new GlobalAnalytics( chrome, $ );
 			
 		// Open the welcome page on install
