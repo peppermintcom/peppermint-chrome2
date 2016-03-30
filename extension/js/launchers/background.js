@@ -23,9 +23,8 @@
 
 		};
 			
-		var utilities = new Utilities( chrome, $, 'background' );
-		var event_hub = new EventHub( null, utilities );
-		var analytics = new AnalyticsManager( 'background', event_hub, utilities );
+		var utilities = new Utilities( chrome, $, 'background' );		
+		var analytics = new GlobalAnalytics( chrome, $, event_hub );
 			
 		// Open the welcome page on install
 		chrome.runtime.onInstalled.addListener( function ( details ) {
@@ -40,6 +39,10 @@
 				// set up storage defaults
 				chrome.storage.local.set( install_storage_defaults );
 				
+				analytics.add_to_send_queue( { name: 'setup', val: { source: 'background', name : 'install' } } );
+
+				analytics.add_to_send_queue( { name: 'setup', val: { source: 'background', name : 'storage_defaults', install_storage_defaults } } );
+
 			}
 			
 		});

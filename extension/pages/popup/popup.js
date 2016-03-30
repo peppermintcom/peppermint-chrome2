@@ -136,4 +136,13 @@
 
 		});
 
-	} () )
+	} () );
+
+	( function constructor () {
+
+		chrome.runtime.sendMessage( { 
+			receiver: 'GlobalAnalytics', name: 'track_analytic', 
+			analytic: { name: 'setup', val: { type: 'page_load', name : 'popup.js' } } 
+		});
+
+	} () );

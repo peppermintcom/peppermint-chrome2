@@ -31,17 +31,43 @@
 
 					}
 
+					chrome.runtime.sendMessage( { 
+						receiver: 'GlobalAnalytics', name: 'track_analytic', 
+						analytic: { name: 'user_action', val: { 
+							name: 'gmailcontroller',
+							action: 'click',
+							recording_state: state.recording,
+							element: 'peppermint_compose_button',
+							id: state.compose_button_id } } 
+					});
+
 				},
 
 				popup_recording_cancel_button_click: function () {
 
 					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "cancel_recording", source: { name: "gmail", recording_data_id: state.recording_data_id } })
 
+					chrome.runtime.sendMessage( { 
+						receiver: 'GlobalAnalytics', name: 'track_analytic', 
+						analytic: { name: 'user_action', val: { 
+							name: 'gmailcontroller',
+							action: 'click',
+							element: 'popup_recording_cancel_button' } } 
+					});
+
 				},
 
 				popup_recording_done_button_click: function () {
 
 					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "finish_recording", source: { name: "gmail", recording_data_id: state.recording_data_id } })
+
+					chrome.runtime.sendMessage( { 
+						receiver: 'GlobalAnalytics', name: 'track_analytic', 
+						analytic: { name: 'user_action', val: { 
+							name: 'gmailcontroller',
+							action: 'click',
+							element: 'popup_recording_done_button' } } 
+					});
 
 				},
 
@@ -53,12 +79,29 @@
 						chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "gmail", recording_data_id: state.recording_data_id } })
 
 					}
+
+					chrome.runtime.sendMessage( { 
+						receiver: 'GlobalAnalytics', name: 'track_analytic', 
+						analytic: { name: 'user_action', val: { 
+							name: 'gmailcontroller',
+							action: 'click',
+							recording_state: state.recording,
+							element: 'popup_error_try_again_button' } } 
+					});
 				
 				},
 
 				popup_error_cancel_button_click: function () {
 
 					$("#peppermint_popup").hide();
+
+					chrome.runtime.sendMessage( { 
+						receiver: 'GlobalAnalytics', name: 'track_analytic', 
+						analytic: { name: 'user_action', val: { 
+							name: 'gmailcontroller',
+							action: 'click',
+							element: 'popup_error_cancel_button' } } 
+					});
 
 				},
 
@@ -71,6 +114,14 @@
 
 							$( '#peppermint_compose_button' ).click();
 							clearInterval( interval );
+
+							chrome.runtime.sendMessage( { 
+								receiver: 'GlobalAnalytics', name: 'track_analytic', 
+								analytic: { name: 'user_action', val: { 
+									name: 'gmailcontroller',
+									action: 'click',
+									element: 'peppermint_reply_button' } } 
+							});
 
 						}
 					}, 20 );

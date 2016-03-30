@@ -1,18 +1,10 @@
 
-( function ( $, chrome, utilities, event_hub ) {
+( function ( $, chrome ) {
 
     'use strict';
 
 	window.addEventListener("load", initAudio);
     
-    function init(){
-        
-        utilities = new Utilities( chrome, $, 'welcome_page' );
-        
-        event_hub = new EventHub( null, utilities );
-        
-    }
-
 	function initAudio() {
 	    if ( !navigator.getUserMedia ) { navigator.getUserMedia = navigator.webkitGetUserMedia; }
 	    navigator.getUserMedia(
@@ -38,9 +30,10 @@
     
     ( function constructor () {
         
-        init();
-        
-        event_hub.fire( 'class_load', { name: 'welcome_page' } );
+        chrome.runtime.sendMessage( { 
+			receiver: 'GlobalAnalytics', name: 'track_analytic', 
+			analytic: { name: 'setup', val: { type: 'page_load', name : 'welcome.js' } } 
+		});
 
 	} () );
         

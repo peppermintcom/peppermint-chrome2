@@ -59,6 +59,14 @@
 					}
 					
 				};
+
+				chrome.runtime.sendMessage( { 
+					receiver: 'GlobalAnalytics', name: 'track_analytic', 
+					analytic: { name: 'status_change', val: { 
+						name : 'popup',
+						status: page_status } 
+					} 
+				});
 				
 				if ( options[ page_status ] ) options[ page_status ]();
 				

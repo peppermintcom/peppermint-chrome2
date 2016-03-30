@@ -20,17 +20,42 @@
 					state.recording_data_id = Date.now();
 					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "popup", recording_data_id: state.recording_data_id } })
 
+					chrome.runtime.sendMessage( { 
+						receiver: 'GlobalAnalytics', name: 'track_analytic', 
+						analytic: { name: 'user_action', val: { 
+							name: 'popupcontroller',
+							action: 'click',
+							element: 'popup_welcome_start_recording' } } 
+					});
+
 				},
 
 				recording_cancel_button_click: function () {
 
 					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "cancel_recording", source: { name: "popup", recording_data_id: state.recording_data_id } })
 
+					chrome.runtime.sendMessage( { 
+						receiver: 'GlobalAnalytics', name: 'track_analytic', 
+						analytic: { name: 'user_action', val: { 
+							name: 'popupcontroller',
+							action: 'click',
+							element: 'popup_recording_cancel_button' } } 
+					});
+
 				},
 
 				recording_done_button_click: function () {
 					
 					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "finish_recording", source: { name: "popup", recording_data_id: state.recording_data_id } })
+
+					chrome.runtime.sendMessage( { 
+						receiver: 'GlobalAnalytics', name: 'track_analytic', 
+						analytic: { name: 'user_action', val: { 
+							name: 'popupcontroller',
+							action: 'click',
+							element: 'popup_recording_done_button' } } 
+					});
+
 
 				},
 
@@ -39,12 +64,28 @@
 					$( ".screen" ).hide();
 					$( "#start_screen" ).show();
 
+					chrome.runtime.sendMessage( { 
+						receiver: 'GlobalAnalytics', name: 'track_analytic', 
+						analytic: { name: 'user_action', val: { 
+							name: 'popupcontroller',
+							action: 'click',
+							element: 'popup_error_cancel_button' } } 
+					});
+
 				},
 
 				error_try_again_button_click: function () {
 
 					state.recording_data_id = Date.now();
 					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "popup", recording_data_id: state.recording_data_id } })
+
+					chrome.runtime.sendMessage( { 
+						receiver: 'GlobalAnalytics', name: 'track_analytic', 
+						analytic: { name: 'user_action', val: { 
+							name: 'popupcontroller',
+							action: 'click',
+							element: 'popup_error_try_again_button' } } 
+					});
 
 				},
 
@@ -53,6 +94,14 @@
 					state.recording_data_id = Date.now();
 					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "popup", recording_data_id: state.recording_data_id } })
 
+					chrome.runtime.sendMessage( { 
+						receiver: 'GlobalAnalytics', name: 'track_analytic', 
+						analytic: { name: 'user_action', val: { 
+							name: 'popupcontroller',
+							action: 'click',
+							element: 'popup_finish_start_new_button' } } 
+					});
+
 				},
 
 				delete_transcription_button_click: function () {
@@ -60,6 +109,14 @@
 					$( "#transcript" ).text( "" );
 					$( "#transcription_header" ).hide();
 					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "delete_transcription", source: { name: "popup", recording_data_id: state.recording_data_id } })
+
+					chrome.runtime.sendMessage( { 
+						receiver: 'GlobalAnalytics', name: 'track_analytic', 
+						analytic: { name: 'user_action', val: { 
+							name: 'popupcontroller',
+							action: 'click',
+							element: 'popup_delete_transcription_button' } } 
+					});
 
 				}
 
