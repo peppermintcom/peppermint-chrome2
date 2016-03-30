@@ -32,9 +32,7 @@
 
 				"/js/classes/ErrorReporter.js",
 				"/js/controllers/GlobalAnalytics.js",
-				
-				
-				"/js/classes/Utilities.js",
+
 				"/js/classes/EventHub.js",								
 				"/js/classes/BackendManager.js",
 
