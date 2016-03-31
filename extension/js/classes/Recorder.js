@@ -32,13 +32,16 @@
 						transcription_manager.start();
 					})
 					.catch( function ( error ) {
-						Raven.captureException(error);
+						
+						Raven.log( 'recorder', 'start', '', error );
+						
 						resolve({
 							started: false,
 							error: {
 								name: error.name
 							}
 						});
+						
 					});
 
 				});

@@ -140,7 +140,7 @@
 
 				} catch ( error ) {
 					
-					console.error( error );
+					Raven.log( 'lettermanager', 'add_link', '', error );
 
 				}
 

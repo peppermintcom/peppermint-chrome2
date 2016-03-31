@@ -97,8 +97,8 @@
 
 					})
 					.catch( function ( error ) {
-
-						console.log( "Failed to upload transcription", error );
+						
+						Raven.log( 'uploader', 'upload_recording_data', 'Failed to upload transcription', error, true );
 
 					});	
 

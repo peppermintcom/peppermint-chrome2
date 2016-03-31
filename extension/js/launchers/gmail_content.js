@@ -50,8 +50,8 @@
 						);
 						
 					} catch ( error ) {
-
-						throw error;
+						
+						Raven.log( 'gmail_content', 'load', '', error, true );
 
 					}
 

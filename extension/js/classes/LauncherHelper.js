@@ -37,7 +37,13 @@
 								resolve( templates );
 
 							})
-							.catch( reject );
+							.catch( function ( error ) {
+
+								Raven.log( 'launcherhelper', 'urls_to_templates', '', error );
+								
+								reject();
+
+							});
 
 						}
 

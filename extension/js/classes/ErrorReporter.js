@@ -44,13 +44,13 @@
 
 					Raven.log = private.log;						
 
-					Raven.log( 'ErrorReporter', 'load_error_logger', 'Raven loaded' );
+					// Raven.log( 'ErrorReporter', 'load_error_logger', 'Raven loaded' );
 
 				});
 
 			},
 
-			log: function ( source_class, source_method, message, error ) {
+			log: function ( source_class, source_method, message, error, log_to_console ) {
 				
 
 				var attr = { logger: 'chrome.error_reporter', tags: {
@@ -63,15 +63,20 @@
 
 				if( error ) {
 
-					Raven.captureException( error, attr);
+					Raven.captureException( error, attr );
 
 				} else {
 
-					Raven.captureMessage( message, attr);
+					Raven.captureMessage( message, attr );
 
 				}
 
-				console.log('Logged to Raven - ' + attr.tags.message, attr, error);
+				if ( log_to_console ) {
+
+					console.error('Logged to Raven - ' + attr.tags.message, attr, error);
+					
+				}
+					
 			
 			}
 

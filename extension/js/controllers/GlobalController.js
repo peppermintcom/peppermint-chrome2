@@ -226,7 +226,7 @@
 
 				backend_manager.short_url_to_recording_data( message.short_url )
 				.then( callback )
-				.catch( function () {
+				.catch( function ( error ) {
 					callback( false );
 				});
 
