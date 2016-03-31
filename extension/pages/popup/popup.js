@@ -53,6 +53,13 @@
 			$( "main section" ).removeClass( "active" );
 			$( "main section[data-id='ID']".replace( "ID", event.currentTarget.dataset.id ) ).addClass( "active" );
 
+			chrome.runtime.sendMessage( { 
+				receiver: 'GlobalAnalytics', name: 'track_analytic', 
+				analytic: { name: 'user_action', val: { 
+					type: 'click', name : 'popup_tab_click', element: 'popup_page', tab: $(event.target).data('id') 
+				} } 
+			});
+
 		});
 
 	} () );
