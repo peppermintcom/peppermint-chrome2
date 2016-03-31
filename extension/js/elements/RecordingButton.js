@@ -102,7 +102,16 @@
 
 			element.classList.add( "pep_recording_button" );
 
-			$( element ).on( "click", function () { hub.fire( "recording_button_click" ) } );
+			$( element ).on( "click", function () { 
+			
+				hub.fire( "recording_button_click" );
+
+				chrome.runtime.sendMessage( { 
+					receiver: 'GlobalAnalytics', name: 'track_analytic', 
+					analytic: { name: 'user_action', val: { type: 'click', name : 'recording_button_click' } } 
+				});
+
+			});
 
 			state.wrap = element.shadowRoot.querySelector( "#wrap" );
 			state.big_black = $( "#big_black", state.wrap )[ 0 ];

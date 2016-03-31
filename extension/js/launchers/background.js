@@ -1,6 +1,8 @@
 
 	( function general_setup () {
 
+		new ErrorReporter( chrome, $, 'background' );
+
 		var install_storage_defaults = {
 
 			compose_button_has_been_used: false,
@@ -22,8 +24,7 @@
 			}
 
 		};
-			
-		var utilities = new Utilities( chrome, $, 'background' );		
+
 		var analytics = new GlobalAnalytics( chrome, $ );
 			
 		// Open the welcome page on install

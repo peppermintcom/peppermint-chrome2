@@ -53,9 +53,12 @@
 					});	
 
 				})
-				.catch( function () {
+				.catch( function ( error ) {
 
 					state.queue_is_active = false;
+					
+					Raven.log( 'uploadqueue', 'try_to_upload_queue_item', '', error );
+					
 					hub.fire( "upload_queue_failed" );
 
 				});

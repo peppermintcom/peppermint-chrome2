@@ -144,7 +144,7 @@
 					
 					if (err) {							
 						
-						// todo: log to Raven
+						Raven.log( 'GlobalAnalytics', 'send', 'Failed to send analytic event to Keen', err );
 						
 						response = { 
 							_result: 'ERROR: ' + info, 

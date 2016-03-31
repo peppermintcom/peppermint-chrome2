@@ -1,6 +1,8 @@
 
 	( function () {
 		
+		new ErrorReporter( chrome, $, 'gmail' );
+
 		var launcher_helper = new LauncherHelper( jQuery );
 
 		launcher_helper.urls_to_templates( chrome.extension.getURL( "/" ), [
@@ -48,8 +50,8 @@
 						);
 						
 					} catch ( error ) {
-
-						throw error;
+						
+						Raven.log( 'gmail_content', 'load', '', error, true );
 
 					}
 
@@ -60,3 +62,13 @@
 		});
 
 	} () );
+
+	( function constructor () {
+        
+        chrome.runtime.sendMessage( { 
+			receiver: 'GlobalAnalytics', name: 'track_analytic', 
+			analytic: { name: 'setup', val: { type: 'page_load', name : 'gmail_content.js' } } 
+		});
+
+	} () );
+

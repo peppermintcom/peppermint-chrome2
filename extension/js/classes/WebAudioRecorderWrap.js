@@ -71,9 +71,11 @@
 
 						})
 						.catch( function ( error ) {
-	                        Raven.captureException(error);
-							console.log( error );
+	                        
+							Raven.log( 'webaudiorecorderwrap', 'start', '', error, true );
+							
 							reject( error );
+							
 						});
 
 					} else {

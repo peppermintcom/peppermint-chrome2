@@ -1,4 +1,15 @@
 
+	( function constructor () {
+
+		new ErrorReporter( chrome, $, 'popup' );
+
+		chrome.runtime.sendMessage( { 
+			receiver: 'GlobalAnalytics', name: 'track_analytic', 
+			analytic: { name: 'setup', val: { type: 'page_load', name : 'popup.js' } } 
+		});
+
+	} () );
+	
 	( function set_up_current_section () {
 
 		var launcher_helper = new LauncherHelper( jQuery );
@@ -27,7 +38,7 @@
 		})
 		.catch( function ( e ) {
 
-			console.error( e );
+			Raven.log( 'popup', 'set_up_current_section', '', e );
 
 		});
 
@@ -41,6 +52,13 @@
 			$( event.currentTarget ).addClass( "active" );
 			$( "main section" ).removeClass( "active" );
 			$( "main section[data-id='ID']".replace( "ID", event.currentTarget.dataset.id ) ).addClass( "active" );
+
+			chrome.runtime.sendMessage( { 
+				receiver: 'GlobalAnalytics', name: 'track_analytic', 
+				analytic: { name: 'user_action', val: { 
+					type: 'click', name : 'popup_tab_click', element: 'popup_page', tab: $(event.target).data('id') 
+				} } 
+			});
 
 		});
 
@@ -80,7 +98,7 @@
 		})
 		.catch( function ( e ) {
 
-			console.error( e );
+			Raven.log( 'popup', 'set_up_history', '', e );
 
 		});
 
@@ -144,17 +162,9 @@
 		})
 		.catch( function ( e ) {
 
-			console.error( e );
+			Raven.log( 'popup', 'set_up_feedback', '', e );
 
 		});
 
 	} () );
 
-	( function constructor () {
-
-		chrome.runtime.sendMessage( { 
-			receiver: 'GlobalAnalytics', name: 'track_analytic', 
-			analytic: { name: 'setup', val: { type: 'page_load', name : 'popup.js' } } 
-		});
-
-	} () );

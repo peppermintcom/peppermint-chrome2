@@ -1,6 +1,8 @@
 
 	( function () {
 
+		new ErrorReporter( chrome, $, 'all_links' );
+
 		var launcher_helper = new LauncherHelper( jQuery );
 
 		launcher_helper.urls_to_templates( chrome.extension.getURL( "/" ), [
@@ -27,4 +29,14 @@
 
 		})
 
-	} () )
+	} () );
+
+	( function constructor () {
+        
+        chrome.runtime.sendMessage( { 
+			receiver: 'GlobalAnalytics', name: 'track_analytic', 
+			analytic: { name: 'setup', val: { type: 'page_load', name : 'all_links_content.js' } } 
+		});
+
+	} () );
+

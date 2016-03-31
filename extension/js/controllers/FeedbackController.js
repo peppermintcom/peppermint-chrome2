@@ -20,17 +20,32 @@
 					state.recording_data_id = Date.now();
 					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "popup_feedback", recording_data: state.recording_data_id } })
 
+					chrome.runtime.sendMessage( { 
+						receiver: 'GlobalAnalytics', name: 'track_analytic', 
+						analytic: { name: 'user_action', val: { type: 'click', name : 'feedback_start_click', element: 'feedback_tab' } } 
+					});	
+
 				},
 
 				feedback_cancel_click: function () {
 
 					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "cancel_recording", source: { name: "popup_feedback", recording_data: state.recording_data_id } })
 
+					chrome.runtime.sendMessage( { 
+						receiver: 'GlobalAnalytics', name: 'track_analytic', 
+						analytic: { name: 'user_action', val: { type: 'click', name : 'feedback_cancel_click', element: 'feedback_tab' } } 
+					});	
+
 				},
 
 				feedback_finish_click: function () {
 					
 					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "finish_recording", source: { name: "popup_feedback", recording_data: state.recording_data_id } })
+
+					chrome.runtime.sendMessage( { 
+						receiver: 'GlobalAnalytics', name: 'track_analytic', 
+						analytic: { name: 'user_action', val: { type: 'click', name : 'feedback_finish_click', element: 'feedback_tab' } } 
+					});	
 
 				}
 
