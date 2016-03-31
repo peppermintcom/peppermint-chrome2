@@ -78,6 +78,11 @@
 					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "delete_recording_data", recording_data });
 					$( element ).remove();
 
+					chrome.runtime.sendMessage( { 
+						receiver: 'GlobalAnalytics', name: 'track_analytic', 
+						analytic: { name: 'user_action', val: { name: 'delete_recording_data', type: 'click', element: 'HistoryItem', id: '#delete' } } 
+					});
+
 				});
 
 			/**/
@@ -96,6 +101,13 @@
 						$( "#show_less", state.wrap ).hide();
 						$( "#transcription_container", state.wrap ).css({ "max-height": "20px" });
 
+						chrome.runtime.sendMessage( { 
+							receiver: 'GlobalAnalytics', name: 'track_analytic', 
+							analytic: { name: 'user_action', val: { 
+								name: 'show_less_of_transcription', type: 'click', element: 'HistoryItem', id: '#show_less' 
+							} } 
+						});
+
 					});
 
 					$( "#show_more", state.wrap ).on( "click", function () {
@@ -103,6 +115,13 @@
 						$( "#show_more", state.wrap ).hide();
 						$( "#show_less", state.wrap ).show();
 						$( "#transcription_container", state.wrap ).css({ "max-height": "none" });
+
+						chrome.runtime.sendMessage( { 
+							receiver: 'GlobalAnalytics', name: 'track_analytic', 
+							analytic: { name: 'user_action', val: { 
+								name: 'show_more_of_transcription', type: 'click', element: 'HistoryItem', id: '#show_more' 
+							} } 
+						});
 
 					});
 
@@ -130,7 +149,12 @@
 
 				$( "#copy_to_clipboard", state.wrap ).on( "click", function () {
 
-					chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "copy_to_clipboard", text: recording_data.urls.short_url })
+					chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "copy_to_clipboard", text: recording_data.urls.short_url });
+
+					chrome.runtime.sendMessage( { 
+						receiver: 'GlobalAnalytics', name: 'track_analytic', 
+						analytic: { name: 'user_action', val: { name: 'copy_to_clipboard', type: 'click', element: 'HistoryItem', id: '#copy_to_clipboard' } } 
+					});
 
 				});
 
