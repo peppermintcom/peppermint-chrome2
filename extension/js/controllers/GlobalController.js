@@ -5,7 +5,6 @@
 
 		var state = {
 
-			last_recording_ts: 0,
 			last_recording_source: null
 
 		};
@@ -33,13 +32,6 @@
 			start_recording: function ( source ) {
 
 				var urls = upload_queue.get_urls();
-
-				if ( Date.now() - state.last_recording_ts < 100 ) {
-
-					private.fire({ receiver: "Content", name: "recording_not_started", recording_data: { source }, error: { name: 'already_recording' } });
-					return;
-
-				}
 
 				if ( urls ) {
 
@@ -84,10 +76,11 @@
 
 				storage.id_to_recording_data( source.recording_data_id )
 				.then( function ( data ) {
-
-					state.last_recording_ts = Date.now();
 					
 					recording_data = data;
+					recording_data.state = "uploading";
+
+					storage.update_recording_data( recording_data );
 
 					private.fire({ receiver: "Content", name: "got_urls", recording_data });
 
@@ -95,12 +88,9 @@
 
 				})
 				.then( function ( data ) {
-					
-					state.last_recording_ts = Date.now();
 
 					recording_data.data_url = data.data_url;
 					recording_data.transcription_data = data.transcription_data;
-					recording_data.state = "uploading";
 
 					storage.update_recording_data( recording_data );
 
