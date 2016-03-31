@@ -62,6 +62,15 @@
 
 		});
 
+		$( "#history_start_recording" ).on( "click", function () {
+
+			$( "nav li" ).removeClass( "active" );
+			$( "nav li[data-id='current']" ).addClass( "active" );
+			$( "main section" ).removeClass( "active" );
+			$( "main section[data-id='current']" ).addClass( "active" );
+
+		});
+
 	} () );
 
 	( function set_up_history () {
