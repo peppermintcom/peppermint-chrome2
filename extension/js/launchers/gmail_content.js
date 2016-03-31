@@ -28,7 +28,7 @@
 						new Popup( $, event_hub, t["popup"], el("peppermint_popup") );
 						new Timer( $, event_hub, t["timer"], el("peppermint_timer") );
 						new Player( $, event_hub, t["player"], el("peppermint_popup_player") );
-						new ButtonInserter( chrome, $, event_hub, t["button_inserter"], el("peppermint_button_inserter"), !items["options_data"]["disable_reply_button"], RecordingButton, t["recording_button"] );
+						new ButtonInserter( chrome, $, event_hub, t["button_inserter"], el("peppermint_button_inserter"), !items.options_data.disable_reply_button, RecordingButton, t["recording_button"] );
 
 						var letter_manager = new LetterManager( chrome, jQuery, event_hub, sender_data );
 

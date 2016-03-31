@@ -91,6 +91,7 @@
 		chrome.storage.local.get( [ "options_data" ], function ( items ) {
 
 			$( "#transcription_language" ).val( items.options_data.transcription_language );
+			$( "#disable_reply_button" )[ 0 ].checked = items.options_data.disable_reply_button;
 
 		});
 
@@ -99,6 +100,17 @@
 			chrome.storage.local.get( [ "options_data" ], function ( items ) {
 				
 				items.options_data.transcription_language = $( "#transcription_language" ).val();
+				chrome.storage.local.set({ options_data: items.options_data });
+							
+			});
+
+		});
+
+		$( '#disable_reply_button' ).change( function ( event ) {
+
+			chrome.storage.local.get( [ "options_data" ], function ( items ) {
+				
+				items.options_data.disable_reply_button = $( "#disable_reply_button" )[ 0 ].checked;
 				chrome.storage.local.set({ options_data: items.options_data });
 							
 			});
