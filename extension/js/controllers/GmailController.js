@@ -107,7 +107,7 @@
 
 				peppermint_reply_button_click: function () {
 
-					if ( $(".ams")[0] ) $(".ams")[0].click();
+					$( ".amn span:first-child" ).click()
 					
 					var interval = setInterval( function () {
 						if ( $( '#peppermint_compose_button' ).length > 0 ) {

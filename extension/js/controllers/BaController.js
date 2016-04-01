@@ -35,6 +35,28 @@
 
 				return ctx.getImageData( 0, 0, 38, 38 );
 
+			},
+
+			tick: function () {
+
+				if ( state.recording ) {
+
+					var image_data = private.get_image_data(
+						state.big_black,
+						state.big_transp,
+						( 1 + Math.cos( Math.PI * Date.now() / state.period ) ) / 2
+					);
+
+					chrome.browserAction.setIcon({ imageData: image_data });
+				
+					setTimeout( private.tick, 20 );
+				
+				} else {
+
+					chrome.browserAction.setIcon({ path: "/img/browser_action_icons/standart.png" });
+
+				}
+
 			}
 
 		};
@@ -44,18 +66,21 @@
 			recording_started: function ( message ) {
 
 				state.recording = true;
+				// private.tick();
 
 			},
 
 			recording_canceled: function ( message ) {
 
 				state.recording = false;
+				chrome.browserAction.setIcon({ path: "/img/browser_action_icons/standart.png" });
 
 			},
 
 			recording_finished: function ( message ) {
 
 				state.recording = false;
+				chrome.browserAction.setIcon({ path: "/img/browser_action_icons/standart.png" });
 
 			}
 
@@ -78,28 +103,5 @@
 			}
 
 		});
-
-		( function tick () {
-			
-			if ( state.recording ) {
-
-				var image_data = private.get_image_data(
-					state.big_black,
-					state.big_transp,
-					( 1 + Math.cos( Math.PI * Date.now() / state.period ) ) / 2
-				);
-
-				chrome.browserAction.setIcon({ imageData: image_data });
-			
-			} else {
-
-				chrome.browserAction.setIcon({ path: "/img/browser_action_icons/standart.png" });
-
-			}
-			
-			setTimeout( tick, 20 );
-
-
-		} () );
 
 	}

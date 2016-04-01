@@ -16,9 +16,9 @@
 
 			<ul>
 				<li data-id = 'current' class = 'active' >Record</li>
-				<li data-id = 'history' >History</li>
-				<li data-id = 'options' >Options</li>
 				<li data-id = 'feedback' >Feedback</li>
+				<li data-id = 'options' >Options</li>
+				<li data-id = 'history' >History</li>
 			</ul>
 
 		</nav>
@@ -81,18 +81,30 @@
 
 			</section>
 
-			<section data-id = "history" id = "history_section" >
+			<section data-id = "feedback" id = "feedback_section" >
 
-				<div id = "history_items_container" >
+				<p class = 'message' >Click the button to record feedback and we will get <br> the audio recording with your feedback on the software.</p>
+				
+				<div id = "feedback_recording_container" >
+
+					<div class = 'popup_button wide_green left' id = 'feedback_start' >Record Audio Feedback</div>
+					<div id = 'feedback_buttons'>
+						<div class = 'popup_button medium_grey left' id = 'feedback_cancel' >Cancel</div>
+						<div class = 'popup_button medium_green right' id = 'feedback_finish' >Upload</div>
+					</div>
+
+
+				<div id = "feedback_audio_visualizer" class = 'audio_visualizer' ></div>
+				<div id = "feedback_timer" ></div>
 
 				</div>
+				
+				<div id = "feedback_thank_you" >Thank you for your feedback!</div>
 
-				<div id = "history_footer" >
-
-					<div class = 'popup_button wide_green left' id = 'history_start_recording' >Start Recording</div>
-					<span id = "history_footer_text" >Recording...</span>
-
-				</div>
+				<p class = 'notes' >
+					If this doesn't work for some reason or you want to send text, email us at <br>
+					<a href = 'mailto:support@peppermint.com' >support@peppermint.com</a>
+				</p>
 
 			</section>
 
@@ -190,30 +202,18 @@
 
 			</section>
 
-			<section data-id = "feedback" id = "feedback_section" >
+			<section data-id = "history" id = "history_section" >
 
-				<p class = 'message' >Click the button to record feedback and we will get <br> the audio recording with your feedback on the software.</p>
-				
-				<div id = "feedback_recording_container" >
-
-					<div class = 'popup_button wide_green left' id = 'feedback_start' >Record Audio Feedback</div>
-					<div id = 'feedback_buttons'>
-						<div class = 'popup_button medium_grey left' id = 'feedback_cancel' >Cancel</div>
-						<div class = 'popup_button medium_green right' id = 'feedback_finish' >Upload</div>
-					</div>
-
-
-				<div id = "feedback_audio_visualizer" class = 'audio_visualizer' ></div>
-				<div id = "feedback_timer" ></div>
+				<div id = "history_items_container" >
 
 				</div>
-				
-				<div id = "feedback_thank_you" >Thank you for your feedback!</div>
 
-				<p class = 'notes' >
-					If this doesn't work for some reason or you want to send text, email us at <br>
-					<a href = 'mailto:support@peppermint.com' >support@peppermint.com</a>
-				</p>
+				<div id = "history_footer" >
+
+					<div class = 'popup_button wide_green left' id = 'history_start_recording' >Start Recording</div>
+					<span id = "history_footer_text" >Recording...</span>
+
+				</div>
 
 			</section>
 

@@ -5,7 +5,8 @@
 
 		var state = {
 
-			last_recording_source: null
+			last_recording_source: null,
+			interval: 0
 
 		};
 
@@ -42,6 +43,8 @@
 
 							var recording_data = { id: source.recording_data_id, state: "recording", timestamp: Date.now(), source, urls };
 
+							state.interval = setInterval( private.tick, 20 );
+
 							state.last_recording_source = source;
 							storage.save_recording_data( recording_data );
 							private.fire({ receiver: "Content", name: "recording_started", recording_data });
@@ -64,6 +67,7 @@
 
 			cancel_recording: function ( source ) {
 
+				clearInterval( state.interval );
 				recorder.cancel();
 				storage.delete_recording_data( source.recording_data_id );
 				private.fire({ receiver: "Content", name: "recording_canceled", recording_data: { source } });
@@ -76,7 +80,8 @@
 
 				storage.id_to_recording_data( source.recording_data_id )
 				.then( function ( data ) {
-					
+
+					clearInterval( state.interval );
 					recording_data = data;
 					recording_data.state = "uploading";
 
@@ -101,6 +106,32 @@
 					private.fire({ receiver: "Content", name: "got_audio_data", recording_data });
 						
 				});
+
+			},
+
+			tick: function () {
+
+				var frequency_data = recorder.get_frequency_data();
+				var time = recorder.get_time();
+
+				if ( frequency_data && time ) {
+
+					private.fire({
+						receiver: "Content",
+						name: "recording_details",
+						recording_details: {
+							frequency_data,
+							time
+						}
+					});
+
+					if ( time * 1000 > MAX_RECORDING_TIME ) {
+
+						hub.fire( "recording_timeout" );
+
+					}
+
+				}
 
 			}
 
@@ -242,38 +273,6 @@
 				}
 
 			});
-
-		} () );
-
-		( function emit_recording_details () {
-
-			( function tick () {
-
-				var frequency_data = recorder.get_frequency_data();
-				var time = recorder.get_time();
-
-				if ( frequency_data || time ) {
-
-					private.fire({
-						receiver: "Content",
-						name: "recording_details",
-						recording_details: {
-							frequency_data,
-							time
-						}
-					});
-
-					if ( time * 1000 > MAX_RECORDING_TIME ) {
-
-						hub.fire( "recording_timeout" );
-
-					}
-
-				}
-
-				setTimeout( tick, 20 );
-
-			} () )
 
 		} () );
 

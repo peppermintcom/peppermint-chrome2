@@ -254,6 +254,8 @@
 
 		( function init () {
 
+			chrome.storage.local.set({ browser_action_popup_has_been_opened: true });
+
 			chrome.runtime.sendMessage({ receiver: "GlobalController", name: "get_last_popup_recording" }, function ( data ) {
 
 				if ( data ) {
@@ -305,6 +307,9 @@
 					}
 
 				} else {
+
+					$( "#history_footer_text" ).hide();
+					$( "#history_start_recording" ).show();
 
 					$( ".screen" ).hide();
 					$( "#start_screen" ).show();
