@@ -130,10 +130,6 @@
 							)
 						};
 
-						if ( $(".I5[data-id='"+id+"'] input[name='subjectbox']").val() === '' ) {
-							$(".I5[data-id='"+id+"'] input[name='subjectbox']").val("I sent you an audio message");
-						}
-
 					}
 					
 					$('table.row.player').hide();
@@ -146,8 +142,37 @@
 
 			},
 
-			add_recording_data_to_a_letter: function ( recording_data ) {
+			add_recording_data_to_a_letter: function ( id, recording_data ) {
 
+				// add the transcription
+				if ( $(".I5[data-id='"+id+"'] input[name='subjectbox']").val() === '' ) {
+
+					var text = recording_data.transcription_data.text;
+
+					if ( text ) {
+
+						if ( text.length > 55 ) {
+
+							var text = text.slice( 0, 55 ).split( /\s/g ).slice( 0, -1 ).join( " " );
+
+							$(".I5[data-id='"+id+"'] input[name='subjectbox']").val( "Audio message: " + text + "..." );
+
+						} else {
+
+							$(".I5[data-id='"+id+"'] input[name='subjectbox']").val( "Audio message: " + text );
+
+						}
+
+					} else {
+
+						$(".I5[data-id='"+id+"'] input[name='subjectbox']").val("I sent you an audio message");
+						
+					}
+
+				
+				}
+
+				// add the audio player
 				var letter = $( "#peppermint_template_" + recording_data.id );
 
 				if ( letter.length > 0 ) {

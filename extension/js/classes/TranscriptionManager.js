@@ -125,13 +125,9 @@
 			finish: function () {
 				return new Promise( function ( resolve ) {
 
-					/* debugging */
-				
-						// resolve({ text: "test test test", language: lang, confidence_estimate: 1 });
-					
-					/**/
+					// resolve({ text: "test1 test2 test3 test4 tst5 test5 liasifef ijeiof jweoif jwofij weof jweoif jwef wfewf asdf asdf adsf asdf asdf saf afe gweg", language: lang, confidence_estimate: 1 });
 
-					private.speech_recognition.stop();
+					// private.speech_recognition.stop();
 
 					var interval = setInterval( function () {
 

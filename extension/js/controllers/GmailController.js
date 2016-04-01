@@ -207,7 +207,7 @@
 				got_audio_data: function ( message ) {
 
 					state.recording = false;
-					letter_manager.add_recording_data_to_a_letter( message.recording_data );
+					letter_manager.add_recording_data_to_a_letter( state.compose_button_id, message.recording_data );
 
 				}
 
