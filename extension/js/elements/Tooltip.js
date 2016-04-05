@@ -58,6 +58,12 @@
 
 				public.remove();
 
+				if ( element.id === "peppermint_compose_button_tooltip" ) {
+
+					chrome.storage.local.set({ compose_button_has_been_used: true });
+
+				}
+
 				chrome.runtime.sendMessage( { 
 					receiver: 'GlobalAnalytics', name: 'track_analytic', 
 					analytic: { name: 'user_action', val: { type: 'click', name : 'tooltip', element_id: '#cross' } } 

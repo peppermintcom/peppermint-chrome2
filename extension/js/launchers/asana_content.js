@@ -14,7 +14,7 @@
 			var event_hub = new EventHub();
 			var button = $( "<div></div>" ).appendTo( document.body )[ 0 ];
 
-			new RecordingButton( chrome, jQuery, event_hub, t["recording_button"], button );
+			new RecordingButton( chrome, jQuery, event_hub, t["recording_button"], button, { stop_icon: true } );
 
 			new AsanaButtonInserter(
 				jQuery,

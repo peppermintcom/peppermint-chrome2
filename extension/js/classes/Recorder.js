@@ -15,7 +15,34 @@
 					
 				});
 
-			}
+			},
+
+			data_url_to_object_url: function ( data_url ) {
+
+				return new Promise( function ( resolve ) {
+
+					var xhr = new XMLHttpRequest();
+					xhr.open( "GET", data_url, true );
+					xhr.responseType = "blob";
+
+					xhr.onload = function () {
+
+						resolve( URL.createObjectURL( xhr.response ) );
+
+					}
+
+					xhr.send();
+
+				})
+
+			},
+
+			blob_to_object_url: function ( blob ) {
+
+				return URL.createObjectURL( blob );
+
+			} 
+
 		};
 
 		var public = {
@@ -59,8 +86,14 @@
 
 				return new Promise ( function ( resolve ) {
 
+					var object_url;
+
 					web_audio_recorder_wrap.finish()
-					.then( private.blob_to_data_url )
+					.then( function ( blob ) {
+
+						return private.blob_to_data_url( blob );
+
+					})
 					.then( function ( data_url ) {
 
 						transcription_manager.finish()

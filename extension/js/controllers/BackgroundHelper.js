@@ -62,6 +62,16 @@
 
 					private.get_sener_data( callback );
 
+				} else if ( message.name === "activate_current_tab" ) {
+
+					chrome.tabs.update( sender.tab.id, {
+						active: false
+					}, function () {
+						chrome.tabs.update( sender.tab.id, {
+							active: true
+						});
+					});
+
 				}
 
 				return true;

@@ -1,5 +1,5 @@
 	
-	function RecordingButton ( chrome, $, hub, template, element ) {
+	function RecordingButton ( chrome, $, hub, template, element, options ) {
 		
 		var state = {
 
@@ -53,6 +53,18 @@
 					)
 				);
 
+			},
+
+			show_stop_icon: function () {
+
+				$( "#stop_icon", state.wrap ).css({ display: "block" }).css({ opacity: 1, left: "-22px" });
+
+			},
+
+			hide_stop_icon: function () {
+
+				$( "#stop_icon", state.wrap ).css({ opacity: 0, left: "0px" });
+
 			}
 
 		};
@@ -61,6 +73,7 @@
 
 			start: function () {
 
+				if ( options.stop_icon ) private.show_stop_icon();
 				state.active = true;
 
 			},
@@ -68,6 +81,7 @@
 			stop: function () {
 
 				state.active = false;
+				if ( options.stop_icon ) private.hide_stop_icon();
 				private.set_static_icon()
 
 			},
@@ -76,21 +90,6 @@
 
 				state.static_color = color;
 				public.stop();
-
-			},
-
-			toggle: function () {
-
-				if ( state.active ) {
-
-					state.active = false;
-					private.set_static_icon()
-
-				} else {
-
-					state.active = true;
-
-				}
 
 			}
 

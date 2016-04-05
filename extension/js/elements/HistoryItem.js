@@ -89,8 +89,6 @@
 
 			/* set up the transcription */
 
-				$( "#transcription", state.wrap ).text( recording_data.transcription_data.text );
-
 				setTimeout( function () {
 
 					$( "#show_less", state.wrap ).hide();
@@ -101,7 +99,7 @@
 						$( "#show_less", state.wrap ).hide();
 						$( "#transcription_container", state.wrap ).css({ "max-height": "20px" });
 
-						chrome.runtime.sendMessage( { 
+						chrome.runtime.sendMessage({ 
 							receiver: 'GlobalAnalytics', name: 'track_analytic', 
 							analytic: { name: 'user_action', val: { 
 								name: 'show_less_of_transcription', type: 'click', element: 'HistoryItem', id: '#show_less' 
@@ -124,6 +122,12 @@
 						});
 
 					});
+
+					if ( recording_data.transcription_data ) {
+
+						$( "#transcription", state.wrap ).text( recording_data.transcription_data.text );
+
+					}
 
 					if ( !recording_data.transcription_data.text ) {
 

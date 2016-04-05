@@ -381,9 +381,20 @@
 
 	/* history_section */
 
+		#history_section {
+
+			height: 100%;
+		
+		}
+
 		#history_items_container {
 
-			padding-bottom: 60px;
+			position: absolute;
+			overflow: auto;
+
+			top: 0px;
+			width: 100%;
+			height: calc( 100% - 60px );
 
 		}
 

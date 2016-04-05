@@ -177,6 +177,12 @@
 						$( ".screen" ).hide();
 						$( "#error_screen" ).show();
 
+					} else if ( message.error.name === "" ) {
+
+						$( "#error_message" ).text( "Your microphone is not working. Please check your audio settings and try again." );
+						$( ".screen" ).hide();
+						$( "#error_screen" ).show();
+
 					} else {
 
 						$( "#error_message" ).text( "Your microphone is not working. Please check your audio settings and try again." );

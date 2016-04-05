@@ -1,9 +1,8 @@
 
-	function GmailController ( chrome, $, event_hub, letter_manager ) {
+	function TumblrController ( chrome, $, event_hub, letter_manager ) {
 
 		var state = {
 
-			compose_button_id: undefined,
 			recording_data_id: 0,
 			recording: false,
 			tab_id: 0
@@ -18,28 +17,16 @@
 
 			event_hub.add({
 
-				peppermint_compose_button_click: function ( data ) {
+				tumblr_mic_button_click: function () {
+
+					$( "#new_post_label_audio" )[ 0 ].click();
 
 					if ( !state.recording ) {
 
-						chrome.storage.local.set({ compose_button_has_been_used: true });
-
-						state.compose_button_id = data.id;
 						state.recording_data_id = Date.now();
-
 						chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "gmail", recording_data_id: state.recording_data_id } })
 
 					}
-
-					chrome.runtime.sendMessage({ 
-						receiver: 'GlobalAnalytics', name: 'track_analytic', 
-						analytic: { name: 'user_action', val: { 
-							name: 'gmailcontroller',
-							action: 'click',
-							recording_state: state.recording,
-							element: 'peppermint_compose_button',
-							id: state.compose_button_id } } 
-					});
 
 				},
 
@@ -150,8 +137,6 @@
 					$('#peppermint_popup')[0].set_page("recording_page");
 					$('#peppermint_popup')[0].set_page_status("recording");
 
-					$( "div[data-id='{{ID}}']".replace( "{{ID}}", state.compose_button_id ) ).find( ".pep_recording_button" )[ 0 ].start();
-
 					state.recording = true;
 
 				},
@@ -185,8 +170,6 @@
 					state.recording = false;
 					$('#peppermint_popup').hide();
 
-					$( "div[data-id='{{ID}}']".replace( "{{ID}}", state.compose_button_id ) ).find( ".pep_recording_button" )[ 0 ].stop();
-
 				},
 
 				recording_details: function ( message ) {
@@ -198,18 +181,21 @@
 
 				got_urls: function ( message ) {
 
+					$( ".post-form--audio .editor.editor-plaintext span" )[ 0 ].innerText = message.recording_data.urls.canonical_url;
+					
 					chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "copy_to_clipboard", text: message.recording_data.urls.short_url });
 					$( "#peppermint_popup" ).hide();
-					letter_manager.add_link( state.compose_button_id, message.recording_data );  
-
-					$( "div[data-id='{{ID}}']".replace( "{{ID}}", state.compose_button_id ) ).find( ".pep_recording_button" )[ 0 ].stop();
 
 				},
 
 				got_audio_data: function ( message ) {
 
+					console.log( message.recording_data.object_url )
+
+					chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "copy_to_clipboard", text: message.recording_data.urls.short_url });
+					$( "#peppermint_popup" ).hide();
+
 					state.recording = false;
-					letter_manager.add_recording_data_to_a_letter( state.compose_button_id, message.recording_data );
 
 				}
 

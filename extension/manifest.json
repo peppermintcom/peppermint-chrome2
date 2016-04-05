@@ -143,11 +143,47 @@
 				"run_at": "document_end"
 			},
 			{
+				"matches": ["https://www.tumblr.com/*"],
+				"js": [
+
+					"/js/lib/jQuery/jquery-2.1.4.min.js",
+					"/js/lib/raven.min.js",
+
+					"/js/classes/ErrorReporter.js",
+
+					"/js/classes/EventHub.js",
+					"/js/classes/LauncherHelper.js",
+					"/js/classes/TumblrButtonInserter.js",
+
+					"/js/elements/Timer.js",
+					"/js/elements/Popup.js",
+					"/js/elements/Player.js",
+					"/js/elements/Tooltip.js",
+					"/js/elements/MiniPopup.js",
+					"/js/elements/AudioVisualizer.js",
+
+					"/js/controllers/TumblrController.js",
+
+					"/js/launchers/tumblr_content.js"
+
+				],
+				"css": [
+					"/css/content.css",
+					"/css/audio_visualizer.css"
+				],
+				"run_at": "document_end"
+			},
+			{
 				"matches": [ 
 
 					"https://*/*",
 					"http://*/*"
 
+				],
+				"exclude_matches": [
+					
+					"https://*.live.com/*"
+									
 				],
 				"js": [
 

@@ -40,7 +40,8 @@
 									$,
 									event_hub,
 									recording_button_template,
-									recording_button
+									recording_button,
+									{ stop_icon: false }
 								)
 							);
 
