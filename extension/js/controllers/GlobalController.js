@@ -111,19 +111,9 @@
 
 			tick: function () {
 
-				var frequency_data = recorder.get_frequency_data();
 				var time = recorder.get_time();
 
-				if ( frequency_data && time ) {
-
-					private.fire({
-						receiver: "Content",
-						name: "recording_details",
-						recording_details: {
-							frequency_data,
-							time
-						}
-					});
+				if ( time ) {
 
 					if ( time * 1000 > MAX_RECORDING_TIME ) {
 
@@ -250,6 +240,15 @@
 				.catch( function ( error ) {
 					callback( false );
 				});
+
+			},
+
+			get_recording_details: function ( message, sender, callback ) {
+
+				var frequency_data = recorder.get_frequency_data();
+				var time = recorder.get_time();
+
+				callback({ frequency_data, time });
 
 			}
 

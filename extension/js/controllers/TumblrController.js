@@ -190,12 +190,20 @@
 
 				got_audio_data: function ( message ) {
 
-					console.log( message.recording_data.object_url )
+					console.log( message.recording_data.object_url );
+
+					peppermint_popup_player
 
 					chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "copy_to_clipboard", text: message.recording_data.urls.short_url });
 					$( "#peppermint_popup" ).hide();
 
 					state.recording = false;
+
+				},
+
+				recording_uploaded: function ( message ) {
+
+
 
 				}
 

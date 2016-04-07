@@ -189,13 +189,6 @@
 
 				},
 
-				recording_details: function ( message ) {
-
-					$( "#audio_visualizer" )[0].set_frequency_data( message.recording_details.frequency_data );
-					$( "#peppermint_timer" )[0].set_time( message.recording_details.time * 1000 );
-
-				},
-
 				got_urls: function ( message ) {
 
 					chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "copy_to_clipboard", text: message.recording_data.urls.short_url });
@@ -223,10 +216,6 @@
 
 						message_handlers[ message.name ]( message, sender, callback );
 
-					} else if ( message_handlers[ message.name ] && message.name === "recording_details" ) {
-
-						message_handlers[ message.name ]( message, sender, callback );
-
 					}
 
 				}
@@ -242,6 +231,23 @@
 				state.tab_id = tab_id;
 
 			});
+
+			( function tick () {
+
+				if ( state.recording ) {
+
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "get_recording_details" }, function ( recording_details ) {
+
+						$( "#audio_visualizer" )[0].set_frequency_data( recording_details.frequency_data );
+						$( "#peppermint_timer" )[0].set_time( recording_details.time * 1000 );
+
+					});
+
+				}
+
+				requestAnimationFrame( tick );
+
+			} () )
 
 		} () );
 

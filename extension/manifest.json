@@ -182,7 +182,8 @@
 				],
 				"exclude_matches": [
 					
-					"https://*.live.com/*"
+					"https://*.live.com/*",
+					"https://*.yahoo.com/*"
 									
 				],
 				"js": [

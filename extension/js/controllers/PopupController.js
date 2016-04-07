@@ -3,7 +3,8 @@
 
 		var state = {
 
-			recording_data_id: 0
+			recording_data_id: 0,
+			recording: false
 
 		}
 
@@ -154,6 +155,8 @@
 
 				recording_started: function ( message ) {
 
+					state.recording = true;
+
 					$( "#history_footer_text" ).show();
 					$( "#history_start_recording" ).hide();
 
@@ -195,6 +198,8 @@
 
 				recording_canceled: function ( message ) {
 
+					state.recording = false;
+
 					$( "#history_footer_text" ).hide();
 					$( "#history_start_recording" ).show();
 
@@ -203,14 +208,9 @@
 
 				},
 
-				recording_details: function ( message ) {
-
-					$( "#audio_visualizer" )[0].set_frequency_data( message.recording_details.frequency_data );
-					$( "#timer" )[0].set_time( message.recording_details.time * 1000 );
-
-				},
-
 				got_urls: function ( message ) {
+
+					state.recording = false;
 
 					$( "#history_footer_text" ).hide();
 					$( "#history_start_recording" ).show();
@@ -243,10 +243,6 @@
 				if ( message.receiver === "Content" ) {
 
 					if ( message_handlers[ message.name ] && message.recording_data && message.recording_data.source.name === "popup" ) {
-
-						message_handlers[ message.name ]( message, sender, callback );
-
-					} else if ( message_handlers[ message.name ] && message.name === "recording_details" ) {
 
 						message_handlers[ message.name ]( message, sender, callback );
 
@@ -323,6 +319,24 @@
 				}
 
 			});
+
+			( function tick () {
+
+
+				if ( state.recording ) {
+
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "get_recording_details" }, function ( recording_details ) {
+
+						$( "#timer" )[0].set_time( recording_details.time * 1000 );
+						$( "#audio_visualizer" )[0].set_frequency_data( recording_details.frequency_data );
+
+					});
+
+				}
+
+				requestAnimationFrame( tick );
+
+			} () )
 
 		} () );
 
