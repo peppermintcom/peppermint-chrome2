@@ -185,12 +185,7 @@
 			chrome.runtime.onMessage.addListener( private.message_handler );
 			
 			private.load();
-
-			chrome.runtime.sendMessage( { 
-				receiver: 'GlobalAnalytics', name: 'track_analytic', 
-				analytic: { name: 'class_load', val: { name : 'GlobalAnalytics' } } 
-			});
-
+			
 			// chrome.runtime.sendMessage( { receiver: 'GlobalAnalytics', name: 'log_to_console', enabled: true } );
 
 		} () )

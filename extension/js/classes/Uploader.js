@@ -222,8 +222,6 @@
 
 		( function constructor () {
 
-            event_hub.fire( 'class_load', { name: 'Uploader' } );
-
 		} () )
 		
 		return public;

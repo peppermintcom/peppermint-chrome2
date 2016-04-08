@@ -216,8 +216,6 @@
 
 			});
 			
-			event_hub.fire( 'class_load', { name: 'LetterManager' } );
-
 		} () );
 
 		return public;

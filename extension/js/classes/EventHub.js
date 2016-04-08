@@ -55,8 +55,6 @@
         
         ( function constructor () {
             
-            public.fire( 'class_load', { name: 'EventHub' } );
-
 		} () );
 
 		return public;

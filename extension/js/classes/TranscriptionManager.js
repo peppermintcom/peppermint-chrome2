@@ -175,8 +175,6 @@
 
 			$.extend( private.speech_recognition, event_handlers );
             
-            event_hub.fire( 'class_load', { name: 'TranscriptionManager' } );
-
 		} () )
 
 		return public;

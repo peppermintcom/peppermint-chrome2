@@ -62,8 +62,6 @@
 
 			$.extend( element, public );
 
-			event_hub.fire( "class_load", { name : "MiniPopup" } );
-
 		} () )
 
 		return element;
