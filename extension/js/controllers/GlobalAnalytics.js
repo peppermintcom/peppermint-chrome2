@@ -19,7 +19,11 @@
 
 			processing_queue: false,
 
-			log_results_to_console: false
+			log_results_to_console: false,
+
+			allow_dev_analytics_upload: false,
+
+			allow_prod_analytics_upload: true
 
 		};
 
@@ -35,6 +39,14 @@
 
 				prod_write_key: '8c5bd076e16f5688cf2c15789ca5bcb5002539daf884df90fa2deed78960447d6a5a31278c7b4baed95c141afbd38bed9b30783977d434f79018bbaab90a28b3883d4125f46e17078cece6c7c556a3df426b199326030e88f295ce38c2461590',
 				
+			},
+
+			allow_analytics_upload: function(){
+
+				return 
+				( state.keys.cur_project_id === keys.dev_project_id && state.allow_dev_analytics_upload ) 
+				||
+				( state.keys.cur_project_id === keys.prod_project_id && state.allow_prod_analytics_upload ) ;
 			},
 
 			message_handler: function ( message, sender, callback ) {
@@ -106,14 +118,25 @@
 
 						var analytic = state.queue.pop();
 
-						private.send(analytic, function(response){
+						if (private.allow_analytics_upload()){
+
+							private.send(analytic, function(response){
+
+								state.processing_queue = false;
+								
+								if (state.log_results_to_console)
+			                    	console.log(["Analytic Send Result > " + response._result, response]);		                    
+
+							});
+
+						} else {
 
 							state.processing_queue = false;
-							
-							if (state.log_results_to_console)
-		                    	console.log(["Analytic Send Result > " + response._result, response]);		                    
 
-						});
+							if (state.log_results_to_console)
+			                    	console.log(["Analytic Discarded", analytic]);
+
+						}
 
 					};
 
