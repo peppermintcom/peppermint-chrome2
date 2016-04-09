@@ -43,10 +43,8 @@
 
 			allow_analytics_upload: function(){
 
-				return 
-				( state.keys.cur_project_id === keys.dev_project_id && state.allow_dev_analytics_upload ) 
-				||
-				( state.keys.cur_project_id === keys.prod_project_id && state.allow_prod_analytics_upload ) ;
+				return 	( state.keys.cur_project_id === private.keys.dev_project_id && state.allow_dev_analytics_upload ) ||
+						( state.keys.cur_project_id === private.keys.prod_project_id && state.allow_prod_analytics_upload );
 			},
 
 			message_handler: function ( message, sender, callback ) {
