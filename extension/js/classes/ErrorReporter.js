@@ -58,7 +58,9 @@
 					'class': source_class, 
 					'method': source_method,
 					'message': message,
-					'error_name': ( ( error && error.name ) ? error.name : '')
+					'error_name': ( ( error && error.name ) ? error.name : ''),
+					'error_code': ( ( error && error.code ) ? error.code : ''),
+					'error_message': ( ( error && error.message ) ? error.message : '')					
 				}};
 
 				if( error ) {
