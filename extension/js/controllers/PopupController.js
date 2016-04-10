@@ -266,6 +266,8 @@
 
 					if ( data.state === "recording" ) {
 
+						state.recording = true;
+
 						$( "#history_footer_text" ).show();
 						$( "#history_start_recording" ).hide();
 
