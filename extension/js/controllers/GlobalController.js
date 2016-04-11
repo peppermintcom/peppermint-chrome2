@@ -1,12 +1,13 @@
 
 	function GlobalController ( chrome, $, hub, recorder, uploader, upload_queue, storage, backend_manager ) {
 
-		var MAX_RECORDING_TIME = 5 * 60 * 1000;
+		var MAX_RECORDING_TIME = 10 * 1000;
 
 		var state = {
 
 			last_recording_source: null,
-			interval: 0
+			interval: 0,
+			recording: false
 
 		};
 
@@ -16,7 +17,7 @@
 
 				return function () {
 
-					if ( state.last_recording_source.recording_data_id === id ) {
+					if ( state.last_recording_source.recording_data_id === id && state.recording ) {
 
 						hub.fire( "recording_timeout" );
 						
@@ -60,6 +61,7 @@
 
 							setTimeout( proc.get_timeout_function( source.recording_data_id ), MAX_RECORDING_TIME );
 
+							state.recording = true;
 							state.last_recording_source = source;
 							storage.save_recording_data( recording_data );
 							proc.fire({ receiver: "Content", name: "recording_started", recording_data });
@@ -84,6 +86,7 @@
 
 				clearInterval( state.interval );
 				recorder.cancel();
+				state.recording = false;
 				storage.delete_recording_data( source.recording_data_id );
 				proc.fire({ receiver: "Content", name: "recording_canceled", recording_data: { source } });
 
@@ -109,6 +112,7 @@
 				})
 				.then( function ( data ) {
 
+					state.recording = false;
 					recording_data.data_url = data.data_url;
 					recording_data.transcription_data = data.transcription_data;
 
