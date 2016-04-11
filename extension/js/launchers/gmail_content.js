@@ -48,6 +48,8 @@
 							event_hub,
 							letter_manager
 						);
+
+						event_hub.fire( "start" );
 						
 					} catch ( error ) {
 						

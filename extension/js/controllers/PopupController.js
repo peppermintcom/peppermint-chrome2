@@ -8,13 +8,9 @@
 
 		}
 
-		var private = {
+		var handle = {
 
-		};
-
-		( function set_up_dom_event_handling () {
-
-			event_hub.add({
+			/* hub */
 
 				welcome_start_recording_click: function () {
 
@@ -63,7 +59,6 @@
 							action: 'click',
 							element: 'popup_recording_done_button' } } 
 					});
-
 
 				},
 
@@ -126,32 +121,25 @@
 							element: 'popup_delete_transcription_button' } } 
 					});
 
-				}
+				},
 
-			});
+			/**/
 
-			function create_click_dispatcher ( id ) {
-				document.getElementById( id ).addEventListener( "click", function () {
-					event_hub.fire( id + "_click" );
-				});
-			};
+			/* runtime */
 
-			[
-				"delete_transcription_button",
-				"recording_cancel_button",
-				"history_start_recording",
-				"welcome_start_recording",
-				"finish_start_new_button",
-				"error_try_again_button",
-				"recording_done_button",
-				"error_cancel_button"
-			].forEach( create_click_dispatcher );
+				runtime_message: function ( message, sender, callback ) {
 
-		} () );
+					if ( message.receiver === "Content" ) {
 
-		( function set_up_runtime_message_handling () {
+						if ( handle[ message.name ] && message.recording_data && message.recording_data.source.name === "popup" ) {
 
-			var message_handlers = {
+							handle[ message.name ]( message, sender, callback );
+
+						}
+
+					}
+
+				},
 
 				recording_started: function ( message ) {
 
@@ -234,111 +222,138 @@
 					$( "#player" )[0].set_url( message.recording_data.uploaded ? message.recording_data.urls.canonical_url : message.recording_data.data_url );
 					$( "#player" )[0].enable();
 
-				}
+				},
 
-			};
+			/**/
 
-			chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
+			/* misc */
 
-				if ( message.receiver === "Content" ) {
+				start: function () {
 
-					if ( message_handlers[ message.name ] && message.recording_data && message.recording_data.source.name === "popup" ) {
+					chrome.storage.local.set({ browser_action_popup_has_been_opened: true });
 
-						message_handlers[ message.name ]( message, sender, callback );
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "get_last_popup_recording" }, function ( data ) {
 
-					}
+						if ( data ) {
 
-				}
+							state.recording_data_id = data.id;
 
-			});
+							if ( data.state === "recording" ) {
 
-		} () );
+								state.recording = true;
 
-		( function init () {
+								$( "#history_footer_text" ).show();
+								$( "#history_start_recording" ).hide();
 
-			chrome.storage.local.set({ browser_action_popup_has_been_opened: true });
+								$( ".screen" ).hide();
+								$( "#recording_screen" ).show();
 
-			chrome.runtime.sendMessage({ receiver: "GlobalController", name: "get_last_popup_recording" }, function ( data ) {
+							} else {
 
-				if ( data ) {
+								$( "#history_footer_text" ).hide();
+								$( "#history_start_recording" ).show();
 
-					state.recording_data_id = data.id;
+								$( ".screen" ).hide();
+								$( "#finish_screen" ).show();
 
-					if ( data.state === "recording" ) {
+								chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "copy_to_clipboard", text: data.urls.short_url });
+								$( "#popup_finish_url" )[0].href = data.urls.short_url;
+								$( "#popup_finish_url" ).text( data.urls.short_url );
 
-						state.recording = true;
+								if ( data.transcription_data.text ) {
 
-						$( "#history_footer_text" ).show();
-						$( "#history_start_recording" ).hide();
+									$( "#transcription_header" ).show();
+									$( "#transcript" ).html( data.transcription_data.text );
 
-						$( ".screen" ).hide();
-						$( "#recording_screen" ).show();
+								} else {
 
-					} else {
+									$( "#transcription_header" ).hide();
 
-						$( "#history_footer_text" ).hide();
-						$( "#history_start_recording" ).show();
+								}
 
-						$( ".screen" ).hide();
-						$( "#finish_screen" ).show();
+								if ( data.data_url || data.urls.canonical_url ) {
 
-						chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "copy_to_clipboard", text: data.urls.short_url });
-						$( "#popup_finish_url" )[0].href = data.urls.short_url;
-						$( "#popup_finish_url" ).text( data.urls.short_url );
+									$( "#player" )[0].set_url( data.state === "uploaded" ? data.urls.canonical_url : data.data_url );
+									$( "#player" )[0].enable();
 
-						if ( data.transcription_data.text ) {
+								} else {
 
-							$( "#transcription_header" ).show();
-							$( "#transcript" ).html( data.transcription_data.text );
+									$( "#player" )[0].disable();
 
-						} else {
+								}
 
-							$( "#transcription_header" ).hide();
-
-						}
-
-						if ( data.data_url || data.urls.canonical_url ) {
-
-							$( "#player" )[0].set_url( data.state === "uploaded" ? data.urls.canonical_url : data.data_url );
-							$( "#player" )[0].enable();
+							}
 
 						} else {
 
-							$( "#player" )[0].disable();
+							$( "#history_footer_text" ).hide();
+							$( "#history_start_recording" ).show();
+
+							$( ".screen" ).hide();
+							$( "#start_screen" ).show();
 
 						}
-
-					}
-
-				} else {
-
-					$( "#history_footer_text" ).hide();
-					$( "#history_start_recording" ).show();
-
-					$( ".screen" ).hide();
-					$( "#start_screen" ).show();
-
-				}
-
-			});
-
-			( function tick () {
-
-
-				if ( state.recording ) {
-
-					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "get_recording_details" }, function ( recording_details ) {
-
-						$( "#timer" )[0].set_time( recording_details.time * 1000 );
-						$( "#audio_visualizer" )[0].set_frequency_data( recording_details.frequency_data );
 
 					});
 
+					( function tick () {
+
+
+						if ( state.recording ) {
+
+							chrome.runtime.sendMessage({ receiver: "GlobalController", name: "get_recording_details" }, function ( recording_details ) {
+
+								$( "#timer" )[0].set_time( recording_details.time * 1000 );
+								$( "#audio_visualizer" )[0].set_frequency_data( recording_details.frequency_data );
+
+							});
+
+						}
+
+						requestAnimationFrame( tick );
+
+					} () )
+
 				}
 
-				requestAnimationFrame( tick );
+			/**/
 
-			} () )
+		};
+
+		( function () {
+
+			event_hub.add({
+
+				welcome_start_recording_click: handle.welcome_start_recording_click,
+				history_start_recording_click: handle.history_start_recording_click,
+				recording_cancel_button_click: handle.recording_cancel_button_click,
+				recording_done_button_click: handle.recording_done_button_click,
+				error_cancel_button_click: handle.error_cancel_button_click,
+				error_try_again_button_click: handle.error_try_again_button_click,
+				finish_start_new_button_click: handle.finish_start_new_button_click,
+				delete_transcription_button_click: handle.delete_transcription_button_click,
+				start: handle.start
+
+			});
+
+			function create_click_dispatcher ( id ) {
+				document.getElementById( id ).addEventListener( "click", function () {
+					event_hub.fire( id + "_click" );
+				});
+			};
+
+			[
+				"delete_transcription_button",
+				"recording_cancel_button",
+				"history_start_recording",
+				"welcome_start_recording",
+				"finish_start_new_button",
+				"error_try_again_button",
+				"recording_done_button",
+				"error_cancel_button"
+			].forEach( create_click_dispatcher );
+
+			chrome.runtime.onMessage.addListener( handle.runtime_message );
 
 		} () );
 

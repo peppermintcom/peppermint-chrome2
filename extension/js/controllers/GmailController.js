@@ -10,13 +10,9 @@
 
 		};
 
-		var private = {
+		var handle = {
 
-		};
-
-		( function set_up_dom_event_handling () {
-
-			event_hub.add({
+			/* dom */
 
 				peppermint_compose_button_click: function ( data ) {
 
@@ -126,23 +122,33 @@
 						}
 					}, 20 );
 
-				}
+				},
 
-			});
+				unload: function () {
 
-			$( window ).unload( function () {
+					if ( state.recording ) {
+						chrome.runtime.sendMessage({ receiver: "GlobalController", name: "cancel_recording", source: { name: "gmail", recording_data_id: state.recording_data_id } });
+					}
 
-				if ( state.recording ) {
-					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "cancel_recording", source: { name: "gmail", recording_data_id: state.recording_data_id } });
-				}
+				},
 
-			});
+			/**/
 
-		} () );
+			/* runtime */
 
-		( function set_up_runtime_message_handling () {
+				runtime_message: function ( message, sender, callback ) {
 
-			var message_handlers = {
+					if ( message.receiver === "Content" ) {
+
+						if ( handle[ message.name ] && message.recording_data && message.recording_data.source.tab_id === state.tab_id ) {
+
+							handle[ message.name ]( message, sender, callback );
+
+						}
+
+					}
+
+				},
 
 				recording_started: function ( message ) {
 
@@ -204,50 +210,62 @@
 					state.recording = false;
 					letter_manager.add_recording_data_to_a_letter( state.compose_button_id, message.recording_data );
 
-				}
+				},
 
-			};
+			/**/
 
-			chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
+			/* misc */
 
-				if ( message.receiver === "Content" ) {
+				tick: function () {
 
-					if ( message_handlers[ message.name ] && message.recording_data && message.recording_data.source.tab_id === state.tab_id ) {
+					if ( state.recording ) {
 
-						message_handlers[ message.name ]( message, sender, callback );
+						chrome.runtime.sendMessage({ receiver: "GlobalController", name: "get_recording_details" }, function ( recording_details ) {
+
+							$( "#audio_visualizer" )[0].set_frequency_data( recording_details.frequency_data );
+							$( "#peppermint_timer" )[0].set_time( recording_details.time * 1000 );
+
+						});
 
 					}
 
-				}
+					requestAnimationFrame( handle.tick );
 
-			});
+				},
 
-		} () );
+				start: function () {
 
-		( function init () {
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "get_tab_id" }, function ( tab_id ) {
 
-			chrome.runtime.sendMessage({ receiver: "GlobalController", name: "get_tab_id" }, function ( tab_id ) {
-
-				state.tab_id = tab_id;
-
-			});
-
-			( function tick () {
-
-				if ( state.recording ) {
-
-					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "get_recording_details" }, function ( recording_details ) {
-
-						$( "#audio_visualizer" )[0].set_frequency_data( recording_details.frequency_data );
-						$( "#peppermint_timer" )[0].set_time( recording_details.time * 1000 );
+						state.tab_id = tab_id;
 
 					});
 
+					handle.tick();
+
 				}
 
-				requestAnimationFrame( tick );
+			/**/
 
-			} () )
+		};
+
+		( function () {
+
+			event_hub.add({
+
+				peppermint_compose_button_click: handle.peppermint_compose_button_click,
+				popup_recording_cancel_button_click: handle.popup_recording_cancel_button_click,
+				popup_recording_done_button_click: handle.popup_recording_done_button_click,
+				popup_error_try_again_button_click: handle.popup_error_try_again_button_click,
+				popup_error_cancel_button_click: handle.popup_error_cancel_button_click,
+				peppermint_reply_button_click: handle.peppermint_reply_button_click,
+				start: handle.start
+
+			});
+
+			$( window ).unload( handle.unload );
+
+			chrome.runtime.onMessage.addListener( handle.runtime_message );
 
 		} () );
 

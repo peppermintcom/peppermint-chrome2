@@ -60,12 +60,10 @@
 						private.is_final = true;
 						private.confidence = event.results[i][0].confidence;
 						private.transcript += event.results[i][0].transcript;
-						console.log( private.transcript );
 
 					} else {
 
 						private.is_final = false;
-						console.log( private.transcript + event.results[i][0].transcript );
 
 					}
 
@@ -84,7 +82,7 @@
 
 			ended: false,
 
-			debugging: false,
+			debugging: true,
 
 			speech_recognition: null,
 
@@ -101,6 +99,7 @@
 		var public = {
 
 			start: function () {
+
 				chrome.storage.local.get( null, function ( items ) {
 
 					lang = items.options_data.transcription_language;
@@ -113,16 +112,18 @@
 					private.speech_recognition.start();
 
 				});
+
 			},
 
 			cancel: function () {
-			
+
 				private.speech_recognition.stop();
 				private.is_final = true;
 				
 			},
 
 			finish: function () {
+
 				return new Promise( function ( resolve ) {
 
 					// resolve({ text: "test1 test2 test3 test4 tst5 test5 liasifef ijeiof jweoif jwofij weof jweoif jwef wfewf asdf asdf adsf asdf asdf saf afe gweg", language: lang, confidence_estimate: 1 });
@@ -144,6 +145,7 @@
 					}, 50 );
 
 				});
+
 			}
 
 		};
