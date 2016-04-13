@@ -49,6 +49,7 @@
 				"/js/controllers/TooltipManager.js",
 				"/js/controllers/BaController.js",
 				"/js/controllers/GlobalController.js",
+				"/js/controllers/ContentInserterModule.js",
 
 				"/js/launchers/background.js"
 
@@ -59,120 +60,6 @@
 		},
 
 		"content_scripts": [
-			{
-				"matches": ["https://app.asana.com/*"],
-				"js": [
-
-					"/js/lib/jQuery/jquery-2.1.4.min.js",
-					"/js/lib/raven.min.js",
-
-					"/js/classes/ErrorReporter.js",
-					
-					"/js/classes/EventHub.js",
-					"/js/classes/LauncherHelper.js",
-
-					"/js/classes/AsanaButtonInserter.js",
-
-					"/js/elements/RecordingButton.js",
-
-					"/js/controllers/AsanaController.js",
-
-					"/js/launchers/asana_content.js"
-				
-				],
-				"run_at": "document_end"
-			},
-			{
-				"matches": ["https://mail.google.com/*"],
-				"js": [
-
-					"/js/lib/jQuery/jquery-2.1.4.min.js",
-					"/js/lib/raven.min.js",
-
-					"/js/classes/ErrorReporter.js",
-
-					"/js/classes/EventHub.js",
-					"/js/classes/LetterManager.js",
-					"/js/classes/LauncherHelper.js",
-					"/js/classes/ButtonInserter.js",
-
-					"/js/elements/Timer.js",
-					"/js/elements/Popup.js",
-					"/js/elements/Player.js",
-					"/js/elements/Tooltip.js",
-					"/js/elements/MiniPopup.js",
-					"/js/elements/AudioVisualizer.js",
-					"/js/elements/RecordingButton.js",
-
-					"/js/controllers/GmailController.js",
-
-					"/js/launchers/gmail_content.js"
-				
-				],
-				"css": [
-					"/css/content.css",
-					"/css/audio_visualizer.css"
-				],
-				"run_at": "document_end"
-			},
-			{
-				"matches": ["https://*.slack.com/*"],
-				"js": [
-
-					"/js/lib/jQuery/jquery-2.1.4.min.js",
-					"/js/lib/raven.min.js",
-
-					"/js/classes/ErrorReporter.js",
-					
-					"/js/classes/EventHub.js",
-					"/js/classes/LauncherHelper.js",
-
-					"/js/classes/SlackButtonInserter.js",
-
-					"/js/elements/RecordingButton.js",
-
-					"/js/controllers/SlackController.js",
-
-					"/js/launchers/slack_content.js"
-
-				],
-				"css": [
-					"/css/content.css",
-					"/css/audio_visualizer.css"
-				],
-				"run_at": "document_end"
-			},
-			{
-				"matches": ["https://www.tumblr_not_yet_implemented.com/*"],
-				"js": [
-
-					"/js/lib/jQuery/jquery-2.1.4.min.js",
-					"/js/lib/raven.min.js",
-
-					"/js/classes/ErrorReporter.js",
-
-					"/js/classes/EventHub.js",
-					"/js/classes/LauncherHelper.js",
-					"/js/classes/TumblrButtonInserter.js",
-
-					"/js/elements/Timer.js",
-					"/js/elements/Popup.js",
-					"/js/elements/Player.js",
-					"/js/elements/Tooltip.js",
-					"/js/elements/MiniPopup.js",
-					"/js/elements/AudioVisualizer.js",
-
-					"/js/controllers/TumblrController.js",
-
-					"/js/launchers/tumblr_content.js"
-
-				],
-				"css": [
-					"/css/content.css",
-					"/css/audio_visualizer.css"
-				],
-				"run_at": "document_end"
-			},
 			{
 				"matches": [ 
 
@@ -200,7 +87,6 @@
 					"/js/elements/PepLinkAddon.js",
 					
 					"/js/controllers/AllLinksController.js",
-
 
 					"/js/launchers/all_links_content.js"
 

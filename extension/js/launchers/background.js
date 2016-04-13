@@ -150,6 +150,12 @@
 			event_hub
 		);
 
+		new ContentInserterModule(
+			chrome,
+			jQuery,
+			event_hub
+		);
+
 		event_hub.fire( "start" );
 
 	} () );

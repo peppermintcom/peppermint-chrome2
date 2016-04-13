@@ -112,6 +112,33 @@
 
 		};
 
+		var handle = {
+
+			hide_button_click: function () {
+				$( element ).css({ left: '0px', bottom: '-300px', top: 'initial' });
+				$( "#hide_button", element.shadowRoot ).hide();
+				$( "#show_button", element.shadowRoot ).show();
+			},
+
+			show_button_click: function () {
+				$( element ).css({ left: 'calc( 50% - 190px )', top: '100px', bottom: 'initial' });
+				$( "#hide_button", element.shadowRoot ).show();
+				$( "#show_button", element.shadowRoot ).hide();
+			},
+
+			header_mousedown: function ( event ) {
+				if ( $( event.originalEvent.path[0] ).is( "#header" ) ) {
+					$( "#hide_button", element.shadowRoot ).show();
+					$( "#show_button", element.shadowRoot ).hide();
+				}
+			},
+
+			upload_progress: function ( event ) {
+				$( "#progress", element.shadowRoot ).html( event.originalEvent.detail.progress + "%" );
+			}
+
+		};
+
 		( function constructor () {
 
 			element.createShadowRoot().appendChild( document.importNode( template.content, true ) );
@@ -137,27 +164,14 @@
 				exclude: $( ".header_button", element.shadowRoot )
 			});
 
-			$( "#hide_button", element.shadowRoot ).click( function () {
-				$( element ).css({ left: '0px', bottom: '-300px', top: 'initial' });
-				$( "#hide_button", element.shadowRoot ).hide();
-				$( "#show_button", element.shadowRoot ).show();
-			});
+			$( "#hide_button", element.shadowRoot ).click( handle.hide_button_click );
+			$( "#show_button", element.shadowRoot ).click( handle.show_button_click );
+			$( "#header", element.shadowRoot ).on( "mousedown", handle.header_mousedown );
 
-			$( "#show_button", element.shadowRoot ).click( function () {
-				$( element ).css({ left: 'calc( 50% - 190px )', top: '100px', bottom: 'initial' });
-				$( "#hide_button", element.shadowRoot ).show();
-				$( "#show_button", element.shadowRoot ).hide();
-			});
+			event_hub.add({
 
-			$( "#header", element.shadowRoot ).on( "mousedown", function ( event ) {
-				if ( $( event.originalEvent.path[0] ).is( "#header" ) ) {
-					$( "#hide_button", element.shadowRoot ).show();
-					$( "#show_button", element.shadowRoot ).hide();
-				}
-			});
+				upload_progress: handle.upload_progress
 
-			$( document ).on( "upload_progress", function ( event ) {
-				$( "#progress", element.shadowRoot ).html( event.originalEvent.detail.progress + "%" );
 			});
 
 		} () )
