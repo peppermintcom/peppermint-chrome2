@@ -9,7 +9,7 @@
 
 					return false;
 
-				} else if ( link.href.indexOf( "https://peppermint.com/" ) > -1 && link.href.indexOf( "reply" ) === -1 ) {
+				} else if ( link.href && link.href.indexOf( "https://peppermint.com/" ) > -1 && link.href.indexOf( "reply" ) === -1 ) {
 
 					return link.href.replace( "https://peppermint.com/", "" ).replace( "/", "" );
 	

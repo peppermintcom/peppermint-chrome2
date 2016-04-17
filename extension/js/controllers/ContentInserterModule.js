@@ -4,11 +4,13 @@
 		var state = {
 
 			integrations: {
+
 				"gmail": /^https:\/\/mail\.google\.com/,
 				"asana": /^https:\/\/app\.asana\.com/,
 				"slack": /^https:\/\/.+?\.slack\.com/,
 				"twitter": /^https:\/\/twitter\.com/,
 				"tumblr": /^https:\/\/tumblr\.com/
+
 			},
 
 			content_scripts: {
@@ -86,7 +88,6 @@
 					"/js/classes/EventHub.js",
 					"/js/classes/LetterManager.js",
 					"/js/classes/LauncherHelper.js",
-					"/js/classes/ButtonInserter.js",
 
 					"/js/elements/Timer.js",
 					"/js/elements/Popup.js",
@@ -96,9 +97,10 @@
 					"/js/elements/AudioVisualizer.js",
 					"/js/elements/RecordingButton.js",
 
-					"/js/controllers/GmailController.js",
+					"/js/controllers/TwitterButtonInserter.js",
+					"/js/controllers/TwitterController.js",
 
-					"/js/launchers/gmail_content.js"
+					"/js/launchers/twitter_content.js"
 				
 				],
 				"tumblr": [
@@ -125,32 +127,50 @@
 
 				]
 
-			},
+			}
 
-			inserted_tab_id_arr: []
+		};
+
+		var conv = {
+
+			tab_id_has_injected_script: function ( tab_id ) {
+
+				return new Promise( function ( resolve ) {
+
+					chrome.tabs.sendMessage( tab_id, { receiver: "Content", name: "content_ping" }, resolve );
+
+				});
+
+			}
 
 		};
 
 		var proc = {
 
-			execute_scripts( tab_id, scripts_arr ) {
+			execute_scripts: function ( tab_id, scripts_arr ) {
 
-				for ( var i = 0; i < scripts_arr.length; i++ ) {
+				return new Promise( function ( resolve ) {
 
-					chrome.tabs.executeScript( tab_id, {
-						file: scripts_arr[ i ],
-						runAt: "document_end"
-					});
+					if ( scripts_arr.length === 0 ) {
 
-				}
+						resolve();
 
-				chrome.tabs.insertCSS( tab_id, {
-					
-					file: "/css/content.css"
+					} else {
+
+						var script = scripts_arr.pop();
+
+						proc.execute_scripts( tab_id, scripts_arr )
+						.then( function () {
+
+							chrome.tabs.executeScript( tab_id, {
+								file: script
+							}, resolve );
+
+						});
+
+					}
 
 				});
-
-				state.inserted_tab_id_arr.push( tab_id );
 
 			}
 
@@ -159,12 +179,26 @@
 		var handle = {
 
 			tab_update: function ( tab_id, change_info, tab ) {
+
+				conv.tab_id_has_injected_script( tab_id ).then( function ( has_inj_script ) {
 			
-				Object.keys( state.integrations ).forEach( function ( key ) {
+					if ( !has_inj_script ) {
 
-					if ( state.integrations[ key ].test( change_info.url ) && state.inserted_tab_id_arr.indexOf( tab_id ) === -1 ) {
+						Object.keys( state.integrations ).forEach( function ( key ) {
 
-						proc.execute_scripts( tab_id, state.content_scripts[ key ] );
+							if ( state.integrations[ key ].test( tab.url ) ) {
+
+								proc.execute_scripts( tab_id, state.content_scripts[ key ] );
+
+								chrome.tabs.insertCSS( tab_id, {
+									
+									file: "/css/content.css"
+
+								});
+
+							}
+
+						});
 
 					}
 

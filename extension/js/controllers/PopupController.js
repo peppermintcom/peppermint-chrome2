@@ -4,9 +4,10 @@
 		var state = {
 
 			recording_data_id: 0,
-			recording: false
+			recording: false,
+						
 
-		}
+		};
 
 		var handle = {
 

@@ -66,7 +66,7 @@
 			recording_started: function ( message ) {
 
 				state.recording = true;
-				// private.tick();
+				private.tick();
 
 			},
 

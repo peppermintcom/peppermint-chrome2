@@ -253,12 +253,11 @@
 
 			}
 
-
 		/**/
 
 		/* finish_creen */
 
-			.screen#finish_screen {
+			#finish_screen {
 
 				padding-left: 12px;
 				padding-right: 12px;
@@ -273,26 +272,42 @@
 
 			}
 
-			#finish_screen .header {
+			/* header */
 
-				display: flex;
-				align-items: center;
+				#finish_screen .header {
 
-			}
+					display: flex;
+					align-items: center;
 
-			#finish_screen h2 {
+				}
 
-				margin-right: 12px;
-				font-size: 22px;
-				color: rgba( 0, 0, 0, 0.6 );
+				#finish_screen .header_left {
 
-			}
+					width: 50%;
 
-			#finish_screen #player {
+				}
 
-				margin-right: 65px;
+				#finish_screen .header_right {
 
-			}
+					width: 50%
+
+				}
+
+				#finish_screen h2 {
+
+					margin-right: 12px;
+					font-size: 22px;
+					color: rgba( 0, 0, 0, 0.6 );
+
+				}
+
+				#finish_screen #player {
+
+					margin-right: 65px;
+
+				}
+
+			/**/
 
 			#finish_screen h3 {
 

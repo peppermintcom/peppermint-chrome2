@@ -1,5 +1,5 @@
 
-	function TwitterController ( chrome, $, event_hub, letter_manager ) {
+	function TwitterController ( chrome, window, $, hub ) {
 
 		var state = {
 
@@ -9,24 +9,31 @@
 
 		};
 
-		var private = {
+		var handle = {
 
-		};
+			/* dom */
 
-		( function set_up_dom_event_handling () {
-
-			event_hub.add({
-
-				tumblr_mic_button_click: function () {
-
-					$( "#new_post_label_audio" )[ 0 ].click();
+				peppermint_compose_button_click: function ( data ) {
 
 					if ( !state.recording ) {
 
+						chrome.storage.local.set({ compose_button_has_been_used: true });
+						state.compose_button_id = data.id;
 						state.recording_data_id = Date.now();
+
 						chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "gmail", recording_data_id: state.recording_data_id } })
 
 					}
+
+					chrome.runtime.sendMessage({ 
+						receiver: 'GlobalAnalytics', name: 'track_analytic', 
+						analytic: { name: 'user_action', val: { 
+							name: 'gmailcontroller',
+							action: 'click',
+							recording_state: state.recording,
+							element: 'peppermint_compose_button',
+							id: state.compose_button_id } } 
+					});
 
 				},
 
@@ -34,7 +41,7 @@
 
 					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "cancel_recording", source: { name: "gmail", recording_data_id: state.recording_data_id } })
 
-					chrome.runtime.sendMessage( { 
+					chrome.runtime.sendMessage({ 
 						receiver: 'GlobalAnalytics', name: 'track_analytic', 
 						analytic: { name: 'user_action', val: { 
 							name: 'gmailcontroller',
@@ -48,7 +55,7 @@
 
 					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "finish_recording", source: { name: "gmail", recording_data_id: state.recording_data_id } })
 
-					chrome.runtime.sendMessage( { 
+					chrome.runtime.sendMessage({ 
 						receiver: 'GlobalAnalytics', name: 'track_analytic', 
 						analytic: { name: 'user_action', val: { 
 							name: 'gmailcontroller',
@@ -67,7 +74,7 @@
 
 					}
 
-					chrome.runtime.sendMessage( { 
+					chrome.runtime.sendMessage({ 
 						receiver: 'GlobalAnalytics', name: 'track_analytic', 
 						analytic: { name: 'user_action', val: { 
 							name: 'gmailcontroller',
@@ -82,7 +89,7 @@
 
 					$("#peppermint_popup").hide();
 
-					chrome.runtime.sendMessage( { 
+					chrome.runtime.sendMessage({ 
 						receiver: 'GlobalAnalytics', name: 'track_analytic', 
 						analytic: { name: 'user_action', val: { 
 							name: 'gmailcontroller',
@@ -94,7 +101,7 @@
 
 				peppermint_reply_button_click: function () {
 
-					$( ".amn span:first-child" ).click()
+					$( ".amn span:first-child" ).click();
 					
 					var interval = setInterval( function () {
 						if ( $( '#peppermint_compose_button' ).length > 0 ) {
@@ -102,7 +109,7 @@
 							$( '#peppermint_compose_button' ).click();
 							clearInterval( interval );
 
-							chrome.runtime.sendMessage( { 
+							chrome.runtime.sendMessage({ 
 								receiver: 'GlobalAnalytics', name: 'track_analytic', 
 								analytic: { name: 'user_action', val: { 
 									name: 'gmailcontroller',
@@ -113,29 +120,52 @@
 						}
 					}, 20 );
 
-				}
+				},
 
-			});
+				unload: function () {
 
-			$( window ).unload( function () {
+					if ( state.recording ) {
+						chrome.runtime.sendMessage({ receiver: "GlobalController", name: "cancel_recording", source: { name: "gmail", recording_data_id: state.recording_data_id } });
+					}
 
-				if ( state.recording ) {
-					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "cancel_recording", source: { name: "gmail", recording_data_id: state.recording_data_id } });
-				}
+				},
 
-			});
+			/**/
 
-		} () );
+			/* runtime */
 
-		( function set_up_runtime_message_handling () {
+				runtime_message: function ( message, sender, callback ) {
 
-			var message_handlers = {
+					if ( message.receiver === "Content" ) {
+
+						if ( handle[ message.name ] && message.recording_data && message.recording_data.source.tab_id === state.tab_id ) {
+
+							handle[ message.name ]( message, sender, callback );
+
+						}
+
+					} else if ( message.name === "content_ping" ) {
+
+						handle[ message.name ]( message, sender, callback );
+
+					}
+
+				},
+
+				content_ping: function ( message, sender, callback ) {
+					
+					console.log( "ping" );
+					callback( true );
+
+				},
 
 				recording_started: function ( message ) {
 
 					$('#peppermint_popup').show();
 					$('#peppermint_popup')[0].set_page("recording_page");
 					$('#peppermint_popup')[0].set_page_status("recording");
+
+					$( "div[data-id='{{ID}}']".replace( "{{ID}}", state.compose_button_id ) ).find( ".pep_recording_button" )[ 0 ].start();
 
 					state.recording = true;
 
@@ -170,72 +200,81 @@
 					state.recording = false;
 					$('#peppermint_popup').hide();
 
-				},
-
-				recording_details: function ( message ) {
-
-					$( "#audio_visualizer" )[0].set_frequency_data( message.recording_details.frequency_data );
-					$( "#peppermint_timer" )[0].set_time( message.recording_details.time * 1000 );
+					$( "div[data-id='{{ID}}']".replace( "{{ID}}", state.compose_button_id ) ).find( ".pep_recording_button" )[ 0 ].stop();
 
 				},
 
 				got_urls: function ( message ) {
 
-					$( ".post-form--audio .editor.editor-plaintext span" )[ 0 ].innerText = message.recording_data.urls.canonical_url;
-					
 					chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "copy_to_clipboard", text: message.recording_data.urls.short_url });
 					$( "#peppermint_popup" ).hide();
+					letter_manager.add_link( state.compose_button_id, message.recording_data );  
+
+					$( "div[data-id='{{ID}}']".replace( "{{ID}}", state.compose_button_id ) ).find( ".pep_recording_button" )[ 0 ].stop();
 
 				},
 
 				got_audio_data: function ( message ) {
 
-					console.log( message.recording_data.object_url );
-
-					peppermint_popup_player
-
-					chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "copy_to_clipboard", text: message.recording_data.urls.short_url });
-					$( "#peppermint_popup" ).hide();
-
 					state.recording = false;
+					letter_manager.add_recording_data_to_a_letter( state.compose_button_id, message.recording_data );
 
 				},
 
-				recording_uploaded: function ( message ) {
+			/**/
 
+			/* misc */
 
+				tick: function () {
 
-				}
+					if ( state.recording ) {
 
-			};
+						chrome.runtime.sendMessage({ receiver: "GlobalController", name: "get_recording_details" }, function ( recording_details ) {
 
-			chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
+							$( "#audio_visualizer" )[0].set_frequency_data( recording_details.frequency_data );
+							$( "#peppermint_timer" )[0].set_time( recording_details.time * 1000 );
 
-				if ( message.receiver === "Content" ) {
-
-					if ( message_handlers[ message.name ] && message.recording_data && message.recording_data.source.tab_id === state.tab_id ) {
-
-						message_handlers[ message.name ]( message, sender, callback );
-
-					} else if ( message_handlers[ message.name ] && message.name === "recording_details" ) {
-
-						message_handlers[ message.name ]( message, sender, callback );
+						});
 
 					}
 
+					requestAnimationFrame( handle.tick );
+
+				},
+
+				start: function () {
+
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "get_tab_id" }, function ( tab_id ) {
+
+						state.tab_id = tab_id;
+
+					});
+
+					handle.tick();
+
 				}
 
+			/**/
+
+		};
+
+		( function () {
+
+			hub.add({
+
+				peppermint_compose_button_click: handle.peppermint_compose_button_click,
+				popup_recording_cancel_button_click: handle.popup_recording_cancel_button_click,
+				popup_recording_done_button_click: handle.popup_recording_done_button_click,
+				popup_error_try_again_button_click: handle.popup_error_try_again_button_click,
+				popup_error_cancel_button_click: handle.popup_error_cancel_button_click,
+				peppermint_reply_button_click: handle.peppermint_reply_button_click,
+				start: handle.start
+
 			});
 
-		} () );
+			$( window ).unload( handle.unload );
 
-		( function init () {
-
-			chrome.runtime.sendMessage({ receiver: "GlobalController", name: "get_tab_id" }, function ( tab_id ) {
-
-				state.tab_id = tab_id;
-
-			});
+			chrome.runtime.onMessage.addListener( handle.runtime_message );
 
 		} () );
 

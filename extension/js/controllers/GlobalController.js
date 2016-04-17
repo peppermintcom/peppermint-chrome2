@@ -1,7 +1,7 @@
 
 	function GlobalController ( chrome, $, hub, recorder, uploader, upload_queue, storage, backend_manager ) {
 
-		var MAX_RECORDING_TIME = 10 * 1000;
+		var MAX_RECORDING_TIME = 5 * 60 * 1000;
 
 		var state = {
 
