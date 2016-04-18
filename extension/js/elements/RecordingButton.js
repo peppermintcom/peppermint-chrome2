@@ -16,7 +16,7 @@
 
 		var private = {
 
-			get_data_url: function ( big_black, big_transp, percentage, color, grey_color ) {
+			get_image_data: function ( big_black, big_transp, percentage, color, grey_color ) {
 
 				var canvas = document.createElement( "canvas" );
 				canvas.width = 38;
@@ -37,21 +37,23 @@
 				
 				ctx.drawImage( big_transp, 0, 0 );
 
-				return canvas.toDataURL();
+				return ctx.getImageData( 0, 0, 38, 38 );
 
 			},
 
 			set_static_icon: function () {
 
-				$( "#image", state.wrap ).attr( "src",
-					private.get_data_url(
-						state.big_black,
-						state.big_transp,
-						1,
-						state.color,
-						state.static_color
-					)
+				var image_data = private.get_image_data(
+					state.big_black,
+					state.big_transp,
+					1,
+					state.color,
+					state.static_color
 				);
+
+
+				var ctx = $( "#image", state.wrap )[0].getContext( "2d" );
+				ctx.putImageData( image_data, 0, 0 );
 
 			},
 
@@ -120,7 +122,7 @@
 				
 				if ( state.active ) {
 
-					var data_url = private.get_data_url(
+					var image_data = private.get_image_data(
 						state.big_black,
 						state.big_transp,
 						( 1 + Math.cos( Math.PI * Date.now() / state.period ) ) / 2,
@@ -128,7 +130,8 @@
 						state.grey_color
 					);
 
-					$( "#image", state.wrap ).attr( "src", data_url );
+					var ctx = $( "#image", state.wrap )[0].getContext( "2d" );
+					ctx.putImageData( image_data, 0, 0 );
 				
 				} else {
 
