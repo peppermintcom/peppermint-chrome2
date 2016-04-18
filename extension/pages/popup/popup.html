@@ -58,13 +58,13 @@
 
 					<div class = 'header' >
 					
-						<div class = 'header_left' data-id = "finished_header" >
+						<div class = 'finish_header header_left' id = "finished_header" >
 							<h2>You have finished recording</h2>
 						</div>
 					
-						<div class = 'header_left' data-id = "last_recording_header" >
+						<div class = 'finish_header header_left' id = "last_recording_header" >
 							<h2>Your last recording</h2>
-							<span class = 'date' >03/07/16, 8:30 AM</span>
+							<span class = 'date' id = "last_recording_date" >03/07/16, 8:30 AM</span>
 						</div>
 					
 						<div class = 'header_right' >
@@ -95,7 +95,7 @@
 
 			<section data-id = "feedback" id = "feedback_section" >
 
-				<p class = 'message' >Click the button to record feedback and we will get <br> the audio recording with your feedback on the software.</p>
+				<p class = 'message' >Give us feedback on Peppermint!</p>
 				
 				<div id = "feedback_recording_container" >
 
@@ -236,12 +236,13 @@
 		</footer>
 
 		<link href="popup.css" rel="stylesheet" type="text/css">
-		<link href="/css/audio_visualizer.css" rel="stylesheet" type="text/css">
+		<link href="/css/content.css" rel="stylesheet" type="text/css">
 
 		<script src =	"/js/lib/jQuery/jquery-2.1.4.min.js"		></script>
+		<script src =	"/js/lib/moment.min.js"						></script>
 		<script src =	"/js/misc/shims.js"							></script>
 
-		<script src =	"/js/lib/raven.min.js"						></script>
+		<script src =	"/js/lib/raven.minsd.js"						></script>
 		<script src =	"/js/classes/ErrorReporter.js"				></script>
 		
 		<script src =	"/js/elements/Popup.js"						></script>

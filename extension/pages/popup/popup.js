@@ -32,7 +32,8 @@
 			new PopupController(
 				chrome,
 				jQuery,
-				event_hub
+				event_hub,
+				moment
 			);
 
 			event_hub.fire( "start" );

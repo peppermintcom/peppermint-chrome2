@@ -3,7 +3,8 @@
 
 		var state = {
 
-			recording_data_id: 0
+			recording_data_id: 0,
+			recording: false
 
 		};
 
@@ -70,6 +71,8 @@
 			var message_handlers = {
 
 				recording_started: function ( message ) {
+
+					state.recording = true;
 					
 					$( "#feedback_audio_visualizer" ).css( "opacity", "1" );
 					$( "#feedback_timer" ).css( "opacity", "1" );
@@ -86,21 +89,18 @@
 
 				recording_canceled: function ( message ) {
 
+					state.recording = false;
+
 					$( "#feedback_audio_visualizer" ).css( "opacity", "0" );
 					$( "#feedback_timer" ).css( "opacity", "0" );
 					$( "#feedback_start" ).show();
 					$( "#feedback_buttons" ).hide();
 
 				},
-
-				recording_details: function ( message ) {
-
-					$( "#feedback_audio_visualizer" )[0].set_frequency_data( message.recording_details.frequency_data );
-					$( "#feedback_timer" )[0].set_time( message.recording_details.time * 1000 );
-
-				},
-
+				
 				got_urls: function ( message ) {
+
+					state.recording = false;
 
 					$( "#feedback_audio_visualizer" ).css( "opacity", "0" );
 					$( "#feedback_timer" ).css( "opacity", "0" );
@@ -186,6 +186,23 @@
 				}
 
 			});
+
+			( function tick () {
+
+				if ( state.recording ) {
+
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "get_recording_details" }, function ( recording_details ) {
+
+						$( "#feedback_timer" )[0].set_time( recording_details.time * 1000 );
+						$( "#feedback_audio_visualizer" )[0].set_frequency_data( recording_details.frequency_data );
+
+					});
+
+				}
+
+				requestAnimationFrame( tick );
+
+			} () )
 
 		} () );
 
