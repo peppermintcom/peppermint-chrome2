@@ -16,7 +16,6 @@
 
 		launcher_helper.urls_to_templates( chrome.extension.getURL( "/" ), [
 
-			[ 'popup', '/html/elements/popup.html' ],
 			[ 'timer', '/html/elements/timer.html' ],
 			[ 'player', '/html/elements/player.html' ]
 
@@ -170,6 +169,8 @@
 				jQuery,
 				event_hub
 			);
+
+			event_hub.fire( "start" );
 
 		})
 		.catch( function ( e ) {

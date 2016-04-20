@@ -22,36 +22,31 @@
 
 			"scripts": [
 
-				"/js/misc/shims.js",
-
-				"/js/lib/jQuery/jquery-2.1.4.min.js",				
-				"/js/lib/WebAudioRecorder/WebAudioRecorder.js",
 				"/js/lib/raven.min.js",
-				"/js/lib/keen-tracker.min.js",
 				"/js/lib/ohsnap.min.js",
+				"/js/lib/jquery.min.js",				
+				"/js/lib/keen-tracker.min.js",
+				"/js/lib/WebAudioRecorder/WebAudioRecorder.js",
 
-				"/js/classes/ErrorReporter.js",
-				"/js/controllers/GlobalAnalytics.js",
+				"/js/shared/shims.js",
+				"/js/shared/ErrorReporter.js",
+				"/js/shared/EventHub.js",								
 
-				"/js/classes/EventHub.js",								
-				"/js/classes/BackendManager.js",
+				"/js/int/background/Storage.js",
+				"/js/int/background/Recorder.js",
+				"/js/int/background/Uploader.js",
+				"/js/int/background/UploadQueue.js",
+				"/js/int/background/BaController.js",
+				"/js/int/background/BackendManager.js",
+				"/js/int/background/TooltipManager.js",
+				"/js/int/background/GlobalAnalytics.js",
+				"/js/int/background/BackgroundHelper.js",
+				"/js/int/background/GlobalController.js",
+				"/js/int/background/TranscriptionManager.js",
+				"/js/int/background/WebAudioRecorderWrap.js",
+				"/js/int/background/ContentInserterModule.js",
 
-				"/js/classes/WebAudioRecorderWrap.js",
-				"/js/classes/TranscriptionManager.js",
-				"/js/classes/Recorder.js",
-
-				"/js/classes/Uploader.js",
-				"/js/classes/UploadQueue.js",
-
-				"/js/classes/Storage.js",
-
-				"/js/controllers/BackgroundHelper.js",
-				"/js/controllers/TooltipManager.js",
-				"/js/controllers/BaController.js",
-				"/js/controllers/GlobalController.js",
-				"/js/controllers/ContentInserterModule.js",
-
-				"/js/launchers/background.js"
+				"/js/int/background/background.js"
 
 			],
 
@@ -60,42 +55,145 @@
 		},
 
 		"content_scripts": [
-			{
-				"matches": [ 
 
-					"https://*/*",
-					"http://*/*"
+				{
+					"matches": [],
+					"js": [
 
-				],
-				"exclude_matches": [
+						"/js/lib/raven.min.js",
+						"/js/lib/jquery.min.js",
+
+						"/js/shared/Timer.js",
+						"/js/shared/Popup.js",
+						"/js/shared/Player.js",
+						"/js/shared/EventHub.js",
+						"/js/shared/MiniPopup.js",
+						"/js/shared/ErrorReporter.js",
+						"/js/shared/LauncherHelper.js",
+						"/js/shared/AudioVisualizer.js",
+						"/js/shared/RecordingButton.js",
+						
+						"/js/int/tooltips/Tooltip.js",
+						
+						"/js/int/gmail/LetterManager.js",
+						"/js/int/gmail/ButtonInserter.js",
+						"/js/int/gmail/GmailController.js",
+
+						"/js/int/gmail/gmail_content.js"
 					
-					"https://*.live.com/*",
-					"https://*.yahoo.com/*"
-									
-				],
-				"js": [
+					]
 
-					"/js/lib/jQuery/jquery-2.1.4.min.js",
-					"/js/lib/raven.min.js",
+				},
+				{
+					"matches": [],
+					"js": [
 
-					"/js/classes/ErrorReporter.js",
+						"/js/lib/raven.min.js",
+						"/js/lib/jquery.min.js",
 
-					"/js/classes/EventHub.js",
-					"/js/classes/LauncherHelper.js",
-					"/js/classes/PepLinkAddonFactory.js",
+						"/js/shared/EventHub.js",
+						"/js/shared/ErrorReporter.js",
+						"/js/shared/LauncherHelper.js",
+						"/js/shared/RecordingButton.js",
+
+						"/js/int/asana/AsanaController.js",
+						"/js/int/asana/AsanaButtonInserter.js",
+						
+						"/js/int/asana/asana_content.js"
 					
-					"/js/elements/PepLinkAddon.js",
+					]
+				},
+				{
+					"matches": [],
+					"js": [
+
+						"/js/lib/raven.min.js",
+						"/js/lib/jquery.min.js",
+
+						"/js/shared/EventHub.js",
+						"/js/shared/ErrorReporter.js",
+						"/js/shared/LauncherHelper.js",
+						"/js/shared/RecordingButton.js",
+
+						"/js/int/slack/SlackController.js",
+						"/js/int/slack/SlackButtonInserter.js",
+
+						"/js/int/slack/slack_content.js"
+
+					]
+				},
+				{
+					"matches": [],
+					"js": [
+
+						"/js/lib/raven.min.js",
+						"/js/lib/jquery.min.js",
+
+						"/js/shared/Timer.js",
+						"/js/shared/Popup.js",
+						"/js/shared/Player.js",
+						"/js/shared/Tooltip.js",
+						"/js/shared/EventHub.js",
+						"/js/shared/MiniPopup.js",
+						"/js/shared/ErrorReporter.js",
+						"/js/shared/LetterManager.js",
+						"/js/shared/LauncherHelper.js",
+						"/js/shared/AudioVisualizer.js",
+						"/js/shared/RecordingButton.js",
+
+						"/js/int/twitter/TwitterController.js",
+						"/js/int/twitter/TwitterButtonInserter.js",
+
+						"/js/int/twitter/twitter_content.js"
 					
-					"/js/controllers/AllLinksController.js",
+					]
+				},
+				{
+					"matches": [],
+					"js": [
 
-					"/js/launchers/all_links_content.js"
+						"/js/lib/raven.min.js",
+						"/js/lib/jquery.min.js",
 
-				],
-				"css": [
-					"/css/all_links_styles.css"
-				],
-				"all_frames": true
-			}
+						"/js/shared/Timer.js",
+						"/js/shared/Popup.js",
+						"/js/shared/Player.js",
+						"/js/shared/Tooltip.js",
+						"/js/shared/EventHub.js",
+						"/js/shared/MiniPopup.js",
+						"/js/shared/ErrorReporter.js",
+						"/js/shared/LetterManager.js",
+						"/js/shared/LauncherHelper.js",
+						"/js/shared/AudioVisualizer.js",
+						"/js/shared/RecordingButton.js",
+
+						"/js/int/tumblr/TumblrController.js",
+						"/js/int/tumblr/TumblrButtonInserter.js",
+
+						"/js/int/tumblr/tumblr_content.js"
+
+					]
+				},
+				{
+					"matches": [],
+					"js": [
+				
+						"/js/lib/raven.min.js",
+						"/js/lib/jquery.min.js",
+
+						"/js/shared/EventHub.js",
+						"/js/shared/ErrorReporter.js",
+						"/js/shared/LauncherHelper.js",
+
+						"/js/int/all_links/PepLinkAddon.js",
+						"/js/int/all_links/AllLinksController.js",
+						"/js/int/all_links/PepLinkAddonFactory.js",
+
+						"/js/int/all_links/all_links_content.js"
+
+					]
+				}
+
 		],
 
 		"web_accessible_resources": [

@@ -6,7 +6,6 @@
 
 		<meta charset="utf-8">
 		<title>Peppermint</title>
-		<link href = 'popup.css' type = 'text/css' rel = 'stylesheet' >
 
 	</head>
 
@@ -238,28 +237,26 @@
 		<link href="popup.css" rel="stylesheet" type="text/css">
 		<link href="/css/content.css" rel="stylesheet" type="text/css">
 
-		<script src =	"/js/lib/jQuery/jquery-2.1.4.min.js"		></script>
+		<script src =	"/js/lib/raven.min.js"						></script>
+		<script src =	"/js/lib/jquery.min.js"						></script>
 		<script src =	"/js/lib/moment.min.js"						></script>
-		<script src =	"/js/misc/shims.js"							></script>
 
-		<script src =	"/js/lib/raven.minsd.js"						></script>
-		<script src =	"/js/classes/ErrorReporter.js"				></script>
+		<script src =	"/js/shared/shims.js"						></script>
+		<script src =	"/js/shared/ErrorReporter.js"				></script>
 		
-		<script src =	"/js/elements/Popup.js"						></script>
-		<script src =	"/js/elements/Timer.js"						></script>
-		<script src =	"/js/elements/Player.js"					></script>
-		<script src =	"/js/elements/HistoryItem.js"				></script>
-		<script src =	"/js/elements/AudioVisualizer.js"			></script>
+		<script src =	"/js/shared/Timer.js"						></script>
+		<script src =	"/js/shared/Player.js"						></script>
+		<script src =	"/js/shared/EventHub.js"					></script>
+		<script src =	"/js/shared/HistoryItem.js"					></script>
+		<script src =	"/js/shared/LauncherHelper.js"				></script>
+		<script src =	"/js/shared/AudioVisualizer.js"				></script>
 
-		<script src =	"/js/classes/EventHub.js"					></script>
-		<script src =	"/js/classes/LauncherHelper.js"				></script>
-		<script src =	"/js/classes/HistoryItemFactory.js"			></script>
+		<script src =	"/js/int/ba_popup/PopupController.js"		></script>
+		<script src =	"/js/int/ba_popup/HistoryController.js"		></script>
+		<script src =	"/js/int/ba_popup/FeedbackController.js"	></script>
+		<script src =	"/js/int/ba_popup/HistoryItemFactory.js"	></script>
 
-		<script src =	"/js/controllers/PopupController.js"		></script>
-		<script src =	"/js/controllers/HistoryController.js"		></script>
-		<script src =	"/js/controllers/FeedbackController.js"		></script>
-
-		<script src =	"popup.js"									></script>
+		<script src =	"/js/int/ba_popup/popup.js"					></script>
 
 	</body>
 
