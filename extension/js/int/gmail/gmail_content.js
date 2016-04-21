@@ -27,23 +27,13 @@
 					new Timer( $, event_hub, t["timer"], el("peppermint_timer") );
 					new Player( $, event_hub, t["player"], el("peppermint_popup_player") );
 					new ErrorReporter( chrome, $, 'gmail' );
-
-					$( document.body ).append( gmail_elements );
-
-					setTimeout( function () {
-
-						$( "#peppermint_elements_container" ).css( "display", "block" );
-
-					}, 3000 );
-
+					
 					new LetterManager(
 						chrome,
 						jQuery,
 						event_hub,
 						sender_data
 					);
-
-					console.log( el("peppermint_button_inserter") );
 
 					new ButtonInserter(
 						chrome,
@@ -61,6 +51,14 @@
 						jQuery,
 						event_hub
 					);
+
+					$( document.body ).append( gmail_elements );
+
+					setTimeout( function () {
+
+						$( "#peppermint_elements_container" ).css( "display", "block" );
+
+					}, 3000 );
 
 					event_hub.fire( "start" );
 						

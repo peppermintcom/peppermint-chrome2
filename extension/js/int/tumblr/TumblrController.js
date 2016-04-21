@@ -1,5 +1,5 @@
 
-	function TumblrController ( chrome, $, event_hub, letter_manager ) {
+	function TumblrController ( chrome, window, $, hub ) {
 
 		var state = {
 
@@ -9,22 +9,50 @@
 
 		};
 
-		var private = {
+		var conv = {
+
+			rec_data_to_tweet: function ( rec_data ) {
+
+				var postfix = "... ";
+				var trans_len = 140 - rec_data.urls.short_url.length;
+				var transcript = rec_data.transcription_data.text;
+
+				if ( transcript.length < 140 - " ".length - rec_data.urls.short_url.length ) {
+
+					return transcript + " "  + rec_data.urls.short_url;
+
+				} else {
+
+					return transcript.slice( 0, 140 - rec_data.urls.short_url.length - postfix.length ) + postfix + rec_data.urls.short_url;
+
+				}
+
+
+			}
 
 		};
 
-		( function set_up_dom_event_handling () {
+		var handle = {
 
-			event_hub.add({
+			/* dom */
 
-				tumblr_mic_button_click: function () {
-
-					$( "#new_post_label_audio" )[ 0 ].click();
+				compose_button_click: function () {
 
 					if ( !state.recording ) {
 
 						state.recording_data_id = Date.now();
-						chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "gmail", recording_data_id: state.recording_data_id } })
+
+						if ( $( "#new_post_label_audio" )[0] ) {
+
+							$( "#new_post_label_audio" )[0].click();
+							chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "tumblr", recording_data_id: state.recording_data_id } })
+
+						} else {
+						
+							window.location.href = "https://www.tumblr.com/dashboard";
+						
+						}
+
 
 					}
 
@@ -32,29 +60,13 @@
 
 				popup_recording_cancel_button_click: function () {
 
-					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "cancel_recording", source: { name: "gmail", recording_data_id: state.recording_data_id } })
-
-					chrome.runtime.sendMessage( { 
-						receiver: 'GlobalAnalytics', name: 'track_analytic', 
-						analytic: { name: 'user_action', val: { 
-							name: 'gmailcontroller',
-							action: 'click',
-							element: 'popup_recording_cancel_button' } } 
-					});
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "cancel_recording", source: { name: "tumblr", recording_data_id: state.recording_data_id } })
 
 				},
 
 				popup_recording_done_button_click: function () {
 
-					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "finish_recording", source: { name: "gmail", recording_data_id: state.recording_data_id } })
-
-					chrome.runtime.sendMessage( { 
-						receiver: 'GlobalAnalytics', name: 'track_analytic', 
-						analytic: { name: 'user_action', val: { 
-							name: 'gmailcontroller',
-							action: 'click',
-							element: 'popup_recording_done_button' } } 
-					});
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "finish_recording", source: { name: "tumblr", recording_data_id: state.recording_data_id } })
 
 				},
 
@@ -63,73 +75,58 @@
 					if ( !state.recording ) {
 
 						state.recording_data_id = Date.now();
-						chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "gmail", recording_data_id: state.recording_data_id } })
+
+						$( "#new_post_label_audio" )[0].click();
+						chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "tumblr", recording_data_id: state.recording_data_id } })
 
 					}
 
-					chrome.runtime.sendMessage( { 
-						receiver: 'GlobalAnalytics', name: 'track_analytic', 
-						analytic: { name: 'user_action', val: { 
-							name: 'gmailcontroller',
-							action: 'click',
-							recording_state: state.recording,
-							element: 'popup_error_try_again_button' } } 
-					});
-				
 				},
 
 				popup_error_cancel_button_click: function () {
 
 					$("#peppermint_popup").hide();
 
-					chrome.runtime.sendMessage( { 
-						receiver: 'GlobalAnalytics', name: 'track_analytic', 
-						analytic: { name: 'user_action', val: { 
-							name: 'gmailcontroller',
-							action: 'click',
-							element: 'popup_error_cancel_button' } } 
-					});
+				},
+
+				unload: function () {
+
+					if ( state.recording ) {
+				
+						chrome.runtime.sendMessage({ receiver: "GlobalController", name: "cancel_recording", source: { name: "tumblr", recording_data_id: state.recording_data_id } });
+				
+					}
 
 				},
 
-				peppermint_reply_button_click: function () {
+			/**/
 
-					$( ".amn span:first-child" ).click()
-					
-					var interval = setInterval( function () {
-						if ( $( '#peppermint_compose_button' ).length > 0 ) {
+			/* runtime */
 
-							$( '#peppermint_compose_button' ).click();
-							clearInterval( interval );
+				runtime_message: function ( message, sender, callback ) {
 
-							chrome.runtime.sendMessage( { 
-								receiver: 'GlobalAnalytics', name: 'track_analytic', 
-								analytic: { name: 'user_action', val: { 
-									name: 'gmailcontroller',
-									action: 'click',
-									element: 'peppermint_reply_button' } } 
-							});
+					if ( message.receiver === "Content" ) {
+
+						if ( handle[ message.name ] && message.recording_data && message.recording_data.source.tab_id === state.tab_id ) {
+
+							handle[ message.name ]( message, sender, callback );
 
 						}
-					}, 20 );
 
-				}
+					} else if ( message.name === "content_ping" ) {
 
-			});
+						handle[ message.name ]( message, sender, callback );
 
-			$( window ).unload( function () {
+					}
 
-				if ( state.recording ) {
-					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "cancel_recording", source: { name: "gmail", recording_data_id: state.recording_data_id } });
-				}
+				},
 
-			});
+				content_ping: function ( message, sender, callback ) {
+					
+					console.log( "ping" );
+					callback( true );
 
-		} () );
-
-		( function set_up_runtime_message_handling () {
-
-			var message_handlers = {
+				},
 
 				recording_started: function ( message ) {
 
@@ -172,17 +169,10 @@
 
 				},
 
-				recording_details: function ( message ) {
-
-					$( "#audio_visualizer" )[0].set_frequency_data( message.recording_details.frequency_data );
-					$( "#peppermint_timer" )[0].set_time( message.recording_details.time * 1000 );
-
-				},
-
 				got_urls: function ( message ) {
 
 					$( ".post-form--audio .editor.editor-plaintext span" )[ 0 ].innerText = message.recording_data.urls.canonical_url;
-					
+
 					chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "copy_to_clipboard", text: message.recording_data.urls.short_url });
 					$( "#peppermint_popup" ).hide();
 
@@ -190,52 +180,70 @@
 
 				got_audio_data: function ( message ) {
 
-					console.log( message.recording_data.object_url );
-
-					peppermint_popup_player
-
-					chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "copy_to_clipboard", text: message.recording_data.urls.short_url });
-					$( "#peppermint_popup" ).hide();
-
 					state.recording = false;
+
+					$( "#tweet-box-global" ).html(
+						"<div>"+
+						conv.rec_data_to_tweet( message.recording_data ) +
+						"</div>"
+					);
 
 				},
 
-				recording_uploaded: function ( message ) {
+			/**/
 
+			/* misc */
 
+				tick: function () {
 
-				}
+					if ( state.recording ) {
 
-			};
+						chrome.runtime.sendMessage({ receiver: "GlobalController", name: "get_recording_details" }, function ( recording_details ) {
 
-			chrome.runtime.onMessage.addListener( function ( message, sender, callback ) {
+							$( "#audio_visualizer" )[0].set_frequency_data( recording_details.frequency_data );
+							$( "#peppermint_timer" )[0].set_time( recording_details.time * 1000 );
 
-				if ( message.receiver === "Content" ) {
-
-					if ( message_handlers[ message.name ] && message.recording_data && message.recording_data.source.tab_id === state.tab_id ) {
-
-						message_handlers[ message.name ]( message, sender, callback );
-
-					} else if ( message_handlers[ message.name ] && message.name === "recording_details" ) {
-
-						message_handlers[ message.name ]( message, sender, callback );
+						});
 
 					}
 
+					requestAnimationFrame( handle.tick );
+
+				},
+
+				start: function () {
+
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "get_tab_id" }, function ( tab_id ) {
+
+						state.tab_id = tab_id;
+
+					});
+
+					handle.tick();
+
 				}
 
+			/**/
+
+		};
+
+		( function () {
+
+			hub.add({
+
+				compose_button_click: handle.compose_button_click,
+				popup_recording_cancel_button_click: handle.popup_recording_cancel_button_click,
+				popup_recording_done_button_click: handle.popup_recording_done_button_click,
+				popup_error_try_again_button_click: handle.popup_error_try_again_button_click,
+				popup_error_cancel_button_click: handle.popup_error_cancel_button_click,
+				peppermint_reply_button_click: handle.peppermint_reply_button_click,
+				start: handle.start
+
 			});
 
-		} () );
+			$( window ).unload( handle.unload );
 
-		( function init () {
-
-			chrome.runtime.sendMessage({ receiver: "GlobalController", name: "get_tab_id" }, function ( tab_id ) {
-
-				state.tab_id = tab_id;
-
-			});
+			chrome.runtime.onMessage.addListener( handle.runtime_message );
 
 		} () );
 

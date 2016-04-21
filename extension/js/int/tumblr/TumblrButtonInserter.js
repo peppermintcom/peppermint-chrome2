@@ -7,7 +7,7 @@
 
 		};
 
-		var private = {
+		var conv = {
 
 			document_to_container: function ( document ) {
 
@@ -19,18 +19,22 @@
 				
 				return container.dataset.has_button === "1";
 
-			},
+			}
+
+		};
+
+		var proc = {
 
 			insert_button: function ( container ) {
 				
 				container.dataset.has_button = "1";
 
-				var button = $( "<img src = '{{SRC}}' >".replace( "{{SRC}}", chrome.extension.getURL( "/img/white_tumblr_mic.svg" ) ) );
+				var button = $( "<img src = '{{SRC}}' >".replace( "{{SRC}}", chrome.extension.getURL( "/img/white_mic.svg" ) ) );
 
 				button.css({ height: "20px" });
 
 				var button_wrap = $(
-					'<div class="tab iconic" id="account_button">'+
+					'<div class="tab iconic" id="pep_compose_button">'+
 						'<button tabindex="7" class="tab_anchor" aria-haspopup="true" title="Peppermint" >'+
 							'<i class="icon_user_settings" id = "pep_button_wrap" ></i>'+
 						'</button>'+
@@ -55,14 +59,16 @@
 
 		( function () {
 
+			$( document ).on( "click", "#pep_compose_button", function () { hub.fire( "compose_button_click" ) });
+
 			( function tick () {
 
-				var container = private.document_to_container( document );
+				var container = conv.document_to_container( document );
 
-				if ( container && !private.container_has_button( container ) ) {
+				if ( container && !conv.container_has_button( container ) ) {
 
 					state.inserted = true;
-					private.insert_button( container );
+					proc.insert_button( container );
 
 				}
 

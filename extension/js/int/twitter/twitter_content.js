@@ -20,8 +20,6 @@
 
 				chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "get_sender_data" }, function ( sender_data ) {
 
-					// try {
-
 						var gmail_elements = document.importNode( t["gmail_elements"].content, true );
 						var el =  function ( id ) { return gmail_elements.getElementById( id ) };
 						var event_hub = new EventHub();
@@ -34,7 +32,6 @@
 
 						$( document.body ).append( gmail_elements );
 		
-
 						setTimeout( function () {
 
 							$( "#peppermint_elements_container" ).css( "display", "block" );
@@ -56,12 +53,6 @@
 						);
 						
 						event_hub.fire( "start" );
-
-					// } catch ( error ) {
-						
-					// 	Raven.log( 'tumblr_content', 'load', '', error, true );
-
-					// }
 
 				});
 

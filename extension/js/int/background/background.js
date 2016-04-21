@@ -52,7 +52,7 @@
 		chrome.storage.local.set( reload_storage_defaults );
 		
 		// reload all instances of Gmail
-		chrome.tabs.query({ url: [ "https://mail.google.com/*", "https://app.asana.com/*", "https://*.slack.com/*", "https://*.tumblr.com/*" ] }, function ( tabs ) {
+		chrome.tabs.query({ url: [ "https://mail.google.com/*", "https://app.asana.com/*", "https://*.slack.com/*", "https://*.tumblr.com/*", "https://twitter.com/*" ] }, function ( tabs ) {
 			tabs.forEach( function ( tab ) {
 				chrome.tabs.reload( tab.id );
 			});
@@ -145,12 +145,6 @@
 		);
 
 		new BaController(
-			chrome,
-			jQuery,
-			event_hub
-		);
-
-		new ContentInserterModule(
 			chrome,
 			jQuery,
 			event_hub

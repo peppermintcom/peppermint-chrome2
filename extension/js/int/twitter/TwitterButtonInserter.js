@@ -23,9 +23,8 @@
 
 				$( container ).append(
 					'<li role="complementary" aria-labelledby="global-new-tweet-button" class="topbar-tweet-btn">'+
-						'<button id="global-new-tweet-button" type="button" class="js-global-new-tweet js-tooltip btn primary-btn tweet-btn js-dynamic-tooltip" data-placement="bottom" data-component-context="new_tweet_button" data-original-title="">'+
-							'<span class="Icon Icon--tweet Icon--large"></span>'+
-							'<span class="text">Твитнуть</span>'+
+						'<button style = "margin-left: 8px; padding: 0px 8px;" id="global-new-tweet-button" type="button" class="pep-compose-button js-global-new-tweet js-tooltip btn primary-btn tweet-btn js-dynamic-tooltip" data-placement="bottom" data-component-context="new_tweet_button" data-original-title="">'+
+							'<img style = "height: 19px;" src = "'+ chrome.extension.getURL( "/img/white_mic.svg" ) +'" >'+
 						'</button>'+
 					'</li>'
 				);
@@ -37,8 +36,6 @@
 		var handle = {
 
 			tick: function () {
-
-				console.log( 1 );
 
 				var container = conv.doc_to_button_container( window.document );
 
@@ -66,6 +63,8 @@
 				start: handle.start
 
 			});
+
+			$( document ).on( "click", ".pep-compose-button", function () { hub.fire( "compose_button_click" ) });
 
 		} () )
 

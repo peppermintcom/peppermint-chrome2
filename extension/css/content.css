@@ -87,23 +87,23 @@
       z-index: 1000;
     }
 
-    /* audio_visualizer */
+    /* pep_audio_visualizer */
 
-		.audio_visualizer table {
+		.pep_audio_visualizer table {
 
 			margin: auto;
 			transform: rotateZ( 180deg ) rotateY( 180deg );
 
 		}
 
-		.audio_visualizer td {
+		.pep_audio_visualizer td {
 
 			width: 1px;
 			height: 1px;
 
 		}
 
-		.audio_visualizer td.active {
+		.pep_audio_visualizer td.active {
 
 			background-color: green;
 

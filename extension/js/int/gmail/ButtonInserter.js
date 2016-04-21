@@ -1,5 +1,23 @@
 	
-	function ButtonInserter ( chrome, $, event_hub, template, element, insert_reply_button, RecordingButton, recording_button_template ) {
+	function ButtonInserter ( chrome, $, hub, template, element, insert_reply_button, RecordingButton, recording_button_template ) {
+
+		var conv = {
+
+			rec_id_to_audio_url: function ( rec_id ) {
+
+				return new Promise( function ( resolve ) {
+
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "rec_id_to_rec_data", rec_id }, function ( rec_data ) {
+					
+						resolve( rec_data.data_url );
+
+					});
+
+				});
+
+			}
+
+		};
 
 		var proc = {
 
@@ -16,7 +34,7 @@
 						button[0].dataset.id = id;
 						
 						button.on( 'click', function () {
-							event_hub.fire( "peppermint_compose_button_click", { id } );
+							hub.fire( "peppermint_compose_button_click", { id } );
 
 							chrome.runtime.sendMessage( { 
 								receiver: 'GlobalAnalytics', name: 'track_analytic', 
@@ -37,7 +55,7 @@
 							new RecordingButton(
 								chrome,
 								$,
-								event_hub,
+								hub,
 								recording_button_template,
 								recording_button,
 								{ stop_icon: false }
@@ -60,7 +78,7 @@
 						var button = $( "#v_dropdown_button", element.shadowRoot ).clone();
 
 						button.on( "click", function () {
-							event_hub.fire( "peppermint_reply_button_click", { type: "dropdown_button" } );
+							hub.fire( "peppermint_reply_button_click", { type: "dropdown_button" } );
 
 							chrome.runtime.sendMessage( { 
 								receiver: 'GlobalAnalytics', name: 'track_analytic', 
@@ -83,7 +101,7 @@
 						var button = $( "#v_reply_button", element.shadowRoot ).clone();
 
 						button.on( "click", function () {
-							event_hub.fire( "peppermint_reply_button_click", { type: "button" } );
+							hub.fire( "peppermint_reply_button_click", { type: "button" } );
 
 							chrome.runtime.sendMessage( { 
 								receiver: 'GlobalAnalytics', name: 'track_analytic', 
@@ -106,7 +124,7 @@
 				
 							link.on( "click", function () {
 								event.preventDefault();
-								event_hub.fire( "peppermint_reply_button_click", { type: "button" } );
+								hub.fire( "peppermint_reply_button_click", { type: "button" } );
 
 								chrome.runtime.sendMessage( { 
 									receiver: 'GlobalAnalytics', name: 'track_analytic', 
@@ -127,50 +145,57 @@
 
 				if ( pep_email && pep_email.querySelector( "span[alt='long_url']" ) ) {
 
-					 var urls = {
-						 long: pep_email.querySelector( "span[alt='long_url']" ).getAttribute( "title" ),
-						 short: pep_email.querySelector( "span[alt='short_url']" ).getAttribute( "title" )
-					 };
-					 
+					var urls = {
+
+						long: pep_email.querySelector( "span[alt='long_url']" ).getAttribute( "title" ),
+						short: pep_email.querySelector( "span[alt='short_url']" ).getAttribute( "title" )
+
+					};
+
+					var recording_id = ( function () {
+						
+						var element = pep_email.querySelector( "span[alt='recording_id']" );
+
+						if ( element ) {
+
+							return parseInt( element.getAttribute( "title" ) );
+						
+						} else {
+
+							return false;
+
+						}
+					
+					} () );
+
 					var audio_element = $( "<audio controls ></audio>" )[ 0 ];
-					audio_element.src = urls.long;
 
 					$( pep_email ).find( "table[alt='buttons']" ).after( audio_element );
 					$( pep_email ).find( "table[alt='buttons']" ).remove();
 					$( pep_email ).attr( "alt", "" );
 
-					// if audio can't be reached, swap to an error message/icon
-					// $.ajax({
-					//	 type: 'HEAD',
-					//	 url: urls.cloudfront_ssl,
-					//	 complete: function(xhr, textStatus) {
-							 
-					//		 if( xhr.status == 403 || xhr.status == 404 )
-					//		 {
-					//			 Raven.captureMessage("invalid audio URL");
-								 
-					//			 $.get(chrome.extension.getURL('/html/templates/audio-player-error.html')
-					//				 , function(template_html) {
-									 
-					//				 $( mock_player ).next().html(
-					//					 template_html
-					//					 .replace( "{{EXTENSION_ROOT}}", chrome.extension.geteURL("/") )
-					//				 );
-									 
-					//			 });
+					if ( recording_id ) {
 
-								// chrome.runtime.sendMessage( { 
-								// 	receiver: 'GlobalAnalytics', name: 'track_analytic', 
-								// 	analytic: { name: 'setup', val: { 
-								// 		name: 'buttoninserter',
-								// 		action: 'replace_mock_player',
-								// 		element: 'player_error_img',
-								// 		url: urls.short } } 
-								// });
+						conv.rec_id_to_audio_url( recording_id )
+						.then( function ( url ) {
 
-					//		 }
-					//	 }
-					// });
+							if ( url ) {
+
+								audio_element.src = url;
+								
+							} else {
+
+								audio_element.src = urls.long;
+
+							}
+								
+						});
+
+					} else {
+
+						audio_element.src = urls.long;
+						
+					}
 
 					chrome.runtime.sendMessage( { 
 						receiver: 'GlobalAnalytics', name: 'track_analytic', 
@@ -191,7 +216,7 @@
 
 			start: function () {
 
-				setInterval( tick, 50 );
+				setInterval( handle.tick, 50 );
 
 			},
 
@@ -200,13 +225,17 @@
 				proc.insert_compose_button();
 				proc.insert_dropdown_button();
 				proc.replace_mock_player();
-				if ( insert_reply_button ) private.insert_reply_button();
+				if ( insert_reply_button ) proc.insert_reply_button();
 
 			}
 
 		};
 
-		( function constructor () {
+		( function () {
+
+			hub.add({
+				start: handle.start
+			})
 
 			element.createShadowRoot().appendChild( document.importNode( template.content, true ) );
 

@@ -9,59 +9,55 @@
 
 		};
 
+		var conv = {
+
+			rec_data_to_tweet: function ( rec_data ) {
+
+				var postfix = "... ";
+				var trans_len = 140 - rec_data.urls.short_url.length;
+				var transcript = rec_data.transcription_data.text;
+
+				if ( transcript.length < 140 - " ".length - rec_data.urls.short_url.length ) {
+
+					return transcript + " "  + rec_data.urls.short_url;
+
+				} else {
+
+					return transcript.slice( 0, 140 - rec_data.urls.short_url.length - postfix.length ) + postfix + rec_data.urls.short_url;
+
+				}
+
+
+			}
+
+		};
+
 		var handle = {
 
 			/* dom */
 
-				peppermint_compose_button_click: function ( data ) {
+				compose_button_click: function () {
 
 					if ( !state.recording ) {
 
-						chrome.storage.local.set({ compose_button_has_been_used: true });
-						state.compose_button_id = data.id;
 						state.recording_data_id = Date.now();
 
-						chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "gmail", recording_data_id: state.recording_data_id } })
+						$( "button#global-new-tweet-button" ).get(0).click();
+						chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "twitter", recording_data_id: state.recording_data_id } })
 
 					}
-
-					chrome.runtime.sendMessage({ 
-						receiver: 'GlobalAnalytics', name: 'track_analytic', 
-						analytic: { name: 'user_action', val: { 
-							name: 'gmailcontroller',
-							action: 'click',
-							recording_state: state.recording,
-							element: 'peppermint_compose_button',
-							id: state.compose_button_id } } 
-					});
 
 				},
 
 				popup_recording_cancel_button_click: function () {
 
-					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "cancel_recording", source: { name: "gmail", recording_data_id: state.recording_data_id } })
-
-					chrome.runtime.sendMessage({ 
-						receiver: 'GlobalAnalytics', name: 'track_analytic', 
-						analytic: { name: 'user_action', val: { 
-							name: 'gmailcontroller',
-							action: 'click',
-							element: 'popup_recording_cancel_button' } } 
-					});
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "cancel_recording", source: { name: "twitter", recording_data_id: state.recording_data_id } })
 
 				},
 
 				popup_recording_done_button_click: function () {
 
-					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "finish_recording", source: { name: "gmail", recording_data_id: state.recording_data_id } })
-
-					chrome.runtime.sendMessage({ 
-						receiver: 'GlobalAnalytics', name: 'track_analytic', 
-						analytic: { name: 'user_action', val: { 
-							name: 'gmailcontroller',
-							action: 'click',
-							element: 'popup_recording_done_button' } } 
-					});
+					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "finish_recording", source: { name: "twitter", recording_data_id: state.recording_data_id } })
 
 				},
 
@@ -70,62 +66,24 @@
 					if ( !state.recording ) {
 
 						state.recording_data_id = Date.now();
-						chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "gmail", recording_data_id: state.recording_data_id } })
+
+						$( "button#global-new-tweet-button" ).get(0).click();
+						chrome.runtime.sendMessage({ receiver: "GlobalController", name: "start_recording", source: { name: "twitter", recording_data_id: state.recording_data_id } })
 
 					}
 
-					chrome.runtime.sendMessage({ 
-						receiver: 'GlobalAnalytics', name: 'track_analytic', 
-						analytic: { name: 'user_action', val: { 
-							name: 'gmailcontroller',
-							action: 'click',
-							recording_state: state.recording,
-							element: 'popup_error_try_again_button' } } 
-					});
-				
 				},
 
 				popup_error_cancel_button_click: function () {
 
 					$("#peppermint_popup").hide();
 
-					chrome.runtime.sendMessage({ 
-						receiver: 'GlobalAnalytics', name: 'track_analytic', 
-						analytic: { name: 'user_action', val: { 
-							name: 'gmailcontroller',
-							action: 'click',
-							element: 'popup_error_cancel_button' } } 
-					});
-
-				},
-
-				peppermint_reply_button_click: function () {
-
-					$( ".amn span:first-child" ).click();
-					
-					var interval = setInterval( function () {
-						if ( $( '#peppermint_compose_button' ).length > 0 ) {
-
-							$( '#peppermint_compose_button' ).click();
-							clearInterval( interval );
-
-							chrome.runtime.sendMessage({ 
-								receiver: 'GlobalAnalytics', name: 'track_analytic', 
-								analytic: { name: 'user_action', val: { 
-									name: 'gmailcontroller',
-									action: 'click',
-									element: 'peppermint_reply_button' } } 
-							});
-
-						}
-					}, 20 );
-
 				},
 
 				unload: function () {
 
 					if ( state.recording ) {
-						chrome.runtime.sendMessage({ receiver: "GlobalController", name: "cancel_recording", source: { name: "gmail", recording_data_id: state.recording_data_id } });
+						chrome.runtime.sendMessage({ receiver: "GlobalController", name: "cancel_recording", source: { name: "twitter", recording_data_id: state.recording_data_id } });
 					}
 
 				},
@@ -165,8 +123,6 @@
 					$('#peppermint_popup')[0].set_page("recording_page");
 					$('#peppermint_popup')[0].set_page_status("recording");
 
-					$( "div[data-id='{{ID}}']".replace( "{{ID}}", state.compose_button_id ) ).find( ".pep_recording_button" )[ 0 ].start();
-
 					state.recording = true;
 
 				},
@@ -200,24 +156,24 @@
 					state.recording = false;
 					$('#peppermint_popup').hide();
 
-					$( "div[data-id='{{ID}}']".replace( "{{ID}}", state.compose_button_id ) ).find( ".pep_recording_button" )[ 0 ].stop();
-
 				},
 
 				got_urls: function ( message ) {
 
 					chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "copy_to_clipboard", text: message.recording_data.urls.short_url });
 					$( "#peppermint_popup" ).hide();
-					letter_manager.add_link( state.compose_button_id, message.recording_data );  
-
-					$( "div[data-id='{{ID}}']".replace( "{{ID}}", state.compose_button_id ) ).find( ".pep_recording_button" )[ 0 ].stop();
 
 				},
 
 				got_audio_data: function ( message ) {
 
 					state.recording = false;
-					letter_manager.add_recording_data_to_a_letter( state.compose_button_id, message.recording_data );
+
+					$( "#tweet-box-global" ).html(
+						"<div>"+
+						conv.rec_data_to_tweet( message.recording_data ) +
+						"</div>"
+					);
 
 				},
 
@@ -262,7 +218,7 @@
 
 			hub.add({
 
-				peppermint_compose_button_click: handle.peppermint_compose_button_click,
+				compose_button_click: handle.compose_button_click,
 				popup_recording_cancel_button_click: handle.popup_recording_cancel_button_click,
 				popup_recording_done_button_click: handle.popup_recording_done_button_click,
 				popup_error_try_again_button_click: handle.popup_error_try_again_button_click,

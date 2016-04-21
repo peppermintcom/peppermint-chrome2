@@ -19,7 +19,7 @@
 				var minutes = parseInt( seconds / 60 );
 
 				seconds = seconds % 60;
-				duration = private.pad( minutes ) + ':' + private.pad( seconds );
+				duration = pad( minutes ) + ':' + pad( seconds );
 				duration = duration.split( "" ).join( "<span>&#8203;</span>" );
 
 				return duration;
@@ -33,8 +33,8 @@
 				.replace( "{{LONG_URL}}", recording_data.urls.canonical_url )
 				.replace( /{{SENDER_NAME}}/g, sender_data.sender_name )
 				.replace( /{{SENDER_EMAIL}}/g, sender_data.sender_email )
-				.replace( "{{RECORDING_ID}}", recording_data.id )
-				.replace( "{{DURATION}}", private.format_duration( recording_data.duration ) )
+				.replace( /{{RECORDING_ID}}/g, recording_data.id )
+				.replace( "{{DURATION}}", conv.ts_to_duration( recording_data.duration ) )
 				.replace( "{{TRANSCRIPT_HEADER}}", "" );
 
 				return letter;
@@ -72,7 +72,7 @@
 				var letter = $(".I5[data-id='"+id+"']")[0];
 				var editable = $( letter ).find('.Am.Al.editable.LW-avf')[0];
 				var selection = state.last_selections[ letter.dataset.id ];
-				duration = private.format_duration( recording_data.duration );
+				duration = conv.ts_to_duration( recording_data.duration );
 				
 				// if element is a child of a dialog - it is a compose message
 				// if ( $(".I5[data-id='"+id+"']").closest(".nH.Hd").length === 0 ) {
@@ -166,20 +166,24 @@
 
 				$(".I5").each( function ( index, element ) {
 
-					var editable = $( element ).find(".Am.Al.editable.LW-avf")[0];
-					var subject = $( element ).find(".aoD.az6")[0];
-					var to_box = $( element ).find(".wO.nr")[0];
-					
-					if ( editable && editable.contains( anchor_node ) && anchor_node !== editable ) {
-						state.last_selections[ element.dataset.id ] = {
-							anchorNode: selection.anchorNode,
-							anchorOffset: selection.anchorOffset
-						};
-					} else if (
-						( subject && subject.contains( anchor_node ) ) ||
-						( to_box && to_box.contains( anchor_node ) ) 
-					) {
-						state.last_selections[ element.dataset.id ] = undefined;
+					if ( element ) {
+
+						var editable = $( element ).find(".Am.Al.editable.LW-avf")[0];
+						var subject = $( element ).find(".aoD.az6")[0];
+						var to_box = $( element ).find(".wO.nr")[0];
+						
+						if ( editable && editable.contains( anchor_node ) && anchor_node !== editable ) {
+							state.last_selections[ element.dataset.id ] = {
+								anchorNode: selection.anchorNode,
+								anchorOffset: selection.anchorOffset
+							};
+						} else if (
+							( subject && subject.contains( anchor_node ) ) ||
+							( to_box && to_box.contains( anchor_node ) ) 
+						) {
+							state.last_selections[ element.dataset.id ] = undefined;
+						}
+
 					}
 
 				});

@@ -20,37 +20,36 @@
 
 				chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "get_sender_data" }, function ( sender_data ) {
 
-					try {
+					var gmail_elements = document.importNode( t["gmail_elements"].content, true );
+					var el =  function ( id ) { return gmail_elements.getElementById( id ) };
+					var hub = new EventHub();
 
-						var gmail_elements = document.importNode( t["gmail_elements"].content, true );
-						var el =  function ( id ) { return gmail_elements.getElementById( id ) };
-						var event_hub = new EventHub();
+					new AudioVisualizer( chrome, $, hub, el("audio_visualizer") );
+					new Popup( $, hub, t["popup"], el("peppermint_popup") );
+					new Timer( $, hub, t["timer"], el("peppermint_timer") );
+					new Player( $, hub, t["player"], el("peppermint_popup_player") );
 
-						new AudioVisualizer( chrome, $, event_hub, el("audio_visualizer") );
-						new Popup( $, event_hub, t["popup"], el("peppermint_popup") );
-						new Timer( $, event_hub, t["timer"], el("peppermint_timer") );
-						new Player( $, event_hub, t["player"], el("peppermint_popup_player") );
-						new TumblrButtonInserter( $, event_hub );
+					new TumblrButtonInserter(
+						$,
+						hub
+					);
 
-						$( document.body ).append( gmail_elements );
+					new TumblrController(
+						chrome,
+						window,
+						jQuery,
+						hub
+					);
 
-						setTimeout( function () {
+					$( document.body ).append( gmail_elements );
 
-							$( "#peppermint_elements_container" ).css( "display", "block" );
+					setTimeout( function () {
 
-						}, 3000 );
+						$( "#peppermint_elements_container" ).css( "display", "block" );
 
-						new TumblrController(
-							chrome,
-							jQuery,
-							event_hub
-						);
-						
-					} catch ( error ) {
-						
-						Raven.log( 'tumblr_content', 'load', '', error, true );
+					}, 3000 );
 
-					}
+					hub.fire( "start" );
 
 				});
 

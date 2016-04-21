@@ -44,7 +44,6 @@
 				"/js/int/background/GlobalController.js",
 				"/js/int/background/TranscriptionManager.js",
 				"/js/int/background/WebAudioRecorderWrap.js",
-				"/js/int/background/ContentInserterModule.js",
 
 				"/js/int/background/background.js"
 
@@ -56,143 +55,191 @@
 
 		"content_scripts": [
 
-				{
-					"matches": [],
-					"js": [
-
-						"/js/lib/raven.min.js",
-						"/js/lib/jquery.min.js",
-
-						"/js/shared/Timer.js",
-						"/js/shared/Popup.js",
-						"/js/shared/Player.js",
-						"/js/shared/EventHub.js",
-						"/js/shared/MiniPopup.js",
-						"/js/shared/ErrorReporter.js",
-						"/js/shared/LauncherHelper.js",
-						"/js/shared/AudioVisualizer.js",
-						"/js/shared/RecordingButton.js",
-						
-						"/js/int/tooltips/Tooltip.js",
-						
-						"/js/int/gmail/LetterManager.js",
-						"/js/int/gmail/ButtonInserter.js",
-						"/js/int/gmail/GmailController.js",
-
-						"/js/int/gmail/gmail_content.js"
-					
-					]
-
-				},
-				{
-					"matches": [],
-					"js": [
-
-						"/js/lib/raven.min.js",
-						"/js/lib/jquery.min.js",
-
-						"/js/shared/EventHub.js",
-						"/js/shared/ErrorReporter.js",
-						"/js/shared/LauncherHelper.js",
-						"/js/shared/RecordingButton.js",
-
-						"/js/int/asana/AsanaController.js",
-						"/js/int/asana/AsanaButtonInserter.js",
-						
-						"/js/int/asana/asana_content.js"
-					
-					]
-				},
-				{
-					"matches": [],
-					"js": [
-
-						"/js/lib/raven.min.js",
-						"/js/lib/jquery.min.js",
-
-						"/js/shared/EventHub.js",
-						"/js/shared/ErrorReporter.js",
-						"/js/shared/LauncherHelper.js",
-						"/js/shared/RecordingButton.js",
-
-						"/js/int/slack/SlackController.js",
-						"/js/int/slack/SlackButtonInserter.js",
-
-						"/js/int/slack/slack_content.js"
-
-					]
-				},
-				{
-					"matches": [],
-					"js": [
-
-						"/js/lib/raven.min.js",
-						"/js/lib/jquery.min.js",
-
-						"/js/shared/Timer.js",
-						"/js/shared/Popup.js",
-						"/js/shared/Player.js",
-						"/js/shared/Tooltip.js",
-						"/js/shared/EventHub.js",
-						"/js/shared/MiniPopup.js",
-						"/js/shared/ErrorReporter.js",
-						"/js/shared/LetterManager.js",
-						"/js/shared/LauncherHelper.js",
-						"/js/shared/AudioVisualizer.js",
-						"/js/shared/RecordingButton.js",
-
-						"/js/int/twitter/TwitterController.js",
-						"/js/int/twitter/TwitterButtonInserter.js",
-
-						"/js/int/twitter/twitter_content.js"
-					
-					]
-				},
-				{
-					"matches": [],
-					"js": [
-
-						"/js/lib/raven.min.js",
-						"/js/lib/jquery.min.js",
-
-						"/js/shared/Timer.js",
-						"/js/shared/Popup.js",
-						"/js/shared/Player.js",
-						"/js/shared/Tooltip.js",
-						"/js/shared/EventHub.js",
-						"/js/shared/MiniPopup.js",
-						"/js/shared/ErrorReporter.js",
-						"/js/shared/LetterManager.js",
-						"/js/shared/LauncherHelper.js",
-						"/js/shared/AudioVisualizer.js",
-						"/js/shared/RecordingButton.js",
-
-						"/js/int/tumblr/TumblrController.js",
-						"/js/int/tumblr/TumblrButtonInserter.js",
-
-						"/js/int/tumblr/tumblr_content.js"
-
-					]
-				},
-				{
-					"matches": [],
-					"js": [
+			{
 				
-						"/js/lib/raven.min.js",
-						"/js/lib/jquery.min.js",
+				"matches": [ "https://mail.google.com/*" ],
+				"js": [
 
-						"/js/shared/EventHub.js",
-						"/js/shared/ErrorReporter.js",
-						"/js/shared/LauncherHelper.js",
+					"/js/lib/raven.min.js",
+					"/js/lib/jquery.min.js",
 
-						"/js/int/all_links/PepLinkAddon.js",
-						"/js/int/all_links/AllLinksController.js",
-						"/js/int/all_links/PepLinkAddonFactory.js",
+					"/js/shared/Timer.js",
+					"/js/shared/Popup.js",
+					"/js/shared/Player.js",
+					"/js/shared/EventHub.js",
+					"/js/shared/MiniPopup.js",
+					"/js/shared/ErrorReporter.js",
+					"/js/shared/LauncherHelper.js",
+					"/js/shared/AudioVisualizer.js",
+					"/js/shared/RecordingButton.js",
+					
+					"/js/int/tooltips/Tooltip.js",
+					
+					"/js/int/gmail/LetterManager.js",
+					"/js/int/gmail/ButtonInserter.js",
+					"/js/int/gmail/GmailController.js",
 
-						"/js/int/all_links/all_links_content.js"
+					"/js/int/gmail/gmail_content.js"
+				
+				],
+				"css": [
+					"/css/content.css"
+				],
+				"run_at": "document_end"
 
-					]
-				}
+			},
+
+			{
+
+				"matches": [ "https://app.asana.com/*" ],
+				"js": [
+
+					"/js/lib/raven.min.js",
+					"/js/lib/jquery.min.js",
+
+					"/js/shared/EventHub.js",
+					"/js/shared/ErrorReporter.js",
+					"/js/shared/LauncherHelper.js",
+					"/js/shared/RecordingButton.js",
+
+					"/js/int/asana/AsanaController.js",
+					"/js/int/asana/AsanaButtonInserter.js",
+					
+					"/js/int/asana/asana_content.js"
+				
+				],
+				"css": [
+					"/css/content.css"
+				],
+				"run_at": "document_end"
+
+			},
+		
+			{
+
+				"matches": [ "https://*.slack.com/*" ],
+				"js": [
+
+					"/js/lib/raven.min.js",
+					"/js/lib/jquery.min.js",
+
+					"/js/shared/EventHub.js",
+					"/js/shared/ErrorReporter.js",
+					"/js/shared/LauncherHelper.js",
+					"/js/shared/RecordingButton.js",
+
+					"/js/int/slack/SlackController.js",
+					"/js/int/slack/SlackButtonInserter.js",
+
+					"/js/int/slack/slack_content.js"
+
+				],
+				"css": [
+					"/css/content.css"
+				],
+				"run_at": "document_end"
+
+			},
+
+			{
+
+				"matches": [ "https://twitter.com/*" ],
+				"js": [
+
+					"/js/lib/raven.min.js",
+					"/js/lib/jquery.min.js",
+
+					"/js/shared/Timer.js",
+					"/js/shared/Popup.js",
+					"/js/shared/Player.js",
+					"/js/shared/EventHub.js",
+					"/js/shared/MiniPopup.js",
+					"/js/shared/ErrorReporter.js",
+					"/js/shared/LauncherHelper.js",
+					"/js/shared/AudioVisualizer.js",
+					"/js/shared/RecordingButton.js",
+
+					"/js/int/twitter/TwitterController.js",
+					"/js/int/twitter/TwitterButtonInserter.js",
+
+					"/js/int/twitter/twitter_content.js"
+				
+				],
+				"css": [
+					"/css/content.css"
+				],
+				"run_at": "document_end"
+
+			},
+
+			{
+
+				"matches": [ "https://www.tumblr.com/*" ],
+				"js": [
+
+					"/js/lib/raven.min.js",
+					"/js/lib/jquery.min.js",
+
+					"/js/shared/Timer.js",
+					"/js/shared/Popup.js",
+					"/js/shared/Player.js",
+					"/js/shared/EventHub.js",
+					"/js/shared/MiniPopup.js",
+					"/js/shared/ErrorReporter.js",
+					"/js/shared/LauncherHelper.js",
+					"/js/shared/AudioVisualizer.js",
+					"/js/shared/RecordingButton.js",
+
+					"/js/int/tumblr/TumblrController.js",
+					"/js/int/tumblr/TumblrButtonInserter.js",
+
+					"/js/int/tumblr/tumblr_content.js"
+
+				],
+				"css": [
+					"/css/content.css"
+				],
+				"run_at": "document_end"
+
+			},
+
+			{
+
+				"matches": [ 
+
+					"https://*/*",
+					"http://*/*"
+
+				],
+				"exclude_matches": [
+					
+					"https://*.live.com/*",
+					"https://*.yahoo.com/*"
+									
+				],
+				"js": [
+			
+					"/js/lib/raven.min.js",
+					"/js/lib/jquery.min.js",
+
+					"/js/shared/EventHub.js",
+					"/js/shared/ErrorReporter.js",
+					"/js/shared/LauncherHelper.js",
+
+					"/js/int/all_links/PepLinkAddon.js",
+					"/js/int/all_links/AllLinksController.js",
+					"/js/int/all_links/PepLinkAddonFactory.js",
+
+					"/js/int/all_links/all_links_content.js"
+
+				],
+				"css": [
+					"/css/all_links_styles.css"
+				],
+				"run_at": "document_end",
+				"all_frames": true
+
+			}
 
 		],
 

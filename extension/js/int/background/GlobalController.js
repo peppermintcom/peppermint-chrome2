@@ -276,6 +276,12 @@
 
 					callback({ frequency_data, time });
 
+				},
+
+				rec_id_to_rec_data: function ( message, sender, callback ) {
+
+					storage.id_to_recording_data( message.rec_id ).then( callback );
+
 				}
 
 			/**/

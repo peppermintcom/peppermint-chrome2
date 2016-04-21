@@ -1,5 +1,5 @@
 
-	function GmailController ( chrome, $, event_hub, letter_manager ) {
+	function GmailController ( chrome, $, hub ) {
 
 		var state = {
 
@@ -199,7 +199,13 @@
 
 					chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "copy_to_clipboard", text: message.recording_data.urls.short_url });
 					$( "#peppermint_popup" ).hide();
-					letter_manager.add_link( state.compose_button_id, message.recording_data );  
+					
+					hub.fire( "got_recording_urls", {
+						
+						compose_window_id: state.compose_button_id,
+						recording_data: message.recording_data
+
+					});
 
 					$( "div[data-id='{{ID}}']".replace( "{{ID}}", state.compose_button_id ) ).find( ".pep_recording_button" )[ 0 ].stop();
 
@@ -208,8 +214,14 @@
 				got_audio_data: function ( message ) {
 
 					state.recording = false;
-					letter_manager.add_recording_data_to_a_letter( state.compose_button_id, message.recording_data );
+					
+					hub.fire( "got_recording_audio", {
+						
+						compose_window_id: state.compose_button_id,
+						recording_data: message.recording_data
 
+					});
+					
 				},
 
 			/**/
@@ -251,7 +263,7 @@
 
 		( function () {
 
-			event_hub.add({
+			hub.add({
 
 				peppermint_compose_button_click: handle.peppermint_compose_button_click,
 				popup_recording_cancel_button_click: handle.popup_recording_cancel_button_click,
