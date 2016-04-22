@@ -1,5 +1,5 @@
 
-	function PopupController ( chrome, $, event_hub, moment ) {
+	function PopupController ( chrome, $, hub, moment ) {
 
 		var state = {
 
@@ -44,12 +44,16 @@
 				if ( state.transcript ) {
 
 					$( "#transcription_header" ).show();
-					$( "#transcript" ).html( state.transcript );
+					$( "#transcript" )[0].dataset.text = state.transcript;
+					
+					hub.fire( "text_change", { element: $( "#transcript" )[0] });
 
 				} else {
 
 					$( "#transcription_header" ).hide();
-					$( "#transcript" ).html( state.transcript );
+					$( "#transcript" )[0].dataset.text = state.transcript;
+
+					hub.fire( "text_change", { element: $( "#transcript" )[0] });
 
 				}
 
@@ -59,6 +63,10 @@
 
 				$( "#popup_finish_url" )[0].href = state.urls.short_url;
 				$( "#popup_finish_url" ).text( state.urls.short_url );
+
+				$( "#tumblr_logo" ).attr( "href", "http://www.tumblr.com/share/link?url=" + state.urls.short_url );
+				$( "#twitter_logo" ).attr( "href", "https://twitter.com/intent/tweet?text=" + state.urls.short_url );
+				$( "#facebook_logo" ).attr( "href", "https://www.facebook.com/sharer/sharer.php?u=" + state.urls.short_url );
 
 				if ( state.data_url || state.urls.canonical_url ) {
 
@@ -249,6 +257,18 @@
 
 				},
 
+				copy_to_clipboard_button_click: function () {
+
+					chrome.runtime.sendMessage({
+						receiver: "BackgroundHelper",
+						name: "copy_to_clipboard",
+						text: $( "#popup_finish_url" ).attr( "href" )
+					});
+					
+					alert( "Link Copied to Clipboard!" );
+
+				},
+
 			/**/
 
 			/* runtime */
@@ -279,7 +299,7 @@
 
 				recording_not_started: function ( message ) {
 
-					if ( message.error.name === "PermissionDeniedError" || message.error.name === "NavigatorUserMediaError" ) {
+					if ( message.error.name === "PermissionDeniedError" || message.error.name === "NavigatorUserMediaError" || message.error.name === "mediaDeviceFailedDueToShutdown" ) {
 					
 						chrome.runtime.sendMessage({ receiver: "BackgroundHelper", name: "open_welcome_page" });
 
@@ -428,7 +448,7 @@
 
 		( function () {
 
-			event_hub.add({
+			hub.add({
 
 				welcome_start_recording_click: handle.welcome_start_recording_click,
 				history_start_recording_click: handle.history_start_recording_click,
@@ -438,18 +458,20 @@
 				error_try_again_button_click: handle.error_try_again_button_click,
 				finish_start_new_button_click: handle.finish_start_new_button_click,
 				delete_transcription_button_click: handle.delete_transcription_button_click,
+				copy_to_clipboard_button_click: handle.copy_to_clipboard_button_click,
 				start: handle.start
 
 			});
 
 			function create_click_dispatcher ( id ) {
 				document.getElementById( id ).addEventListener( "click", function () {
-					event_hub.fire( id + "_click" );
+					hub.fire( id + "_click" );
 				});
 			};
 
 			[
 				"delete_transcription_button",
+				"copy_to_clipboard_button",
 				"recording_cancel_button",
 				"history_start_recording",
 				"welcome_start_recording",

@@ -55,49 +55,53 @@
 
 				<div class = 'screen' id = "finish_screen" >
 
-					<div class = 'header' >
-					
-						<div class = 'finish_header header_left' id = "finished_header" >
-							<h2>You have finished recording</h2>
+					<div id = "compose_body" >
+
+						<div class = 'header' >
+						
+							<div class = 'finish_header header_left' id = "finished_header" >
+								<h2>You have finished recording</h2>
+							</div>
+						
+							<div class = 'finish_header header_left' id = "last_recording_header" >
+								<h2>Your last recording</h2>
+								<span class = 'date' id = "last_recording_date" >03/07/16, 8:30 AM</span>
+							</div>
+						
+							<div class = 'header_right' >
+								<div id = "player" ></div>
+							</div>
+						
 						</div>
-					
-						<div class = 'finish_header header_left' id = "last_recording_header" >
-							<h2>Your last recording</h2>
-							<span class = 'date' id = "last_recording_date" >03/07/16, 8:30 AM</span>
-						</div>
-					
-						<div class = 'header_right' >
-							<div id = "player" ></div>
-						</div>
-					
-					</div>
-
-					<div id = 'transcription_header' >
-						<h3>Transcription</h3>
-						<span id = 'delete_transcription' >
-							[<span id = 'delete_transcription_button' >Delete</span>]
-						</span>
-					</div>
-
-					<div id = 'transcript' class = 'transcription_text' ></div>
-
-					<div id = "compose_controls" >
-
-						<div id = "compose_links" >
-
-							<a href = "#" id = "popup_finish_url" target = "_blank" ></a>
-							<br>
-							<span id = "copy_to_clipboard" >
-								[<span id = "copy_to_clipboard_button" >Copy to clipboard</span>]
+						
+						<div id = 'transcription_header' >
+							<h3>Transcription</h3>
+							<span id = 'delete_transcription' >
+								[<span id = 'delete_transcription_button' >Delete</span>]
 							</span>
-
 						</div>
 
-						<div id = "compose_social_buttons" >
+						<div id = 'transcript' class = 'transcription_text' data-element_name = "expandable_text" data-max_lines = "5" data-line_height = "16" ></div>
 
-							<img src = "/img/logos/twitter.svg" id = "twitter_logo" >
-							<img src = "/img/logos/facebook.svg" id = "facebook_logo" >
-							<img src = "/img/logos/tumblr.svg" id = "tumblr_logo" >
+						<div id = "compose_controls" >
+
+							<div id = "compose_links" >
+
+								<a href = "#" id = "popup_finish_url" target = "_blank" ></a>
+								<br>
+								<span id = "copy_to_clipboard" >
+									[<span id = "copy_to_clipboard_button" >Copy to clipboard</span>]
+								</span>
+
+							</div>
+
+							<div id = "compose_social_buttons" >
+
+								<a href = "#" target = "blank" id = "twitter_logo" ><img src = "/img/logos/twitter.svg" ></a>
+								<a href = "#" target = "blank" id = "facebook_logo" ><img src = "/img/logos/facebook.svg" ></a>
+								<a href = "#" target = "blank" id = "tumblr_logo" ><img src = "/img/logos/tumblr.svg" ></a>
+
+							</div>
 
 						</div>
 
@@ -258,26 +262,27 @@
 		<link href="popup.css" rel="stylesheet" type="text/css">
 		<link href="/css/content.css" rel="stylesheet" type="text/css">
 
-		<script src =	"/js/lib/raven.min.js"						></script>
-		<script src =	"/js/lib/jquery.min.js"						></script>
-		<script src =	"/js/lib/moment.min.js"						></script>
+		<script src =	"/js/lib/raven.min.js"							></script>
+		<script src =	"/js/lib/jquery.min.js"							></script>
+		<script src =	"/js/lib/moment.min.js"							></script>
+	
+		<script src =	"/js/shared/shims.js"							></script>
+		<script src =	"/js/shared/ErrorReporter.js"					></script>
+			
+		<script src =	"/js/shared/Timer.js"							></script>
+		<script src =	"/js/shared/Player.js"							></script>
+		<script src =	"/js/shared/EventHub.js"						></script>
+		<script src =	"/js/shared/LauncherHelper.js"					></script>
+		<script src =	"/js/shared/AudioVisualizer.js"					></script>
+	
+		<script src =	"/js/int/ba_popup/HistoryItem.js"				></script>
+		<script src =	"/js/int/ba_popup/PopupController.js"			></script>
+		<script src =	"/js/int/ba_popup/HistoryController.js"			></script>
+		<script src =	"/js/int/ba_popup/FeedbackController.js"		></script>
+		<script src =	"/js/int/ba_popup/HistoryItemFactory.js"		></script>
+		<script src =	"/js/int/ba_popup/ExpandableTextController.js"	></script>
 
-		<script src =	"/js/shared/shims.js"						></script>
-		<script src =	"/js/shared/ErrorReporter.js"				></script>
-		
-		<script src =	"/js/shared/Timer.js"						></script>
-		<script src =	"/js/shared/Player.js"						></script>
-		<script src =	"/js/shared/EventHub.js"					></script>
-		<script src =	"/js/shared/HistoryItem.js"					></script>
-		<script src =	"/js/shared/LauncherHelper.js"				></script>
-		<script src =	"/js/shared/AudioVisualizer.js"				></script>
-
-		<script src =	"/js/int/ba_popup/PopupController.js"		></script>
-		<script src =	"/js/int/ba_popup/HistoryController.js"		></script>
-		<script src =	"/js/int/ba_popup/FeedbackController.js"	></script>
-		<script src =	"/js/int/ba_popup/HistoryItemFactory.js"	></script>
-
-		<script src =	"/js/int/ba_popup/popup.js"					></script>
+		<script src =	"/js/int/ba_popup/popup.js"						></script>
 
 	</body>
 

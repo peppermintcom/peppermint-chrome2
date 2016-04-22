@@ -28,6 +28,13 @@
 			new Player( $, event_hub, t["player"], el("player") );
 			new AudioVisualizer( chrome, $, event_hub, el("audio_visualizer") );
 
+			new ExpandableTextController(
+				chrome,
+				window,
+				jQuery,
+				event_hub
+			);
+
 			new PopupController(
 				chrome,
 				jQuery,
@@ -38,11 +45,6 @@
 			event_hub.fire( "start" );
 
 		})
-		.catch( function ( e ) {
-
-			Raven.log( 'popup', 'set_up_current_section', '', e );
-
-		});
 
 	} () );
 
