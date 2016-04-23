@@ -69,14 +69,20 @@
 
 			add_link: function ( id, recording_data ) {
 
-				var letter = $(".I5[data-id='"+id+"']")[0];
+				if ( id ) {
+
+					var letter = $(".I5[data-id='"+id+"']")[0];
+
+				} else {
+
+					var letter = $(".I5")[0];
+					
+				}
+
 				var editable = $( letter ).find('.Am.Al.editable.LW-avf')[0];
 				var selection = state.last_selections[ letter.dataset.id ];
 				duration = conv.ts_to_duration( recording_data.duration );
 				
-				// if element is a child of a dialog - it is a compose message
-				// if ( $(".I5[data-id='"+id+"']").closest(".nH.Hd").length === 0 ) {
-
 				if ( selection && editable.contains( selection.anchorNode ) ) {
 					
 					proc.html_before_selection( 
@@ -99,7 +105,16 @@
 			add_recording_data_to_a_letter: function ( id, recording_data ) {
 
 				// add the transcription
-				var subject = $(".I5[data-id='"+id+"'] input[name='subjectbox']");
+				if ( id ) {
+
+					var subject = $(".I5[data-id='"+id+"'] input[name='subjectbox']");
+
+				} else {
+					
+					var subject = $(".I5 input[name='subjectbox']");
+
+				}
+
 				var val = subject.val();
 				
 				if ( val === '' || val === "I sent you an audio message" ) {
@@ -147,7 +162,16 @@
 					}
 
 					var audio_element = $( "<audio controls ></audio>" )[ 0 ];
-					audio_element.src = recording_data.data_url;
+
+					if ( recording_data.data_url ) {
+
+						audio_element.src = recording_data.data_url;
+						
+					} else {
+
+						audio_element.src = recording_data.urls.canonical_url;
+						
+					}
 
 					letter.find( "table[alt='buttons']" ).after( audio_element );
 
@@ -195,6 +219,34 @@
 				$.get( chrome.extension.getURL( '/html/templates/letter.html' ), function( response ) {
 
 					state.letter_template = response;
+
+				});
+
+				chrome.storage.local.get( [ "send_on_gmail_rec_data_id" ], function ( items ) {
+
+					var rec_id = items[ "send_on_gmail_rec_data_id" ];
+
+					if ( rec_id ) {
+
+						chrome.runtime.sendMessage({ receiver: "GlobalController", name: "rec_id_to_rec_data", rec_id }, function ( rec_data ) {
+
+							var interval = window.setInterval( function () {
+						
+								if ( $( ".I5 .Am.Al.editable.LW-avf" ).length > 0 ) {
+
+									window.clearInterval( interval );						
+									proc.add_link( 0, rec_data );
+									proc.add_recording_data_to_a_letter( 0, rec_data );
+						
+								}
+						
+							}, 100 );
+
+						});
+
+					}
+
+					chrome.storage.local.set({ send_on_gmail_rec_data_id: false });
 
 				});
 

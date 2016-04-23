@@ -269,6 +269,24 @@
 
 				},
 
+				send_on_gmail_click: function () {
+
+					chrome.storage.local.set({
+
+						send_on_gmail_rec_data_id: state.recording_data_id
+
+					}, function () {
+
+						chrome.tabs.create({
+
+							url: "https://mail.google.com/mail/u/0/#inbox?compose=new"
+						
+						});
+
+					});
+
+				},
+
 			/**/
 
 			/* runtime */
@@ -459,6 +477,7 @@
 				finish_start_new_button_click: handle.finish_start_new_button_click,
 				delete_transcription_button_click: handle.delete_transcription_button_click,
 				copy_to_clipboard_button_click: handle.copy_to_clipboard_button_click,
+				send_on_gmail_click: handle.send_on_gmail_click,
 				start: handle.start
 
 			});
@@ -478,7 +497,8 @@
 				"finish_start_new_button",
 				"error_try_again_button",
 				"recording_done_button",
-				"error_cancel_button"
+				"error_cancel_button",
+				"send_on_gmail"
 			].forEach( create_click_dispatcher );
 
 			chrome.runtime.onMessage.addListener( handle.runtime_message );

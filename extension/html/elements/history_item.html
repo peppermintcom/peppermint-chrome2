@@ -36,12 +36,9 @@
 
 		#transcription_container {
 
-			overflow: hidden;
-
 			position: relative;
 
 			margin: 0px 24px 8px;
-			max-height: 20px;
 
 		}
 
@@ -70,24 +67,34 @@
 
 		}
 
-		#show_more, #show_less {
+		/* expandable_text */
 
-			float: right;
-		
-			right: 0px;
-			bottom: 0px;
-			padding: 0px 15px;
-		
-			background-color: white;
-		
-			font-size: 12px;
-			color: #136EFF;
-			line-height: 20px;
-			text-decoration: underline;
+			div[data-element_name='expandable_text'] {
+				
+				overflow: hidden;
+				position: relative;
 
-			cursor: pointer;
+			}
 
-		}
+			div[data-element_name='expandable_text'] .text {
+
+				overflow: hidden;
+				
+			}
+
+			div[data-element_name='expandable_text'] .controls div {
+
+				overflow: hidden;
+				
+				color: blue;
+
+				text-decoration: underline;
+				text-align: right;
+				cursor: pointer;
+
+			}
+
+		/**/
 
 	</style>
 
@@ -102,11 +109,7 @@
 
 		</div>
 
-		<div id = "transcription_container" >
-
-			<div id = "show_more" >Show more</div>
-			<div id = "transcription" ></div>
-			<div id = "show_less" >Show less</div>
+		<div id = "transcription_container" data-element_name = "expandable_text" data-max_lines = "2" data-line_height = "16" >
 
 		</div>
 

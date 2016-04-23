@@ -38,16 +38,21 @@
 
 		main section {
 
-			position: relative;
-			display: none;
+			position: absolute;
+			opacity: 0;
+			z-index: 50;
 
-			height: 100%;
+			top: 40px;
+			left: 0px;
+			height: calc( 100% - 40px );
+			width: 100%;
 
 		}
 
 		main section.active {
 
-			display: block;
+			opacity: 1;
+			z-index: 100;
 
 		}
 
@@ -123,8 +128,6 @@
 
 				overflow: hidden;
 				display: none;
-
-				height: 100%;
 
 			}
 
@@ -387,7 +390,7 @@
 
 				#compose_links {
 
-					font-size: 16px;
+					font-size: 14px;
 
 				}
 
@@ -418,10 +421,36 @@
 
 				}
 
-				#compose_social_buttons img {
+				#send_on_gmail {
 
-					width: 24px;
-					height: 24px;
+					margin-right: 24px;
+
+					cursor: pointer;
+
+				}
+
+				#send_on_gmail img {
+
+					height: 18px;
+					margin-right: 4px;
+					vertical-align: bottom;
+
+				}
+
+				#send_on_gmail span {
+
+					color: blue;
+					font-size: 14px;
+					text-decoration: underline;
+
+					cursor: pointer;
+
+				}
+
+				#compose_social_buttons .social_logo {
+
+					width: 20px;
+					height: 20px;
 					margin: 4px;
 
 					border-radius: 2px;
@@ -491,8 +520,6 @@
 
 		#history_section {
 
-			height: 100%;
-		
 		}
 
 		#history_items_container {
@@ -547,7 +574,6 @@
 
 		#feedback_section {
 
-			height: 100%;
 			padding: 12px;
 
 		}

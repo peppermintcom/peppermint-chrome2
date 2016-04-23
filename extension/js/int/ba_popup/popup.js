@@ -10,37 +10,77 @@
 
 	} () );
 	
-	( function set_up_current_section () {
+	( function () {
 
 		var launcher_helper = new LauncherHelper( jQuery );
 
 		launcher_helper.urls_to_templates( chrome.extension.getURL( "/" ), [
 
+			[ 'history_item', '/html/elements/history_item.html' ],
 			[ 'timer', '/html/elements/timer.html' ],
-			[ 'player', '/html/elements/player.html' ]
+			[ 'player', '/html/elements/player.html' ],
+			[ 'timer', '/html/elements/timer.html' ]
 
 		]).then( function ( t ) {
 
 			var el = function ( id ) { return document.getElementById( id ) };
 			var event_hub = new EventHub();
 
-			new Timer( $, event_hub, t["timer"], el("timer") );
-			new Player( $, event_hub, t["player"], el("player") );
-			new AudioVisualizer( chrome, $, event_hub, el("audio_visualizer") );
+			/* compose */
 
-			new ExpandableTextController(
-				chrome,
-				window,
-				jQuery,
-				event_hub
-			);
+				new Timer( $, event_hub, t["timer"], el("timer") );
+				new Player( $, event_hub, t["player"], el("player") );
+				new AudioVisualizer( chrome, $, event_hub, el("audio_visualizer") );
 
-			new PopupController(
-				chrome,
-				jQuery,
-				event_hub,
-				moment
-			);
+				new ExpandableTextController(
+					chrome,
+					window,
+					jQuery,
+					event_hub
+				);
+
+				new PopupController(
+					chrome,
+					jQuery,
+					event_hub,
+					moment
+				);
+
+			/**/
+
+			/* history */
+
+				var history_item_factory = new HistoryItemFactory(
+					chrome,
+					jQuery,
+					event_hub,
+					HistoryItem,
+					t["history_item"],
+					Player,
+					t["player"]
+				); 
+
+				new HistoryController(
+					chrome,
+					jQuery,
+					event_hub,
+					history_item_factory
+				);
+
+			/**/
+
+			/* feedback */
+
+				new AudioVisualizer( chrome, $, event_hub, el("feedback_audio_visualizer") );
+				new Timer( $, event_hub, t["timer"], el("feedback_timer") );
+
+				new FeedbackController(
+					chrome,
+					jQuery,
+					event_hub
+				);
+
+			/**/
 
 			event_hub.fire( "start" );
 
@@ -72,46 +112,6 @@
 			$( "nav li[data-id='current']" ).addClass( "active" );
 			$( "main section" ).removeClass( "active" );
 			$( "main section[data-id='current']" ).addClass( "active" );
-
-		});
-
-	} () );
-
-	( function set_up_history () {
-
-		var launcher_helper = new LauncherHelper( jQuery );
-
-		launcher_helper.urls_to_templates( chrome.extension.getURL( "/" ), [
-
-			[ 'history_item', '/html/elements/history_item.html' ],
-			[ 'player', '/html/elements/player.html' ]
-
-		]).then( function ( t ) {
-
-			var el = function ( id ) { return document.getElementById( id ) };
-			var event_hub = new EventHub();
-
-			var history_item_factory = new HistoryItemFactory(
-				chrome,
-				jQuery,
-				event_hub,
-				HistoryItem,
-				t["history_item"],
-				Player,
-				t["player"]
-			); 
-
-			new HistoryController(
-				chrome,
-				jQuery,
-				event_hub,
-				history_item_factory
-			);
-
-		})
-		.catch( function ( e ) {
-
-			Raven.log( 'popup', 'set_up_history', '', e );
 
 		});
 
@@ -149,37 +149,3 @@
 		});
 
 	} () );
-
-	( function set_up_feedback () {
-
-		var launcher_helper = new LauncherHelper( jQuery );
-
-		launcher_helper.urls_to_templates( chrome.extension.getURL( "/" ), [
-			
-			[ 'timer', '/html/elements/timer.html' ]
-
-		]).then( function ( t ) {
-
-			var el = function ( id ) { return document.getElementById( id ) };
-			var event_hub = new EventHub();
-
-			new AudioVisualizer( chrome, $, event_hub, el("feedback_audio_visualizer") );
-			new Timer( $, event_hub, t["timer"], el("feedback_timer") );
-
-			new FeedbackController(
-				chrome,
-				jQuery,
-				event_hub
-			);
-
-			event_hub.fire( "start" );
-
-		})
-		.catch( function ( e ) {
-
-			Raven.log( 'popup', 'set_up_feedback', '', e );
-
-		});
-
-	} () );
-

@@ -126,23 +126,23 @@
 
 				return new Promise( function ( resolve ) {
 
-					resolve({ text: "test1 test2 test3 test4 tst5 test5 liasifef ijeffff f f ffffffffffffff jf j fjjfeiojf test1 test2 test3 test4 tst5 test5 liasifef ijeffff f f ffffffffffffff jf j fjjfeiojf kasdf ds fsdk fsadfkl asf iof jweoif jwofij weof jweoif jwef wfewf asdf asdf adsf asdf asdf saf afe gweg test1 test2 test3 test4 tst5 test5 liasifef ijeffff f f ffffffffffffff jf j fjjfeiojf kasdf ds fsdk fsadfkl asf iof jweoif jwofij weof jweoif jwef wfewf asdf asdf adsf asdf asdf saf afe gweg test1 test2 test3 test4 tst5 test5 liasifef ijeffff f f ffffffffffffff jf j fjjfeiojf kasdf ds fsdk fsadfkl asf iof jweoif jwofij weof jweoif jwef wfewf asdf asdf adsf asdf asdf saf afe gweg test1 test2 test3 test4 tst5 test5 liasifef ijeffff f f ffffffffffffff jf j fjjfeiojf kasdf ds fsdk fsadfkl asf iof jweoif jwofij weof jweoif jwef wfewf asdf asdf adsf asdf asdf saf afe gweg test1 test2 test3 test4 tst5 test5 liasifef ijeffff f f ffffffffffffff jf j fjjfeiojf kasdf ds fsdk fsadfkl asf iof jweoif jwofij weof jweoif jwef wfewf asdf asdf adsf asdf asdf saf afe gweg test1 test2 test3 test4 tst5 test5 liasifef ijeffff f f ffffffffffffff jf j fjjfeiojf kasdf ds fsdk fsadfkl asf iof jweoif jwofij weof jweoif jwef wfewf asdf asdf adsf asdf asdf saf afe gweg kasdf ds fsdk fsadfkl asf iof jweoif jwofij weof jweoif jwef wfewf asdf asdf adsf asdf asdf saf afe gweg", language: lang, confidence_estimate: 1 });
+					// resolve({ text: "test1 test2 test3 test4 tst5 test5 liasifef ijeffff f f ffffffffffffff jf j fjjfeiojf test1 test2 test3 test4 tst5 test5 liasifef ijeffff f f ffffffffffffff jf j fjjfeiojf kasdf ds fsdk fsadfkl asf iof jweoif jwofij weof jweoif jwef wfewf asdf asdf adsf asdf asdf saf afe gweg test1 test2 test3 test4 tst5 test5 liasifef ijeffff f f ffffffffffffff jf j fjjfeiojf kasdf ds fsdk fsadfkl asf iof jweoif jwofij weof jweoif jwef wfewf asdf asdf adsf asdf asdf saf afe gweg test1 test2 test3 test4 tst5 test5 liasifef ijeffff f f ffffffffffffff jf j fjjfeiojf kasdf ds fsdk fsadfkl asf iof jweoif jwofij weof jweoif jwef wfewf asdf asdf adsf asdf asdf saf afe gweg test1 test2 test3 test4 tst5 test5 liasifef ijeffff f f ffffffffffffff jf j fjjfeiojf kasdf ds fsdk fsadfkl asf iof jweoif jwofij weof jweoif jwef wfewf asdf asdf adsf asdf asdf saf afe gweg test1 test2 test3 test4 tst5 test5 liasifef ijeffff f f ffffffffffffff jf j fjjfeiojf kasdf ds fsdk fsadfkl asf iof jweoif jwofij weof jweoif jwef wfewf asdf asdf adsf asdf asdf saf afe gweg test1 test2 test3 test4 tst5 test5 liasifef ijeffff f f ffffffffffffff jf j fjjfeiojf kasdf ds fsdk fsadfkl asf iof jweoif jwofij weof jweoif jwef wfewf asdf asdf adsf asdf asdf saf afe gweg kasdf ds fsdk fsadfkl asf iof jweoif jwofij weof jweoif jwef wfewf asdf asdf adsf asdf asdf saf afe gweg", language: lang, confidence_estimate: 1 });
 
 					private.speech_recognition.stop();
 
-					// var interval = setInterval( function () {
+					var interval = setInterval( function () {
 
-					// 	if ( private.is_final || private.error === true || private.ended === true ) {
+						if ( private.is_final || private.error === true || private.ended === true ) {
 
-					// 		console.log( "TRANSCRIPT:", private.transcript );
+							console.log( "TRANSCRIPT:", private.transcript );
 
-					// 		clearInterval( interval );
-					// 		resolve({ text: private.transcript, language: lang, confidence_estimate: private.confidence });
-					// 		private.transcript = '';
+							clearInterval( interval );
+							resolve({ text: private.transcript, language: lang, confidence_estimate: private.confidence });
+							private.transcript = '';
 
-					// 	}
+						}
 
-					// }, 50 );
+					}, 50 );
 
 				});
 

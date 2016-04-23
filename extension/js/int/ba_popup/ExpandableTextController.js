@@ -49,7 +49,6 @@
 				$( ".text", element ).css({ height: "initial" }).text( element.dataset.text );
 				
 				var data = element.ex_text_data = conv.element_to_data( element );
-				console.log( data.text_height );
 
 				if ( data.lines_amount <= data.max_lines ) {
 
@@ -109,6 +108,12 @@
 
 			},
 
+			ex_text_element_created: function ( data ) {
+
+				proc.init_element( data.element );
+
+			},
+
 			text_change: function ( data ) {
 
 				setTimeout( function () {
@@ -138,7 +143,8 @@
 			hub.add({
 
 				start: handle.start,
-				text_change: handle.text_change
+				text_change: handle.text_change,
+				ex_text_element_created: handle.ex_text_element_created
 
 			})
 
