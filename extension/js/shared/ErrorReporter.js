@@ -107,11 +107,22 @@
 			
 			should_exclude: function(attr){
 				
-				var options_source = (this.options) ? this.options : Raven._globalOptions;
+				var exclusions;
 				
-				return (attr.tags.message.match(options_source.ignoreErrors)) ||
-					   (attr.tags.error_name.match(options_source.ignoreErrors)) ||
-					   (attr.tags.error_message.match(options_source.ignoreErrors));	
+				if(Raven._globalOptions){
+					exclusions = Raven._globalOptions.ignoreErrors;
+					
+					return 	(attr.tags.message.match(exclusions)) ||
+					   		(attr.tags.error_name.match(exclusions)) ||
+					   		(attr.tags.error_message.match(exclusions));	
+				} else {
+					exclusions = this.options.ignoreErrors;					
+					
+					return 	($.inArray(attr.tags.message, exclusions) >= 0) ||
+							($.inArray(attr.tags.error_name, exclusions) >= 0) ||
+							($.inArray(attr.tags.error_message, exclusions) >= 0);	
+				}
+
 			},
 
 			log: function ( source_class, source_method, message, error, log_to_console, extra_data ) {
