@@ -114,9 +114,7 @@
 				},
 
 				recording_not_started: function ( message ) {
-
-					console.error( "Failed to begin recording", message.error );
-
+					
 				},
 
 				recording_canceled: function ( message ) {

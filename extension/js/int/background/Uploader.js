@@ -43,7 +43,7 @@
 
 					} else {
 
-                        reject( "No transcription to upload" ); 				
+                        reject( new Error("No transcription to upload") ); 				
 						return;
 
 					}

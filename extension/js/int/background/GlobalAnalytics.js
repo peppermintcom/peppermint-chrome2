@@ -23,7 +23,9 @@
 
 			allow_dev_analytics_upload: false,
 
-			allow_prod_analytics_upload: true
+			allow_prod_analytics_upload: true,
+			
+			allow_excluded_ips: false
 
 		};
 
@@ -45,7 +47,7 @@
 
 			allow_analytics_upload: function(){
 
-				return $.inArray(state.client_ip, private.excluded_ips) == -1 && (
+				return ( state.allow_excluded_ips || $.inArray(state.client_ip, private.excluded_ips) == -1 ) && (
 					( state.keys.cur_project_id === private.keys.dev_project_id && state.allow_dev_analytics_upload ) ||
 					( state.keys.cur_project_id === private.keys.prod_project_id && state.allow_prod_analytics_upload )
 				);
@@ -83,6 +85,8 @@
 							state.log_results_to_console = message.enabled;
 						else if ( message.option === 'allow_dev_analytics_upload' )
 							state.allow_dev_analytics_upload = message.enabled;
+						else if ( message.option === 'allow_excluded_ips' )
+							state.allow_excluded_ips = message.enabled;
 
 						console.log('GlobalAnalytics.' + message.option + ':', message.enabled);
 
@@ -175,7 +179,9 @@
 					
 					if (err) {							
 						
-						Raven.log( 'GlobalAnalytics', 'send', 'Failed to send analytic event to Keen', err );
+						Raven.log( 'GlobalAnalytics', 'send', 'Failed to send analytic event to Keen', err, false, {
+							name: 'analytic_info', val: info
+						} );
 						
 						response = { 
 							_result: 'ERROR: ' + info, 
