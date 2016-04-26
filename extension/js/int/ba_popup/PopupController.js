@@ -4,6 +4,7 @@
 		var state = {
 
 			recording_data_id: 0,
+			recording_data: null,
 			recording: false,
 			screen_id: "",
 			transcript: false,
@@ -65,7 +66,7 @@
 				$( "#popup_finish_url" ).text( state.urls.short_url );
 
 				$( "#tumblr_logo" ).attr( "href", "http://www.tumblr.com/share/link?url=" + state.urls.short_url );
-				$( "#twitter_logo" ).attr( "href", "https://twitter.com/intent/tweet?text=" + state.urls.short_url );
+				$( "#twitter_logo" ).attr( "href", "https://twitter.com/intent/tweet?text=" + conv.rec_data_to_tweet( state.recording_data ) );
 				$( "#facebook_logo" ).attr( "href", "https://www.facebook.com/sharer/sharer.php?u=" + state.urls.short_url );
 
 				if ( state.data_url || state.urls.canonical_url ) {
@@ -130,6 +131,24 @@
 			ts_to_date_string: function ( ts ) {
 
 				return moment( ts ).format( 'MM/DD/YY, h:mm A' );
+
+			},
+
+			rec_data_to_tweet: function ( rec_data ) {
+
+				var postfix = "... ";
+				var trans_len = 140 - rec_data.urls.short_url.length;
+				var transcript = rec_data.transcription_data ? rec_data.transcription_data.text : "";
+
+				if ( transcript.length < 140 - " ".length - rec_data.urls.short_url.length ) {
+
+					return transcript + " "  + rec_data.urls.short_url;
+
+				} else {
+
+					return transcript.slice( 0, 140 - rec_data.urls.short_url.length - postfix.length ) + postfix + rec_data.urls.short_url;
+
+				}
 
 			}
 
@@ -363,6 +382,7 @@
 					state.transcript = "";
 					state.player_enabled = true;
 					state.urls = message.recording_data.urls;
+					state.recording_data = message.recording_data;
 
 					view.set_urls( state );
 					view.set_player_enabled( state );
@@ -379,6 +399,7 @@
 					state.player_enabled = true;
 					state.data_url = message.recording_data.data_url;
 					state.urls = message.recording_data.urls;
+					state.recording_data = message.recording_data;
 
 					view.set_transcript( state );
 					view.set_player_enabled( state );
@@ -398,6 +419,7 @@
 
 						if ( data ) {
 
+							state.recording_data = data;
 							state.recording_data_id = data.id;
 
 							if ( data.state === "recording" ) {

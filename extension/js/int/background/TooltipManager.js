@@ -58,18 +58,19 @@
 	
 			insert_a_tooltip: function ( tab_id ) {
 
-				chrome.tabs.executeScript( tab_id, { file: "/js/lib/jQuery/jquery-2.1.4.min.js" });
+				chrome.tabs.executeScript( tab_id, { file: "/js/lib/jquery.min.js" });
 				chrome.tabs.executeScript( tab_id, { file: "/js/lib/raven.min.js" });
 				chrome.tabs.executeScript( tab_id, { file: "/js/lib/keen-tracker.min.js" });
 				
-				chrome.tabs.executeScript( tab_id, { file: "/js/classes/EventHub.js" });
-				chrome.tabs.executeScript( tab_id, { file: "/js/classes/LauncherHelper.js" });
-				chrome.tabs.executeScript( tab_id, { file: "/js/elements/Tooltip.js" });
-				chrome.tabs.executeScript( tab_id, { file: "/js/controllers/TooltipController.js" });
-				
-				chrome.tabs.executeScript( tab_id, { file: "/js/launchers/tooltip_content.js" });
+				chrome.tabs.executeScript( tab_id, { file: "/js/shared/EventHub.js" });
+				chrome.tabs.executeScript( tab_id, { file: "/js/shared/LauncherHelper.js" });
 
-				// chrome.tabs.insertCSS( tab_id, { file: "/css/content.css" });
+				chrome.tabs.executeScript( tab_id, { file: "/js/int/tooltips/Tooltip.js" });
+				chrome.tabs.executeScript( tab_id, { file: "/js/int/tooltips/TooltipController.js" });
+				
+				chrome.tabs.executeScript( tab_id, { file: "/js/int/tooltips/tooltip_content.js" });
+
+				chrome.tabs.insertCSS( tab_id, { file: "/css/content.css" });
 
 			},
 

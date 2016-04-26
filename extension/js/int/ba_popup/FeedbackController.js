@@ -10,7 +10,25 @@
 
 		var proc = {
 
-			send_feedback: function ( feedback_url ) {
+			get_email: function () {
+
+				return new Promise ( function ( resolve ) {
+
+					chrome.storage.local.get( [ "feedback_email" ], function ( items ) {
+
+						var feedback_email = prompt( "Please, enter your email.", items[ "feedback_email" ] ) || "";
+
+						chrome.storage.local.set({ feedback_email });
+
+						resolve( feedback_email );
+
+					});
+
+				});
+
+			},
+
+			send_feedback: function ( feedback_url, email ) {
 			
 				$.ajax({
 			
@@ -24,6 +42,7 @@
 						"Postman-Token": "ea8b8ebd-78f5-e129-dce7-aef38986c7cd"
 					},
 					data: JSON.stringify({
+
 						"campaign_id": "chrome_audio_feedback",
 						"recipients": [
 							{
@@ -31,13 +50,25 @@
 							}
 						],
 						"content": {
-							"template_id": "chrome-audio-feedback",
-							"use_draft_template": true
+
+							"from": {
+								"email": "support@peppermint.com"
+							},
+							"subject": "Peppermint Chrome Extension Feedback",
+							"html": feedback_url,
+							"text": feedback_url,
+							"use_draft_template": false,
+							"reply_to": email
+						
 						},
-						"substitution_data" : {
-							"from_name": "Some Chrome User",
-							"url": feedback_url
+						"options": {
+
+							"click_tracking": false,
+							"open_tracking": false,
+							"transactional": false
+
 						}
+
 					})
 			
 				});
@@ -114,7 +145,9 @@
 				},
 
 				recording_not_started: function ( message ) {
-					
+
+					console.error( "Failed to begin recording", message.error );
+
 				},
 
 				recording_canceled: function ( message ) {
@@ -139,7 +172,12 @@
 
 					$( "#feedback_thank_you" ).animate({ opacity: 1 });
 					
-					proc.send_feedback( message.recording_data.urls.short_url );
+					proc.get_email()
+					.then( function ( email ) {
+
+						proc.send_feedback( message.recording_data.urls.short_url, email );
+						
+					});
 
 					setTimeout( function () { $( "#feedback_thank_you" ).animate({ opacity: 0 }); }, 2000 );
 
