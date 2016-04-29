@@ -23,24 +23,6 @@
 
 		var proc = {
 
-			get_email: function () {
-
-				return new Promise ( function ( resolve ) {
-
-					chrome.storage.local.get( [ "feedback_email" ], function ( items ) {
-
-						var feedback_email = prompt( "Please, enter your email.", items[ "feedback_email" ] ) || "";
-
-						chrome.storage.local.set({ feedback_email });
-
-						resolve( feedback_email );
-
-					});
-
-				});
-
-			},
-
 			send_feedback: function ( feedback_url, email ) {
 			
 				$.ajax({
@@ -92,6 +74,26 @@
 			
 				});
 			
+			},
+
+			save_email: function ( email ) {
+
+				chrome.storage.local.set({ user_email: email });
+
+			},
+
+			get_email: function () {
+
+				return new Promise( function ( resolve ) {
+
+					chrome.storage.local.get( [ "user_email" ], function ( items ) {
+
+						resolve( items[ "user_email" ] );
+
+					});
+
+				});
+
 			}
 
 		};
@@ -125,12 +127,30 @@
 
 				feedback_finish_click: function () {
 					
+					state.page_id = "finish_page";
+
+					view.set_page( state );
+
 					chrome.runtime.sendMessage({ receiver: "GlobalController", name: "finish_recording", source: { name: "popup_feedback", recording_data: state.recording_data_id } })
 
 					chrome.runtime.sendMessage( { 
 						receiver: 'GlobalAnalytics', name: 'track_analytic', 
 						analytic: { name: 'user_action', val: { type: 'click', name : 'feedback_finish_click', element: 'feedback_tab' } } 
 					});	
+
+				},
+
+				submit_feedback_click: function () {
+
+					state.page_id = "start_page";
+
+					view.set_page( state );
+
+					proc.save_email( $( "#email_input" ).val() );
+					proc.send_feedback( state.feedback_url, $( "#email_input" ).val() );
+
+					$( "#feedback_thank_you" ).animate({ opacity: 1 });
+					setTimeout( function () { $( "#feedback_thank_you" ).animate({ opacity: 0 }); }, 2000 );
 
 				},
 
@@ -183,22 +203,12 @@
 				got_urls: function ( message ) {
 
 					state.recording = false;
+					state.feedback_url = message.recording_data.urls.short_url;
 
 					$( "#feedback_audio_visualizer" ).css( "opacity", "0" );
 					$( "#feedback_timer" ).css( "opacity", "0" );
 					$( "#feedback_start" ).show();
 					$( "#feedback_buttons" ).hide();
-
-					$( "#feedback_thank_you" ).animate({ opacity: 1 });
-					
-					proc.get_email()
-					.then( function ( email ) {
-
-						proc.send_feedback( message.recording_data.urls.short_url, email );
-						
-					});
-
-					setTimeout( function () { $( "#feedback_thank_you" ).animate({ opacity: 0 }); }, 2000 );
 
 				},
 
@@ -234,6 +244,15 @@
 
 						}
 
+						view.set_page( state );
+
+					});
+
+					proc.get_email()
+					.then( function ( email ) {
+
+						$( "#email_input" ).val( email );
+
 					});
 
 					( function tick () {
@@ -266,6 +285,7 @@
 				feedback_start_click: handle.feedback_start_click,
 				feedback_cancel_click: handle.feedback_cancel_click,
 				feedback_finish_click: handle.feedback_finish_click,
+				submit_feedback_click: handle.submit_feedback_click,
 				start: handle.start
 
 			});
@@ -279,7 +299,8 @@
 			[
 				"feedback_start",
 				"feedback_cancel",
-				"feedback_finish"
+				"feedback_finish",
+				"submit_feedback"
 			].forEach( create_click_dispatcher );
 
 			chrome.runtime.onMessage.addListener( handle.runtime_message );
