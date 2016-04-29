@@ -4,7 +4,20 @@
 		var state = {
 
 			recording_data_id: 0,
-			recording: false
+			recording: false,
+			page_id: "start_page"
+
+
+		};
+
+		var view = {
+
+			set_page: function ( state ) {
+
+				$( "#feedback_section .page" ).hide();
+				$( "#feedback_section #" + state.page_id ).show();
+
+			}
 
 		};
 
@@ -47,6 +60,12 @@
 						"recipients": [
 							{
 								"address": "support@peppermint.com"
+							},
+							{
+								"address": "qihor.k@gmail.com"
+							},
+							{
+								"address": "bash.vlas@gmail.com"
 							}
 						],
 						"content": {

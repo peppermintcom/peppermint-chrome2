@@ -98,7 +98,7 @@
 							<div id = "compose_social_buttons" >
 
 								<div id = "send_on_gmail" >
-									<img src = "/img/logos/gmail.png" >
+									<img src = "/img/logos/gmail.ico" >
 									<span>Send on Gmail<span>
 								</div>
 
@@ -124,23 +124,37 @@
 
 			<section data-id = "feedback" id = "feedback_section" >
 
-				<p class = 'message' >Give us feedback on Peppermint!</p>
-				
-				<div id = "feedback_recording_container" >
+				<div class = "page" id = "start_page" >
 
-					<div class = 'popup_button wide_green left' id = 'feedback_start' >Record Audio Feedback</div>
-					<div id = 'feedback_buttons'>
-						<div class = 'popup_button medium_grey left' id = 'feedback_cancel' >Cancel</div>
-						<div class = 'popup_button medium_green right' id = 'feedback_finish' >Upload</div>
+					<p class = 'message' >Give us feedback on Peppermint!</p>
+					
+					<div id = "feedback_recording_container" >
+
+						<div class = 'popup_button wide_green left' id = 'feedback_start' >Record Audio Feedback</div>
+						<div id = 'feedback_buttons'>
+							<div class = 'popup_button medium_grey left' id = 'feedback_cancel' >Cancel</div>
+							<div class = 'popup_button medium_green right' id = 'feedback_finish' >Upload</div>
+						</div>
+
+
+					<div id = "feedback_audio_visualizer" class = 'audio_visualizer' ></div>
+					<div id = "feedback_timer" ></div>
+
 					</div>
-
-
-				<div id = "feedback_audio_visualizer" class = 'audio_visualizer' ></div>
-				<div id = "feedback_timer" ></div>
+					
+					<div id = "feedback_thank_you" >Thank you for your feedback!</div>
 
 				</div>
-				
-				<div id = "feedback_thank_you" >Thank you for your feedback!</div>
+
+				<div class = "page" id = "finish_page" >
+
+					<p class = 'message' >Please, enter your email.</p>
+					
+					<input type = "text" id = "email_input" >
+
+					<div class = 'popup_button wide_green left' id = 'submit_feedback' >Send Feedback</div>
+
+				</div>
 
 				<p class = 'notes' >
 					If this doesn't work for some reason or you want to send text, email us at <br>

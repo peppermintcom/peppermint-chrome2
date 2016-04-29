@@ -25,7 +25,7 @@
 		main {
 
 			position: absolute;
-			overflow: auto;
+			overflow: hidden;
 			z-index: 9;
 
 			top: 0px;
@@ -279,7 +279,7 @@
 
 				overflow: auto;
 
-				height: calc( 100% - 60px );
+				height: 350px;
 
 			}
 
@@ -424,6 +424,7 @@
 				#send_on_gmail {
 
 					margin-right: 24px;
+					margin-bottom: 13px;
 
 					cursor: pointer;
 
@@ -431,8 +432,8 @@
 
 				#send_on_gmail img {
 
-					height: 18px;
 					margin-right: 4px;
+					margin-bottom: -7px;
 					vertical-align: bottom;
 
 				}
@@ -650,6 +651,12 @@
 			bottom: 12px;
 			left: 12px;
 			margin: 0px;
+
+		}
+
+		#email_input {
+
+			margin-bottom: 12px;
 
 		}
 

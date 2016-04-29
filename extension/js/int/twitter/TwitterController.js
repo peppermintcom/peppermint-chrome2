@@ -14,16 +14,17 @@
 			rec_data_to_tweet: function ( rec_data ) {
 
 				var postfix = "... ";
-				var trans_len = 140 - rec_data.urls.short_url.length;
-				var transcript = rec_data.transcription_data.text;
+				var host = "https://peppermint.com/";
+				var trans_len = 140 - host.length;
+				var transcript = rec_data.transcription_data ? rec_data.transcription_data.text : "";
 
-				if ( transcript.length < 140 - " ".length - rec_data.urls.short_url.length ) {
+				if ( transcript.length < 140 - " ".length - host.length ) {
 
 					return transcript + " "  + rec_data.urls.short_url;
 
 				} else {
 
-					return transcript.slice( 0, 140 - rec_data.urls.short_url.length - postfix.length ) + postfix + rec_data.urls.short_url;
+					return transcript.slice( 0, 140 - host.length - postfix.length ) + postfix + rec_data.urls.short_url;
 
 				}
 
